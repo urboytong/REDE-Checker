@@ -57,9 +57,6 @@ const Icons = () => {
   const detect = async (net) => {
 
 
-
-
-
     // Check data is available
     if (
       typeof webcamRef.current !== "undefined" &&
