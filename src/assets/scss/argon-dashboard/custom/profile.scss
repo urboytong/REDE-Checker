@@ -1,0 +1,48 @@
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.short-name {
+  white-space: nowrap; 
+  overflow: hidden; 
+  width: 130px; 
+  text-overflow: ellipsis; 
+  margin-top: 5px;
+}
+
+.td-nonePadding {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.hightBox-profile {
+  height: 76px;
+}
+
+.card-profile-stats {
+  padding: 0rem;
+  margin-top: 20px !important;
+}
+
+.img-facedetection {
+  margin-top: -30px;
+}
+
+.date-profile {
+  margin-bottom: 20px;
+}

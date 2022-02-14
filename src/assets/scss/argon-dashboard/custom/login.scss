@@ -1,0 +1,46 @@
+.lightGray-textSize {
+  color: #acacac;
+  font-size: 14px;
+}
+.box { 
+  display: flex;
+  flex-direction: row;
+}
+
+.checkbox {
+  display: flex;
+  width: 50%;
+}
+
+.remember{
+  color: #acacac !important;
+  margin-left: -15px;
+}
+
+.forgotPass {
+  display: flex;
+  width: 50%;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.line {
+  width: 45%;
+  border-top: 2px solid #E5E3E3;
+  height: 1px;
+  margin: auto;
+  display: flex;
+}
+
+.or {
+  width: 10%;
+  justify-content: center;
+  display: flex;
+}
+
+.buttonRegister {
+  width: 100%;
+  background-color: none;
+  border: 3.5px solid #5e72e4;
+  color: #5e72e4;
+}
