@@ -19,6 +19,7 @@
 // reactstrap components
 import React, { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   Button,
   Badge,
@@ -183,7 +184,7 @@ const Profile = () => {
                         <CardHeader className="border-0">
                           <Row className="align-items-center">
                             <div className="col">
-                              <h3 className="text-center">Request</h3>
+                              <h3 className="text-center">Request to join a class</h3>
                             </div>
                           </Row>
                         </CardHeader>
@@ -196,6 +197,7 @@ const Profile = () => {
                               <th scope="col">id</th>
                               <th scope="col">name</th>
                               <th scope="col">action</th>
+                              <th scope="col"></th>
                             </tr>
                           </thead>
                           <tbody>
@@ -217,29 +219,44 @@ const Profile = () => {
                               </td>
                               <td>
                                 <Button
-                                  color="dark"
-                                  href="#pablo"
-                                  onClick={() => setModalOpen2(!modalOpen2)}
-                                  size="sm"
-                                >
-                                  Profile
-                                </Button>
-                                <Button
                                   color="success"
                                   href="#pablo"
                                   //onClick={() => setModalOpen1(!modalOpen1)}
                                   size="sm"
+                                  className="icon-requestModal"
                                 >
-                                  Accept
+                                  <i class="fas fa-solid fa-check"></i>
                                 </Button>
                                 <Button
                                   color="danger"
                                   href="#pablo"
                                   // onClick={() => setModalOpen1(!modalOpen1)}
                                   size="sm"
-                                >
-                                  Reject
+                                className="icon-requestModal">
+                                <i class="fas fa-regular fa-xmark"></i>
                                 </Button>
+                              </td>
+                              <td className="text-right threedot">
+                                <UncontrolledDropdown>
+                                  <DropdownToggle
+                                    className="btn-icon-only text-light"
+                                    href="#pablo"
+                                    role="button"
+                                    size="sm"
+                                    color=""
+                                    onClick={(e) => e.preventDefault()}
+                                  >
+                                    <i className="fas fa-ellipsis-v" />
+                                  </DropdownToggle>
+                                  <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownItem
+                                      href="#pablo"
+                                      onClick={() => setModalOpen2(!modalOpen2)}
+                                    >
+                                      Profile
+                                    </DropdownItem>
+                                  </DropdownMenu>
+                                </UncontrolledDropdown>
                               </td>
                             </tr>
                           </tbody>
@@ -263,7 +280,7 @@ const Profile = () => {
                       <span aria-hidden={true}>×</span>
                     </button>
                   </div>
-                  <ModalBody>
+                  <ModalBody className="profileModal">
                     <Col className="order-xl-2 mb-5 mb-xl-0" xl="12">
                       <Card className="card-profile shadow">
                         <Row className="justify-content-center">
@@ -275,7 +292,7 @@ const Profile = () => {
                               >
                                 <img
                                   alt="..."
-                                  className="rounded-circle"
+                                  className="rounded-circle img-profileModal"
                                   src={
                                     require("../../assets/img/theme/team-4-800x800.jpg")
                                       .default
@@ -289,12 +306,9 @@ const Profile = () => {
                         <CardBody className="pt-0 pt-md-4">
                           <Row>
                             <div className="col">
-                              <div className="card-profile-stats d-flex justify-content-center mt-md-5">
+                              <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                 <div>
-                                  <span className="heading">61090500411</span>
-                                  <span className="description">
-                                    Student-ID
-                                  </span>
+                                  <h2>61090500411</h2>
                                 </div>
                               </div>
                             </div>
@@ -305,14 +319,11 @@ const Profile = () => {
                               <i className="ni location_pin mr-2" />
                               Science, Mathematics
                             </div>
+                            <hr className="my-4" />
                             <div className="h5 mt-4">
                               <i className="ni business_briefcase-24 mr-2" />
                               Natthaphat.tong@mail.kmutt.ac.th
                             </div>
-                            <div>
-                              <i className="ni education_hat mr-2" />
-                            </div>
-                            <hr className="my-4" />
                           </div>
                         </CardBody>
                       </Card>
@@ -340,7 +351,7 @@ const Profile = () => {
                     <Row>
                       {" "}
                       <Col xl="4">
-                        <Card className="card-profile shadow">
+                        <Card className="card-profile shadow profileModal">
                           <Row className="justify-content-center">
                             <Col className="order-lg-2" lg="3">
                               <div className="card-profile-image">
@@ -350,7 +361,7 @@ const Profile = () => {
                                 >
                                   <img
                                     alt="..."
-                                    className="rounded-circle"
+                                    className="rounded-circle img-profileModal"
                                     src={
                                       require("../../assets/img/theme/team-4-800x800.jpg")
                                         .default
@@ -364,12 +375,9 @@ const Profile = () => {
                           <CardBody className="pt-0 pt-md-4">
                             <Row>
                               <div className="col">
-                                <div className="card-profile-stats d-flex justify-content-center mt-md-5">
+                                <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                   <div>
-                                    <span className="heading">61090500411</span>
-                                    <span className="description">
-                                      Student-ID
-                                    </span>
+                                    <h2 className="heading">61090500411</h2>
                                   </div>
                                 </div>
                               </div>
@@ -379,15 +387,12 @@ const Profile = () => {
                               <div className="h3 font-weight-300">
                                 <i className="ni location_pin mr-2" />
                                 Science, Mathematics
-                              </div>
+                              </div> 
+                              <hr className="my-4" />
                               <div className="h5 mt-4">
                                 <i className="ni business_briefcase-24 mr-2" />
                                 Natthaphat.tong@mail.kmutt.ac.th
                               </div>
-                              <div>
-                                <i className="ni education_hat mr-2" />
-                              </div>
-                              <hr className="my-4" />
                             </div>
                           </CardBody>
                         </Card>
@@ -415,6 +420,7 @@ const Profile = () => {
                                     <th scope="col"></th>
                                     <th scope="col">completed</th>
                                     <th scope="col">absent</th>
+                                    <th scope="col">leave</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -445,6 +451,16 @@ const Profile = () => {
                                     <td>
                                       <Button
                                         color="danger"
+                                        outline
+                                        type="button"
+                                        id="toggler"
+                                      >
+                                        1
+                                      </Button>
+                                    </td>
+                                    <td>
+                                      <Button
+                                        color="warning"
                                         outline
                                         type="button"
                                         id="toggler"
@@ -899,10 +915,12 @@ const Profile = () => {
                           >
                             <thead className="thead-light">
                               <tr>
-                                <th scope="col">id</th>
-                                <th scope="col">name</th>
-                                <th scope="col">completed</th>
-                                <th scope="col">absent</th>
+                                <th scope="col" >id</th>
+                                <th scope="col" className="td-nonePadding">name</th>
+                                <th scope="col" className="td-nonePadding">completed</th>
+                                <th scope="col" className="td-nonePadding">absent</th>
+                                <th scope="col" className="td-nonePadding">leave</th>
+                                <th scope="col"></th>
                               </tr>
                             </thead>
                             <tbody>
@@ -917,20 +935,53 @@ const Profile = () => {
                                   </Media>
                                 </th>
 
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
+                                <td className="td-nonePadding">
+                                  <Badge color="" className="badge-dot mr-4 short-name">
                                     Natthaphat Wannawat
                                   </Badge>
                                 </td>
-                                <td>
+                                <td className="td-nonePadding">
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-success" />4
                                   </Badge>
                                 </td>
-                                <td>
+                                <td className="td-nonePadding">
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-danger" />1
                                   </Badge>
+                                </td>
+                                <td className="td-nonePadding">
+                                  <Badge color="" className="badge-dot mr-4">
+                                    <i className="bg-warning" />1
+                                  </Badge>
+                                </td>
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      href="#pablo"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen2(!modalOpen2)}
+                                      >
+                                        Profile
+                                      </DropdownItem>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen3(!modalOpen3)}
+                                      >
+                                        Report
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
                                 </td>
                               </tr>
 
@@ -945,20 +996,53 @@ const Profile = () => {
                                   </Media>
                                 </th>
 
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
+                                <td className="td-nonePadding">
+                                  <Badge color="" className="badge-dot mr-4 short-name">
                                     Natthamon Wannawat
                                   </Badge>
                                 </td>
-                                <td>
+                                <td className="td-nonePadding">
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-success" />5
                                   </Badge>
                                 </td>
-                                <td>
+                                <td className="td-nonePadding">
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-danger" />0
                                   </Badge>
+                                </td>
+                                <td className="td-nonePadding">
+                                  <Badge color="" className="badge-dot mr-4">
+                                    <i className="bg-warning" />1
+                                  </Badge>
+                                </td>
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      href="#pablo"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen2(!modalOpen2)}
+                                      >
+                                        Profile
+                                      </DropdownItem>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen3(!modalOpen3)}
+                                      >
+                                        Report
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
                                 </td>
                               </tr>
                               <tr>
@@ -972,20 +1056,53 @@ const Profile = () => {
                                   </Media>
                                 </th>
 
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
+                                <td className="td-nonePadding">
+                                  <Badge color="" className="badge-dot mr-4 short-name">
                                     Suriyasak Najaeiei
                                   </Badge>
                                 </td>
-                                <td>
+                                <td className="td-nonePadding">
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-success" />0
                                   </Badge>
                                 </td>
-                                <td>
+                                <td className="td-nonePadding">
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-danger" />5
                                   </Badge>
+                                </td>
+                                <td className="td-nonePadding">
+                                  <Badge color="" className="badge-dot mr-4">
+                                    <i className="bg-warning" />1
+                                  </Badge>
+                                </td>
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      href="#pablo"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen2(!modalOpen2)}
+                                      >
+                                        Profile
+                                      </DropdownItem>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen3(!modalOpen3)}
+                                      >
+                                        Report
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
                                 </td>
                               </tr>
                             </tbody>

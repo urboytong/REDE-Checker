@@ -3,6 +3,17 @@
 .modal-body {
   padding: 0rem 1.5rem;
 }
+
+.modal {
+  text-align: center;
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
 //invite 
 .copy-link-box {
   border-radius: 10px;
@@ -33,16 +44,38 @@
   height: 76px;
 }
 
-@media only screen and (max-width: 1920px) {
-  .modal {
-    text-align: center;
-  }
+//request modal 
+.x-icon {
+  font-weight: 1000;
+}
 
-  .modal-dialog {
-    display: inline-block;
-    text-align: left;
-    vertical-align: middle;
-  }
+.icon-requestModal{
+  width: 30.3px;
+}
+
+//profile modal
+.profileModal {
+  margin-top: 80px;
+  margin-bottom: 0px;
+}
+
+.img-profileModal {
+  width: 200px;
+  margin-top: -40px;
+}
+
+.stdID-profileModal {
+  margin-top: 20px !important;
+  padding: 0px !important;
+  margin-bottom: -20px;
+}
+
+.td-nonePadding {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+@media only screen and (max-width: 1920px) {
 //member card
   .short-name {
     white-space: nowrap; 
@@ -50,6 +83,7 @@
     width: 130px; 
     text-overflow: ellipsis; 
     margin-top: 5px;
+    text-align: left;
   }
 
   .td-nonePadding {
