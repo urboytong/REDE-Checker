@@ -40,7 +40,7 @@ var routes = [
   {
     path: "/user-profilehome",
     name: "Professor-home",
-    icon: "ni ni-hat-3 text-info",
+    icon: "ni ni-hat-3 text-danger",
     component: teacherrhome,
     layout: "/admin",
   },
@@ -54,7 +54,7 @@ var routes = [
   {
     path: "/student-home",
     name: "Student-home",
-    icon: "ni ni-hat-3 text-info",
+    icon: "ni ni-hat-3 text-dark",
     component: studenthome,
     layout: "/admin",
   },
