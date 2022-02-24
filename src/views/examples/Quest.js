@@ -20,6 +20,7 @@ import * as canvas from 'canvas';
 import * as faceapi from 'face-api.js';
 import yolo from 'tfjs-yolo';
 import Webcam from "react-webcam";
+import Draggable from 'react-draggable';
 // react component that copies the given text inside your clipboard
 import { CopyToClipboard } from "react-copy-to-clipboard";
 // reactstrap components
@@ -43,6 +44,8 @@ const Icons = () => {
   const canvasRef = useRef();
   const webcamRef = useRef(null);
   const [DObject, setObject] = useState(false);
+  const [FaceBoxposition, setFaceBoxposition] = useState({ x: 185, y: 250 });
+  const [ObjectBoxposition, setObjectBoxposition] = useState({ x: 490, y: 250 });
 
 
   const runCoco = async () => {
@@ -151,6 +154,13 @@ const Icons = () => {
   }, [])
 
 
+  const FacetrackPos = (data) => {
+    setFaceBoxposition({ x: data.x+135, y: data.y+135 });
+ };
+ const ObjecttrackPos = (data) => {
+    setObjectBoxposition({ x: data.x+135, y: data.y+135 });
+  };
+
 
   
 
@@ -221,6 +231,43 @@ const Icons = () => {
                     <p>Person : {FaceRec}</p>
                     <p>Emotion : {Detection}</p>
                     <p>Object : {DObject}</p>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <div className="box" style={{height: '480px', width: '640px', position: 'relative', overflow: 'auto', padding: '0', background: 'lightgrey'}}>
+                      <div style={{height: '480px', width: '640px', padding: '10px'}}>
+                        <Draggable bounds="parent" onDrag={(e, data) => FacetrackPos(data)} defaultPosition={{x: 50, y: 115}}>
+                          <div style={{height: '250px', width: '250px', position: 'absolute', cursor: 'move', color: 'black', borderRadius: '5px', margin: 'auto', userSelect: 'none', background: 'white'}}>
+                            Face x: {FaceBoxposition.x.toFixed(0)}, y: {FaceBoxposition.y.toFixed(0)}
+                          </div>
+                        </Draggable>
+                        <Draggable bounds="parent" onDrag={(e, data) => ObjecttrackPos(data)} defaultPosition={{x: 355, y: 115}}>
+                          <div style={{height: '250px', width: '250px', position: 'absolute', cursor: 'move', color: 'black', borderRadius: '5px', margin: 'auto', userSelect: 'none', background: 'white'}}>
+                            Object x: {ObjectBoxposition.x.toFixed(0)}, y: {ObjectBoxposition.y.toFixed(0)}
+                          </div>
+                        </Draggable>
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+                <div>---</div>
+                <Row>
+                  <Col>
+                    <div className="box" style={{height: '480px', width: '640px', position: 'relative', overflow: 'auto', padding: '0', background: 'lightgrey'}}>
+                      <div style={{height: '480px', width: '640px', padding: '10px'}}>
+                        <Draggable bounds="parent" position={{x: FaceBoxposition.x-135, y: FaceBoxposition.y-135}}>
+                          <div style={{height: '250px', width: '250px', position: 'absolute', cursor: 'move', color: 'black', borderRadius: '5px', margin: 'auto', userSelect: 'none', background: 'white'}}>
+                            Face
+                          </div>
+                        </Draggable>
+                        <Draggable bounds="parent" position={{x: ObjectBoxposition.x-135, y: ObjectBoxposition.y-135}}>
+                          <div style={{height: '250px', width: '250px', position: 'absolute', cursor: 'move', color: 'black', borderRadius: '5px', margin: 'auto', userSelect: 'none', background: 'white'}}>
+                            Object
+                          </div>
+                        </Draggable>
+                      </div>
+                    </div>
                   </Col>
                 </Row>
                 
