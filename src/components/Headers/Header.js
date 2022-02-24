@@ -50,7 +50,7 @@ const Header = () => {
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
                       <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
+                        Professor : Wittawin Susutti 
                       </span>{" "}
                      
                     </p>
