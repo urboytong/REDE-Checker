@@ -313,7 +313,7 @@ const Profile = () => {
                 </Row>
                 <div className="text-center">
                   <h2>
-                    Natthaphat Wannawat 
+                    Natthaphat Wannawat  
                    
                   </h2>
                   <div className="h3 font-weight-300">
