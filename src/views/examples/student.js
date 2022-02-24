@@ -343,7 +343,7 @@ const Profile = () => {
                   </div>
                   <div className="col text-right">
              
-                     <h3>CSS411</h3>
+                     <h3>CSS411 </h3>
                    
                     
                   </div>
