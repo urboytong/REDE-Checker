@@ -17,7 +17,7 @@
 */
 import { useState, useEffect, useRef } from "react";
 import * as canvas from 'canvas';
-import * as faceapi from 'face-api.js';
+import * as faceapi from 'face-api.js'; 
 import yolo from 'tfjs-yolo';
 import Webcam from "react-webcam";
 import Draggable from 'react-draggable';

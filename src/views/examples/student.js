@@ -1407,7 +1407,7 @@ const Profile = () => {
                   </div>
                   <div className="text-center">
                 <Button className="mt-4" color="dark" type="button">
-               LET'S DO QUESTv 
+               LET'S DO QUEST
                 </Button>
               </div>
                 </div>
