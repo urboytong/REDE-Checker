@@ -343,7 +343,7 @@ const Profile = () => {
                   </div>
                   <div className="col text-right">
              
-                     <h3>CSS411 </h3>
+                     <h3>CSS411</h3>
                    
                     
                   </div>
@@ -353,7 +353,7 @@ const Profile = () => {
                 <thead className="thead-light">
                   <tr>
                     <th scope="col"></th>
-                    <th scope="col">completed</th>
+                    <th scope="col">completed </th>
                     <th scope="col">absent</th>
              
             
