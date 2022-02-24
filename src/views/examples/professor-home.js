@@ -313,7 +313,8 @@ const Profile = () => {
                 </Row>
                 <div className="text-center">
                   <h2>
-                    Natthaphat Wannawat                     
+                    Natthaphat Wannawat 
+                   
                   </h2>
                   <div className="h3 font-weight-300">
                     <i className="ni location_pin mr-2" />
@@ -629,7 +630,7 @@ const Profile = () => {
   
         </ModalFooter>
       </Modal>
-      <Modal toggle={() => setModalOpen11(!modalOpen11)} isOpen={modalOpen11} size="lg">
+      <Modal toggle={() => setModalOpen11(!modalOpen11)} isOpen={modalOpen11}size="md">
         <div className=" modal-header">
 
           <button
@@ -649,26 +650,18 @@ const Profile = () => {
 
                 <div className="text-center">
 
-                  <img src='https://www.img.in.th/images/3176e43743c0c9e923693782aa34c326.jpg' width="200" height="350"className='img-fluid shadow-4' alt='...' />
+                  <img src='https://www.img.in.th/images/3176e43743c0c9e923693782aa34c326.jpg' width="300" height="450"className='img-fluid shadow-4' alt='...' />
                   <div>
                     <i className="ni education_hat mr-2" />
                     <h2>
-                   
-                            " Selfie with a pen "
-                       </h2>
-                    <h4>
-                     Completed
+                    TIME : 9:47 A.M.
 
-                  </h4>
+                  </h2>
                   </div>
                   <div className="h3 font-weight-300">
-                
-                61090500411
-          </div>
-          <div className="h3 font-weight-300">
-                Natthaphat Wannawat
-          </div>
-               
+                    <i className="ni location_pin mr-2" />
+                   Completed
+                  </div>
                   <hr className="my-4" />
 
                 </div>
@@ -1356,9 +1349,9 @@ const Profile = () => {
   
         </ModalFooter>
       </Modal>
-      <Container className="mt--7 " fluid >
-        <Row >
-          <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
+      <Container className="mt--7" fluid>
+        <Row>
+          <Col className="order-xl-2 mb-5 mb-xl-0" xl="3">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
                 <Col className="order-lg-2" lg="3">
@@ -1414,7 +1407,7 @@ const Profile = () => {
             </Card>
           </Col>
           
-          <Col className="order-xl-1" xl="4">
+          <Col className="order-xl-1" xl="3">
             <Card className="bg-secondary shadow">
             <CardHeader className="border-0">
                 <Row className="align-items-center">
@@ -1434,7 +1427,7 @@ const Profile = () => {
                     <th scope="col" className="td-nonePadding">Status</th>
              
                     <th scope="col" className="td-nonePadding">details</th>
-             
+                    <th scope="col" />
                   </tr>
                 </thead>
                 <tbody>
@@ -1460,7 +1453,7 @@ const Profile = () => {
                     
                     <td className="td-nonePadding hightBox-profile">
                       <div className="d-flex align-items-center">
-                      <Button color="dark" type="button" onClick={() => setModalOpen11(!modalOpen11)}>
+                      <Button color="dark" type="button" onClick={() => setModalOpen6(!modalOpen6)}>
                       <i className="ni ni-image" />
                 </Button>
                       </div>
@@ -1489,7 +1482,9 @@ const Profile = () => {
                     
                     <td className="td-nonePadding hightBox-profile">
                       <div className="d-flex align-items-center">
-                      
+                      <Button color="dark" type="button">
+                       <i className="ni ni-image" />
+                </Button>
                       </div>
                     </td>
                    
@@ -1516,7 +1511,9 @@ const Profile = () => {
                     
                     <td className="td-nonePadding hightBox-profile">
                       <div className="d-flex align-items-center">
-                    
+                      <Button color="dark" type="button">
+                      <i className="ni ni-image" />
+                </Button>
                       </div>
                     </td>
                    
