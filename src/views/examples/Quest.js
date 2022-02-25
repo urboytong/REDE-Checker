@@ -17,7 +17,7 @@
 */
 import { useState, useEffect, useRef } from "react";
 import * as canvas from 'canvas';
-import * as faceapi from 'face-api.js';
+import * as faceapi from 'face-api.js'; 
 import yolo from 'tfjs-yolo';
 import Webcam from "react-webcam";
 import Draggable from 'react-draggable';
@@ -44,8 +44,14 @@ const Icons = () => {
   const canvasRef = useRef();
   const webcamRef = useRef(null);
   const [DObject, setObject] = useState(false);
-  const [FaceBoxposition, setFaceBoxposition] = useState({ x: 185, y: 250 });
-  const [ObjectBoxposition, setObjectBoxposition] = useState({ x: 490, y: 250 });
+  const [FaceBoxposition, setFaceBoxposition] = useState({ x: 165, y: 250 });
+  const [ObjectBoxposition, setObjectBoxposition] = useState({ x: 480, y: 250 });
+  const [DetectionsBoxX, setDetectionsBoxX] = useState(false);
+  const [DetectionsBoxY, setDetectionsBoxY] = useState(false);
+  const [FaceBorderBoxColor, setFaceBorderBoxColor] = useState('2px solid #6b8be8');
+  const [ObjectBoxX, setObjectBoxX] = useState(false);
+  const [ObjectBoxY, setObjectBoxY] = useState(false);
+  const [ObjectBorderBoxColor, setObjectBorderBoxColor] = useState('2px solid #6b8be8');
 
 
   const runCoco = async () => {
@@ -92,12 +98,13 @@ const Icons = () => {
         
     
         if(results.length !== 0){
-          console.log(results[0]._label)
-          setFaceRec(results[0]._label)
-          
+          //console.log(results[0]._label)
+          setFaceRec(results[0]._label)   
+          setDetectionsBoxX(detections[0].detection._box._x);
+          setDetectionsBoxY(detections[0].detection._box._y);      
         } 
         if(results.length === 0){
-          setFaceRec('none')        
+          setFaceRec('none');  
         }
       }
       if(!labeledFaceDescriptorsJson){
@@ -107,18 +114,33 @@ const Icons = () => {
   
       if(detections.length !== 0){
         let max = Object.keys(detections[0].expressions).reduce(function(a, b){ return detections[0].expressions[a] > detections[0].expressions[b] ? a : b });
-        console.log(detections)
+        //console.log(detections)
         setDetection(max)
         
       } 
       if(detections.length === 0){
-        setDetection('none')        
+        setDetection('none')
+        setFaceBorderBoxColor('2px solid #6b8be8');          
       }
 
       // Make Detections
       const obj = await net.predict(video);
       let text = ''
       if(obj.length >= 1){
+        for (let i = 0; i < obj.length; i++) {
+          let check = 0;
+          if(obj[i].class == "cup"){
+            setObjectBoxX(obj[i].left);
+            setObjectBoxY(obj[i].top);
+            check++;
+          }
+          if(check == 0){
+            setObjectBorderBoxColor('2px solid #6b8be8'); 
+          }
+        }
+
+
+
         for (let i = 0; i < obj.length; i++) {
           text += obj[i].class + ", ";
         }
@@ -136,6 +158,36 @@ const Icons = () => {
   };
 
   useEffect(()=>{runCoco()},[]);
+
+  useEffect(()=>{
+    //console.log((FaceBoxposition.x-100)+'<='+(DetectionsBoxX+125)+'>='+(FaceBoxposition.x+100))
+    //console.log((FaceBoxposition.y-100)+'<='+(DetectionsBoxY+125)+'>='+(FaceBoxposition.y+100))
+    if((DetectionsBoxX+125) >= (FaceBoxposition.x-100) && (DetectionsBoxX+125) <= (FaceBoxposition.x+100)
+      && (DetectionsBoxY+125) >= (FaceBoxposition.y-100) && (DetectionsBoxY+125) <= (FaceBoxposition.y+100) && FaceRec != 'unknown'){
+      setFaceBorderBoxColor('2px solid #79ffe1');
+    }
+    else{
+      setFaceBorderBoxColor('2px solid #6b8be8');
+    }
+  },[FaceBoxposition, DetectionsBoxX, DetectionsBoxY, FaceRec]);
+
+  useEffect(()=>{
+    //console.log((ObjectBoxposition.x-100)+'<='+(ObjectBoxX+125)+'>='+(ObjectBoxposition.x+100))
+    //console.log((ObjectBoxposition.y-100)+'<='+(ObjectBoxY+125)+'>='+(ObjectBoxposition.y+100))
+    if((ObjectBoxX+125) >= (ObjectBoxposition.x-100) && (ObjectBoxX+125) <= (ObjectBoxposition.x+100)
+      && (ObjectBoxY+125) >= (ObjectBoxposition.y-100) && (ObjectBoxY+125) <= (ObjectBoxposition.y+100)){
+      setObjectBorderBoxColor('2px solid #79ffe1');
+    }
+    else{
+      setObjectBorderBoxColor('2px solid #6b8be8');
+    }
+  },[ObjectBoxposition, ObjectBoxX, ObjectBoxY]);
+
+  useEffect(()=>{
+    if(FaceBorderBoxColor == '2px solid #79ffe1' && ObjectBorderBoxColor == '2px solid #79ffe1'){
+      
+    }
+  },[FaceBorderBoxColor, ObjectBorderBoxColor]);
 
 
   useEffect(() => {
@@ -156,9 +208,9 @@ const Icons = () => {
 
   const FacetrackPos = (data) => {
     setFaceBoxposition({ x: data.x+135, y: data.y+135 });
- };
- const ObjecttrackPos = (data) => {
-    setObjectBoxposition({ x: data.x+135, y: data.y+135 });
+  };
+  const ObjecttrackPos = (data) => {
+      setObjectBoxposition({ x: data.x+135, y: data.y+135 });
   };
 
 
@@ -215,15 +267,32 @@ const Icons = () => {
               <CardBody>
                 <Row>
                   <Col>
-                    <div>
+                  <div style={{position: "relative"}}>
                     <Webcam
-          ref={webcamRef}
-          muted={true} 
-          style={{
-            width: 640,
-            height: 480,
-          }}
-        />
+                      ref={webcamRef}
+                      muted={true} 
+                      style={{
+                        width: 640,
+                        height: 480,
+                      }}
+                    />
+
+                  <div style={{position: "absolute", width: 640, top: 0 , right: 0 , bottom: 0 , left: 0}}>
+                    <div className="box" style={{height: '480px', width: '640px', position: 'relative', overflow: 'auto', padding: '0'}}>
+                      <div style={{height: '480px', width: '640px', padding: '10px', border:'2px solid #6b8be8'}}>
+                        <Draggable bounds="parent" position={{x: FaceBoxposition.x-135, y: FaceBoxposition.y-135}}>
+                          <div style={{height: '250px', width: '250px', position: 'absolute', cursor: 'move', color: '#6b8be8', borderRadius: '5px', margin: 'auto', userSelect: 'none', border: FaceBorderBoxColor}}>
+                            Face
+                          </div>
+                        </Draggable>
+                        <Draggable bounds="parent" position={{x: ObjectBoxposition.x-135, y: ObjectBoxposition.y-135}}>
+                          <div style={{height: '250px', width: '250px', position: 'absolute', cursor: 'move', color: '#6b8be8', borderRadius: '5px', margin: 'auto', userSelect: 'none', border: ObjectBorderBoxColor}}>
+                            Object
+                          </div>
+                        </Draggable>
+                      </div>
+                    </div>
+                  </div>
                           
                     </div>
                   </Col>
@@ -237,33 +306,14 @@ const Icons = () => {
                   <Col>
                     <div className="box" style={{height: '480px', width: '640px', position: 'relative', overflow: 'auto', padding: '0', background: 'lightgrey'}}>
                       <div style={{height: '480px', width: '640px', padding: '10px'}}>
-                        <Draggable bounds="parent" onDrag={(e, data) => FacetrackPos(data)} defaultPosition={{x: 50, y: 115}}>
+                        <Draggable bounds="parent" onDrag={(e, data) => FacetrackPos(data)} defaultPosition={{x: 30, y: 115}}>
                           <div style={{height: '250px', width: '250px', position: 'absolute', cursor: 'move', color: 'black', borderRadius: '5px', margin: 'auto', userSelect: 'none', background: 'white'}}>
                             Face x: {FaceBoxposition.x.toFixed(0)}, y: {FaceBoxposition.y.toFixed(0)}
                           </div>
                         </Draggable>
-                        <Draggable bounds="parent" onDrag={(e, data) => ObjecttrackPos(data)} defaultPosition={{x: 355, y: 115}}>
+                        <Draggable bounds="parent" onDrag={(e, data) => ObjecttrackPos(data)} defaultPosition={{x: 345, y: 115}}>
                           <div style={{height: '250px', width: '250px', position: 'absolute', cursor: 'move', color: 'black', borderRadius: '5px', margin: 'auto', userSelect: 'none', background: 'white'}}>
                             Object x: {ObjectBoxposition.x.toFixed(0)}, y: {ObjectBoxposition.y.toFixed(0)}
-                          </div>
-                        </Draggable>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-                <div>---</div>
-                <Row>
-                  <Col>
-                    <div className="box" style={{height: '480px', width: '640px', position: 'relative', overflow: 'auto', padding: '0', background: 'lightgrey'}}>
-                      <div style={{height: '480px', width: '640px', padding: '10px'}}>
-                        <Draggable bounds="parent" position={{x: FaceBoxposition.x-135, y: FaceBoxposition.y-135}}>
-                          <div style={{height: '250px', width: '250px', position: 'absolute', cursor: 'move', color: 'black', borderRadius: '5px', margin: 'auto', userSelect: 'none', background: 'white'}}>
-                            Face
-                          </div>
-                        </Draggable>
-                        <Draggable bounds="parent" position={{x: ObjectBoxposition.x-135, y: ObjectBoxposition.y-135}}>
-                          <div style={{height: '250px', width: '250px', position: 'absolute', cursor: 'move', color: 'black', borderRadius: '5px', margin: 'auto', userSelect: 'none', background: 'white'}}>
-                            Object
                           </div>
                         </Draggable>
                       </div>
