@@ -167,7 +167,7 @@ const Icons = () => {
       setFaceBorderBoxColor('2px solid #79ffe1');
     }
     else{
-      setFaceBorderBoxColor('2px solid #6b8be8');
+      setFaceBorderBoxColor('2px solid #6b8be8'); 
     }
   },[FaceBoxposition, DetectionsBoxX, DetectionsBoxY, FaceRec]);
 
