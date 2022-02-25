@@ -162,8 +162,8 @@ const Icons = () => {
   useEffect(()=>{
     //console.log((FaceBoxposition.x-100)+'<='+(DetectionsBoxX+125)+'>='+(FaceBoxposition.x+100))
     //console.log((FaceBoxposition.y-100)+'<='+(DetectionsBoxY+125)+'>='+(FaceBoxposition.y+100))
-    if((DetectionsBoxX+125) >= (FaceBoxposition.x-100) && (DetectionsBoxX+125) <= (FaceBoxposition.x+100)
-      && (DetectionsBoxY+125) >= (FaceBoxposition.y-100) && (DetectionsBoxY+125) <= (FaceBoxposition.y+100) && FaceRec != 'unknown'){
+    if((DetectionsBoxX+80) >= (FaceBoxposition.x-100) && (DetectionsBoxX+80) <= (FaceBoxposition.x+100)
+      && (DetectionsBoxY+80) >= (FaceBoxposition.y-100) && (DetectionsBoxY+80) <= (FaceBoxposition.y+100) && FaceRec != 'unknown'){
       setFaceBorderBoxColor('2px solid #79ffe1');
     }
     else{
@@ -174,8 +174,8 @@ const Icons = () => {
   useEffect(()=>{
     //console.log((ObjectBoxposition.x-100)+'<='+(ObjectBoxX+125)+'>='+(ObjectBoxposition.x+100))
     //console.log((ObjectBoxposition.y-100)+'<='+(ObjectBoxY+125)+'>='+(ObjectBoxposition.y+100))
-    if((ObjectBoxX+125) >= (ObjectBoxposition.x-100) && (ObjectBoxX+125) <= (ObjectBoxposition.x+100)
-      && (ObjectBoxY+125) >= (ObjectBoxposition.y-100) && (ObjectBoxY+125) <= (ObjectBoxposition.y+100)){
+    if((ObjectBoxX+80) >= (ObjectBoxposition.x-100) && (ObjectBoxX+80) <= (ObjectBoxposition.x+100)
+      && (ObjectBoxY+80) >= (ObjectBoxposition.y-100) && (ObjectBoxY+80) <= (ObjectBoxposition.y+100)){
       setObjectBorderBoxColor('2px solid #79ffe1');
     }
     else{
@@ -300,6 +300,8 @@ const Icons = () => {
                     <p>Person : {FaceRec}</p>
                     <p>Emotion : {Detection}</p>
                     <p>Object : {DObject}</p>
+                    <p>FaceDetect : x={DetectionsBoxX} y={DetectionsBoxY}</p>
+                    <p>FaceBox : x={FaceBoxposition.x} y={FaceBoxposition.y}</p>
                   </Col>
                 </Row>
                 <Row>
