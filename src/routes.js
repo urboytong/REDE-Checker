@@ -15,33 +15,50 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Index from "views/Index.js";
+
 import Profile from "views/examples/Profile.js";
-import Maps from "views/examples/Maps.js";
+
 import Register from "views/examples/Register.js";
 import Login from "views/examples/Login.js";
-import Tables from "views/examples/Tables.js";
-import Icons from "views/examples/Icons.js";
+
 import Quest from "views/examples/Quest.js";
 import FaceRegis from "views/examples/FaceRegis.js";
-
+import student from "views/examples/student";
+import teacherrhome from "views/examples/professor-home";
+import studenthome from "views/examples/student-home";
 var routes = [
-  {
-    path: "/index",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    component: Index,
-    layout: "/admin",
-  },
+  
 
 
   {
     path: "/user-profile",
-    name: "CSS111",
+    name: "Professor",
     icon: "ni ni-hat-3 text-info",
     component: Profile,
     layout: "/admin",
   },
+  {
+    path: "/user-profilehome",
+    name: "Professor-home",
+    icon: "ni ni-hat-3 text-danger",
+    component: teacherrhome,
+    layout: "/admin",
+  },
+  {
+    path: "/student",
+    name: "Student",
+    icon: "ni ni-hat-3 text-yellow",
+    component: student,
+    layout: "/admin",
+  },
+  {
+    path: "/student-home",
+    name: "Student-home",
+    icon: "ni ni-hat-3 text-dark",
+    component: studenthome,
+    layout: "/admin",
+  },
+  
 
   {
     path: "/login",
@@ -57,13 +74,7 @@ var routes = [
     component: Register,
     layout: "/auth",
   },
-    {
-    path: "/icons",
-    name: "Icons",
-    icon: "ni ni-planet text-blue",
-    component: Icons,
-    layout: "/admin",
-  },
+  
   {
     path: "/FaceRegis",
     name: "FaceRegis",
@@ -78,19 +89,6 @@ var routes = [
     component: Quest,
     layout: "/admin",
   },
-  {
-    /*path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
-    layout: "/admin",*/
-  },
-  {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
-    layout: "/admin",
-  },
+
 ];
 export default routes;

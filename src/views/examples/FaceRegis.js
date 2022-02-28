@@ -151,12 +151,11 @@ const Icons = () => {
         setWidth(detections[0].detection._box._width);
         setX(detections[0].detection._box._x);
         setY(detections[0].detection._box._y);
-        if(detections[0].detection._box._height >= 200 || detections[0].detection._box._width >= 200 || detections[0].detection._box._x >= 160 || detections[0].detection._box._x <= 240
-          || detections[0].detection._box._y >= 120 || detections[0].detection._box._y <= 180){
+        if(detections[0].detection._box._height >= 200 && detections[0].detection._box._width >= 200 && detections[0].detection._box._x >= 160 && detections[0].detection._box._x <= 240
+          && detections[0].detection._box._y >= 120 && detections[0].detection._box._y <= 180){
             setPositionCheck('Good');
         }
-        if(detections[0].detection._box._height < 200 || detections[0].detection._box._width < 200 || detections[0].detection._box._x < 160 || detections[0].detection._box._x > 240
-          || detections[0].detection._box._y < 120 || detections[0].detection._box._y > 180){
+        else{
           setPositionCheck('Bad');
         }
         console.log(detections[0].detection)
@@ -195,6 +194,12 @@ const Icons = () => {
     }
     loadModels();
   }, [])
+
+  useEffect(()=>{
+    if(PositionCheck =='Good'){
+      capture();
+    }
+  },[PositionCheck]);
 
 
 

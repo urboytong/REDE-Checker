@@ -19,7 +19,7 @@
 // reactstrap components
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 
-const Header = () => {
+const Header2 = () => {
   return (
     <>
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
@@ -49,8 +49,8 @@ const Header = () => {
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti 
+                      <span className="text-yellow mr-2">
+                        MONDAY : 9:00 - 12:00
                       </span>{" "}
                      
                     </p>
@@ -79,8 +79,8 @@ const Header = () => {
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
+                      <span className="text-pink mr-2">
+                      TUSEDAY : 9:00 - 12:00
                       </span>{" "}
                      
                     </p>
@@ -109,8 +109,8 @@ const Header = () => {
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
+                      <span className="text-orange mr-2">
+                        THURSDAY : 9:00 - 12:00
                       </span>{" "}
                      
                     </p>
@@ -139,8 +139,8 @@ const Header = () => {
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
+                      <span className="text-orange mr-2">
+                      THURSDAY : 13:00 - 16:00
                       </span>{" "}
                      
                     </p>
@@ -172,7 +172,7 @@ const Header = () => {
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
                       <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
+                      WEDNESDAY  : 9:00 - 12:00
                       </span>{" "}
                      
                     </p>
@@ -202,7 +202,7 @@ const Header = () => {
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
                       <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
+                      WEDNESDAY  : 13:00 - 16:00
                       </span>{" "}
                      
                     </p>
@@ -231,8 +231,8 @@ const Header = () => {
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
+                      <span className="text-info mr-2">
+                      FRIDAY  : 9:00 - 12:00
                       </span>{" "}
                      
                     </p>
@@ -261,8 +261,8 @@ const Header = () => {
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
+                      <span className="text-info mr-2">
+                      FRIDAY  : 13:00 - 16:00
                       </span>{" "}
                      
                     </p>
@@ -277,4 +277,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Header2;
