@@ -44,6 +44,33 @@
   height: 76px;
 }
 
+//attendence card
+.btn-seeMore-attendence {
+  font-size: 12px;
+  height: 28px;
+  width: 70px;
+  padding: 0;
+}
+
+.align-items-right {
+  align-items: flex-end !important;
+  justify-content: flex-end;
+}
+
+//quest card
+.card-quest {
+  padding: 0rem;
+  margin-top: 20px !important;
+}
+
+.img-facedetection {
+  margin-top: -30px;
+}
+
+.date-profile {
+  margin-bottom: 20px;
+}
+
 //request modal 
 .x-icon {
   font-weight: 1000;
@@ -75,6 +102,54 @@
   padding-right: 0px !important;
 }
 
+//history
+.complete-text {
+  color: #17af59;
+}
+
+.absent-text  {
+  color: #eb1a1a;
+}
+.widthModal {
+  width: 180px !important;
+}
+
+.status-report {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.height-statusReport {
+  height: 65px;
+}
+
+//upload leave form modal
+.img-upload {
+  width: 170px;
+}
+.box-img-cloud {
+  box-shadow: none !important;
+}
+.btn-upfile, .btn-upfile:hover {
+  border: 2px solid #00b7ff;
+  color: #00b7ff;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+//leave form modal
+.img-leaveForm {
+  width: auto;
+  height: 500px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.heading-leaveForm {
+  margin-top: -20px;
+}
 @media only screen and (max-width: 1920px) {
 //member card
   .short-name {
@@ -96,19 +171,6 @@
   .threedot {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
-  }
-//quest card
-  .card-quest {
-    padding: 0rem;
-    margin-top: 20px !important;
-  }
-
-  .img-facedetection {
-    margin-top: -30px;
-  }
-
-  .date-profile {
-    margin-bottom: 20px;
   }
 }
 
