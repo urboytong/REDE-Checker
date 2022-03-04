@@ -49,34 +49,37 @@ import { Button,
   ModalFooter,
   UncontrolledTooltip,} from "reactstrap";
 
+import "assets/scss/argon-dashboard/custom/Headerprofessor.scss";
+
 const Header2 = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen1, setModalOpen1] = useState(false);
   const [copiedText, setCopiedText] = useState();
 
   return (
     <>
-          <Modal
-                  toggle={() => setModalOpen(!modalOpen)}
-                  isOpen={modalOpen}
-                  size="lg"
-                >
-                  <div className=" modal-header">
-                    <button
-                      aria-label="Close"
-                      className=" close"
-                      type="button"
-                      onClick={() => setModalOpen(!modalOpen)}
-                    >
-                      <span aria-hidden={true}>×</span>
-                    </button>
-                  </div>
-                  <ModalBody>
-                  <Col className="order-xl-1" xl="12">
+      <Modal
+        toggle={() => setModalOpen(!modalOpen)}
+        isOpen={modalOpen}
+        size="lg"
+      >
+        <div className=" modal-header">
+          <button
+            aria-label="Close"
+            className=" close"
+            type="button"
+            onClick={() => setModalOpen(!modalOpen)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <ModalBody>
+          <Col className="order-xl-1" xl="12">
             <Card className="bg-secondary shadow">
               <CardHeader className="bg-white border-0">
                 <Row className="align-items-center">
                   <Col xs="8">
-                    <h3 className="mb-0">Create Class</h3>
+                    <h3 className="mb-0">Create Classroom</h3>
                   </Col>
                   <Col className="text-right" xs="4">
                     <Button
@@ -85,7 +88,7 @@ const Header2 = () => {
                       onClick={(e) => e.preventDefault()}
                       size="sm"
                     >
-                      Cover Image
+                      Select Cover Image
                     </Button>
                   </Col>
                 </Row>
@@ -93,10 +96,10 @@ const Header2 = () => {
               <CardBody>
                 <Form>
                   <h6 className="heading-small text-muted mb-4">
-                   Class information
+                  Classroom information
                   </h6>
                   
-                  <div className="pl-lg-4">
+                  <div>
                     <Row>
                       <Col lg="4">
                         <FormGroup>
@@ -104,30 +107,26 @@ const Header2 = () => {
                             className="form-control-label"
                             htmlFor="input-username"
                           >
-                            Class code 
+                            Subject Code 
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="css111"
                             id=""
-                            placeholder="Class code "
+                            placeholder="CSSxxx"
                             type="text"
                           />
                         </FormGroup>
                       </Col>
                       <Col lg="8">
                         <FormGroup>
-                          <label
-                            className="form-control-label"
-                            
-                          >
-                            Class name
+                          <label className="form-control-label">
+                            Subject Name
                           </label>
                           <Input
                             className="form-control-alternative"
                             id=""
                             placeholder="Software Engineer"
-                         
+                        
                           />
                         </FormGroup>
                       </Col>
@@ -135,11 +134,8 @@ const Header2 = () => {
                     <Row>
                       <Col lg="4">
                         <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-first-name"
-                          >
-                            Class day
+                          <label className="form-control-label">
+                            Class Date
                           </label>
                           <Input
                             className="form-control-alternative"
@@ -147,24 +143,23 @@ const Header2 = () => {
                             id="input-first-name"
                             placeholder="First name"
                             type="select"
-                          />
+                          >
+                            <option>Monday</option>
+                            <option>Tuesday</option>
+                            <option>Wednesday</option>
+                            <option>Thursday</option>
+                            <option>Friday</option>
+                            <option>Saturday</option>
+                            <option>Sunday</option>
+                          </Input>
                         </FormGroup>
                       </Col>
                       <Col lg="4">
                         <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-last-name"
-                          >
+                          <label className="form-control-label">
                             Start time
                           </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="Jesse"
-                            id="input-last-name"
-                            placeholder="Last name"
-                            type="select"
-                          />
+                          <input type="time" name="time" className="form-control-alternative form-time"/>
                         </FormGroup>
                       </Col>
                       <Col lg="4">
@@ -173,64 +168,95 @@ const Header2 = () => {
                             className="form-control-label"
                             htmlFor="input-last-name"
                           >
-                           End time
+                          End time
                           </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="Jesse"
-                            id="input-last-name"
-                            placeholder="Last name"
-                            type="select"
-                          />
+                          <input type="time" name="time" className="form-control-alternative form-time"/>
                         </FormGroup>
                       </Col>
                     </Row>
                   </div>
-               
-                  <hr className="my-4" />
+
                   {/* Description */}
-           
-                  <div className="pl-lg-4">
+                  <div>
                     <FormGroup>
-                      <label>Description</label>
+                      <label className="form-control-label">Description</label>
                       <Input
                         className="form-control-alternative"
-                        placeholder="A few words about you ..."
+                        placeholder="A few words about classroom ..."
                         rows="4"
-                        defaultValue="....."
                         type="textarea"
                       />
                     </FormGroup>
                   </div>
                   <div className="text-center">
- 
- <Button className="mt-4" color="dark"  >
-Create class
- </Button>
-</div>
+                    <Button className="mt-2 button-modal-detailClassroom" color="dark"  >
+                      Create Classroom
+                    </Button>
+                  </div>
                 </Form>
               </CardBody>
             </Card>
           </Col>
-                  </ModalBody>
-                  <ModalFooter></ModalFooter>
-                </Modal>
+        </ModalBody>
+        <ModalFooter></ModalFooter>
+      </Modal>
+
+      <Modal
+        toggle={() => setModalOpen1(!modalOpen1)}
+        isOpen={modalOpen1}
+        size="md"
+      >
+        <div className=" modal-header">
+          <button
+            aria-label="Close"
+            className=" close"
+            type="button"
+            onClick={() => setModalOpen1(!modalOpen1)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <ModalBody>
+          <h1 className="text-center">Join Classroom</h1>
+          <Row className="align-items-center">
+            <Col>
+              <Input
+                className="form-control-alternative input-classroomCode"
+                id=""
+                placeholder="Classroom Code"
+              />
+            </Col>
+            <Col className="text-right button-input-classroomCode">
+              <Button
+                color="dark"
+                href="#pablo"
+                size="sm"
+                className="search-classroomCode"
+              >
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </Button>
+            </Col>
+          </Row>
+        </ModalBody>
+        <ModalFooter></ModalFooter>
+      </Modal>
+
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
         <Container fluid>
           
           <div className="header-body">
           <div className="text-right">
-          <Button className="mt-4" color="dark"  >
-              Join class
-                </Button>
-                <Button className="mt-4" color="dark"  onClick={() => setModalOpen(!modalOpen)} >
-               Create class
-                </Button>
-              </div>
-            <Row className="mt-5">
+            <Button className="mt-4" color="dark" onClick={() => setModalOpen1(!modalOpen1)} >
+                Join class
+            </Button>
+            <Button className="mt-4" color="dark" onClick={() => setModalOpen(!modalOpen)} >
+              Create class
+            </Button>
+          </div>
+            <Row className="mt-4">
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -244,23 +270,25 @@ Create class
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
-                          <i className="ni ni-book-bookmark" />
+                        <div className="icon icon-shape bg-yellow text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-yellow mr-2">
+                      <span className="mr-2">
                         MONDAY : 9:00 - 12:00
-                      </span>{" "}
-                     
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -274,23 +302,25 @@ Create class
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
-                          <i className="ni ni-laptop" />
+                        <div className="icon icon-shape bg-pink text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-pink mr-2">
+                      <span className="mr-2">
                       TUSEDAY : 9:00 - 12:00
-                      </span>{" "}
-                     
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -304,23 +334,25 @@ Create class
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                          <i className="ni ni-compass-04" />
+                        <div className="icon icon-shape bg-orange text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-orange mr-2">
+                      <span className="mr-2">
                         THURSDAY : 9:00 - 12:00
-                      </span>{" "}
-                     
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -334,25 +366,27 @@ Create class
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-primary text-white rounded-circle shadow">
-                          <i className="ni ni-hat-3" />
+                        <div className="icon icon-shape bg-orange text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-orange mr-2">
+                      <span className="mr-2">
                       THURSDAY : 13:00 - 16:00
-                      </span>{" "}
-                     
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
             </Row>
-            <Row className="mt-2">
+            <Row className="mt-4">
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -366,23 +400,25 @@ Create class
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-green text-white rounded-circle shadow">
-                          <i className="fas fa-chart-bar" />
+                        <div className="icon icon-shape bg-green text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
+                      <span className="mr-2">
                       WEDNESDAY  : 9:00 - 12:00
-                      </span>{" "}
-                     
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -396,23 +432,25 @@ Create class
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-gray text-white rounded-circle shadow">
-                          <i className="ni ni-app" />
+                        <div className="icon icon-shape bg-green text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
+                      <span className="mr-2">
                       WEDNESDAY  : 13:00 - 16:00
-                      </span>{" "}
-                     
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -426,23 +464,25 @@ Create class
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-pink text-white rounded-circle shadow">
-                          <i className="ni ni-box-2" />
+                        <div className="icon icon-shape bg-purple text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-info mr-2">
+                      <span className="mr-2">
                       FRIDAY  : 9:00 - 12:00
-                      </span>{" "}
-                     
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -456,16 +496,18 @@ Create class
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
-                          <i className="ni ni-calendar-grid-58" />
+                        <div className="icon icon-shape bg-purple text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-info mr-2">
+                      <span className="mr-2">
                       FRIDAY  : 13:00 - 16:00
-                      </span>{" "}
-                     
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>

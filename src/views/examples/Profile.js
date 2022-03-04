@@ -811,7 +811,7 @@ const Profile = () => {
                               Science, Mathematics
                             </div>
                             <hr className="my-4" />                            
-                            <h2 className="complete-text">
+                            <h2 className="text-success">
                               Completed
                             </h2>
                             <div>
@@ -838,36 +838,37 @@ const Profile = () => {
                   toggle={() => setModalOpen4(!modalOpen4)}
                   isOpen={modalOpen4}
                   size="sm"
+                  className="confirm-modal"
                 >
                   <div className=" modal-header">
-                    <button
-                      aria-label="Close"
-                      className=" close"
-                      type="button"
-                      onClick={() => setModalOpen4(!modalOpen4)}
-                    >
-                      <span aria-hidden={true}>×</span>
-                    </button>
                   </div>
                   <ModalBody>
                     {" "}
-                    <p className="font-weight-light">
-                      You want to Delete Natthaphat Wannawat ?
-                    </p>
-                    <div className="col text-right">
+                    <span className="font-weight-light">
+                      You want to Delete &nbsp; 
+                      <span className="font-weight-bold">
+                        Natthaphat Wannawat
+                      </span>
+                      &nbsp; ?
+                    </span>
+                    
+                    <div className="col text-center mt-4">
                       <Button
                         color="success"
                         href="#pablo"
                         //onClick={() => setModalOpen1(!modalOpen1)}
-                        size="sm"
+                        className="ml-2 mr-2"
+                        size="l"
                       >
                         Confirm
                       </Button>
                       <Button
                         color="danger"
                         href="#pablo"
-                        // onClick={() => setModalOpen1(!modalOpen1)}
-                        size="sm"
+                        size="l"
+                        aria-label="Close"
+                        onClick={() => setModalOpen4(!modalOpen4)}
+                        className="ml-2 mr-2"
                       >
                         Cancel
                       </Button>
@@ -1230,7 +1231,7 @@ const Profile = () => {
                                 <h3 className="mb-0">Selfie with a pen</h3>
                               </div>
                               <div className="align-items-center">
-                                <h4 className="col text-right complete-text status-report">COMPLETED</h4>
+                                <h4 className="col text-right text-success status-report">COMPLETED</h4>
                               </div>
                             </Row>
                           </CardHeader>
@@ -1421,7 +1422,7 @@ const Profile = () => {
                                 <h3 className="mb-0">Selfie with a pen</h3>
                               </div>
                               <div className="align-items-center">
-                                <h4 className="col text-right absent-text status-report">ABSENT / LEAVE</h4>
+                                <h4 className="col text-right text-danger status-report">ABSENT / LEAVE</h4>
                               </div>
                             </Row>
                           </CardHeader>
@@ -1524,7 +1525,7 @@ const Profile = () => {
                                     <DropdownMenu className="dropdown-menu-arrow" right>
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen2(!modalOpen2)}
+                                        onClick={() => setModalOpen12(!modalOpen12)}
                                       >
                                         Leave
                                       </DropdownItem>
@@ -1615,7 +1616,7 @@ const Profile = () => {
                                     <DropdownMenu className="dropdown-menu-arrow" right>
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen2(!modalOpen2)}
+                                        onClick={() => setModalOpen12(!modalOpen12)}
                                       >
                                         Leave
                                       </DropdownItem>
