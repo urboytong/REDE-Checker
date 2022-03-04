@@ -31,11 +31,10 @@ const Header = () => {
               </div>
           <div className="header-body">
             {/* Card stats */}
-            <Row className="mt-5">
-              <Col lg="6" xl="3" type="button">
-               
+            <Row className="mt-4">
+              <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -49,23 +48,28 @@ const Header = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
-                          <i className="ni ni-book-bookmark" />
+                        <div className="icon icon-shape bg-yellow text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
+                      <span className="mr-2">
+                        MONDAY : 9:00 - 12:00
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      <span>
                         Professor : Wittawin Susutti 
-                      </span>{" "}
-                     
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -79,23 +83,28 @@ const Header = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
-                          <i className="ni ni-laptop" />
+                        <div className="icon icon-shape bg-pink text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
-                      </span>{" "}
-                     
+                      <span className="mr-2">
+                      TUSEDAY : 9:00 - 12:00
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      <span>
+                        Professor : Wittawin Susutti 
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -109,23 +118,28 @@ const Header = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                          <i className="ni ni-compass-04" />
+                        <div className="icon icon-shape bg-orange text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
-                      </span>{" "}
-                     
+                      <span className="mr-2">
+                        THURSDAY : 9:00 - 12:00
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      <span>
+                        Professor : Wittawin Susutti 
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -139,26 +153,30 @@ const Header = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-primary text-white rounded-circle shadow">
-                          <i className="ni ni-hat-3" />
+                        <div className="icon icon-shape bg-orange text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
-                      </span>{" "}
-                     
+                      <span className="mr-2">
+                      THURSDAY : 13:00 - 16:00
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      <span>
+                        Professor : Wittawin Susutti 
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
             </Row>
-            <Row className="mt-2">
+            <Row className="mt-4">
               <Col lg="6" xl="3">
-                
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -172,23 +190,28 @@ const Header = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-green text-white rounded-circle shadow">
-                          <i className="fas fa-chart-bar" />
+                        <div className="icon icon-shape bg-green text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
-                      </span>{" "}
-                     
+                      <span className="mr-2">
+                      WEDNESDAY  : 9:00 - 12:00
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      <span>
+                        Professor : Wittawin Susutti 
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -202,23 +225,28 @@ const Header = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-gray text-white rounded-circle shadow">
-                          <i className="ni ni-app" />
+                        <div className="icon icon-shape bg-green text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
-                      </span>{" "}
-                     
+                      <span className="mr-2">
+                      WEDNESDAY  : 13:00 - 16:00
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      <span>
+                        Professor : Wittawin Susutti 
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -232,23 +260,28 @@ const Header = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-pink text-white rounded-circle shadow">
-                          <i className="ni ni-box-2" />
+                        <div className="icon icon-shape bg-purple text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
-                      </span>{" "}
-                     
+                      <span className="mr-2">
+                      FRIDAY  : 9:00 - 12:00
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      <span>
+                        Professor : Wittawin Susutti 
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
+                  <CardBody className="subject-card">
                     <Row >
                       <div className="col">
                         <CardTitle
@@ -262,20 +295,26 @@ const Header = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
-                          <i className="ni ni-calendar-grid-58" />
+                        <div className="icon icon-shape bg-purple text-white rounded-circle shadow circle-day">
                         </div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        Professor : Wittawin Susutti
-                      </span>{" "}
-                     
+                      <span className="mr-2">
+                      FRIDAY  : 13:00 - 16:00
+                      </span>
+                      <span className="mr-2 section">
+                      SEC : 1
+                      </span>
+                      <span>
+                        Professor : Wittawin Susutti 
+                      </span>
+                      {" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
+              
             </Row>
           </div>
         </Container>

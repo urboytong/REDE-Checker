@@ -17,6 +17,7 @@
 */
 import { Link } from "react-router-dom";
 // reactstrap components
+import React, { useState } from "react";
 import {
   DropdownMenu,
   DropdownItem,
@@ -32,9 +33,13 @@ import {
   Nav,
   Container,
   Media,
+  Modal,
+  ModalBody,
+  ModalFooter,
 } from "reactstrap";
 
 const AdminNavbar = (props) => {
+  const [modalOpen, setModalOpen] = useState(false);
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">

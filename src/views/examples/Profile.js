@@ -315,7 +315,7 @@ const Profile = () => {
                             <div className="col">
                               <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                 <div>
-                                  <h2>61090500411</h2>
+                                  <h2 className="heading">61090500411</h2>
                                 </div>
                               </div>
                             </div>
@@ -800,7 +800,7 @@ const Profile = () => {
                             <div className="col">
                               <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                 <div>
-                                  <span className="heading">61090500411</span>
+                                  <h2 className="heading">61090500411</h2>
                                 </div>
                               </div>
                             </div>
@@ -811,7 +811,7 @@ const Profile = () => {
                               Science, Mathematics
                             </div>
                             <hr className="my-4" />                            
-                            <h2 className="complete-text">
+                            <h2 className="text-success">
                               Completed
                             </h2>
                             <div>
@@ -838,36 +838,37 @@ const Profile = () => {
                   toggle={() => setModalOpen4(!modalOpen4)}
                   isOpen={modalOpen4}
                   size="sm"
+                  className="confirm-modal"
                 >
                   <div className=" modal-header">
-                    <button
-                      aria-label="Close"
-                      className=" close"
-                      type="button"
-                      onClick={() => setModalOpen4(!modalOpen4)}
-                    >
-                      <span aria-hidden={true}>×</span>
-                    </button>
                   </div>
                   <ModalBody>
                     {" "}
-                    <p className="font-weight-light">
-                      You want to Delete Natthaphat Wannawat ?
-                    </p>
-                    <div className="col text-right">
+                    <span className="font-weight-light">
+                      You want to Delete &nbsp; 
+                      <span className="font-weight-bold">
+                        Natthaphat Wannawat
+                      </span>
+                      &nbsp; ?
+                    </span>
+                    
+                    <div className="col text-center mt-4">
                       <Button
                         color="success"
                         href="#pablo"
                         //onClick={() => setModalOpen1(!modalOpen1)}
-                        size="sm"
+                        className="ml-2 mr-2"
+                        size="l"
                       >
                         Confirm
                       </Button>
                       <Button
                         color="danger"
                         href="#pablo"
-                        // onClick={() => setModalOpen1(!modalOpen1)}
-                        size="sm"
+                        size="l"
+                        aria-label="Close"
+                        onClick={() => setModalOpen4(!modalOpen4)}
+                        className="ml-2 mr-2"
                       >
                         Cancel
                       </Button>
@@ -1152,7 +1153,7 @@ const Profile = () => {
                                 <th scope="col">Quest</th>
                                 <th scope="col">completed</th>
                                 <th scope="col">absent</th>
-                                <th scope="col" className="widthModal"></th>
+                                <th scope="col"></th>
                               </tr>
                             </thead>
                             <tbody>
@@ -1223,14 +1224,14 @@ const Profile = () => {
                         </Card>
                       </row>
                       <UncontrolledCollapse toggler="#toggler1">
-                        <Card className="bg-secondary shadow">
+                        <Card className="bg-secondary shadow summary-card-history">
                           <CardHeader className="border-0">
                             <Row className="align-items-center">
                               <div className="col">
                                 <h3 className="mb-0">Selfie with a pen</h3>
                               </div>
                               <div className="align-items-center">
-                                <h4 className="col text-right complete-text status-report">COMPLETED</h4>
+                                <h4 className="col text-right text-success status-report">COMPLETED</h4>
                               </div>
                             </Row>
                           </CardHeader>
@@ -1242,9 +1243,7 @@ const Profile = () => {
                               <tr>
                                 <th scope="col">id</th>
                                 <th scope="col">name</th>
-                                <th scope="col" className="col text-right">
-                                  details
-                                </th>
+                                <th scope="col" className="col text-right"></th>
                               </tr>
                             </thead>
                             <tbody>
@@ -1265,16 +1264,27 @@ const Profile = () => {
                                     Natthaphat Wannawat
                                   </Badge>
                                 </td>
-                                <td className="text-right">
-                                  <Button
-                                    className="btn-icon btn-2"
-                                    color="dark"
-                                    type="button"
-                                    size="sm"
-                                    onClick={() => setModalOpen9(!modalOpen9)}
-                                  >
-                                    See More
-                                  </Button>
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      href="#pablo"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen9(!modalOpen9)}
+                                      >
+                                        See More
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
                                 </td>
                               </tr>
 
@@ -1295,15 +1305,27 @@ const Profile = () => {
                                     Natthamon Wannawat
                                   </Badge>
                                 </td>
-                                <td className="text-right">
-                                  <Button
-                                    className="btn-icon btn-2"
-                                    color="dark"
-                                    type="button"
-                                    size="sm"
-                                  >
-                                    See More
-                                  </Button>
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      href="#pablo"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen9(!modalOpen9)}
+                                      >
+                                        See More
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
                                 </td>
                               </tr>
 
@@ -1324,15 +1346,27 @@ const Profile = () => {
                                     Natthamon Wannawat
                                   </Badge>
                                 </td>
-                                <td className="text-right">
-                                  <Button
-                                    className="btn-icon btn-2"
-                                    color="dark"
-                                    type="button"
-                                    size="sm"
-                                  >
-                                    See More
-                                  </Button>
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      href="#pablo"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen9(!modalOpen9)}
+                                      >
+                                        See More
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
                                 </td>
                               </tr>
                               <tr>
@@ -1352,15 +1386,27 @@ const Profile = () => {
                                     Natthamon Wannawat
                                   </Badge>
                                 </td>
-                                <td className="text-right">
-                                  <Button
-                                    className="btn-icon btn-2"
-                                    color="dark"
-                                    type="button"
-                                    size="sm"
-                                  >
-                                    See More
-                                  </Button>
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      href="#pablo"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen9(!modalOpen9)}
+                                      >
+                                        See More
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
                                 </td>
                               </tr>
                             </tbody>
@@ -1369,14 +1415,14 @@ const Profile = () => {
                       </UncontrolledCollapse>
 
                       <UncontrolledCollapse toggler="#toggler">
-                        <Card className="bg-secondary shadow ">
+                        <Card className="bg-secondary shadow summary-card-history">
                           <CardHeader className="border-0">
                             <Row>
                               <div className="col">
                                 <h3 className="mb-0">Selfie with a pen</h3>
                               </div>
                               <div className="align-items-center">
-                                <h4 className="col text-right absent-text status-report">ABSENT / LEAVE</h4>
+                                <h4 className="col text-right text-danger status-report">ABSENT / LEAVE</h4>
                               </div>
                             </Row>
                           </CardHeader>
@@ -1389,7 +1435,7 @@ const Profile = () => {
                                 <th scope="col">id</th>
                                 <th scope="col">name</th>
                                 <th scope="col">status</th>
-                                <th scope="col"></th>
+                                <th scope="col" className="col text-right"></th>
                               </tr>
                             </thead>
                             <tbody>
@@ -1405,7 +1451,7 @@ const Profile = () => {
                                 </th>
 
                                 <td>
-                                  <Badge color="" className="badge-dot mr-4">
+                                  <Badge color="" className="badge-dot mr-4 short-name2">
                                     <i className="bg-danger" />
                                     Natthaphat Wannawat
                                   </Badge>
@@ -1453,7 +1499,7 @@ const Profile = () => {
                                 </th>
 
                                 <td>
-                                  <Badge color="" className="badge-dot mr-4">
+                                  <Badge color="" className="badge-dot mr-4 short-name2">
                                     <i className="bg-danger" />
                                     Natthamon Wannawat
                                   </Badge>
@@ -1479,7 +1525,218 @@ const Profile = () => {
                                     <DropdownMenu className="dropdown-menu-arrow" right>
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen2(!modalOpen2)}
+                                        onClick={() => setModalOpen12(!modalOpen12)}
+                                      >
+                                        Leave
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <th scope="row">
+                                  <Media className="align-items-center">
+                                    <Media>
+                                      <span className="mb-0 text-sm">
+                                        61090500437
+                                      </span>
+                                    </Media>
+                                  </Media>
+                                </th>
+
+                                <td>
+                                  <Badge color="" className="badge-dot mr-4 short-name2">
+                                    <i className="bg-danger" />
+                                    Natthamon Wannawat
+                                  </Badge>
+                                </td>
+                                <td className="height-statusReport">
+                                  <Badge color="" className="badge-dot mr-4">
+                                    Leave
+                                  </Badge>
+                                </td>
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      href="#pablo"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen13(!modalOpen13)}
+                                      >
+                                        See Leave Form
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th scope="row">
+                                  <Media className="align-items-center">
+                                    <Media>
+                                      <span className="mb-0 text-sm">
+                                        61090500437
+                                      </span>
+                                    </Media>
+                                  </Media>
+                                </th>
+
+                                <td>
+                                  <Badge color="" className="badge-dot mr-4 short-name2">
+                                    <i className="bg-danger" />
+                                    Natthamon Wannawat
+                                  </Badge>
+                                </td>
+                                <td  className="height-statusReport">
+                                  <Badge color="" className="badge-dot mr-4">
+                                    Absent
+                                  </Badge>
+                                </td>
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      href="#pablo"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen12(!modalOpen12)}
+                                      >
+                                        Leave
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </Table>
+                        </Card>
+                      </UncontrolledCollapse>
+                      <row>
+                      <Card className="bg-secondary shadow summary-card-history">
+                          <CardHeader className="border-0">
+                            <Row>
+                              <div className="col">
+                                <h3 className="mb-0">Summary</h3>
+                              </div>
+                            </Row>
+                          </CardHeader>
+                          <Table
+                            className="align-items-center table-flush"
+                            responsive
+                          >
+                            <thead className="thead-light">
+                              <tr>
+                                <th scope="col">id</th>
+                                <th scope="col">name</th>
+                                <th scope="col">status</th>
+                                <th scope="col" className="col text-right"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">
+                                  <Media className="align-items-center">
+                                    <Media>
+                                      <span className="mb-0 text-sm">
+                                        61090500411
+                                      </span>
+                                    </Media>
+                                  </Media>
+                                </th>
+
+                                <td>
+                                  <Badge color="" className="badge-dot mr-4 short-name2">
+                                    <i className="bg-success" />
+                                    Natthaphat Wannawat
+                                  </Badge>
+                                </td>
+
+                                <td  className="height-statusReport">
+                                  <Badge color="" className="badge-dot mr-4">
+                                    Complete
+                                  </Badge>
+                                </td>
+
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      href="#pablo"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen9(!modalOpen9)}
+                                      >
+                                        See More
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <th scope="row">
+                                  <Media className="align-items-center">
+                                    <Media>
+                                      <span className="mb-0 text-sm">
+                                        61090500437
+                                      </span>
+                                    </Media>
+                                  </Media>
+                                </th>
+
+                                <td>
+                                  <Badge color="" className="badge-dot mr-4 short-name2">
+                                    <i className="bg-danger" />
+                                    Natthamon Wannawat
+                                  </Badge>
+                                </td>
+                                <td  className="height-statusReport">
+                                  <Badge color="" className="badge-dot mr-4">
+                                    Absent
+                                  </Badge>
+                                </td>
+
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      href="#pablo"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                      <DropdownItem
+                                        href="#pablo"
+                                        onClick={() => setModalOpen12(!modalOpen12)}
                                       >
                                         Leave
                                       </DropdownItem>
@@ -1527,7 +1784,7 @@ const Profile = () => {
                                         href="#pablo"
                                         onClick={() => setModalOpen13(!modalOpen13)}
                                       >
-                                        See More
+                                        See Leave Form
                                       </DropdownItem>
                                     </DropdownMenu>
                                   </UncontrolledDropdown>
@@ -1546,13 +1803,13 @@ const Profile = () => {
 
                                 <td>
                                   <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-danger" />
+                                    <i className="bg-success" />
                                     Natthamon Wannawat
                                   </Badge>
                                 </td>
                                 <td  className="height-statusReport">
                                   <Badge color="" className="badge-dot mr-4">
-                                    Absent
+                                    Complete
                                   </Badge>
                                 </td>
                                 <td className="text-right threedot">
@@ -1572,7 +1829,7 @@ const Profile = () => {
                                         href="#pablo"
                                         onClick={() => setModalOpen2(!modalOpen2)}
                                       >
-                                        Leave
+                                        See More
                                       </DropdownItem>
                                     </DropdownMenu>
                                   </UncontrolledDropdown>
@@ -1581,7 +1838,7 @@ const Profile = () => {
                             </tbody>
                           </Table>
                         </Card>
-                      </UncontrolledCollapse>
+                      </row>
                     </Col>
                   </ModalBody>
                   <ModalFooter></ModalFooter>
@@ -1673,7 +1930,7 @@ const Profile = () => {
                       aria-label="Close"
                       className=" close"
                       type="button"
-                      onClick={() => setModalOpen12(!modalOpen13)}
+                      onClick={() => setModalOpen13(!modalOpen13)}
                     >
                       <span aria-hidden={true}>×</span>
                     </button>
@@ -1724,10 +1981,24 @@ const Profile = () => {
                         Select Quest
                       </option>
 
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
+                      <option>Random</option>
+                      <option>Bag</option>
+                      <option>Banknote</option>
+                      <option>Book</option>
+                      <option>Bottle</option>
+                      <option>Coin</option>
+                      <option>Comb</option>
+                      <option>Cup</option>
+                      <option>Dish</option>
+                      <option>Fork</option>
+                      <option>Hanger</option>
+                      <option>Key</option>
+                      <option>Mask</option>
+                      <option>Pen</option>
+                      <option>Shoe</option>
+                      <option>Spoon</option>
+                      <option>Tissue</option>
+                      <option>Toothpaste</option>
                     </Input>
                   </div>
                   &nbsp;
@@ -1743,11 +2014,12 @@ const Profile = () => {
                       <option value="" disabled selected hidden>
                         Countdown Time
                       </option>
-                      <option>5 min</option>
-                      <option>15 min</option>
-                      <option>30 min</option>
-                      <option>45 min</option>
-                      <option>60 min</option>
+                      <option>5 minute</option>
+                      <option>10 minute</option>
+                      <option>15 minute</option>
+                      <option>20 minute</option>
+                      <option>25 minute</option>
+                      <option>30 minute</option>
                     </Input>
                   </div>
                   <div className="text-center">
@@ -1791,9 +2063,7 @@ const Profile = () => {
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">id</th>
-                    <th scope="col" className="td-nonePadding">
-                      name
-                    </th>
+                    <th scope="col" className="td-nonePadding">name</th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -2024,12 +2294,8 @@ const Profile = () => {
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">Date</th>
-                    <th scope="col">
-                      completed
-                    </th>
-                    <th scope="col">
-                      absent
-                    </th>
+                    <th scope="col">completed</th>
+                    <th scope="col">absent</th>
                     <th scope="col" />
                   </tr>
                 </thead>
