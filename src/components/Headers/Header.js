@@ -17,7 +17,7 @@
 */
 
 // reactstrap components
-import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+import { Card, CardBody, CardTitle, Container, Row, Col, Button } from "reactstrap";
 
 const Header = () => {
   return (
@@ -27,7 +27,8 @@ const Header = () => {
           <div className="header-body">
             {/* Card stats */}
             <Row className="mt-5">
-              <Col lg="6" xl="3">
+              <Col lg="6" xl="3" type="button">
+               
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody>
                     <Row >
@@ -150,6 +151,7 @@ const Header = () => {
             </Row>
             <Row className="mt-2">
               <Col lg="6" xl="3">
+                
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody>
                     <Row >
