@@ -17,15 +17,216 @@
 */
 
 // reactstrap components
-import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+import React, { useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
+import { Button,
+  Badge,
+  Card,
+  CardTitle,
+  CardHeader,
+  CardBody,
+  FormGroup,
+  Form,
+  Input,
+  Container,
+  Row,
+  Col,
+  CardFooter,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown,
+  DropdownToggle,
+  Media,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  Progress,
+  Table,
+  UncontrolledCollapse,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  UncontrolledTooltip,} from "reactstrap";
 
 const Header2 = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [copiedText, setCopiedText] = useState();
+
   return (
     <>
+          <Modal
+                  toggle={() => setModalOpen(!modalOpen)}
+                  isOpen={modalOpen}
+                  size="lg"
+                >
+                  <div className=" modal-header">
+                    <button
+                      aria-label="Close"
+                      className=" close"
+                      type="button"
+                      onClick={() => setModalOpen(!modalOpen)}
+                    >
+                      <span aria-hidden={true}>×</span>
+                    </button>
+                  </div>
+                  <ModalBody>
+                  <Col className="order-xl-1" xl="12">
+            <Card className="bg-secondary shadow">
+              <CardHeader className="bg-white border-0">
+                <Row className="align-items-center">
+                  <Col xs="8">
+                    <h3 className="mb-0">Create Class</h3>
+                  </Col>
+                  <Col className="text-right" xs="4">
+                    <Button
+                      color="dark"
+                      href="#pablo"
+                      onClick={(e) => e.preventDefault()}
+                      size="sm"
+                    >
+                      Cover Image
+                    </Button>
+                  </Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+                <Form>
+                  <h6 className="heading-small text-muted mb-4">
+                   Class information
+                  </h6>
+                  
+                  <div className="pl-lg-4">
+                    <Row>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-username"
+                          >
+                            Class code 
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="css111"
+                            id=""
+                            placeholder="Class code "
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="8">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            
+                          >
+                            Class name
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id=""
+                            placeholder="Software Engineer"
+                         
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-first-name"
+                          >
+                            Class day
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="Lucky"
+                            id="input-first-name"
+                            placeholder="First name"
+                            type="select"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-last-name"
+                          >
+                            Start time
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="Jesse"
+                            id="input-last-name"
+                            placeholder="Last name"
+                            type="select"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-last-name"
+                          >
+                           End time
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="Jesse"
+                            id="input-last-name"
+                            placeholder="Last name"
+                            type="select"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </div>
+               
+                  <hr className="my-4" />
+                  {/* Description */}
+           
+                  <div className="pl-lg-4">
+                    <FormGroup>
+                      <label>Description</label>
+                      <Input
+                        className="form-control-alternative"
+                        placeholder="A few words about you ..."
+                        rows="4"
+                        defaultValue="....."
+                        type="textarea"
+                      />
+                    </FormGroup>
+                  </div>
+                  <div className="text-center">
+ 
+ <Button className="mt-4" color="dark"  >
+Create class
+ </Button>
+</div>
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
+                  </ModalBody>
+                  <ModalFooter></ModalFooter>
+                </Modal>
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
         <Container fluid>
+          
           <div className="header-body">
-            {/* Card stats */}
+          <div className="text-right">
+          <Button className="mt-4" color="dark"  >
+              Join class
+                </Button>
+                <Button className="mt-4" color="dark"  onClick={() => setModalOpen(!modalOpen)} >
+               Create class
+                </Button>
+              </div>
             <Row className="mt-5">
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
@@ -269,6 +470,7 @@ const Header2 = () => {
                   </CardBody>
                 </Card>
               </Col>
+              
             </Row>
           </div>
         </Container>

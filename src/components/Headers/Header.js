@@ -24,6 +24,11 @@ const Header = () => {
     <>
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
         <Container fluid>
+        <div className="text-right">
+      <Button className="mt-4" color="dark" type="button" >
+              Join class
+                </Button>
+              </div>
           <div className="header-body">
             {/* Card stats */}
             <Row className="mt-5">
