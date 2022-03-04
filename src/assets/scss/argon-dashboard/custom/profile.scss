@@ -102,16 +102,13 @@
   padding-right: 0px !important;
 }
 
-//history
+//history modal
 .complete-text {
   color: #17af59;
 }
 
 .absent-text  {
   color: #eb1a1a;
-}
-.widthModal {
-  width: 180px !important;
 }
 
 .status-report {
@@ -121,6 +118,19 @@
 
 .height-statusReport {
   height: 65px;
+}
+
+.short-name2 {
+  white-space: nowrap; 
+  overflow: hidden; 
+  width: 165px; 
+  text-overflow: ellipsis; 
+  margin-top: 5px;
+  text-align: left;
+}
+
+.summary-card-history {
+  margin-top: 20px;
 }
 
 //upload leave form modal
