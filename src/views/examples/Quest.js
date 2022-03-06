@@ -32,6 +32,7 @@ import {
   Row,
   Col,
   UncontrolledTooltip,
+  Input,
 } from "reactstrap";
 // core components
 
@@ -52,6 +53,10 @@ const Icons = () => {
   const [ObjectBoxX, setObjectBoxX] = useState(false);
   const [ObjectBoxY, setObjectBoxY] = useState(false);
   const [ObjectBorderBoxColor, setObjectBorderBoxColor] = useState('2px solid #6b8be8');
+  const [ObjectSelect, setObjectSelect] = useState(false);
+  const [ObjectArr, setObjectArr] = useState(false);
+  const FaceBC = useRef();
+  const ObjBC = useRef();
 
 
   const runCoco = async () => {
@@ -125,21 +130,9 @@ const Icons = () => {
 
       // Make Detections
       const obj = await net.predict(video);
+      setObjectArr(obj);
       let text = ''
       if(obj.length >= 1){
-        for (let i = 0; i < obj.length; i++) {
-          let check = 0;
-          if(obj[i].class == "cup"){
-            setObjectBoxX(obj[i].left);
-            setObjectBoxY(obj[i].top);
-            check++;
-          }
-          if(check == 0){
-            setObjectBorderBoxColor('2px solid #6b8be8'); 
-          }
-        }
-
-
 
         for (let i = 0; i < obj.length; i++) {
           text += obj[i].class + ", ";
@@ -147,10 +140,12 @@ const Icons = () => {
         setObject(text)
         if(text == ''){
           setObject('none')
+          setObjectBorderBoxColor('2px solid #6b8be8');
         }
       }
       if(obj.length == 0){
         setObject('none')
+        setObjectBorderBoxColor('2px solid #6b8be8');
       }
       
 
@@ -172,8 +167,21 @@ const Icons = () => {
   },[FaceBoxposition, DetectionsBoxX, DetectionsBoxY, FaceRec]);
 
   useEffect(()=>{
-    //console.log((ObjectBoxposition.x-100)+'<='+(ObjectBoxX+125)+'>='+(ObjectBoxposition.x+100))
-    //console.log((ObjectBoxposition.y-100)+'<='+(ObjectBoxY+125)+'>='+(ObjectBoxposition.y+100))
+    if(ObjectArr.length >= 1){
+      for (let i = 0; i < ObjectArr.length; i++) {
+        let check = 0;
+        if(ObjectArr[i].class == ObjectSelect){
+          setObjectBoxX(ObjectArr[i].left);
+          setObjectBoxY(ObjectArr[i].top);
+          check++;
+        }
+        if(check == 0){
+          setObjectBoxX(false);
+          setObjectBoxY(false);
+          setObjectBorderBoxColor('2px solid #6b8be8'); 
+        }
+      }
+    }
     if((ObjectBoxX+80) >= (ObjectBoxposition.x-100) && (ObjectBoxX+80) <= (ObjectBoxposition.x+100)
       && (ObjectBoxY+80) >= (ObjectBoxposition.y-100) && (ObjectBoxY+80) <= (ObjectBoxposition.y+100)){
       setObjectBorderBoxColor('2px solid #79ffe1');
@@ -181,13 +189,23 @@ const Icons = () => {
     else{
       setObjectBorderBoxColor('2px solid #6b8be8');
     }
-  },[ObjectBoxposition, ObjectBoxX, ObjectBoxY]);
+  },[ObjectBoxposition, ObjectBoxX, ObjectBoxY, ObjectArr, ObjectSelect]);
 
   useEffect(()=>{
+    FaceBC.current = FaceBorderBoxColor;
+    ObjBC.current = ObjectBorderBoxColor;
     if(FaceBorderBoxColor == '2px solid #79ffe1' && ObjectBorderBoxColor == '2px solid #79ffe1'){
-      
+      console.log(FaceBorderBoxColor+' '+ObjectBorderBoxColor);
+      setTimeout(function(){
+        if(FaceBC.current == '2px solid #79ffe1' && ObjBC.current == '2px solid #79ffe1'){
+          console.log(FaceBC.current+' '+ObjBC.current);
+          alert('Success!');
+        }
+     }, 2000); 
     }
   },[FaceBorderBoxColor, ObjectBorderBoxColor]);
+
+
 
 
   useEffect(() => {
@@ -320,6 +338,26 @@ const Icons = () => {
                         </Draggable>
                       </div>
                     </div>
+                  </Col>
+                  <Col>
+                    <Input
+                      type="select"
+                      placeholder="Department"
+                      style={{
+                        textAlignVertical: "center",
+                        textAlign: "center",
+                        width:"300px"
+                      }}
+                      onChange={event => setObjectSelect(event.target.value)}
+                    >
+                      <option value="" disabled selected hidden>
+                        Select Quest
+                      </option>
+
+                      <option value="cup">cup</option>
+                      <option value="bottle">bottle</option>
+
+                    </Input>                    
                   </Col>
                 </Row>
                 
