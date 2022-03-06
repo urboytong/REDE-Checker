@@ -110,6 +110,8 @@ const Icons = () => {
         } 
         if(results.length === 0){
           setFaceRec('none');  
+          setDetectionsBoxX(false);
+          setDetectionsBoxY(false);    
         }
       }
       if(!labeledFaceDescriptorsJson){
@@ -140,11 +142,15 @@ const Icons = () => {
         setObject(text)
         if(text == ''){
           setObject('none')
+          setObjectBoxX(false);
+          setObjectBoxY(false);
           setObjectBorderBoxColor('2px solid #6b8be8');
         }
       }
       if(obj.length == 0){
         setObject('none')
+        setObjectBoxX(false);
+        setObjectBoxY(false);
         setObjectBorderBoxColor('2px solid #6b8be8');
       }
       
