@@ -57,7 +57,7 @@ const UserHeader = () => {
             <Col lg="7" md="10">
               <h1 className="display-2 text-white">Software Engineer</h1>
               <p className="text-white mt-0 mb-5">
-               MONDAY 9.00-12.00 a.m.
+               MONDAY 9.00-12.00 A.M.
               </p>
               <Button
                 color="dark"
