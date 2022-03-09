@@ -1461,8 +1461,8 @@ const Profile = () => {
                     
                     <td className="td-nonePadding hightBox-profile">
                       <div className="d-flex align-items-center">
-                      <Button color="dark" type="button" onClick={() => setModalOpen11(!modalOpen11)}>
-                      <i className="ni ni-image" />
+                      <Button color="dark" type="button" size="sm" onClick={() => setModalOpen11(!modalOpen11)}>
+                      <i className="ni ni-album-2" />
                 </Button>
                       </div>
                     </td>

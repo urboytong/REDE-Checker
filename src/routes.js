@@ -47,7 +47,7 @@ var routes = [
   {
     path: "/student",
     name: "Student",
-    icon: "ni ni-hat-3 text-info",
+    icon: "ni ni-hat-3 text-yellow",
     component: student,
     layout: "/admin",
   },

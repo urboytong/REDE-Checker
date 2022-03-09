@@ -1,0 +1,53 @@
+//modal create + edit classroom 
+.form-time {
+  height: 43px;
+  border-radius: 0.375rem;
+  border: none;
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  color: #8898aa !important;
+}
+
+.button-modal-detailClassroom {
+  width: 162.79px;
+}
+
+//modal join classroom
+.subjectName {
+  float: left;
+}
+
+.input-classroomCode {
+  width: 250px;
+}
+.button-input-classroomCode {
+  padding-left: 0px;
+}
+
+.search-classroomCode {
+  height: 43px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 43px;
+}
+
+.icon-search {
+  border: none;
+}
+
+//page
+.circle-day {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.section {
+  float: right;
+}
+
+.subject-card {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+  cursor: pointer;
+}

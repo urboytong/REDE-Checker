@@ -17,20 +17,242 @@
 */
 
 // reactstrap components
-import { Card, CardBody, CardTitle, Container, Row, Col, Button } from "reactstrap";
+import React, { useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
-const Header = () => {
+import { Button,
+  Badge,
+  Card,
+  CardTitle,
+  CardHeader,
+  CardBody,
+  FormGroup,
+  Form,
+  Input,
+  Container,
+  Row,
+  Col,
+  CardFooter,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown,
+  DropdownToggle,
+  Media,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  Progress,
+  Table,
+  UncontrolledCollapse,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  UncontrolledTooltip,} from "reactstrap";
+
+import "assets/scss/argon-dashboard/custom/Headerprofessor.scss";
+
+const Header2 = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen1, setModalOpen1] = useState(false);
+  const [copiedText, setCopiedText] = useState();
+
   return (
     <>
+      <Modal
+        toggle={() => setModalOpen(!modalOpen)}
+        isOpen={modalOpen}
+        size="lg"
+      >
+        <div className=" modal-header">
+          <button
+            aria-label="Close"
+            className=" close"
+            type="button"
+            onClick={() => setModalOpen(!modalOpen)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <ModalBody>
+          <Col className="order-xl-1" xl="12">
+            <Card className="bg-secondary shadow">
+              <CardHeader className="bg-white border-0">
+                <Row className="align-items-center">
+                  <Col xs="8">
+                    <h3 className="mb-0">Create Classroom</h3>
+                  </Col>
+                  <Col className="text-right" xs="4">
+                    <Button
+                      color="dark"
+                      href="#pablo"
+                      onClick={(e) => e.preventDefault()}
+                      size="sm"
+                    >
+                      Select Cover Image
+                    </Button>
+                  </Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+                <Form>
+                  <h6 className="heading-small text-muted mb-4">
+                  Classroom information
+                  </h6>
+                  
+                  <div>
+                    <Row>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-username"
+                          >
+                            Subject Code 
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id=""
+                            placeholder="CSSxxx"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="8">
+                        <FormGroup>
+                          <label className="form-control-label">
+                            Subject Name
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id=""
+                            placeholder="Software Engineer"
+                        
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label className="form-control-label">
+                            Class Date
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            defaultValue="Lucky"
+                            id="input-first-name"
+                            placeholder="First name"
+                            type="select"
+                          >
+                            <option>Monday</option>
+                            <option>Tuesday</option>
+                            <option>Wednesday</option>
+                            <option>Thursday</option>
+                            <option>Friday</option>
+                            <option>Saturday</option>
+                            <option>Sunday</option>
+                          </Input>
+                        </FormGroup>
+                      </Col>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label className="form-control-label">
+                            Start time
+                          </label>
+                          <input type="time" name="time" className="form-control-alternative form-time"/>
+                        </FormGroup>
+                      </Col>
+                      <Col lg="4">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-last-name"
+                          >
+                          End time
+                          </label>
+                          <input type="time" name="time" className="form-control-alternative form-time"/>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </div>
+
+                  {/* Description */}
+                  <div>
+                    <FormGroup>
+                      <label className="form-control-label">Description</label>
+                      <Input
+                        className="form-control-alternative"
+                        placeholder="A few words about classroom ..."
+                        rows="4"
+                        type="textarea"
+                      />
+                    </FormGroup>
+                  </div>
+                  <div className="text-center">
+                    <Button className="mt-2 button-modal-detailClassroom" color="dark"  >
+                      Create Classroom
+                    </Button>
+                  </div>
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
+        </ModalBody>
+        <ModalFooter></ModalFooter>
+      </Modal>
+
+      <Modal
+        toggle={() => setModalOpen1(!modalOpen1)}
+        isOpen={modalOpen1}
+        size="md"
+      >
+        <div className=" modal-header">
+          <button
+            aria-label="Close"
+            className=" close"
+            type="button"
+            onClick={() => setModalOpen1(!modalOpen1)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <ModalBody>
+          <h1 className="text-center">Join Classroom</h1>
+          <Row className="align-items-center">
+            <Col>
+              <Input
+                className="form-control-alternative input-classroomCode"
+                id=""
+                placeholder="Classroom Code"
+              />
+            </Col>
+            <Col className="text-right button-input-classroomCode">
+              <Button
+                color="dark"
+                href="#pablo"
+                size="sm"
+                className="search-classroomCode"
+              >
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </Button>
+            </Col>
+          </Row>
+        </ModalBody>
+        <ModalFooter></ModalFooter>
+      </Modal>
+
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
         <Container fluid>
-        <div className="text-right">
-      <Button className="mt-4" color="dark" type="button" >
-              Join class
-                </Button>
-              </div>
+          
           <div className="header-body">
-            {/* Card stats */}
+          <div className="text-right">
+            <Button className="mt-4" color="dark" onClick={() => setModalOpen1(!modalOpen1)} >
+                Join class
+            </Button>
+            <Button className="mt-4" color="dark" onClick={() => setModalOpen(!modalOpen)} >
+              Create class
+            </Button>
+          </div>
             <Row className="mt-4">
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
@@ -58,9 +280,6 @@ const Header = () => {
                       </span>
                       <span className="mr-2 section">
                       SEC : 1
-                      </span>
-                      <span>
-                        Professor : Wittawin Susutti 
                       </span>
                       {" "}
                     </p>
@@ -94,9 +313,6 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
-                        Professor : Wittawin Susutti 
-                      </span>
                       {" "}
                     </p>
                   </CardBody>
@@ -129,9 +345,6 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
-                        Professor : Wittawin Susutti 
-                      </span>
                       {" "}
                     </p>
                   </CardBody>
@@ -163,9 +376,6 @@ const Header = () => {
                       </span>
                       <span className="mr-2 section">
                       SEC : 1
-                      </span>
-                      <span>
-                        Professor : Wittawin Susutti 
                       </span>
                       {" "}
                     </p>
@@ -201,9 +411,6 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
-                        Professor : Wittawin Susutti 
-                      </span>
                       {" "}
                     </p>
                   </CardBody>
@@ -235,9 +442,6 @@ const Header = () => {
                       </span>
                       <span className="mr-2 section">
                       SEC : 1
-                      </span>
-                      <span>
-                        Professor : Wittawin Susutti 
                       </span>
                       {" "}
                     </p>
@@ -271,9 +475,6 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
-                        Professor : Wittawin Susutti 
-                      </span>
                       {" "}
                     </p>
                   </CardBody>
@@ -306,9 +507,6 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
-                        Professor : Wittawin Susutti 
-                      </span>
                       {" "}
                     </p>
                   </CardBody>
@@ -323,4 +521,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Header2;
