@@ -50,10 +50,10 @@ import { Button,
   UncontrolledTooltip,} from "reactstrap";
 
 import "assets/scss/argon-dashboard/custom/Headerprofessor.scss";
+import JoinClass from "components/Headers/JoinClass.js";
 
 const Header2 = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalOpen1, setModalOpen1] = useState(false);
   const [copiedText, setCopiedText] = useState();
 
   return (
@@ -201,54 +201,12 @@ const Header2 = () => {
         <ModalFooter></ModalFooter>
       </Modal>
 
-      <Modal
-        toggle={() => setModalOpen1(!modalOpen1)}
-        isOpen={modalOpen1}
-        size="md"
-      >
-        <div className=" modal-header">
-          <button
-            aria-label="Close"
-            className=" close"
-            type="button"
-            onClick={() => setModalOpen1(!modalOpen1)}
-          >
-            <span aria-hidden={true}>×</span>
-          </button>
-        </div>
-        <ModalBody>
-          <h1 className="text-center">Join Classroom</h1>
-          <Row className="align-items-center">
-            <Col>
-              <Input
-                className="form-control-alternative input-classroomCode"
-                id=""
-                placeholder="Classroom Code"
-              />
-            </Col>
-            <Col className="text-right button-input-classroomCode">
-              <Button
-                color="dark"
-                href="#pablo"
-                size="sm"
-                className="search-classroomCode"
-              >
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </Button>
-            </Col>
-          </Row>
-        </ModalBody>
-        <ModalFooter></ModalFooter>
-      </Modal>
-
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
         <Container fluid>
           
           <div className="header-body">
           <div className="text-right">
-            <Button className="mt-4" color="dark" onClick={() => setModalOpen1(!modalOpen1)} >
-                Join class
-            </Button>
+            <JoinClass />
             <Button className="mt-4" color="dark" onClick={() => setModalOpen(!modalOpen)} >
               Create class
             </Button>

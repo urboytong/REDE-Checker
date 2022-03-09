@@ -879,7 +879,7 @@ const Profile = () => {
                 <Modal
                   toggle={() => setModalOpen5(!modalOpen5)}
                   isOpen={modalOpen5}
-                  size="xl"
+                  size="lg"
                 >
                   <div className=" modal-header">
                     <button
@@ -894,8 +894,8 @@ const Profile = () => {
                   <ModalBody>
                     <Row>
                       {" "}
-                      <Col className="order-xl-1" xl="7">
-                        <Card className="bg-secondary shadow">
+                      <Col className="order-xl-1">
+                        <Card className="bg-secondary shadow margintop-card">
                           <CardHeader className="border-0">
                             <Row className="align-items-center">
                               <div className="col">
@@ -911,9 +911,10 @@ const Profile = () => {
                               <tr>
                                 <th scope="col" >id</th>
                                 <th scope="col" className="td-nonePadding">name</th>
-                                <th scope="col" className="td-nonePadding">completed</th>
-                                <th scope="col" className="td-nonePadding">absent</th>
-                                <th scope="col"></th>
+                                <th scope="col" >hour learned</th>
+                                <th scope="col" >completed</th>
+                                <th scope="col" >absent</th>
+                                <th scope="col" className="text-right"></th>
                               </tr>
                             </thead>
                             <tbody>
@@ -933,12 +934,17 @@ const Profile = () => {
                                     Natthaphat Wannawat
                                   </Badge>
                                 </td>
-                                <td className="td-nonePadding">
+                                <td>
+                                  <Badge color="" className="badge-dot mr-4">
+                                    90 %
+                                  </Badge>
+                                </td>
+                                <td>
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-success" />4
                                   </Badge>
                                 </td>
-                                <td className="td-nonePadding">
+                                <td>
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-danger" />1
                                   </Badge>
@@ -989,12 +995,17 @@ const Profile = () => {
                                     Natthamon Wannawat
                                   </Badge>
                                 </td>
-                                <td className="td-nonePadding">
+                                <td>
+                                  <Badge color="" className="badge-dot mr-4">
+                                    90 %
+                                  </Badge>
+                                </td>
+                                <td>
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-success" />5
                                   </Badge>
                                 </td>
-                                <td className="td-nonePadding">
+                                <td>
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-danger" />0
                                   </Badge>
@@ -1044,12 +1055,17 @@ const Profile = () => {
                                     Suriyasak Najaeiei
                                   </Badge>
                                 </td>
-                                <td className="td-nonePadding">
+                                <td>
+                                  <Badge color="" className="badge-dot mr-4">
+                                    90 %
+                                  </Badge>
+                                </td>
+                                <td>
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-success" />0
                                   </Badge>
                                 </td>
-                                <td className="td-nonePadding">
+                                <td>
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-danger" />5
                                   </Badge>
@@ -1087,14 +1103,11 @@ const Profile = () => {
                           </Table>
                         </Card>
                       </Col>
-                      <Col xl="5">
+                      <Col>
                         <Card className="shadow">
                           <CardHeader className="bg-transparent">
                             <Row className="align-items-center">
                               <div className="col">
-                                <h6 className="text-uppercase text-muted ls-1 mb-1">
-                                  CSS111 Software Engineer
-                                </h6>
                                 <h2 className="mb-0">Dashboard</h2>
                               </div>
                             </Row>
@@ -1224,7 +1237,7 @@ const Profile = () => {
                         </Card>
                       </row>
                       <UncontrolledCollapse toggler="#toggler1">
-                        <Card className="bg-secondary shadow summary-card-history">
+                        <Card className="bg-secondary shadow margintop-card">
                           <CardHeader className="border-0">
                             <Row className="align-items-center">
                               <div className="col">
@@ -1415,7 +1428,7 @@ const Profile = () => {
                       </UncontrolledCollapse>
 
                       <UncontrolledCollapse toggler="#toggler">
-                        <Card className="bg-secondary shadow summary-card-history">
+                        <Card className="bg-secondary shadow margintop-card">
                           <CardHeader className="border-0">
                             <Row>
                               <div className="col">
@@ -1629,7 +1642,7 @@ const Profile = () => {
                         </Card>
                       </UncontrolledCollapse>
                       <row>
-                      <Card className="bg-secondary shadow summary-card-history">
+                      <Card className="bg-secondary shadow margintop-card">
                           <CardHeader className="border-0">
                             <Row>
                               <div className="col">
