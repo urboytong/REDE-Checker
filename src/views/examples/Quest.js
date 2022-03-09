@@ -57,6 +57,10 @@ const Icons = () => {
   const [ObjectArr, setObjectArr] = useState(false);
   const FaceBC = useRef();
   const ObjBC = useRef();
+  const [Test1, setTest1] = useState(false);
+  const [Test2, setTest2] = useState(false);
+  const [Test3, setTest3] = useState(false);
+  const [Test4, setTest4] = useState(false);
 
 
   const runCoco = async () => {
@@ -105,8 +109,8 @@ const Icons = () => {
         if(results.length !== 0){
           //console.log(results[0]._label)
           setFaceRec(results[0]._label)   
-          setDetectionsBoxX(detections[0].detection._box._x);
-          setDetectionsBoxY(detections[0].detection._box._y);      
+          setDetectionsBoxX((detections[0].detection._box._x+(detections[0].detection._box._width/2)-640)*-1);
+          setDetectionsBoxY(detections[0].detection._box._y+(detections[0].detection._box._height/2));      
         } 
         if(results.length === 0){
           setFaceRec('none');  
@@ -163,8 +167,8 @@ const Icons = () => {
   useEffect(()=>{
     //console.log((FaceBoxposition.x-100)+'<='+(DetectionsBoxX+125)+'>='+(FaceBoxposition.x+100))
     //console.log((FaceBoxposition.y-100)+'<='+(DetectionsBoxY+125)+'>='+(FaceBoxposition.y+100))
-    if((DetectionsBoxX+80) >= (FaceBoxposition.x-100) && (DetectionsBoxX+80) <= (FaceBoxposition.x+100)
-      && (DetectionsBoxY+80) >= (FaceBoxposition.y-100) && (DetectionsBoxY+80) <= (FaceBoxposition.y+100) && FaceRec != 'unknown'){
+    if((DetectionsBoxX) >= (FaceBoxposition.x-100) && (DetectionsBoxX) <= (FaceBoxposition.x+100)
+      && (DetectionsBoxY) >= (FaceBoxposition.y-100) && (DetectionsBoxY) <= (FaceBoxposition.y+100) && FaceRec != 'unknown'){
       setFaceBorderBoxColor('2px solid #79ffe1');
     }
     else{
@@ -173,13 +177,16 @@ const Icons = () => {
   },[FaceBoxposition, DetectionsBoxX, DetectionsBoxY, FaceRec]);
 
   useEffect(()=>{
+    console.log(ObjectArr)
     if(ObjectArr.length >= 1){
       for (let i = 0; i < ObjectArr.length; i++) {
         let check = 0;
         if(ObjectArr[i].class == ObjectSelect){
-          setObjectBoxX(ObjectArr[i].left);
-          setObjectBoxY(ObjectArr[i].top);
+          console.log(i)
+          setObjectBoxX((ObjectArr[i].left+(ObjectArr[i].width/2)-640)*-1);
+          setObjectBoxY(ObjectArr[i].top+(ObjectArr[i].height/2));
           check++;
+          break;
         }
         if(check == 0){
           setObjectBoxX(false);
@@ -188,8 +195,8 @@ const Icons = () => {
         }
       }
     }
-    if((ObjectBoxX+80) >= (ObjectBoxposition.x-100) && (ObjectBoxX+80) <= (ObjectBoxposition.x+100)
-      && (ObjectBoxY+80) >= (ObjectBoxposition.y-100) && (ObjectBoxY+80) <= (ObjectBoxposition.y+100)){
+    if((ObjectBoxX) >= (ObjectBoxposition.x-100) && (ObjectBoxX) <= (ObjectBoxposition.x+100)
+      && (ObjectBoxY) >= (ObjectBoxposition.y-100) && (ObjectBoxY) <= (ObjectBoxposition.y+100)){
       setObjectBorderBoxColor('2px solid #79ffe1');
     }
     else{
@@ -298,6 +305,7 @@ const Icons = () => {
                       style={{
                         width: 640,
                         height: 480,
+                        transform: "rotateY(180deg)",
                       }}
                     />
 
@@ -326,6 +334,8 @@ const Icons = () => {
                     <p>Object : {DObject}</p>
                     <p>FaceDetect : x={DetectionsBoxX} y={DetectionsBoxY}</p>
                     <p>FaceBox : x={FaceBoxposition.x} y={FaceBoxposition.y}</p>
+                    <p>ObjectDetect : x={ObjectBoxX} y={ObjectBoxY}</p>
+                    <p>ObjectBox : x={ObjectBoxposition.x} y={ObjectBoxposition.y}</p>
                   </Col>
                 </Row>
                 <Row>
