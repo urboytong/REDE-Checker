@@ -32,6 +32,7 @@ import {
   Row,
   Col,
   UncontrolledTooltip,
+  Input,
 } from "reactstrap";
 // core components
 
@@ -52,6 +53,14 @@ const Icons = () => {
   const [ObjectBoxX, setObjectBoxX] = useState(false);
   const [ObjectBoxY, setObjectBoxY] = useState(false);
   const [ObjectBorderBoxColor, setObjectBorderBoxColor] = useState('2px solid #6b8be8');
+  const [ObjectSelect, setObjectSelect] = useState(false);
+  const [ObjectArr, setObjectArr] = useState(false);
+  const FaceBC = useRef();
+  const ObjBC = useRef();
+  const [Test1, setTest1] = useState(false);
+  const [Test2, setTest2] = useState(false);
+  const [Test3, setTest3] = useState(false);
+  const [Test4, setTest4] = useState(false);
 
 
   const runCoco = async () => {
@@ -100,11 +109,13 @@ const Icons = () => {
         if(results.length !== 0){
           //console.log(results[0]._label)
           setFaceRec(results[0]._label)   
-          setDetectionsBoxX(detections[0].detection._box._x);
-          setDetectionsBoxY(detections[0].detection._box._y);      
+          setDetectionsBoxX((detections[0].detection._box._x+(detections[0].detection._box._width/2)-640)*-1);
+          setDetectionsBoxY(detections[0].detection._box._y+(detections[0].detection._box._height/2));      
         } 
         if(results.length === 0){
           setFaceRec('none');  
+          setDetectionsBoxX(false);
+          setDetectionsBoxY(false);    
         }
       }
       if(!labeledFaceDescriptorsJson){
@@ -125,21 +136,9 @@ const Icons = () => {
 
       // Make Detections
       const obj = await net.predict(video);
+      setObjectArr(obj);
       let text = ''
       if(obj.length >= 1){
-        for (let i = 0; i < obj.length; i++) {
-          let check = 0;
-          if(obj[i].class == "cup"){
-            setObjectBoxX(obj[i].left);
-            setObjectBoxY(obj[i].top);
-            check++;
-          }
-          if(check == 0){
-            setObjectBorderBoxColor('2px solid #6b8be8'); 
-          }
-        }
-
-
 
         for (let i = 0; i < obj.length; i++) {
           text += obj[i].class + ", ";
@@ -147,10 +146,16 @@ const Icons = () => {
         setObject(text)
         if(text == ''){
           setObject('none')
+          setObjectBoxX(false);
+          setObjectBoxY(false);
+          setObjectBorderBoxColor('2px solid #6b8be8');
         }
       }
       if(obj.length == 0){
         setObject('none')
+        setObjectBoxX(false);
+        setObjectBoxY(false);
+        setObjectBorderBoxColor('2px solid #6b8be8');
       }
       
 
@@ -162,8 +167,8 @@ const Icons = () => {
   useEffect(()=>{
     //console.log((FaceBoxposition.x-100)+'<='+(DetectionsBoxX+125)+'>='+(FaceBoxposition.x+100))
     //console.log((FaceBoxposition.y-100)+'<='+(DetectionsBoxY+125)+'>='+(FaceBoxposition.y+100))
-    if((DetectionsBoxX+80) >= (FaceBoxposition.x-100) && (DetectionsBoxX+80) <= (FaceBoxposition.x+100)
-      && (DetectionsBoxY+80) >= (FaceBoxposition.y-100) && (DetectionsBoxY+80) <= (FaceBoxposition.y+100) && FaceRec != 'unknown'){
+    if((DetectionsBoxX) >= (FaceBoxposition.x-100) && (DetectionsBoxX) <= (FaceBoxposition.x+100)
+      && (DetectionsBoxY) >= (FaceBoxposition.y-100) && (DetectionsBoxY) <= (FaceBoxposition.y+100) && FaceRec != 'unknown'){
       setFaceBorderBoxColor('2px solid #79ffe1');
     }
     else{
@@ -172,22 +177,48 @@ const Icons = () => {
   },[FaceBoxposition, DetectionsBoxX, DetectionsBoxY, FaceRec]);
 
   useEffect(()=>{
-    //console.log((ObjectBoxposition.x-100)+'<='+(ObjectBoxX+125)+'>='+(ObjectBoxposition.x+100))
-    //console.log((ObjectBoxposition.y-100)+'<='+(ObjectBoxY+125)+'>='+(ObjectBoxposition.y+100))
-    if((ObjectBoxX+80) >= (ObjectBoxposition.x-100) && (ObjectBoxX+80) <= (ObjectBoxposition.x+100)
-      && (ObjectBoxY+80) >= (ObjectBoxposition.y-100) && (ObjectBoxY+80) <= (ObjectBoxposition.y+100)){
+    console.log(ObjectArr)
+    if(ObjectArr.length >= 1){
+      for (let i = 0; i < ObjectArr.length; i++) {
+        let check = 0;
+        if(ObjectArr[i].class == ObjectSelect){
+          console.log(i)
+          setObjectBoxX((ObjectArr[i].left+(ObjectArr[i].width/2)-640)*-1);
+          setObjectBoxY(ObjectArr[i].top+(ObjectArr[i].height/2));
+          check++;
+          break;
+        }
+        if(check == 0){
+          setObjectBoxX(false);
+          setObjectBoxY(false);
+          setObjectBorderBoxColor('2px solid #6b8be8'); 
+        }
+      }
+    }
+    if((ObjectBoxX) >= (ObjectBoxposition.x-100) && (ObjectBoxX) <= (ObjectBoxposition.x+100)
+      && (ObjectBoxY) >= (ObjectBoxposition.y-100) && (ObjectBoxY) <= (ObjectBoxposition.y+100)){
       setObjectBorderBoxColor('2px solid #79ffe1');
     }
     else{
       setObjectBorderBoxColor('2px solid #6b8be8');
     }
-  },[ObjectBoxposition, ObjectBoxX, ObjectBoxY]);
+  },[ObjectBoxposition, ObjectBoxX, ObjectBoxY, ObjectArr, ObjectSelect]);
 
   useEffect(()=>{
+    FaceBC.current = FaceBorderBoxColor;
+    ObjBC.current = ObjectBorderBoxColor;
     if(FaceBorderBoxColor == '2px solid #79ffe1' && ObjectBorderBoxColor == '2px solid #79ffe1'){
-      
+      console.log(FaceBorderBoxColor+' '+ObjectBorderBoxColor);
+      setTimeout(function(){
+        if(FaceBC.current == '2px solid #79ffe1' && ObjBC.current == '2px solid #79ffe1'){
+          console.log(FaceBC.current+' '+ObjBC.current);
+          alert('Success!');
+        }
+     }, 2000); 
     }
   },[FaceBorderBoxColor, ObjectBorderBoxColor]);
+
+
 
 
   useEffect(() => {
@@ -274,6 +305,7 @@ const Icons = () => {
                       style={{
                         width: 640,
                         height: 480,
+                        transform: "rotateY(180deg)",
                       }}
                     />
 
@@ -302,6 +334,8 @@ const Icons = () => {
                     <p>Object : {DObject}</p>
                     <p>FaceDetect : x={DetectionsBoxX} y={DetectionsBoxY}</p>
                     <p>FaceBox : x={FaceBoxposition.x} y={FaceBoxposition.y}</p>
+                    <p>ObjectDetect : x={ObjectBoxX} y={ObjectBoxY}</p>
+                    <p>ObjectBox : x={ObjectBoxposition.x} y={ObjectBoxposition.y}</p>
                   </Col>
                 </Row>
                 <Row>
@@ -320,6 +354,26 @@ const Icons = () => {
                         </Draggable>
                       </div>
                     </div>
+                  </Col>
+                  <Col>
+                    <Input
+                      type="select"
+                      placeholder="Department"
+                      style={{
+                        textAlignVertical: "center",
+                        textAlign: "center",
+                        width:"300px"
+                      }}
+                      onChange={event => setObjectSelect(event.target.value)}
+                    >
+                      <option value="" disabled selected hidden>
+                        Select Quest
+                      </option>
+
+                      <option value="cup">cup</option>
+                      <option value="bottle">bottle</option>
+
+                    </Input>                    
                   </Col>
                 </Row>
                 
