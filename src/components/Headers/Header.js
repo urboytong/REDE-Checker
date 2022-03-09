@@ -18,6 +18,8 @@
 
 // reactstrap components
 import { Card, CardBody, CardTitle, Container, Row, Col, Button } from "reactstrap";
+import "assets/scss/argon-dashboard/custom/Header.scss";
+import JoinClass from "components/Headers/JoinClass.js";
 
 const Header = () => {
   return (
@@ -25,10 +27,8 @@ const Header = () => {
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
         <Container fluid>
         <div className="text-right">
-      <Button className="mt-4" color="dark" type="button" >
-              Join class
-                </Button>
-              </div>
+          <JoinClass />
+        </div>
           <div className="header-body">
             {/* Card stats */}
             <Row className="mt-4">
@@ -59,9 +59,9 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
-                        Professor : Wittawin Susutti 
-                      </span>
+                      <div className="shotname-teacher">
+                        Professor : Wittawin Susutti
+                      </div>
                       {" "}
                     </p>
                   </CardBody>
@@ -94,9 +94,9 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
+                      <div className="shotname-teacher">
                         Professor : Wittawin Susutti 
-                      </span>
+                      </div>
                       {" "}
                     </p>
                   </CardBody>
@@ -129,9 +129,9 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
+                      <div className="shotname-teacher">
                         Professor : Wittawin Susutti 
-                      </span>
+                      </div>
                       {" "}
                     </p>
                   </CardBody>
@@ -164,9 +164,9 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
+                      <div className="shotname-teacher">
                         Professor : Wittawin Susutti 
-                      </span>
+                      </div>
                       {" "}
                     </p>
                   </CardBody>
@@ -201,9 +201,9 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
+                      <div className="shotname-teacher">
                         Professor : Wittawin Susutti 
-                      </span>
+                      </div>
                       {" "}
                     </p>
                   </CardBody>
@@ -236,9 +236,9 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
+                      <div className="shotname-teacher">
                         Professor : Wittawin Susutti 
-                      </span>
+                      </div>
                       {" "}
                     </p>
                   </CardBody>
@@ -271,9 +271,9 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
+                      <div className="shotname-teacher">
                         Professor : Wittawin Susutti 
-                      </span>
+                      </div>
                       {" "}
                     </p>
                   </CardBody>
@@ -306,9 +306,9 @@ const Header = () => {
                       <span className="mr-2 section">
                       SEC : 1
                       </span>
-                      <span>
+                      <div className="shotname-teacher">
                         Professor : Wittawin Susutti 
-                      </span>
+                      </div>
                       {" "}
                     </p>
                   </CardBody>
