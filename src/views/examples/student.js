@@ -50,7 +50,7 @@ import {
 import "assets/scss/argon-dashboard/custom/profile.scss";
 
 // core components
-import UserHeader from "components/Headers/UserHeader.js";
+import UserHeader from "components/Headers/UserHeader2.js";
 import {
   chartOptions,
   parseOptions,
