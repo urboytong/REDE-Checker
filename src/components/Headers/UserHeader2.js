@@ -59,11 +59,60 @@ const UserHeader = () => {
               <p className="text-white mt-0 mb-5">
                MONDAY 9.00-12.00 a.m.
               </p>
+              <Button
+                color="dark"
+                href="#pablo"
+                size="sm"
+                className="edit-classroom"
+                onClick={() => setModalOpen(!modalOpen)}
+              >
+                Leave Classroom
+              </Button>
             
             </Col>
           </Row>
         </Container>
       </div>
+
+      <Modal toggle={() => setModalOpen(!modalOpen)} isOpen={modalOpen} size="sm">
+        <div className=" modal-header">
+        </div>
+        <ModalBody>
+                    {" "}
+                    <span className="font-weight-light">
+                      Do you want to leave &nbsp; 
+                      <span className="font-weight-bold">
+                        Software Engineer
+                      </span>
+                      &nbsp; ?
+                    </span>
+                    
+                    <div className="col text-center mt-4">
+                      <Button
+                        color="success"
+                        href="#pablo"
+                        //onClick={() => setModalOpen1(!modalOpen1)}
+                        className="ml-2 mr-2"
+                        size="l"
+                      >
+                        Confirm
+                      </Button>
+                      <Button
+                        color="danger"
+                        href="#pablo"
+                        size="l"
+                        aria-label="Close"
+                        onClick={() => setModalOpen(!modalOpen)}
+                        className="ml-2 mr-2"
+                      >
+                        Cancel
+                      </Button>
+                    </div>{" "}
+                  </ModalBody>
+        <ModalFooter>
+  
+        </ModalFooter>
+      </Modal>
     </>
   );
 };

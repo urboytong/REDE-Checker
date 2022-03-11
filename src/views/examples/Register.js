@@ -48,7 +48,7 @@ const Register = () => {
   }
   return (
     <>
-      <Col lg="6" md="8">
+      <Col lg="5" md="7">
         <Card className="bg-secondary shadow border-0">
           
           <CardBody className="px-lg-5 py-lg-5">
@@ -62,9 +62,11 @@ const Register = () => {
 
               </div>
             </div>
+            
+            {/* form regis teacher */}
             <div className="teacher">
               <div className="uploadImage">
-                <div className="image">
+                <div className="image2">
                   <img className="faceIcon"
                     alt="..."
                     src={
@@ -73,7 +75,7 @@ const Register = () => {
                   />
                 </div>
                 <div className="boxButton">
-                  <div className="uploadButton">
+                  <div className="uploadButton2">
                     <i class="fas fa-pencil-alt penIcon"></i>
                   </div>
                 </div>
@@ -172,9 +174,11 @@ const Register = () => {
               </Form>
             </div>
 
+            {/* form regis student*/}
+            
             {/* <div className="student">
               <div className="uploadImage">
-                <div className="image">
+                <div className="image2">
                   <img className="faceIcon"
                     alt="..."
                     src={
@@ -183,8 +187,8 @@ const Register = () => {
                   />
                 </div>
                 <div className="boxButton">
-                  <div className="uploadButton">
-                    <i class="fas fa-pencil-alt penIcon"></i>
+                  <div className="uploadButton2">
+                    <i class="fas fa-solid fa-camera penIcon"></i>
                   </div>
                 </div>
               </div>

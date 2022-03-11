@@ -32,6 +32,7 @@ import {
   Col,
 } from "reactstrap";
 import "assets/scss/argon-dashboard/custom/login.scss";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -83,7 +84,8 @@ const Login = () => {
               </div>
 
               <div className="text-center mt-2">
-                <Button className="my-4 buttonRegister" type="button">
+                <Button className="my-4 buttonRegister" type="button" 
+                to="/auth/register" tag={Link}>
                   REGISTER
                 </Button>
               </div>   
