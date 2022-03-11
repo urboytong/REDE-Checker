@@ -20,7 +20,8 @@
 import React, { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-import { Button,
+import {
+  Button,
   Badge,
   Card,
   CardTitle,
@@ -47,7 +48,8 @@ import { Button,
   Modal,
   ModalBody,
   ModalFooter,
-  UncontrolledTooltip,} from "reactstrap";
+  UncontrolledTooltip,
+} from "reactstrap";
 
 import "assets/scss/argon-dashboard/custom/Headerprofessor.scss";
 import JoinClass from "components/Headers/JoinClass.js";
@@ -96,9 +98,9 @@ const Header2 = () => {
               <CardBody>
                 <Form>
                   <h6 className="heading-small text-muted mb-4">
-                  Classroom information
+                    Classroom information
                   </h6>
-                  
+
                   <div>
                     <Row>
                       <Col lg="4">
@@ -107,7 +109,7 @@ const Header2 = () => {
                             className="form-control-label"
                             htmlFor="input-username"
                           >
-                            Subject Code 
+                            Subject Code
                           </label>
                           <Input
                             className="form-control-alternative"
@@ -126,7 +128,6 @@ const Header2 = () => {
                             className="form-control-alternative"
                             id=""
                             placeholder="Software Engineer"
-                        
                           />
                         </FormGroup>
                       </Col>
@@ -159,7 +160,11 @@ const Header2 = () => {
                           <label className="form-control-label">
                             Start time
                           </label>
-                          <input type="time" name="time" className="form-control-alternative form-time"/>
+                          <input
+                            type="time"
+                            name="time"
+                            className="form-control-alternative form-time"
+                          />
                         </FormGroup>
                       </Col>
                       <Col lg="4">
@@ -168,9 +173,13 @@ const Header2 = () => {
                             className="form-control-label"
                             htmlFor="input-last-name"
                           >
-                          End time
+                            End time
                           </label>
-                          <input type="time" name="time" className="form-control-alternative form-time"/>
+                          <input
+                            type="time"
+                            name="time"
+                            className="form-control-alternative form-time"
+                          />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -189,7 +198,10 @@ const Header2 = () => {
                     </FormGroup>
                   </div>
                   <div className="text-center">
-                    <Button className="mt-2 button-modal-detailClassroom" color="dark"  >
+                    <Button
+                      className="mt-2 button-modal-detailClassroom"
+                      color="dark"
+                    >
                       Create Classroom
                     </Button>
                   </div>
@@ -203,19 +215,22 @@ const Header2 = () => {
 
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
         <Container fluid>
-          
           <div className="header-body">
-          <div className="text-right">
-            <JoinClass />
-            <Button className="mt-4" color="dark" onClick={() => setModalOpen(!modalOpen)} >
-              Create class
-            </Button>
-          </div>
+            <div className="text-right">
+              <JoinClass />
+              <Button
+                className="mt-4"
+                color="dark"
+                onClick={() => setModalOpen(!modalOpen)}
+              >
+                Create class
+              </Button>
+            </div>
             <Row className="mt-4">
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody className="subject-card">
-                    <Row >
+                    <Row>
                       <div className="col">
                         <CardTitle
                           tag="h5"
@@ -228,18 +243,12 @@ const Header2 = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-yellow text-white rounded-circle shadow circle-day">
-                        </div>
+                        <div className="icon icon-shape bg-yellow text-white rounded-circle shadow circle-day"></div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">
-                        MONDAY : 9:00 - 12:00
-                      </span>
-                      <span className="mr-2 section">
-                      SEC : 1
-                      </span>
-                      {" "}
+                      <span className="mr-2">MONDAY : 9:00 - 12:00</span>
+                      <span className="mr-2 section">SEC : 1</span>{" "}
                     </p>
                   </CardBody>
                 </Card>
@@ -247,7 +256,7 @@ const Header2 = () => {
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody className="subject-card">
-                    <Row >
+                    <Row>
                       <div className="col">
                         <CardTitle
                           tag="h5"
@@ -260,18 +269,12 @@ const Header2 = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-pink text-white rounded-circle shadow circle-day">
-                        </div>
+                        <div className="icon icon-shape bg-pink text-white rounded-circle shadow circle-day"></div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">
-                      TUSEDAY : 9:00 - 12:00
-                      </span>
-                      <span className="mr-2 section">
-                      SEC : 1
-                      </span>
-                      {" "}
+                      <span className="mr-2">TUSEDAY : 9:00 - 12:00</span>
+                      <span className="mr-2 section">SEC : 1</span>{" "}
                     </p>
                   </CardBody>
                 </Card>
@@ -279,7 +282,7 @@ const Header2 = () => {
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody className="subject-card">
-                    <Row >
+                    <Row>
                       <div className="col">
                         <CardTitle
                           tag="h5"
@@ -292,18 +295,12 @@ const Header2 = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-orange text-white rounded-circle shadow circle-day">
-                        </div>
+                        <div className="icon icon-shape bg-orange text-white rounded-circle shadow circle-day"></div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">
-                        THURSDAY : 9:00 - 12:00
-                      </span>
-                      <span className="mr-2 section">
-                      SEC : 1
-                      </span>
-                      {" "}
+                      <span className="mr-2">THURSDAY : 9:00 - 12:00</span>
+                      <span className="mr-2 section">SEC : 1</span>{" "}
                     </p>
                   </CardBody>
                 </Card>
@@ -311,7 +308,7 @@ const Header2 = () => {
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody className="subject-card">
-                    <Row >
+                    <Row>
                       <div className="col">
                         <CardTitle
                           tag="h5"
@@ -324,18 +321,12 @@ const Header2 = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-orange text-white rounded-circle shadow circle-day">
-                        </div>
+                        <div className="icon icon-shape bg-orange text-white rounded-circle shadow circle-day"></div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">
-                      THURSDAY : 13:00 - 16:00
-                      </span>
-                      <span className="mr-2 section">
-                      SEC : 1
-                      </span>
-                      {" "}
+                      <span className="mr-2">THURSDAY : 13:00 - 16:00</span>
+                      <span className="mr-2 section">SEC : 1</span>{" "}
                     </p>
                   </CardBody>
                 </Card>
@@ -345,7 +336,7 @@ const Header2 = () => {
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody className="subject-card">
-                    <Row >
+                    <Row>
                       <div className="col">
                         <CardTitle
                           tag="h5"
@@ -358,18 +349,12 @@ const Header2 = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-green text-white rounded-circle shadow circle-day">
-                        </div>
+                        <div className="icon icon-shape bg-green text-white rounded-circle shadow circle-day"></div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">
-                      WEDNESDAY  : 9:00 - 12:00
-                      </span>
-                      <span className="mr-2 section">
-                      SEC : 1
-                      </span>
-                      {" "}
+                      <span className="mr-2">WEDNESDAY : 9:00 - 12:00</span>
+                      <span className="mr-2 section">SEC : 1</span>{" "}
                     </p>
                   </CardBody>
                 </Card>
@@ -377,7 +362,7 @@ const Header2 = () => {
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody className="subject-card">
-                    <Row >
+                    <Row>
                       <div className="col">
                         <CardTitle
                           tag="h5"
@@ -390,18 +375,12 @@ const Header2 = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-green text-white rounded-circle shadow circle-day">
-                        </div>
+                        <div className="icon icon-shape bg-green text-white rounded-circle shadow circle-day"></div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">
-                      WEDNESDAY  : 13:00 - 16:00
-                      </span>
-                      <span className="mr-2 section">
-                      SEC : 1
-                      </span>
-                      {" "}
+                      <span className="mr-2">WEDNESDAY : 13:00 - 16:00</span>
+                      <span className="mr-2 section">SEC : 1</span>{" "}
                     </p>
                   </CardBody>
                 </Card>
@@ -409,7 +388,7 @@ const Header2 = () => {
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody className="subject-card">
-                    <Row >
+                    <Row>
                       <div className="col">
                         <CardTitle
                           tag="h5"
@@ -422,18 +401,12 @@ const Header2 = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-purple text-white rounded-circle shadow circle-day">
-                        </div>
+                        <div className="icon icon-shape bg-purple text-white rounded-circle shadow circle-day"></div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">
-                      FRIDAY  : 9:00 - 12:00
-                      </span>
-                      <span className="mr-2 section">
-                      SEC : 1
-                      </span>
-                      {" "}
+                      <span className="mr-2">FRIDAY : 9:00 - 12:00</span>
+                      <span className="mr-2 section">SEC : 1</span>{" "}
                     </p>
                   </CardBody>
                 </Card>
@@ -441,7 +414,7 @@ const Header2 = () => {
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody className="subject-card">
-                    <Row >
+                    <Row>
                       <div className="col">
                         <CardTitle
                           tag="h5"
@@ -454,23 +427,16 @@ const Header2 = () => {
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-purple text-white rounded-circle shadow circle-day">
-                        </div>
+                        <div className="icon icon-shape bg-purple text-white rounded-circle shadow circle-day"></div>
                       </Col>
                     </Row>
                     <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">
-                      FRIDAY  : 13:00 - 16:00
-                      </span>
-                      <span className="mr-2 section">
-                      SEC : 1
-                      </span>
-                      {" "}
+                      <span className="mr-2">FRIDAY : 13:00 - 16:00</span>
+                      <span className="mr-2 section">SEC : 1</span>{" "}
                     </p>
                   </CardBody>
                 </Card>
               </Col>
-              
             </Row>
           </div>
         </Container>

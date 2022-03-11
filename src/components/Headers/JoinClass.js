@@ -18,7 +18,8 @@
 
 // reactstrap components
 import React, { useState } from "react";
-import { Button,
+import {
+  Button,
   Badge,
   Card,
   CardTitle,
@@ -45,7 +46,8 @@ import { Button,
   Modal,
   ModalBody,
   ModalFooter,
-  UncontrolledTooltip,} from "reactstrap";
+  UncontrolledTooltip,
+} from "reactstrap";
 import "assets/scss/argon-dashboard/custom/Header.scss";
 
 const Header = () => {
@@ -92,7 +94,11 @@ const Header = () => {
         <ModalFooter></ModalFooter>
       </Modal>
 
-      <Button className="mt-4" color="dark" onClick={() => setModalOpen1(!modalOpen1)} >
+      <Button
+        className="mt-4"
+        color="dark"
+        onClick={() => setModalOpen1(!modalOpen1)}
+      >
         Join class
       </Button>
     </>

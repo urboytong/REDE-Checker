@@ -1,6 +1,6 @@
-
 // import { Button, Container, Row, Col,Modal, ModalBody, ModalFooter, } from "reactstrap";
-import { Button,
+import {
+  Button,
   Badge,
   Card,
   CardTitle,
@@ -27,14 +27,15 @@ import { Button,
   Modal,
   ModalBody,
   ModalFooter,
-  UncontrolledTooltip,} from "reactstrap";
+  UncontrolledTooltip,
+} from "reactstrap";
 
 import React, { useState } from "react";
 import "assets/scss/argon-dashboard/custom/UserHeader.scss";
 
 const UserHeader = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  
+
   return (
     <>
       <div
@@ -56,9 +57,7 @@ const UserHeader = () => {
           <Row>
             <Col lg="7" md="10">
               <h1 className="display-2 text-white">Software Engineer</h1>
-              <p className="text-white mt-0 mb-5">
-               MONDAY 9.00-12.00 a.m.
-              </p>
+              <p className="text-white mt-0 mb-5">MONDAY 9.00-12.00 a.m.</p>
               <Button
                 color="dark"
                 href="#pablo"
@@ -68,50 +67,47 @@ const UserHeader = () => {
               >
                 Leave Classroom
               </Button>
-            
             </Col>
           </Row>
         </Container>
       </div>
 
-      <Modal toggle={() => setModalOpen(!modalOpen)} isOpen={modalOpen} size="sm">
-        <div className=" modal-header">
-        </div>
+      <Modal
+        toggle={() => setModalOpen(!modalOpen)}
+        isOpen={modalOpen}
+        size="sm"
+      >
+        <div className=" modal-header"></div>
         <ModalBody>
-                    {" "}
-                    <span className="font-weight-light">
-                      Do you want to leave &nbsp; 
-                      <span className="font-weight-bold">
-                        Software Engineer
-                      </span>
-                      &nbsp; ?
-                    </span>
-                    
-                    <div className="col text-center mt-4">
-                      <Button
-                        color="success"
-                        href="#pablo"
-                        //onClick={() => setModalOpen1(!modalOpen1)}
-                        className="ml-2 mr-2"
-                        size="l"
-                      >
-                        Confirm
-                      </Button>
-                      <Button
-                        color="danger"
-                        href="#pablo"
-                        size="l"
-                        aria-label="Close"
-                        onClick={() => setModalOpen(!modalOpen)}
-                        className="ml-2 mr-2"
-                      >
-                        Cancel
-                      </Button>
-                    </div>{" "}
-                  </ModalBody>
-        <ModalFooter>
-  
-        </ModalFooter>
+          {" "}
+          <span className="font-weight-light">
+            Do you want to leave &nbsp;
+            <span className="font-weight-bold">Software Engineer</span>
+            &nbsp; ?
+          </span>
+          <div className="col text-center mt-4">
+            <Button
+              color="success"
+              href="#pablo"
+              //onClick={() => setModalOpen1(!modalOpen1)}
+              className="ml-2 mr-2"
+              size="l"
+            >
+              Confirm
+            </Button>
+            <Button
+              color="danger"
+              href="#pablo"
+              size="l"
+              aria-label="Close"
+              onClick={() => setModalOpen(!modalOpen)}
+              className="ml-2 mr-2"
+            >
+              Cancel
+            </Button>
+          </div>{" "}
+        </ModalBody>
+        <ModalFooter></ModalFooter>
       </Modal>
     </>
   );

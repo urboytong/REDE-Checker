@@ -65,10 +65,7 @@ const Index = (props) => {
     <>
       <Header />
       {/* Page content */}
-      <Container className="mt--7" fluid>
-    
-       
-      </Container>
+      <Container className="mt--7" fluid></Container>
     </>
   );
 };

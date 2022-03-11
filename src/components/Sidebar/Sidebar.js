@@ -123,9 +123,7 @@ const Sidebar = (props) => {
             <img
               alt={logo.imgAlt}
               className="navbar-brand-img"
-              src={
-                require("../../assets/img/theme/logo-rede.png").default
-              }
+              src={require("../../assets/img/theme/logo-rede.png").default}
             />
           </NavbarBrand>
         ) : null}
@@ -226,14 +224,12 @@ const Sidebar = (props) => {
           {/* Heading */}
 
           {/* Navigation */}
-          <Nav className="mb-md-3" navbar>
-          
-          </Nav>
+          <Nav className="mb-md-3" navbar></Nav>
           <Nav className="mb-md-3" navbar>
             <NavItem className="active-pro active">
               <NavLink href="https://www.creative-tim.com/product/argon-dashboard-pro-react?ref=adr-admin-sidebar">
                 <i className="ni ni-spaceship" />
-              Logout
+                Logout
               </NavLink>
             </NavItem>
           </Nav>
