@@ -16,7 +16,6 @@
 
 */
 
-
 import { useState } from "react";
 // node.js library that concatenates classes (strings)
 import classnames from "classnames";
@@ -64,7 +63,6 @@ const Index = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [copiedText, setCopiedText] = useState();
 
-
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
   }
@@ -78,10 +76,7 @@ const Index = (props) => {
     <>
       <Header2 />
       {/* Page content */}
-      <Container className="mt--7" fluid>
-      
-              
-      </Container>
+      <Container className="mt--7" fluid></Container>
     </>
   );
 };

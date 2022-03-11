@@ -19,7 +19,7 @@
 // reactstrap components
 import React, { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Badge,
@@ -64,7 +64,6 @@ const current = new Date();
 const date = `${current.getDate()}/${
   current.getMonth() + 1
 }/${current.getFullYear()}`;
-
 
 const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -128,7 +127,9 @@ const Profile = () => {
                     {" "}
                     <div className="text-center">
                       {" "}
-                      <h1 className="invite-className">CSS 111  Software Engineer</h1>
+                      <h1 className="invite-className">
+                        CSS 111 Software Engineer
+                      </h1>
                       <img
                         src="https://maesot.kpru.ac.th/wp-content/uploads/2018/01/maesot.png"
                         className="img-fluid shadow-4"
@@ -150,7 +151,8 @@ const Profile = () => {
                           <div className="link-box">
                             <i class="fas fa-solid fa-link link-icon"></i>
                             <h4 className="link-text">
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Link : https://tftactics.gg/tierlist/team-comps
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Link :
+                              https://tftactics.gg/tierlist/team-comps
                             </h4>
                           </div>
                         </button>
@@ -191,7 +193,9 @@ const Profile = () => {
                         <CardHeader className="border-0">
                           <Row className="align-items-center">
                             <div className="col">
-                              <h3 className="text-center">Request to join a class</h3>
+                              <h3 className="text-center">
+                                Request to join a class
+                              </h3>
                             </div>
                           </Row>
                         </CardHeader>
@@ -239,8 +243,9 @@ const Profile = () => {
                                   href="#pablo"
                                   // onClick={() => setModalOpen1(!modalOpen1)}
                                   size="sm"
-                                className="icon-requestModal">
-                                <i class="fas fa-regular fa-xmark"></i>
+                                  className="icon-requestModal"
+                                >
+                                  <i class="fas fa-regular fa-xmark"></i>
                                 </Button>
                               </td>
                               <td className="text-right threedot">
@@ -255,7 +260,10 @@ const Profile = () => {
                                   >
                                     <i className="fas fa-ellipsis-v" />
                                   </DropdownToggle>
-                                  <DropdownMenu className="dropdown-menu-arrow" right>
+                                  <DropdownMenu
+                                    className="dropdown-menu-arrow"
+                                    right
+                                  >
                                     <DropdownItem
                                       href="#pablo"
                                       onClick={() => setModalOpen2(!modalOpen2)}
@@ -394,7 +402,7 @@ const Profile = () => {
                               <div className="h3 font-weight-300">
                                 <i className="ni location_pin mr-2" />
                                 Science, Mathematics
-                              </div> 
+                              </div>
                               <hr className="my-4" />
                               <div className="h5 mt-4">
                                 <i className="ni business_briefcase-24 mr-2" />
@@ -810,10 +818,8 @@ const Profile = () => {
                             <div className="h3 font-weight-300">
                               Science, Mathematics
                             </div>
-                            <hr className="my-4" />                            
-                            <h2 className="text-success">
-                              Completed
-                            </h2>
+                            <hr className="my-4" />
+                            <h2 className="text-success">Completed</h2>
                             <div>
                               <h4>31/01/2022</h4>
                               <h4>TIME : 9:47 A.M.</h4>
@@ -825,8 +831,7 @@ const Profile = () => {
                               height="360"
                               className="img-fluid shadow-4"
                               alt="..."
-                            />                            
-
+                            />
                           </div>
                         </CardBody>
                       </Card>
@@ -840,18 +845,16 @@ const Profile = () => {
                   size="sm"
                   className="confirm-modal"
                 >
-                  <div className=" modal-header">
-                  </div>
+                  <div className=" modal-header"></div>
                   <ModalBody>
                     {" "}
                     <span className="font-weight-light">
-                      You want to Delete &nbsp; 
+                      You want to Delete &nbsp;
                       <span className="font-weight-bold">
                         Natthaphat Wannawat
                       </span>
                       &nbsp; ?
                     </span>
-                    
                     <div className="col text-center mt-4">
                       <Button
                         color="success"
@@ -909,11 +912,13 @@ const Profile = () => {
                           >
                             <thead className="thead-light">
                               <tr>
-                                <th scope="col" >id</th>
-                                <th scope="col" className="td-nonePadding">name</th>
-                                <th scope="col" >hour learned</th>
-                                <th scope="col" >completed</th>
-                                <th scope="col" >absent</th>
+                                <th scope="col">id</th>
+                                <th scope="col" className="td-nonePadding">
+                                  name
+                                </th>
+                                <th scope="col">hour learned</th>
+                                <th scope="col">completed</th>
+                                <th scope="col">absent</th>
                                 <th scope="col" className="text-right"></th>
                               </tr>
                             </thead>
@@ -930,7 +935,10 @@ const Profile = () => {
                                 </th>
 
                                 <td className="td-nonePadding">
-                                  <Badge color="" className="badge-dot mr-4 short-name">
+                                  <Badge
+                                    color=""
+                                    className="badge-dot mr-4 short-name"
+                                  >
                                     Natthaphat Wannawat
                                   </Badge>
                                 </td>
@@ -961,16 +969,23 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen2(!modalOpen2)}
+                                        onClick={() =>
+                                          setModalOpen2(!modalOpen2)
+                                        }
                                       >
                                         Profile
                                       </DropdownItem>
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen3(!modalOpen3)}
+                                        onClick={() =>
+                                          setModalOpen3(!modalOpen3)
+                                        }
                                       >
                                         Report
                                       </DropdownItem>
@@ -991,7 +1006,10 @@ const Profile = () => {
                                 </th>
 
                                 <td className="td-nonePadding">
-                                  <Badge color="" className="badge-dot mr-4 short-name">
+                                  <Badge
+                                    color=""
+                                    className="badge-dot mr-4 short-name"
+                                  >
                                     Natthamon Wannawat
                                   </Badge>
                                 </td>
@@ -1022,16 +1040,23 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen2(!modalOpen2)}
+                                        onClick={() =>
+                                          setModalOpen2(!modalOpen2)
+                                        }
                                       >
                                         Profile
                                       </DropdownItem>
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen3(!modalOpen3)}
+                                        onClick={() =>
+                                          setModalOpen3(!modalOpen3)
+                                        }
                                       >
                                         Report
                                       </DropdownItem>
@@ -1051,7 +1076,10 @@ const Profile = () => {
                                 </th>
 
                                 <td className="td-nonePadding">
-                                  <Badge color="" className="badge-dot mr-4 short-name">
+                                  <Badge
+                                    color=""
+                                    className="badge-dot mr-4 short-name"
+                                  >
                                     Suriyasak Najaeiei
                                   </Badge>
                                 </td>
@@ -1082,16 +1110,23 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen2(!modalOpen2)}
+                                        onClick={() =>
+                                          setModalOpen2(!modalOpen2)
+                                        }
                                       >
                                         Profile
                                       </DropdownItem>
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen3(!modalOpen3)}
+                                        onClick={() =>
+                                          setModalOpen3(!modalOpen3)
+                                        }
                                       >
                                         Report
                                       </DropdownItem>
@@ -1204,8 +1239,7 @@ const Profile = () => {
                                     1
                                   </Button>
                                 </td>
-                                <td>
-                                </td>
+                                <td></td>
                               </tr>
                               <tr>
                                 <th scope="row">
@@ -1229,8 +1263,7 @@ const Profile = () => {
                                     1
                                   </Button>
                                 </td>
-                                <td>
-                                </td>
+                                <td></td>
                               </tr>
                             </tbody>
                           </Table>
@@ -1244,7 +1277,9 @@ const Profile = () => {
                                 <h3 className="mb-0">Selfie with a pen</h3>
                               </div>
                               <div className="align-items-center">
-                                <h4 className="col text-right text-success status-report">COMPLETED</h4>
+                                <h4 className="col text-right text-success status-report">
+                                  COMPLETED
+                                </h4>
                               </div>
                             </Row>
                           </CardHeader>
@@ -1289,10 +1324,15 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen9(!modalOpen9)}
+                                        onClick={() =>
+                                          setModalOpen9(!modalOpen9)
+                                        }
                                       >
                                         See More
                                       </DropdownItem>
@@ -1330,10 +1370,15 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen9(!modalOpen9)}
+                                        onClick={() =>
+                                          setModalOpen9(!modalOpen9)
+                                        }
                                       >
                                         See More
                                       </DropdownItem>
@@ -1371,10 +1416,15 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen9(!modalOpen9)}
+                                        onClick={() =>
+                                          setModalOpen9(!modalOpen9)
+                                        }
                                       >
                                         See More
                                       </DropdownItem>
@@ -1411,10 +1461,15 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen9(!modalOpen9)}
+                                        onClick={() =>
+                                          setModalOpen9(!modalOpen9)
+                                        }
                                       >
                                         See More
                                       </DropdownItem>
@@ -1435,7 +1490,9 @@ const Profile = () => {
                                 <h3 className="mb-0">Selfie with a pen</h3>
                               </div>
                               <div className="align-items-center">
-                                <h4 className="col text-right text-danger status-report">ABSENT / LEAVE</h4>
+                                <h4 className="col text-right text-danger status-report">
+                                  ABSENT / LEAVE
+                                </h4>
                               </div>
                             </Row>
                           </CardHeader>
@@ -1464,13 +1521,16 @@ const Profile = () => {
                                 </th>
 
                                 <td>
-                                  <Badge color="" className="badge-dot mr-4 short-name2">
+                                  <Badge
+                                    color=""
+                                    className="badge-dot mr-4 short-name2"
+                                  >
                                     <i className="bg-danger" />
                                     Natthaphat Wannawat
                                   </Badge>
                                 </td>
 
-                                <td  className="height-statusReport">
+                                <td className="height-statusReport">
                                   <Badge color="" className="badge-dot mr-4">
                                     Absent
                                   </Badge>
@@ -1488,10 +1548,15 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen12(!modalOpen12)}
+                                        onClick={() =>
+                                          setModalOpen12(!modalOpen12)
+                                        }
                                       >
                                         Leave
                                       </DropdownItem>
@@ -1512,12 +1577,15 @@ const Profile = () => {
                                 </th>
 
                                 <td>
-                                  <Badge color="" className="badge-dot mr-4 short-name2">
+                                  <Badge
+                                    color=""
+                                    className="badge-dot mr-4 short-name2"
+                                  >
                                     <i className="bg-danger" />
                                     Natthamon Wannawat
                                   </Badge>
                                 </td>
-                                <td  className="height-statusReport">
+                                <td className="height-statusReport">
                                   <Badge color="" className="badge-dot mr-4">
                                     Absent
                                   </Badge>
@@ -1535,10 +1603,15 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen12(!modalOpen12)}
+                                        onClick={() =>
+                                          setModalOpen12(!modalOpen12)
+                                        }
                                       >
                                         Leave
                                       </DropdownItem>
@@ -1559,7 +1632,10 @@ const Profile = () => {
                                 </th>
 
                                 <td>
-                                  <Badge color="" className="badge-dot mr-4 short-name2">
+                                  <Badge
+                                    color=""
+                                    className="badge-dot mr-4 short-name2"
+                                  >
                                     <i className="bg-danger" />
                                     Natthamon Wannawat
                                   </Badge>
@@ -1581,10 +1657,15 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen13(!modalOpen13)}
+                                        onClick={() =>
+                                          setModalOpen13(!modalOpen13)
+                                        }
                                       >
                                         See Leave Form
                                       </DropdownItem>
@@ -1604,12 +1685,15 @@ const Profile = () => {
                                 </th>
 
                                 <td>
-                                  <Badge color="" className="badge-dot mr-4 short-name2">
+                                  <Badge
+                                    color=""
+                                    className="badge-dot mr-4 short-name2"
+                                  >
                                     <i className="bg-danger" />
                                     Natthamon Wannawat
                                   </Badge>
                                 </td>
-                                <td  className="height-statusReport">
+                                <td className="height-statusReport">
                                   <Badge color="" className="badge-dot mr-4">
                                     Absent
                                   </Badge>
@@ -1626,10 +1710,15 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen12(!modalOpen12)}
+                                        onClick={() =>
+                                          setModalOpen12(!modalOpen12)
+                                        }
                                       >
                                         Leave
                                       </DropdownItem>
@@ -1642,7 +1731,7 @@ const Profile = () => {
                         </Card>
                       </UncontrolledCollapse>
                       <row>
-                      <Card className="bg-secondary shadow margintop-card">
+                        <Card className="bg-secondary shadow margintop-card">
                           <CardHeader className="border-0">
                             <Row>
                               <div className="col">
@@ -1675,13 +1764,16 @@ const Profile = () => {
                                 </th>
 
                                 <td>
-                                  <Badge color="" className="badge-dot mr-4 short-name2">
+                                  <Badge
+                                    color=""
+                                    className="badge-dot mr-4 short-name2"
+                                  >
                                     <i className="bg-success" />
                                     Natthaphat Wannawat
                                   </Badge>
                                 </td>
 
-                                <td  className="height-statusReport">
+                                <td className="height-statusReport">
                                   <Badge color="" className="badge-dot mr-4">
                                     Complete
                                   </Badge>
@@ -1699,10 +1791,15 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen9(!modalOpen9)}
+                                        onClick={() =>
+                                          setModalOpen9(!modalOpen9)
+                                        }
                                       >
                                         See More
                                       </DropdownItem>
@@ -1723,12 +1820,15 @@ const Profile = () => {
                                 </th>
 
                                 <td>
-                                  <Badge color="" className="badge-dot mr-4 short-name2">
+                                  <Badge
+                                    color=""
+                                    className="badge-dot mr-4 short-name2"
+                                  >
                                     <i className="bg-danger" />
                                     Natthamon Wannawat
                                   </Badge>
                                 </td>
-                                <td  className="height-statusReport">
+                                <td className="height-statusReport">
                                   <Badge color="" className="badge-dot mr-4">
                                     Absent
                                   </Badge>
@@ -1746,10 +1846,15 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen12(!modalOpen12)}
+                                        onClick={() =>
+                                          setModalOpen12(!modalOpen12)
+                                        }
                                       >
                                         Leave
                                       </DropdownItem>
@@ -1792,10 +1897,15 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen13(!modalOpen13)}
+                                        onClick={() =>
+                                          setModalOpen13(!modalOpen13)
+                                        }
                                       >
                                         See Leave Form
                                       </DropdownItem>
@@ -1820,7 +1930,7 @@ const Profile = () => {
                                     Natthamon Wannawat
                                   </Badge>
                                 </td>
-                                <td  className="height-statusReport">
+                                <td className="height-statusReport">
                                   <Badge color="" className="badge-dot mr-4">
                                     Complete
                                   </Badge>
@@ -1837,10 +1947,15 @@ const Profile = () => {
                                     >
                                       <i className="fas fa-ellipsis-v" />
                                     </DropdownToggle>
-                                    <DropdownMenu className="dropdown-menu-arrow" right>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
                                       <DropdownItem
                                         href="#pablo"
-                                        onClick={() => setModalOpen2(!modalOpen2)}
+                                        onClick={() =>
+                                          setModalOpen2(!modalOpen2)
+                                        }
                                       >
                                         See More
                                       </DropdownItem>
@@ -1920,16 +2035,14 @@ const Profile = () => {
                         alt="..."
                       />
                     </div>
-                      <Button
-                        className="btn-icon btn-2 btn-upfile"
-                        type="button"
-                        size="sm"
-                        onClick={() =>
-                          setModalOpen11(!modalOpen11)
-                        }
-                      >
-                        Select File
-                      </Button>
+                    <Button
+                      className="btn-icon btn-2 btn-upfile"
+                      type="button"
+                      size="sm"
+                      onClick={() => setModalOpen11(!modalOpen11)}
+                    >
+                      Select File
+                    </Button>
                   </ModalBody>
                   <ModalFooter></ModalFooter>
                 </Modal>
@@ -2076,7 +2189,9 @@ const Profile = () => {
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">id</th>
-                    <th scope="col" className="td-nonePadding">name</th>
+                    <th scope="col" className="td-nonePadding">
+                      name
+                    </th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -2369,13 +2484,17 @@ const Profile = () => {
                     </td>
                     <td>
                       <div className="d-flex align-items-right">
-                        <Button color="dark" type="button" className="btn-seeMore-attendence">
+                        <Button
+                          color="dark"
+                          type="button"
+                          className="btn-seeMore-attendence"
+                        >
                           See More
                         </Button>
                       </div>
                     </td>
                   </tr>
-                  <tr  className="hightBox-profile">
+                  <tr className="hightBox-profile">
                     <th scope="row">
                       <Media className="align-items-center">
                         <Media>
@@ -2397,7 +2516,11 @@ const Profile = () => {
                     </td>
                     <td>
                       <div className="d-flex align-items-right">
-                        <Button color="dark" type="button" className="btn-seeMore-attendence">
+                        <Button
+                          color="dark"
+                          type="button"
+                          className="btn-seeMore-attendence"
+                        >
                           See More
                         </Button>
                       </div>

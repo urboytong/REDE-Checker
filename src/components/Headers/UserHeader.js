@@ -1,6 +1,6 @@
-
 // import { Button, Container, Row, Col,Modal, ModalBody, ModalFooter, } from "reactstrap";
-import { Button,
+import {
+  Button,
   Badge,
   Card,
   CardTitle,
@@ -27,14 +27,15 @@ import { Button,
   Modal,
   ModalBody,
   ModalFooter,
-  UncontrolledTooltip,} from "reactstrap";
+  UncontrolledTooltip,
+} from "reactstrap";
 
 import React, { useState } from "react";
 import "assets/scss/argon-dashboard/custom/UserHeader.scss";
 
 const UserHeader = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  
+
   return (
     <>
       <div
@@ -56,9 +57,7 @@ const UserHeader = () => {
           <Row>
             <Col lg="7" md="10">
               <h1 className="display-2 text-white">Software Engineer</h1>
-              <p className="text-white mt-0 mb-5">
-               MONDAY 9.00-12.00 A.M.
-              </p>
+              <p className="text-white mt-0 mb-5">MONDAY 9.00-12.00 A.M.</p>
               <Button
                 color="dark"
                 href="#pablo"
@@ -108,9 +107,9 @@ const UserHeader = () => {
                       <CardBody>
                         <Form>
                           <h6 className="heading-small text-muted mb-4">
-                          Classroom information
+                            Classroom information
                           </h6>
-                          
+
                           <div>
                             <Row>
                               <Col lg="4">
@@ -119,7 +118,7 @@ const UserHeader = () => {
                                     className="form-control-label"
                                     htmlFor="input-username"
                                   >
-                                    Subject Code 
+                                    Subject Code
                                   </label>
                                   <Input
                                     className="form-control-alternative"
@@ -138,7 +137,6 @@ const UserHeader = () => {
                                     className="form-control-alternative"
                                     id=""
                                     placeholder="Software Engineer"
-                                
                                   />
                                 </FormGroup>
                               </Col>
@@ -171,7 +169,11 @@ const UserHeader = () => {
                                   <label className="form-control-label">
                                     Start time
                                   </label>
-                                  <input type="time" name="time" className="form-control-alternative form-time"/>
+                                  <input
+                                    type="time"
+                                    name="time"
+                                    className="form-control-alternative form-time"
+                                  />
                                 </FormGroup>
                               </Col>
                               <Col lg="4">
@@ -180,9 +182,13 @@ const UserHeader = () => {
                                     className="form-control-label"
                                     htmlFor="input-last-name"
                                   >
-                                  End time
+                                    End time
                                   </label>
-                                  <input type="time" name="time" className="form-control-alternative form-time"/>
+                                  <input
+                                    type="time"
+                                    name="time"
+                                    className="form-control-alternative form-time"
+                                  />
                                 </FormGroup>
                               </Col>
                             </Row>
@@ -191,7 +197,9 @@ const UserHeader = () => {
                           {/* Description */}
                           <div>
                             <FormGroup>
-                              <label className="form-control-label">Description</label>
+                              <label className="form-control-label">
+                                Description
+                              </label>
                               <Input
                                 className="form-control-alternative"
                                 placeholder="A few words about classroom ..."
@@ -201,7 +209,10 @@ const UserHeader = () => {
                             </FormGroup>
                           </div>
                           <div className="text-center">
-                            <Button className="mt-2 button-modal-detailClassroom" color="dark">
+                            <Button
+                              className="mt-2 button-modal-detailClassroom"
+                              color="dark"
+                            >
                               Save
                             </Button>
                           </div>

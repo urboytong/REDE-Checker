@@ -43,8 +43,9 @@ import {
   Progress,
   Table,
   UncontrolledCollapse,
-  Modal, ModalBody, ModalFooter,
-  
+  Modal,
+  ModalBody,
+  ModalFooter,
   UncontrolledTooltip,
 } from "reactstrap";
 import "assets/scss/argon-dashboard/custom/student.scss";
@@ -59,7 +60,9 @@ import {
 } from "variables/charts.js";
 
 const current = new Date();
-  const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+const date = `${current.getDate()}/${
+  current.getMonth() + 1
+}/${current.getFullYear()}`;
 const Profile = () => {
   const [modalOpen1, setModalOpen1] = useState(false);
   const [modalOpen4, setModalOpen4] = useState(false);
@@ -67,13 +70,15 @@ const Profile = () => {
 
   return (
     <>
-    
       <UserHeader />
       {/* Page content */}
-      
-      <Modal toggle={() => setModalOpen1(!modalOpen1)} isOpen={modalOpen1}size="lg">
+
+      <Modal
+        toggle={() => setModalOpen1(!modalOpen1)}
+        isOpen={modalOpen1}
+        size="lg"
+      >
         <div className=" modal-header">
-      
           <button
             aria-label="Close"
             className=" close"
@@ -83,69 +88,61 @@ const Profile = () => {
             <span aria-hidden={true}>×</span>
           </button>
         </div>
-        <ModalBody> <Col className="order-xl-1" >
+        <ModalBody>
+          {" "}
+          <Col className="order-xl-1">
             <Card className="bg-secondary shadow">
-            <CardHeader className="border-0">
+              <CardHeader className="border-0">
                 <Row className="align-items-center">
                   <div className="col">
                     <h3 className="text-center">You want to leave CSS111 ??</h3>
                   </div>
-                 
                 </Row>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
-                  <tr>
-                  
-                  </tr>
+                  <tr></tr>
                 </thead>
                 <tbody>
                   <tr>
-                    
-                    
-                    <td><Badge color="" className="badge-dot mr-4">
-                       
+                    <td>
+                      <Badge color="" className="badge-dot mr-4">
                         Natthaphat Wannawat
-                      </Badge></td>
-                 <td>
-                    <Button
-                      color="success"
-                      href="#pablo"
-                      //onClick={() => setModalOpen1(!modalOpen1)}
-                      size="md"
-                      
-                    >
-                      Confirm
-                    </Button>
-                    <Button
-                      color="danger"
-                      href="#pablo"
-                     // onClick={() => setModalOpen1(!modalOpen1)}
-                      size="md"
-                      
-                    >
-                      Cancel
-                    </Button></td>
-                    
-                
-                   
+                      </Badge>
+                    </td>
+                    <td>
+                      <Button
+                        color="success"
+                        href="#pablo"
+                        //onClick={() => setModalOpen1(!modalOpen1)}
+                        size="md"
+                      >
+                        Confirm
+                      </Button>
+                      <Button
+                        color="danger"
+                        href="#pablo"
+                        // onClick={() => setModalOpen1(!modalOpen1)}
+                        size="md"
+                      >
+                        Cancel
+                      </Button>
+                    </td>
                   </tr>
-                  
-                  
                 </tbody>
               </Table>
-            
             </Card>
-          </Col></ModalBody>
-        <ModalFooter>
-  
-        </ModalFooter>
+          </Col>
+        </ModalBody>
+        <ModalFooter></ModalFooter>
       </Modal>
-      
-      
-      <Modal toggle={() => setModalOpen11(!modalOpen11)} isOpen={modalOpen11} size="lg">
-        <div className=" modal-header">
 
+      <Modal
+        toggle={() => setModalOpen11(!modalOpen11)}
+        isOpen={modalOpen11}
+        size="lg"
+      >
+        <div className=" modal-header">
           <button
             aria-label="Close"
             className=" close"
@@ -155,50 +152,42 @@ const Profile = () => {
             <span aria-hidden={true}>×</span>
           </button>
         </div>
-        <ModalBody> <Col className="order-xl-2 mb-5 mb-xl-0" xl="12">
+        <ModalBody>
+          {" "}
+          <Col className="order-xl-2 mb-5 mb-xl-0" xl="12">
             <Card className="card-profile shadow">
-
-
               <CardBody className="pt-0 pt-md-4">
-
                 <div className="text-center">
-
-                  <img src='https://www.img.in.th/images/3176e43743c0c9e923693782aa34c326.jpg' width="200" height="350"className='img-fluid shadow-4' alt='...' />
+                  <img
+                    src="https://www.img.in.th/images/3176e43743c0c9e923693782aa34c326.jpg"
+                    width="200"
+                    height="350"
+                    className="img-fluid shadow-4"
+                    alt="..."
+                  />
                   <div>
                     <i className="ni education_hat mr-2" />
-                    <h2>
-                   
-                            " Selfie with a pen "
-                       </h2>
-                    <h4>
-                     Completed
-
-                  </h4>
+                    <h2>" Selfie with a pen "</h2>
+                    <h4>Completed</h4>
                   </div>
-                  <div className="h3 font-weight-300">
-                
-                61090500411
-          </div>
-          <div className="h3 font-weight-300">
-                Natthaphat Wannawat
-          </div>
-               
-                  <hr className="my-4" />
+                  <div className="h3 font-weight-300">61090500411</div>
+                  <div className="h3 font-weight-300">Natthaphat Wannawat</div>
 
+                  <hr className="my-4" />
                 </div>
               </CardBody>
             </Card>
-          </Col></ModalBody>
-        <ModalFooter>
-
-        </ModalFooter>
+          </Col>
+        </ModalBody>
+        <ModalFooter></ModalFooter>
       </Modal>
 
-
-
-      <Modal toggle={() => setModalOpen4(!modalOpen4)} isOpen={modalOpen4} size="sm">
+      <Modal
+        toggle={() => setModalOpen4(!modalOpen4)}
+        isOpen={modalOpen4}
+        size="sm"
+      >
         <div className=" modal-header">
-      
           <button
             aria-label="Close"
             className=" close"
@@ -208,38 +197,36 @@ const Profile = () => {
             <span aria-hidden={true}>×</span>
           </button>
         </div>
-        <ModalBody>   < p className="font-weight-light" >You want to Delete 
-        <span>Natthaphat Wannawat</span> ?</p>
-        <div className="col text-right">
-             
-        <Button
-                      color="success"
-                      href="#pablo"
-                      //onClick={() => setModalOpen1(!modalOpen1)}
-                      size="sm"
-                      
-                    >
-                      Confirm
-                    </Button>
-                    <Button
-                      color="danger"
-                      href="#pablo"
-                     // onClick={() => setModalOpen1(!modalOpen1)}
-                      size="sm"
-                      
-                    >
-                      Cancel
-                    </Button>
-           
-            
-          </div> </ModalBody>
-        <ModalFooter>
-  
-        </ModalFooter>
+        <ModalBody>
+          {" "}
+          <p className="font-weight-light">
+            You want to Delete
+            <span>Natthaphat Wannawat</span> ?
+          </p>
+          <div className="col text-right">
+            <Button
+              color="success"
+              href="#pablo"
+              //onClick={() => setModalOpen1(!modalOpen1)}
+              size="sm"
+            >
+              Confirm
+            </Button>
+            <Button
+              color="danger"
+              href="#pablo"
+              // onClick={() => setModalOpen1(!modalOpen1)}
+              size="sm"
+            >
+              Cancel
+            </Button>
+          </div>{" "}
+        </ModalBody>
+        <ModalFooter></ModalFooter>
       </Modal>
 
-      <Container className="mt--7 " fluid >
-        <Row >
+      <Container className="mt--7 " fluid>
+        <Row>
           <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
@@ -257,168 +244,154 @@ const Profile = () => {
                     </a>
                   </div>
                 </Col>
-     
-      
               </Row>
-              
+
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                <div className="d-flex justify-content-between">
-                 
-                </div>
+                <div className="d-flex justify-content-between"></div>
               </CardHeader>
               <CardBody className="pt-0 pt-md-3">
                 <Row>
                   <div className="col">
-                    <div className="card-profile-stats d-flex justify-content-center mt-md-2">
-                      
-                    </div>
+                    <div className="card-profile-stats d-flex justify-content-center mt-md-2"></div>
                   </div>
                 </Row>
                 <div className="text-center">
-               
                   <div className="h1 font-weight-300">
-                  <h2 className="date-profile">{date}</h2>
-
+                    <h2 className="date-profile">{date}</h2>
                   </div>
                   <div>
-                  <h1 className="mb-0 text-danger">" Selfie with a Pen "</h1>
-                  
-                  <h4 className="mb-0 text-danger">TIME REMAING : 5 minute</h4>
-            
+                    <h1 className="mb-0 text-danger">" Selfie with a Pen "</h1>
+
+                    <h4 className="mb-0 text-danger">
+                      TIME REMAING : 5 minute
+                    </h4>
                   </div>
                   <div className="text-center">
-                <Button className="do-quest" color="dark" type="button">
-                  LET'S DO QUEST
-                </Button>
-              </div>
+                    <Button className="do-quest" color="dark" type="button">
+                      LET'S DO QUEST
+                    </Button>
+                  </div>
                 </div>
               </CardBody>
             </Card>
           </Col>
-          
+
           <Col className="order-xl-1" xl="5">
             <Card className="bg-secondary shadow">
-            <CardHeader className="border-0">
+              <CardHeader className="border-0">
                 <Row className="align-items-center">
                   <div className="col">
                     <h3 className="mb-0">Attendance</h3>
                   </div>
-                  <div className="col text-right">
-                 
-                  </div>
+                  <div className="col text-right"></div>
                 </Row>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">Date</th>
-                    
-                    <th scope="col" className="td-nonePadding">Status</th>
-             
+
+                    <th scope="col" className="td-nonePadding">
+                      Status
+                    </th>
+
                     <th scope="col" className="td-nonePadding"></th>
-             
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <th scope="row">
                       <Media className="align-items-center">
-                     
                         <Media>
-                          <span className="mb-0 text-sm">
-                           31 january 2022
-                          </span>
+                          <span className="mb-0 text-sm">31 january 2022</span>
                         </Media>
                       </Media>
                     </th>
-                    
-                   
+
                     <td className="td-nonePadding hightBox-profile">
-                    <Badge color="" className="badge-dot mr-4">
+                      <Badge color="" className="badge-dot mr-4">
                         <i className="bg-success" />
-                      Completed
+                        Completed
                       </Badge>
                     </td>
-                    
+
                     <td className="td-nonePadding hightBox-profile">
                       <div className="d-flex align-items-center">
-                      <Button color="dark" type="button" size="sm" onClick={() => setModalOpen11(!modalOpen11)}>
-                        See Detail
-                      </Button>
+                        <Button
+                          color="dark"
+                          type="button"
+                          size="sm"
+                          onClick={() => setModalOpen11(!modalOpen11)}
+                        >
+                          See Detail
+                        </Button>
                       </div>
                     </td>
-                   
                   </tr>
                   <tr>
                     <th scope="row">
                       <Media className="align-items-center">
-                     
                         <Media>
-                          <span className="mb-0 text-sm">
-                           24 january 2022
-                          </span>
+                          <span className="mb-0 text-sm">24 january 2022</span>
                         </Media>
                       </Media>
                     </th>
-                    
-                  
+
                     <td className="td-nonePadding hightBox-profile">
-                    <Badge color="" className="badge-dot mr-4">
+                      <Badge color="" className="badge-dot mr-4">
                         <i className="bg-danger" />
-                      Absent
+                        Absent
                       </Badge>
                     </td>
-                    
+
                     <td className="td-nonePadding hightBox-profile">
                       <div className="d-flex align-items-center">
-                      <Button color="dark" type="button" size="sm" onClick={() => setModalOpen11(!modalOpen11)}>
-                        See Detail
-                      </Button>
+                        <Button
+                          color="dark"
+                          type="button"
+                          size="sm"
+                          onClick={() => setModalOpen11(!modalOpen11)}
+                        >
+                          See Detail
+                        </Button>
                       </div>
                     </td>
-                   
                   </tr>
                   <tr>
                     <th scope="row">
                       <Media className="align-items-center">
-                     
                         <Media>
-                          <span className="mb-0 text-sm">
-                           17 january 2022
-                          </span>
+                          <span className="mb-0 text-sm">17 january 2022</span>
                         </Media>
                       </Media>
                     </th>
-                    
-                  
+
                     <td className="td-nonePadding hightBox-profile">
-                    <Badge color="" className="badge-dot mr-4">
+                      <Badge color="" className="badge-dot mr-4">
                         <i className="bg-danger" />
-                      Leave
+                        Leave
                       </Badge>
                     </td>
-                    
+
                     <td className="td-nonePadding hightBox-profile">
                       <div className="d-flex align-items-center">
-                      <Button color="dark" type="button" size="sm" onClick={() => setModalOpen11(!modalOpen11)}>
-                        See Detail
-                      </Button>
+                        <Button
+                          color="dark"
+                          type="button"
+                          size="sm"
+                          onClick={() => setModalOpen11(!modalOpen11)}
+                        >
+                          See Detail
+                        </Button>
                       </div>
                     </td>
-                   
                   </tr>
-                  
                 </tbody>
               </Table>
-            
             </Card>
           </Col>
- 
-          
         </Row>
-        <Row>
-          
-        </Row>
+        <Row></Row>
       </Container>
     </>
   );
