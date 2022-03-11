@@ -4,3 +4,43 @@
   margin-top: 20px;
   font-size: 16px;
 }
+
+//modal edit profile
+.img-profileModal2{
+  width: 150px;
+  // margin-top: 100px;
+  // height: 115px; 
+}
+
+.image2 {
+  height: 159px;
+  width: 159px;
+  border-radius: 150px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border: 5px solid #5e72e4;;
+}
+
+.uploadButton2 {
+  width: 35px;
+  height: 35px;
+  background-color: #5e72e4;;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.penIcon2 {
+  color: white;
+  font-size: 13px;
+}
+
+select {
+  width:100px; 
+  overflow:hidden; 
+  white-space:nowrap; 
+  text-overflow:ellipsis;
+}

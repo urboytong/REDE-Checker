@@ -47,6 +47,7 @@ import "assets/scss/argon-dashboard/custom/AdminNavbar.scss";
 
 const AdminNavbar = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen1, setModalOpen1] = useState(false);
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
@@ -162,7 +163,7 @@ const AdminNavbar = (props) => {
                     href="#pablo"
                     size="sm"
                     className="edit-profile"
-                    onClick={() => setModalOpen(!modalOpen)}
+                    onClick={() => setModalOpen1(!modalOpen1)}
                   >
                     Edit Profile
                   </Button>
@@ -172,6 +173,125 @@ const AdminNavbar = (props) => {
                     Natthaphat.tong@mail.kmutt.ac.th
                   </div>
                 </div>
+              </CardBody>
+            </Card>
+          </Col>
+        </ModalBody>
+        <ModalFooter></ModalFooter>
+      </Modal>
+
+      <Modal
+        toggle={() => setModalOpen1(!modalOpen1)}
+        isOpen={modalOpen1}
+        size="sm"
+      >
+        <div className=" modal-header">
+          <button
+            aria-label="Close"
+            className=" close"
+            type="button"
+            onClick={() => setModalOpen1(!modalOpen1)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <ModalBody>
+          <Col className="order-xl-1">
+            <Card className="bg-secondary shadow">
+              <CardHeader className="bg-white border-0">
+                <h3 className="mb-0">Edit Profile</h3>
+              </CardHeader>
+              <CardBody>
+              <div className="teacher">
+                <div className="uploadImage">
+                  <div className="image2">
+                    <img
+                      alt="..."
+                      className="rounded-circle img-profileModal2"
+                      src={
+                        require("../../assets/img/theme/team-4-800x800.jpg")
+                          .default
+                      }
+                    />
+                  </div>
+                  <div className="boxButton">
+                    <div className="uploadButton2">
+                      <i class="fas fa-pencil-alt penIcon"></i>
+                    </div>
+                  </div>
+                </div>
+                <Form role="form" className="formTeacher">
+                  <div className="topicForm">Academic Ranks</div>
+                  <FormGroup>
+                    <InputGroup className="input-group-alternative mb-3">
+                      <Input className="darkGray" type="select" placeholder="Academic Ranks">
+                        <option>Assoc. Prof.</option>
+                        <option>Asst. Prof.</option>
+                        <option>Dr.</option>
+                        <option>Instructor</option>
+                        <option>Prof.</option>
+                      </Input>
+                    </InputGroup>
+                  </FormGroup>
+
+                  <div className="topicForm lightGray">First Name</div>
+                  <FormGroup>
+                    <InputGroup className="input-group-alternative mb-3">
+                      <Input className="darkGray" type="text"/>
+                    </InputGroup>
+                  </FormGroup>
+
+                  <div className="topicForm lightGray">Last Name</div>
+                  <FormGroup>
+                    <InputGroup className="input-group-alternative mb-3">
+                      <Input className="darkGray" type="text"/>
+                    </InputGroup>
+                  </FormGroup>
+
+                  <div className="topicForm lightGray">Faculty</div>
+                  <FormGroup>
+                    <InputGroup className="input-group-alternative mb-3">
+                      <Input className="darkGray" type="select" placeholder="Faculty">
+                        <option>College of Multidisciplinary Science</option>
+                        <option>Darunsikkhalai School of Innovation Learning</option>
+                        <option>Engineering</option>
+                        <option>Engineering Science Classroom</option>
+                        <option>Graduate School of Management and Innovation</option>
+                        <option>Industrial Education and Technology</option>
+                        <option>Institute of Field Robotics</option>
+                        <option>KOSEN KMUTT</option>                    
+                        <option>School of Architecture and Design</option>
+                        <option>School of Bioresources and Technology</option>
+                        <option>School of Energy, Environment and Materials</option>
+                        <option>School of Information Technology</option>
+                        <option>School of Liberal Arts</option>
+                        <option>Science</option>
+                        <option>The Joint Graduate School of Energy and Environment</option>
+                      </Input>
+                    </InputGroup>
+                  </FormGroup>
+
+                  <div className="topicForm lightGray">Department</div>
+                  <FormGroup>
+                    <InputGroup className="input-group-alternative mb-3">
+                      <Input className="darkGray" type="text"/>
+                    </InputGroup>
+                  </FormGroup>
+
+                  <div className="topicForm lightGray">Major</div>
+                  <FormGroup>
+                    <InputGroup className="input-group-alternative mb-3">
+                      <Input className="darkGray" type="text"/>
+                    </InputGroup>
+                  </FormGroup>
+
+                  <div className="text-center lightGray">
+                    <Button className="mt-4 buttonStyle" color="primary" type="button">
+                      SAVE
+                    </Button>
+                  </div>
+                </Form>
+              </div>
               </CardBody>
             </Card>
           </Col>
