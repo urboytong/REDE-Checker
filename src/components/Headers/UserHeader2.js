@@ -31,7 +31,7 @@ import {
 } from "reactstrap";
 
 import React, { useState } from "react";
-import "assets/scss/argon-dashboard/custom/UserHeader.scss";
+import "assets/scss/argon-dashboard/custom/UserHeader2.scss";
 
 const UserHeader = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -39,7 +39,7 @@ const UserHeader = () => {
   return (
     <>
       <div
-        className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+        className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center bg-classroom"
         style={{
           minHeight: "600px",
           backgroundImage:
@@ -53,11 +53,11 @@ const UserHeader = () => {
         {/* Mask */}
         <span className="mask bg-gradient-default opacity-8" />
         {/* Header container */}
-        <Container className="d-flex align-items-center" fluid>
+        <Container className="d-flex align-items-center  subject-detail" fluid>
           <Row>
             <Col lg="7" md="10">
-              <h1 className="display-2 text-white">Software Engineer</h1>
-              <p className="text-white mt-0 mb-5">MONDAY 9.00-12.00 a.m.</p>
+              <h1 className="display-2 text-white subject-name">Software Engineer</h1>
+              <p className="text-white mt-0 mb-5 subject-date-time">MONDAY 9.00-12.00 a.m.</p>
               <Button
                 color="dark"
                 href="#pablo"
@@ -80,7 +80,7 @@ const UserHeader = () => {
         <div className=" modal-header"></div>
         <ModalBody>
           {" "}
-          <span className="font-weight-light">
+          <span className="font-weight-light confirm-leaveRoom">
             Do you want to leave &nbsp;
             <span className="font-weight-bold">Software Engineer</span>
             &nbsp; ?
@@ -90,7 +90,7 @@ const UserHeader = () => {
               color="success"
               href="#pablo"
               //onClick={() => setModalOpen1(!modalOpen1)}
-              className="ml-2 mr-2"
+              className="ml-2 mr-2 btn-confirm-leaveRoom"
               size="l"
             >
               Confirm
@@ -101,7 +101,7 @@ const UserHeader = () => {
               size="l"
               aria-label="Close"
               onClick={() => setModalOpen(!modalOpen)}
-              className="ml-2 mr-2"
+              className="ml-2 mr-2 btn-confirm-leaveRoom"
             >
               Cancel
             </Button>

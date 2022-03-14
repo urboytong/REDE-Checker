@@ -246,7 +246,7 @@ const Profile = () => {
                 </Col>
               </Row>
 
-              <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+              <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4 header-createQuest">
                 <div className="d-flex justify-content-between"></div>
               </CardHeader>
               <CardBody className="pt-0 pt-md-3">
@@ -278,10 +278,10 @@ const Profile = () => {
 
           <Col className="order-xl-1" xl="5">
             <Card className="bg-secondary shadow">
-              <CardHeader className="border-0">
+              <CardHeader className="border-0 Attendance-student">
                 <Row className="align-items-center">
                   <div className="col">
-                    <h3 className="mb-0">Attendance</h3>
+                    <h3 className="mb-0 ">Attendance</h3>
                   </div>
                   <div className="col text-right"></div>
                 </Row>
@@ -289,21 +289,17 @@ const Profile = () => {
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
-                    <th scope="col">Date</th>
-
-                    <th scope="col" className="td-nonePadding">
-                      Status
-                    </th>
-
+                    <th scope="col" className="td-nonePadding6">Date</th>
+                    <th scope="col" className="td-nonePadding">Status</th>
                     <th scope="col" className="td-nonePadding"></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">
+                    <th scope="row" className="td-nonePadding6">
                       <Media className="align-items-center">
                         <Media>
-                          <span className="mb-0 text-sm">31 january 2022</span>
+                          <span className="mb-0 text-sm">31/01/2022</span>
                         </Media>
                       </Media>
                     </th>
@@ -329,10 +325,10 @@ const Profile = () => {
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row">
+                    <th className="td-nonePadding6">
                       <Media className="align-items-center">
                         <Media>
-                          <span className="mb-0 text-sm">24 january 2022</span>
+                          <span className="mb-0 text-sm">24/01/2022</span>
                         </Media>
                       </Media>
                     </th>
@@ -358,10 +354,10 @@ const Profile = () => {
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row">
+                    <th scope="row" className="td-nonePadding6">
                       <Media className="align-items-center">
                         <Media>
-                          <span className="mb-0 text-sm">17 january 2022</span>
+                          <span className="mb-0 text-sm">17/01/2022</span>
                         </Media>
                       </Media>
                     </th>

@@ -44,3 +44,15 @@ select {
   white-space:nowrap; 
   text-overflow:ellipsis;
 }
+
+@media screen and (max-width: 820px) { 
+  .text-name-status, .text-nameUser {
+    display: inline-block !important;
+  }
+}
+
+@media screen and (max-width: 415px) { 
+  .text-name-status {
+    display: none !important;
+  }
+}

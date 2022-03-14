@@ -28,6 +28,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import "assets/scss/argon-dashboard/custom/AuthNavbar.scss";
 
 const AdminNavbar = () => {
   return (
@@ -38,7 +39,7 @@ const AdminNavbar = () => {
             <img
               alt="..."
               src={
-                require("../../assets/img/theme/logo-rede-white.png").default
+                require("../../assets/img/theme/rede-checker-white.png").default
               }
               className="logo-navbar-login"
             />
@@ -54,7 +55,7 @@ const AdminNavbar = () => {
                     <img
                       alt="..."
                       src={
-                        require("../../assets/img/brand/argon-react.png")
+                        require("../../assets/img/theme/rede-checker.png")
                           .default
                       }
                     />
