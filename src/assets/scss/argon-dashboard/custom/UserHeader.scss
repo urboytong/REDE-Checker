@@ -9,3 +9,35 @@
 .edit-classroom:active {
   background-color: rgba(85, 85, 85, 0.623) !important; 
 }
+
+@media only screen and (max-width: 767px) {
+  .modal-edit-classroom {
+    padding: 0rem;
+  }
+  .bg-classroom {
+    min-height: 400px !important;
+  }
+
+  .subject-name {
+    margin-top: -50px;
+    text-align: center;
+    font-size: 30px;
+  }
+
+  .subject-detail {
+    display: block !important;
+  }
+
+  .subject-date-time {
+    text-align: center;
+  }
+
+  .edit-classroom ,.edit-classroom:hover {
+    width: 60%;
+    margin-left: 20%;
+  }
+
+  .btn-coverImage {
+    width: 100px;
+  }
+}

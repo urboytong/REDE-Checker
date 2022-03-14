@@ -39,7 +39,7 @@ const UserHeader = () => {
   return (
     <>
       <div
-        className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+        className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center bg-classroom"
         style={{
           minHeight: "600px",
           backgroundImage:
@@ -53,11 +53,11 @@ const UserHeader = () => {
         {/* Mask */}
         <span className="mask bg-gradient-default opacity-8" />
         {/* Header container */}
-        <Container className="d-flex align-items-center" fluid>
+        <Container className="d-flex align-items-center subject-detail" fluid>
           <Row>
             <Col lg="7" md="10">
-              <h1 className="display-2 text-white">Software Engineer</h1>
-              <p className="text-white mt-0 mb-5">MONDAY 9.00-12.00 A.M.</p>
+              <h1 className="display-2 text-white subject-name">Software Engineer</h1>
+              <p className="text-white mt-0 mb-5 subject-date-time">MONDAY 9.00-12.00 A.M.</p>
               <Button
                 color="dark"
                 href="#pablo"
@@ -84,20 +84,21 @@ const UserHeader = () => {
                     <span aria-hidden={true}>×</span>
                   </button>
                 </div>
-                <ModalBody>
+                <ModalBody className="modal-edit-classroom">
                   <Col className="order-xl-1" xl="12">
                     <Card className="bg-secondary shadow">
                       <CardHeader className="bg-white border-0">
                         <Row className="align-items-center">
-                          <Col xs="8">
+                          <Col xs="7">
                             <h3 className="mb-0">Edit Classroom</h3>
                           </Col>
-                          <Col className="text-right" xs="4">
+                          <Col className="text-right" xs="5">
                             <Button
                               color="dark"
                               href="#pablo"
                               onClick={(e) => e.preventDefault()}
                               size="sm"
+                              className="btn-coverImage"
                             >
                               Select Cover Image
                             </Button>

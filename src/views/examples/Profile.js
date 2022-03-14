@@ -90,7 +90,7 @@ const Profile = () => {
       {/* Page content */}
       <Container className="mt--7" fluid>
         <Row>
-          <Col className="order-xl-2 mb-5 mb-xl-0" xl="3">
+          <Col className="order-xl-2 mb-5 mb-xl-0 margin-b" xl="3">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
                 <Col className="order-lg-2" lg="3">
@@ -2080,7 +2080,7 @@ const Profile = () => {
                 </Modal>
               </Row>
 
-              <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+              <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4 header-createQuest">
                 <div className="d-flex justify-content-between"></div>
               </CardHeader>
               <CardBody className="pt-0 pt-md-3">
@@ -2157,7 +2157,7 @@ const Profile = () => {
               </CardBody>
             </Card>
           </Col>
-          <Col className="order-xl-1" xl="4">
+          <Col className="order-xl-1 mg-b20 margin-b" xl="4">
             <Card className="bg-secondary shadow">
               <CardHeader className="border-0">
                 <Row className="align-items-center">
@@ -2189,10 +2189,8 @@ const Profile = () => {
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">id</th>
-                    <th scope="col" className="td-nonePadding">
-                      name
-                    </th>
-                    <th scope="col"></th>
+                    <th scope="col" className="td-nonePadding">name</th>
+                    <th scope="col" ></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2421,15 +2419,15 @@ const Profile = () => {
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">completed</th>
-                    <th scope="col">absent</th>
-                    <th scope="col" />
+                    <th scope="col" className="td-nonePadding4">Date</th>
+                    <th scope="col" className="td-nonePadding2">completed</th>
+                    <th scope="col" className="td-nonePadding3">absent</th>
+                    <th scope="col" className="td-nonePadding5"/>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className="hightBox-profile">
-                    <th scope="row">
+                    <th scope="row" className="td-nonePadding4">
                       <Media className="align-items-center">
                         <Media>
                           <span className="mb-0 text-sm">31/01/2022</span>
@@ -2437,19 +2435,19 @@ const Profile = () => {
                       </Media>
                     </th>
 
-                    <td>
+                    <td className="td-nonePadding2">
                       <Badge color="" className="badge-dot mr-4">
                         <i className="bg-success" />
                         39
                       </Badge>
                     </td>
-                    <td>
+                    <td className="td-nonePadding3">
                       <Badge color="" className="badge-dot mr-4">
                         <i className="bg-danger" />1
                       </Badge>
                     </td>
 
-                    <td>
+                    <td className="td-nonePadding5">
                       <div className="d-flex align-items-right">
                         <Button
                           color="dark"
@@ -2462,7 +2460,7 @@ const Profile = () => {
                       </div>
                     </td>
                   </tr>
-                  <tr className="hightBox-profile">
+                  {/* <tr className="hightBox-profile">
                     <th scope="row">
                       <Media className="align-items-center">
                         <Media>
@@ -2471,7 +2469,7 @@ const Profile = () => {
                       </Media>
                     </th>
 
-                    <td>
+                    <td className="td-nonePadding2">
                       <Badge color="" className="badge-dot mr-4">
                         <i className="bg-success" />
                         39
@@ -2503,7 +2501,7 @@ const Profile = () => {
                       </Media>
                     </th>
 
-                    <td>
+                    <td className="td-nonePadding2">
                       <Badge color="" className="badge-dot mr-4">
                         <i className="bg-success" />
                         39
@@ -2525,7 +2523,7 @@ const Profile = () => {
                         </Button>
                       </div>
                     </td>
-                  </tr>
+                  </tr> */}
                 </tbody>
               </Table>
             </Card>

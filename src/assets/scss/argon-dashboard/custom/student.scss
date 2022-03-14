@@ -2,3 +2,16 @@
   margin-top: 26px;
   margin-bottom: 25px;
 }
+
+
+@media screen and (max-width: 415px) { 
+  .td-nonePadding6 {
+    padding-right: 0px !important;
+  }
+}
+
+@media screen and (max-width: 376px) { 
+  .td-nonePadding6, .Attendance-student {
+    padding-left: 15px !important;
+  }
+}

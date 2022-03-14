@@ -4,6 +4,13 @@
   padding: 0rem 1.5rem;
 }
 
+.modal:before {
+  display: inline-block;
+  vertical-align: middle;
+  content: " ";
+  height: 100%;
+}
+
 .modal {
   text-align: center;
 }
@@ -177,11 +184,60 @@
   }
 }
 
-@media screen and (min-width: 768px) { 
-  .modal:before {
-    display: inline-block;
-    vertical-align: middle;
-    content: " ";
-    height: 100%;
+@media only screen and (max-width: 1024px) {
+  .short-name {
+    width: 250px;
+  }
+
+  .margin-b {
+    margin-bottom: 30px !important;
+  }
+}
+
+@media screen and (max-width: 768px) { 
+  .margin-b {
+    margin-bottom: 20px !important;
+  }
+
+  .header-createQuest {
+    padding-top: 70px !important;
+  }
+
+  .short-name {
+    width: 145px;
+  }
+  
+  .td-nonePadding2 {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+}
+
+@media screen and (max-width: 415px) { 
+  .short-name {
+    width: 105px;
+  }
+
+  .td-nonePadding3 {
+    padding-right: 0px !important;
+  }
+}
+
+@media screen and (max-width: 376px) { 
+  .short-name {
+    width: 105px;
+  }
+
+  .td-nonePadding3 {
+    padding-right: 0px !important;
+    padding-left: 15px !important;
+  }
+
+  .td-nonePadding4 {
+    padding-right: 15px !important;
+  }
+
+  .td-nonePadding5 {
+    padding-left: 0px !important;
   }
 }

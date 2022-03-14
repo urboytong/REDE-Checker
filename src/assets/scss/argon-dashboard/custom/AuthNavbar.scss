@@ -1,0 +1,10 @@
+.logo-navbar-login {
+  width: 150px;
+  height: 100% !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .logo-navbar-login {
+    display: none;
+  }
+}
