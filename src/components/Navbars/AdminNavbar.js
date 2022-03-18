@@ -74,7 +74,7 @@ const AdminNavbar = (props) => {
                   </span>
                   <Media className="ml-2 d-none d-lg-block text-nameUser">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Natthaphat Wannawat
+                      Natthaphat Wannawatdd
                     </span>
                   </Media>
                 </Media>
@@ -174,7 +174,7 @@ const AdminNavbar = (props) => {
             </Card>
           </Col>
         </ModalBody>
-        <ModalFooter></ModalFooter>
+        <ModalFooter className="footer-none"></ModalFooter>
       </Modal>
 
       <Modal
@@ -212,8 +212,13 @@ const AdminNavbar = (props) => {
                       />
                     </div>
                     <div className="boxButton">
-                      <div className="uploadButton2">
+                      {/* <div className="uploadButton2">
                         <i class="fas fa-pencil-alt penIcon"></i>
+                      </div> */}
+                      <div class="upload-btn-wrapper text-center">
+                        <button class="btn-uploadFile-imgProfile">
+                        <i class="fas fa-pencil-alt penIcon"></i></button>
+                        <input type="file" name="myfile" />
                       </div>
                     </div>
                   </div>
