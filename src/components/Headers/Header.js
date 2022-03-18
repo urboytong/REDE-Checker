@@ -39,7 +39,7 @@ const Header = () => {
           </div>
           <div className="header-body">
             {/* Card stats */}
-            <Row className="mt-4">
+            <Row className="row-student-home">
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody className="subject-card">
@@ -157,7 +157,7 @@ const Header = () => {
                 </Card>
               </Col>
             </Row>
-            <Row className="mt-4">
+            <Row className="row-student-home">
               <Col lg="6" xl="3">
                 <Card className="card-stats mb-4 mb-xl-0">
                   <CardBody className="subject-card">

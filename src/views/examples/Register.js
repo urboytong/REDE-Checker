@@ -89,8 +89,13 @@ const Register = () => {
                   />
                 </div>
                 <div className="boxButton">
-                  <div className="uploadButton2">
+                  {/* <div className="uploadButton2">
                     <i class="fas fa-pencil-alt penIcon"></i>
+                  </div> */}
+                  <div class="upload-btn-wrapper text-center">
+                    <button class="btn-uploadFile-imgProfile">
+                    <i class="fas fa-pencil-alt penIcon"></i></button>
+                    <input type="file" name="myfile" />
                   </div>
                 </div>
               </div>
