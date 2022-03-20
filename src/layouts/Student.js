@@ -20,13 +20,13 @@ import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
-import AdminNavbar from "components/Navbars/AdminNavbar.js";
-import AdminFooter from "components/Footers/AdminFooter.js";
-import Sidebar from "components/Sidebar/Sidebar.js";
+import StudentNavbar from "components/Navbars/StudentNavbar.js";
+import StudentFooter from "components/Footers/StudentFooter.js";
+import Sidebar from "components/Sidebar/StudentSidebar.js";
 
-import routes from "routes.js";
+import routes from "StudentRoutes.js";
 
-const Admin = (props) => {
+const Student = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
 
@@ -38,7 +38,7 @@ const Admin = (props) => {
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/professor") {
+      if (prop.layout === "/student") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -76,7 +76,7 @@ const Admin = (props) => {
         }}
       />
       <div className="main-content" ref={mainContent}>
-        <AdminNavbar
+        <StudentNavbar
           {...props}
           brandText={getBrandText(props.location.pathname)}
         />
@@ -85,11 +85,11 @@ const Admin = (props) => {
           <Redirect from="*" to="/" />
         </Switch>
         <Container fluid>
-          <AdminFooter />
+          <StudentFooter />
         </Container>
       </div>
     </>
   );
 };
 
-export default Admin;
+export default Student;
