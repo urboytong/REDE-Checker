@@ -510,29 +510,29 @@ const Register = () => {
 
               {/* form regis teacher */}
               <div className="teacher">
-                <div className="uploadImage">
-                  <div className="image2">
-                    <img
-                      className="faceIcon"
-                      alt="..."
-                      src={require("../../assets/img/image/face.png").default}
-                    />
-                  </div>
-                  <div className="boxButton">
-                    {/* <div className="uploadButton2">
-                    <i class="fas fa-pencil-alt penIcon"></i>
-                  </div> */}
-                    <div class="upload-btn-wrapper text-center">
-                      <button class="btn-uploadFile-imgProfile">
-                        <i class="fas fa-pencil-alt penIcon"></i>
-                      </button>
-                      <input type="file" name="myfile" />
+                {StudentRoleForm ? 
+                  null : (
+                    <div className="uploadImage">
+                      <div className="image2">
+                        <img
+                          className="faceIcon"
+                          alt="..."
+                          src={require("../../assets/img/image/face.png").default}
+                        />
+                      </div>
+                      <div className="boxButton">
+                        <div class="upload-btn-wrapper text-center">
+                          <button class="btn-uploadFile-imgProfile">
+                            <i class="fas fa-pencil-alt penIcon"></i>
+                          </button>
+                          <input type="file" name="myfile" />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  )}
                 <Form role="form" className="formTeacher">
                   {TeacherRoleForm ? (
-                    <div className="topicForm">Academic Ranks</div>
+                    <div className="topicForm">Academic Ranks<span className="text-red">*</span></div>
                   ) : null}
                   {TeacherRoleForm ? (
                     <FormGroup>
@@ -554,8 +554,44 @@ const Register = () => {
                       {AcademicRanksError}
                     </FormGroup>
                   ) : null}
+                  {StudentRoleForm ? (
+                    <div className="text-center lightGray mb-4">
+                      <Button
+                        style={{ backgroundColor: "white" }}
+                        onClick={ShowFaceRegisForm}
+                      >
+                        {FaceDesFillState ? (
+                          <img
+                            className="faceIcon"
+                            alt="..."
+                            src={
+                              require("../../assets/img/image/Verified.gif")
+                                .default
+                            }
+                          />
+                        ) : null}
 
-                  <div className="topicForm lightGray">First Name</div>
+                        {FaceDesEmptyState ? (
+                          <img
+                            className="faceIcon"
+                            alt="..."
+                            src={
+                              require("../../assets/img/image/face.png").default
+                            }
+                          />
+                        ) : null}
+                      </Button>
+                    </div>
+                  ) : null}
+                  {StudentRoleForm ? (
+                    <div className="text-center text-red mb-4 faceDescriptor-error">{FaceDescriptorError}</div>
+                  ) : null}
+
+                  <div className="topicForm lightGray">First Name
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{FirstNameError}</span>
+                  </div>
                   <FormGroup>
                     <InputGroup className="input-group-alternative mb-3">
                       <Input
@@ -565,10 +601,13 @@ const Register = () => {
                         onChange={(e) => setFirstName(e.target.value)}
                       />
                     </InputGroup>
-                    {FirstNameError}
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Last Name</div>
+                  <div className="topicForm lightGray">Last Name
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{LastNameError}</span>
+                    </div>
                   <FormGroup>
                     <InputGroup className="input-group-alternative mb-3">
                       <Input
@@ -578,10 +617,13 @@ const Register = () => {
                         onChange={(e) => setLastName(e.target.value)}
                       />
                     </InputGroup>
-                    {LastNameError}
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Faculty</div>
+                  <div className="topicForm lightGray">Faculty
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{FacultyError}</span>
+                  </div>
                   <FormGroup>
                     <InputGroup className="input-group-alternative mb-3">
                       <Input
@@ -616,10 +658,13 @@ const Register = () => {
                         </option>
                       </Input>
                     </InputGroup>
-                    {FacultyError}
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Department</div>
+                  <div className="topicForm lightGray">Department
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{DepartmentError}</span>
+                  </div>
                   <FormGroup>
                     <InputGroup className="input-group-alternative mb-3">
                       <Input
@@ -629,10 +674,13 @@ const Register = () => {
                         onChange={(e) => setDepartment(e.target.value)}
                       />
                     </InputGroup>
-                    {DepartmentError}
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Major</div>
+                  <div className="topicForm lightGray">Major
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{MajorError}</span>
+                  </div>
                   <FormGroup>
                     <InputGroup className="input-group-alternative mb-3">
                       <Input
@@ -642,10 +690,13 @@ const Register = () => {
                         onChange={(e) => setMajor(e.target.value)}
                       />
                     </InputGroup>
-                    {MajorError}
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Email</div>
+                  <div className="topicForm lightGray">Email
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{EmailError}</span>
+                  </div>
                   <FormGroup>
                     <InputGroup className="input-group-alternative mb-3">
                       <Input
@@ -656,10 +707,13 @@ const Register = () => {
                         onChange={(e) => setEmail(e.target.value)}
                       />
                     </InputGroup>
-                    {EmailError}
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Password</div>
+                  <div className="topicForm lightGray">Password
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{PasswordError}</span>
+                  </div>
                   <FormGroup>
                     <InputGroup className="input-group-alternative mb-3">
                       <Input
@@ -669,10 +723,13 @@ const Register = () => {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </InputGroup>
-                    {PasswordError}
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Confirm Password</div>
+                  <div className="topicForm lightGray">Confirm Password
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{ConfirmPasswordError}</span>
+                  </div>
                   <FormGroup>
                     <InputGroup className="input-group-alternative mb-3">
                       <Input
@@ -682,44 +739,7 @@ const Register = () => {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                       />
                     </InputGroup>
-                    {ConfirmPasswordError}
                   </FormGroup>
-
-                  {StudentRoleForm ? (
-                    <div className="topicForm lightGray">Face Registration</div>
-                  ) : null}
-                  {StudentRoleForm ? (
-                    <div className="text-center lightGray">
-                      <Button
-                        style={{ backgroundColor: "white" }}
-                        onClick={ShowFaceRegisForm}
-                      >
-                        {FaceDesFillState ? (
-                          <img
-                            className="faceIcon"
-                            alt="..."
-                            src={
-                              require("../../assets/img/image/Verified.gif")
-                                .default
-                            }
-                          />
-                        ) : null}
-
-                        {FaceDesEmptyState ? (
-                          <img
-                            className="faceIcon"
-                            alt="..."
-                            src={
-                              require("../../assets/img/image/face.png").default
-                            }
-                          />
-                        ) : null}
-                      </Button>
-                    </div>
-                  ) : null}
-                  {StudentRoleForm ? (
-                    <div className="text-center">{FaceDescriptorError}</div>
-                  ) : null}
 
                   <div className="text-center lightGray">
                     <Button
@@ -865,13 +885,12 @@ const Register = () => {
                         ref={webcamRef}
                         muted={true}
                         style={{
-                          width: 320,
-                          height: 320,
                           borderRadius: "50%",
                           objectFit: "cover",
                           border: VideoBorderColor,
                           transform: "rotateY(180deg)",
                         }}
+                      className="webcam-style"
                       />
                     ) : null}
 
@@ -879,11 +898,10 @@ const Register = () => {
                       <img
                         src={FaceRegisLoading}
                         style={{
-                          width: 320,
-                          height: 320,
                           borderRadius: "50%",
                           objectFit: "cover",
                         }}
+                      className="webcam-style"
                       />
                     ) : null}
 
@@ -893,11 +911,10 @@ const Register = () => {
                           require("../../assets/img/image/Loading.gif").default
                         }
                         style={{
-                          width: 320,
-                          height: 320,
                           borderRadius: "50%",
                           objectFit: "cover",
                         }}
+                      className="webcam-style"
                       />
                     ) : null}
                   </div>

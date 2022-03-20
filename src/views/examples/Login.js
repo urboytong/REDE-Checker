@@ -34,15 +34,22 @@ import {
   InputGroup,
   Row,
   Col,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  UncontrolledTooltip,
 } from "reactstrap";
 import "assets/scss/argon-dashboard/custom/login.scss";
 import { Link } from "react-router-dom";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const Login = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [EmailError, setEmailError] = useState("");
   const [PasswordError, setPasswordError] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [copiedText, setCopiedText] = useState();
 
   const clearErrors = () => {
     setEmailError("");
@@ -107,7 +114,7 @@ const Login = () => {
               <h1 className="darkGray">Login</h1>
             </div>
             <Form role="form">
-              <div className="topicForm">Email</div>
+              <div className="topicForm">Email<span className="text-red">&nbsp;&nbsp;&nbsp;{EmailError}</span></div>
               <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">
                   <Input
@@ -118,7 +125,6 @@ const Login = () => {
                   />
                 </InputGroup>
               </FormGroup>
-              {EmailError}
 
               <div className="topicForm">Password</div>
               <FormGroup>
@@ -133,8 +139,8 @@ const Login = () => {
                 </InputGroup>
               </FormGroup>
               {PasswordError}
-              <div className="box">
-                <div className="custom-control custom-control-alternative custom-checkbox checkbox">
+              {/* <div className="box1"> */}
+                {/* <div className="custom-control custom-control-alternative custom-checkbox checkbox">
                   <input
                     className="custom-control-input"
                     id=" customCheckLogin"
@@ -146,14 +152,15 @@ const Login = () => {
                   >
                     <span className="text-muted remember">Remember me</span>
                   </label>
-                </div>
+                </div> */}
                 <div
                   className="forgotPass lightGray-textSize"
-                  onClick={() => forgotPassword(Email)}
+                  // onClick={() => forgotPassword(Email)}
+                  onClick={() => setModalOpen(!modalOpen)}
                 >
-                  Forgot Password?
+                  Forgot Password ?
                 </div>
-              </div>
+              {/* </div> */}
 
               <div className="text-center mt-2">
                 <Button
@@ -186,6 +193,45 @@ const Login = () => {
           </CardBody>
         </Card>
       </Col>
+      <Modal
+        toggle={() => setModalOpen(!modalOpen)}
+        isOpen={modalOpen}
+        size="md"
+      >
+        <div className=" modal-header">
+          <button
+            aria-label="Close"
+            className=" close"
+            type="button"
+            onClick={() => setModalOpen(!modalOpen)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <ModalBody>
+          <h1 className="text-center">Forgot Password</h1>
+          <Row className="align-items-center">
+            <Col>
+              <Input
+                className="form-control-alternative input-classroomCode"
+                id=""
+                placeholder="Please enter your Email"
+              />
+            </Col>
+            <Col className="text-right button-input-classroomCode">
+              <Button
+                color="primary"
+                href="#pablo"
+                size="sm"
+                className="search-classroomCode"
+              >
+                <i class="fa-solid fa-paper-plane"></i>
+              </Button>
+            </Col>
+          </Row>
+        </ModalBody>
+        <ModalFooter></ModalFooter>
+      </Modal>
     </>
   );
 };
