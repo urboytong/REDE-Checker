@@ -90,12 +90,22 @@ const Header = () => {
               </Button>
             </Col>
           </Row>
+          <h4 className="text-center mt-4 mb-2">OR</h4>
+          <div className="text-center">
+            <Button
+              className="mt-2"
+              color="dark"
+              onClick={() => setModalOpen1(!modalOpen1)}
+            >
+              Scan QR Code
+            </Button>
+          </div>
         </ModalBody>
         <ModalFooter></ModalFooter>
       </Modal>
 
       <Button
-        className="mt-4"
+        className="mt-4 join-class-btn"
         color="dark"
         onClick={() => setModalOpen1(!modalOpen1)}
       >

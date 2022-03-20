@@ -1990,14 +1990,17 @@ const Profile = () => {
                         alt="..."
                       />
                     </div>
-                    <Button
+                    {/* <Button
                       className="btn-icon btn-2 btn-upfile"
                       type="button"
                       size="sm"
-                      onClick={() => setModalOpen11(!modalOpen11)}
                     >
-                      Select File
-                    </Button>
+                      Select File 
+                    </Button> */}
+                    <div class="upload-btn-wrapper text-center">
+                      <button class="btn-uploadFile">Select File</button>
+                      <input type="file" name="myfile" />
+                    </div>
                   </ModalBody>
                   <ModalFooter></ModalFooter>
                 </Modal>

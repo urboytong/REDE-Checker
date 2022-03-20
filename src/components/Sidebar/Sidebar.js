@@ -205,10 +205,14 @@ const Sidebar = (props) => {
               </Media>
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-arrow" right>
-              <DropdownItem to="/" tag={Link}>
-                <i className="ni ni-single-02" />
-                <span>My profile</span>
-              </DropdownItem>
+            <DropdownItem
+                  to="/"
+                  tag={Link}
+                  onClick={() => setModalOpen(!modalOpen)}
+                >
+                  <i className="ni ni-single-02" />
+                  <span>My profileRR</span>
+                </DropdownItem>
               <DropdownItem divider />
               <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
                 <i className="ni ni-user-run" />
@@ -217,6 +221,7 @@ const Sidebar = (props) => {
             </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>
+        
         {/* Collapse */}
         <Collapse navbar isOpen={collapseOpen}>
           {/* Collapse header */}
@@ -249,12 +254,14 @@ const Sidebar = (props) => {
           </div>
           {/* Navigation */}
           <Nav navbar>{createLinks(routes)}</Nav>
+          
           {/* Divider */}
           <hr className="my-3" />
           {/* Heading */}
 
           {/* Navigation */}
           <Nav className="mb-md-3" navbar></Nav>
+          
           <Nav className="mb-md-3" navbar>
             <NavItem className="active-pro active">
               <DropdownItem>

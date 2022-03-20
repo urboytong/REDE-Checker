@@ -501,22 +501,14 @@ const Register = () => {
                     Student
                   </button>
                 </div>
-              </div>
-
-              {/* form regis teacher */}
-              <div className="teacher">
-                <div className="uploadImage">
-                  <div className="image2">
-                    <img
-                      className="faceIcon"
-                      alt="..."
-                      src={require("../../assets/img/image/face.png").default}
-                    />
-                  </div>
-                  <div className="boxButton">
-                    <div className="uploadButton2">
-                      <i class="fas fa-pencil-alt penIcon"></i>
-                    </div>
+                <div className="boxButton">
+                  {/* <div className="uploadButton2">
+                    <i class="fas fa-pencil-alt penIcon"></i>
+                  </div> */}
+                  <div class="upload-btn-wrapper text-center">
+                    <button class="btn-uploadFile-imgProfile">
+                    <i class="fas fa-pencil-alt penIcon"></i></button>
+                    <input type="file" name="myfile" />
                   </div>
                 </div>
                 <Form role="form" className="formTeacher">

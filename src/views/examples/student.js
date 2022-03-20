@@ -158,28 +158,25 @@ const Profile = () => {
             <Card className="card-profile shadow">
               <CardBody className="pt-0 pt-md-4">
                 <div className="text-center">
+                  <h2 className="text-success text-complete">Completed</h2>
+                  <h2 className="text-success">" Selfie with a Pen"</h2>
+                  <div>
+                    <h4>31/01/2022</h4>
+                    <h4>TIME : 9:47 A.M.</h4>
+                  </div>
                   <img
                     src="https://www.img.in.th/images/3176e43743c0c9e923693782aa34c326.jpg"
-                    width="200"
-                    height="350"
+                    width="180"
+                    height="360"
                     className="img-fluid shadow-4"
                     alt="..."
                   />
-                  <div>
-                    <i className="ni education_hat mr-2" />
-                    <h2>" Selfie with a pen "</h2>
-                    <h4>Completed</h4>
-                  </div>
-                  <div className="h3 font-weight-300">61090500411</div>
-                  <div className="h3 font-weight-300">Natthaphat Wannawat</div>
-
-                  <hr className="my-4" />
                 </div>
               </CardBody>
             </Card>
           </Col>
         </ModalBody>
-        <ModalFooter></ModalFooter>
+        <ModalFooter className="footer-none"></ModalFooter>
       </Modal>
 
       <Modal

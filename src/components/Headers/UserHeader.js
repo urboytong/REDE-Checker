@@ -96,14 +96,18 @@ const UserHeader = () => {
                             <h3 className="mb-0">Edit Classroom</h3>
                           </Col>
                           <Col className="text-right" xs="5">
-                            <Button
+                            {/* <Button
                               color="dark"
                               onClick={(e) => e.preventDefault()}
                               size="sm"
                               className="btn-coverImage"
                             >
                               Select Cover Image
-                            </Button>
+                            </Button> */}
+                            <div class="upload-btn-wrapper text-center">
+                              <button class="btn-uploadCoverimg">Select Cover Image</button>
+                              <input type="file" name="myfile" />
+                            </div>
                           </Col>
                         </Row>
                       </CardHeader>

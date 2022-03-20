@@ -84,13 +84,17 @@ const Header2 = () => {
                     <h3 className="mb-0">Create Classroom</h3>
                   </Col>
                   <Col className="text-right" xs="4">
-                    <Button
+                    {/* <Button
                       color="dark"
                       onClick={(e) => e.preventDefault()}
                       size="sm"
                     >
                       Select Cover Image
-                    </Button>
+                    </Button> */}
+                    <div class="upload-btn-wrapper text-center">
+                      <button class="btn-uploadCoverimg">Select Cover Image</button>
+                      <input type="file" name="myfile" />
+                    </div>
                   </Col>
                 </Row>
               </CardHeader>
@@ -222,7 +226,7 @@ const Header2 = () => {
                 color="dark"
                 onClick={() => setModalOpen(!modalOpen)}
               >
-                Create class
+                Create Classroom
               </Button>
             </div>
             <Row className="mt-4">
