@@ -109,6 +109,9 @@ const Register = () => {
       LastName,
       Email,
       Uid,
+      Faculty,
+      Department,
+      Major,
       AcademicRanks,
       role,
     });
@@ -170,7 +173,9 @@ const Register = () => {
           ConfirmPassword !== "" &&
           ConfirmPassword == Password &&
           AcademicRanks !== "" &&
-          AcademicRanks !== ""
+          Faculty !== "" &&
+          Department !== "" &&
+          Major !== ""
         ) {
           firebaseApp
             .auth()
@@ -576,81 +581,69 @@ const Register = () => {
                     {LastNameError}
                   </FormGroup>
 
-                  {StudentRoleForm ? (
-                    <div className="topicForm lightGray">Faculty</div>
-                  ) : null}
-                  {StudentRoleForm ? (
-                    <FormGroup>
-                      <InputGroup className="input-group-alternative mb-3">
-                        <Input
-                          className="darkGray"
-                          type="select"
-                          placeholder="Faculty"
-                          value={Faculty}
-                          onChange={(e) => setFaculty(e.target.value)}
-                        >
-                          <option>College of Multidisciplinary Science</option>
-                          <option>
-                            Darunsikkhalai School of Innovation Learning
-                          </option>
-                          <option>Engineering</option>
-                          <option>Engineering Science Classroom</option>
-                          <option>
-                            Graduate School of Management and Innovation
-                          </option>
-                          <option>Industrial Education and Technology</option>
-                          <option>Institute of Field Robotics</option>
-                          <option>KOSEN KMUTT</option>
-                          <option>School of Architecture and Design</option>
-                          <option>School of Bioresources and Technology</option>
-                          <option>
-                            School of Energy, Environment and Materials
-                          </option>
-                          <option>School of Information Technology</option>
-                          <option>School of Liberal Arts</option>
-                          <option>Science</option>
-                          <option>
-                            The Joint Graduate School of Energy and Environment
-                          </option>
-                        </Input>
-                      </InputGroup>
-                      {FacultyError}
-                    </FormGroup>
-                  ) : null}
+                  <div className="topicForm lightGray">Faculty</div>
+                  <FormGroup>
+                    <InputGroup className="input-group-alternative mb-3">
+                      <Input
+                        className="darkGray"
+                        type="select"
+                        placeholder="Faculty"
+                        value={Faculty}
+                        onChange={(e) => setFaculty(e.target.value)}
+                      >
+                        <option>College of Multidisciplinary Science</option>
+                        <option>
+                          Darunsikkhalai School of Innovation Learning
+                        </option>
+                        <option>Engineering</option>
+                        <option>Engineering Science Classroom</option>
+                        <option>
+                          Graduate School of Management and Innovation
+                        </option>
+                        <option>Industrial Education and Technology</option>
+                        <option>Institute of Field Robotics</option>
+                        <option>KOSEN KMUTT</option>
+                        <option>School of Architecture and Design</option>
+                        <option>School of Bioresources and Technology</option>
+                        <option>
+                          School of Energy, Environment and Materials
+                        </option>
+                        <option>School of Information Technology</option>
+                        <option>School of Liberal Arts</option>
+                        <option>Science</option>
+                        <option>
+                          The Joint Graduate School of Energy and Environment
+                        </option>
+                      </Input>
+                    </InputGroup>
+                    {FacultyError}
+                  </FormGroup>
 
-                  {StudentRoleForm ? (
-                    <div className="topicForm lightGray">Department</div>
-                  ) : null}
-                  {StudentRoleForm ? (
-                    <FormGroup>
-                      <InputGroup className="input-group-alternative mb-3">
-                        <Input
-                          className="darkGray"
-                          type="text"
-                          value={Department}
-                          onChange={(e) => setDepartment(e.target.value)}
-                        />
-                      </InputGroup>
-                      {DepartmentError}
-                    </FormGroup>
-                  ) : null}
+                  <div className="topicForm lightGray">Department</div>
+                  <FormGroup>
+                    <InputGroup className="input-group-alternative mb-3">
+                      <Input
+                        className="darkGray"
+                        type="text"
+                        value={Department}
+                        onChange={(e) => setDepartment(e.target.value)}
+                      />
+                    </InputGroup>
+                    {DepartmentError}
+                  </FormGroup>
 
-                  {StudentRoleForm ? (
-                    <div className="topicForm lightGray">Major</div>
-                  ) : null}
-                  {StudentRoleForm ? (
-                    <FormGroup>
-                      <InputGroup className="input-group-alternative mb-3">
-                        <Input
-                          className="darkGray"
-                          type="text"
-                          value={Major}
-                          onChange={(e) => setMajor(e.target.value)}
-                        />
-                      </InputGroup>
-                      {MajorError}
-                    </FormGroup>
-                  ) : null}
+                  <div className="topicForm lightGray">Major</div>
+                  <FormGroup>
+                    <InputGroup className="input-group-alternative mb-3">
+                      <Input
+                        className="darkGray"
+                        type="text"
+                        value={Major}
+                        onChange={(e) => setMajor(e.target.value)}
+                      />
+                    </InputGroup>
+                    {MajorError}
+                  </FormGroup>
 
                   <div className="topicForm lightGray">Email</div>
                   <FormGroup>
