@@ -63,7 +63,7 @@ import {
   chartExample2,
 } from "variables/charts.js";
 
-import Header2 from "components/Headers/Headerprofessor.js";
+import ProfessorHome from "views/examples/professor-home.js";
 import Profile from "views/examples/Profile.js";
 
 const Index = (props) => {
@@ -85,11 +85,33 @@ const Index = (props) => {
 
   const hist = createBrowserHistory();
 
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname == "/professor/profile-home/profile-class") {
+      setSwitchCheck(true);
+    }
+    if (SwitchCheck == true) {
+      setSwitchCheck(false);
+      window.location.reload();
+    }
+    console.log(location.pathname);
+  }, [location]);
+
   return (
     <>
-      <Header2 />
-      {/* Page content */}
-      <Container className="mt--7" fluid></Container>
+      <Router history={hist}>
+        <Switch>
+          <Route
+            exact
+            path="/professor/profile-home"
+            component={ProfessorHome}
+          />
+          <Route
+            path="/professor/profile-home/profile-class"
+            component={Profile}
+          />
+        </Switch>
+      </Router>
     </>
   );
 };

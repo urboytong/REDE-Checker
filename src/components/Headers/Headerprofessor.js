@@ -86,7 +86,6 @@ const Header2 = () => {
                   <Col className="text-right" xs="4">
                     <Button
                       color="dark"
-                      href="#pablo"
                       onClick={(e) => e.preventDefault()}
                       size="sm"
                     >

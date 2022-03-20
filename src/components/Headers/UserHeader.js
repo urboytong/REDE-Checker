@@ -56,11 +56,14 @@ const UserHeader = () => {
         <Container className="d-flex align-items-center subject-detail" fluid>
           <Row>
             <Col lg="7" md="10">
-              <h1 className="display-2 text-white subject-name">Software Engineer</h1>
-              <p className="text-white mt-0 mb-5 subject-date-time">MONDAY 9.00-12.00 A.M.</p>
+              <h1 className="display-2 text-white subject-name">
+                Software Engineer
+              </h1>
+              <p className="text-white mt-0 mb-5 subject-date-time">
+                MONDAY 9.00-12.00 A.M.
+              </p>
               <Button
                 color="dark"
-                href="#pablo"
                 size="sm"
                 className="edit-classroom"
                 onClick={() => setModalOpen(!modalOpen)}
@@ -95,7 +98,6 @@ const UserHeader = () => {
                           <Col className="text-right" xs="5">
                             <Button
                               color="dark"
-                              href="#pablo"
                               onClick={(e) => e.preventDefault()}
                               size="sm"
                               className="btn-coverImage"

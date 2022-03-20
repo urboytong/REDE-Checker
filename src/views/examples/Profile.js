@@ -17,7 +17,10 @@
 */
 //test punch22
 // reactstrap components
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import firebaseApp from "../../firebase";
+import { Redirect } from "react-router-dom";
+import { AuthContext } from "components/Auth/Auth.js";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -95,7 +98,7 @@ const Profile = () => {
               <Row className="justify-content-center">
                 <Col className="order-lg-2" lg="3">
                   <div className="card-profile-image">
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                    <a onClick={(e) => e.preventDefault()}>
                       <img
                         alt="..."
                         className="rounded-circle img-facedetection"
@@ -231,7 +234,6 @@ const Profile = () => {
                               <td>
                                 <Button
                                   color="success"
-                                  href="#pablo"
                                   //onClick={() => setModalOpen1(!modalOpen1)}
                                   size="sm"
                                   className="icon-requestModal"
@@ -240,7 +242,6 @@ const Profile = () => {
                                 </Button>
                                 <Button
                                   color="danger"
-                                  href="#pablo"
                                   // onClick={() => setModalOpen1(!modalOpen1)}
                                   size="sm"
                                   className="icon-requestModal"
@@ -252,7 +253,6 @@ const Profile = () => {
                                 <UncontrolledDropdown>
                                   <DropdownToggle
                                     className="btn-icon-only text-light"
-                                    href="#pablo"
                                     role="button"
                                     size="sm"
                                     color=""
@@ -265,7 +265,6 @@ const Profile = () => {
                                     right
                                   >
                                     <DropdownItem
-                                      href="#pablo"
                                       onClick={() => setModalOpen2(!modalOpen2)}
                                     >
                                       Profile
@@ -301,10 +300,7 @@ const Profile = () => {
                         <Row className="justify-content-center">
                           <Col className="order-lg-2" lg="3">
                             <div className="card-profile-image">
-                              <a
-                                href="#pablo"
-                                onClick={(e) => e.preventDefault()}
-                              >
+                              <a onClick={(e) => e.preventDefault()}>
                                 <img
                                   alt="..."
                                   className="rounded-circle img-profileModal"
@@ -370,10 +366,7 @@ const Profile = () => {
                           <Row className="justify-content-center">
                             <Col className="order-lg-2" lg="3">
                               <div className="card-profile-image">
-                                <a
-                                  href="#pablo"
-                                  onClick={(e) => e.preventDefault()}
-                                >
+                                <a onClick={(e) => e.preventDefault()}>
                                   <img
                                     alt="..."
                                     className="rounded-circle img-profileModal"
@@ -786,10 +779,7 @@ const Profile = () => {
                         <Row className="justify-content-center">
                           <Col className="order-lg-2" lg="3">
                             <div className="card-profile-image">
-                              <a
-                                href="#pablo"
-                                onClick={(e) => e.preventDefault()}
-                              >
+                              <a onClick={(e) => e.preventDefault()}>
                                 <img
                                   alt="..."
                                   className="rounded-circle img-profileModal"
@@ -858,7 +848,6 @@ const Profile = () => {
                     <div className="col text-center mt-4">
                       <Button
                         color="success"
-                        href="#pablo"
                         //onClick={() => setModalOpen1(!modalOpen1)}
                         className="ml-2 mr-2"
                         size="l"
@@ -867,7 +856,6 @@ const Profile = () => {
                       </Button>
                       <Button
                         color="danger"
-                        href="#pablo"
                         size="l"
                         aria-label="Close"
                         onClick={() => setModalOpen4(!modalOpen4)}
@@ -961,7 +949,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -974,7 +961,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen2(!modalOpen2)
                                         }
@@ -982,7 +968,6 @@ const Profile = () => {
                                         Profile
                                       </DropdownItem>
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen3(!modalOpen3)
                                         }
@@ -1032,7 +1017,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1045,7 +1029,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen2(!modalOpen2)
                                         }
@@ -1053,7 +1036,6 @@ const Profile = () => {
                                         Profile
                                       </DropdownItem>
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen3(!modalOpen3)
                                         }
@@ -1102,7 +1084,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1115,7 +1096,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen2(!modalOpen2)
                                         }
@@ -1123,7 +1103,6 @@ const Profile = () => {
                                         Profile
                                       </DropdownItem>
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen3(!modalOpen3)
                                         }
@@ -1316,7 +1295,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1329,7 +1307,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen9(!modalOpen9)
                                         }
@@ -1362,7 +1339,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1375,7 +1351,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen9(!modalOpen9)
                                         }
@@ -1408,7 +1383,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1421,7 +1395,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen9(!modalOpen9)
                                         }
@@ -1453,7 +1426,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1466,7 +1438,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen9(!modalOpen9)
                                         }
@@ -1540,7 +1511,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1553,7 +1523,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen12(!modalOpen12)
                                         }
@@ -1595,7 +1564,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1608,7 +1576,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen12(!modalOpen12)
                                         }
@@ -1649,7 +1616,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1662,7 +1628,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen13(!modalOpen13)
                                         }
@@ -1702,7 +1667,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1715,7 +1679,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen12(!modalOpen12)
                                         }
@@ -1783,7 +1746,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1796,7 +1758,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen9(!modalOpen9)
                                         }
@@ -1838,7 +1799,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1851,7 +1811,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen12(!modalOpen12)
                                         }
@@ -1889,7 +1848,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1902,7 +1860,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen13(!modalOpen13)
                                         }
@@ -1939,7 +1896,6 @@ const Profile = () => {
                                   <UncontrolledDropdown>
                                     <DropdownToggle
                                       className="btn-icon-only text-light"
-                                      href="#pablo"
                                       role="button"
                                       size="sm"
                                       color=""
@@ -1952,7 +1908,6 @@ const Profile = () => {
                                       right
                                     >
                                       <DropdownItem
-                                        href="#pablo"
                                         onClick={() =>
                                           setModalOpen2(!modalOpen2)
                                         }
@@ -2167,7 +2122,6 @@ const Profile = () => {
                   <div className="col text-right">
                     <Button
                       color="dark"
-                      href="#pablo"
                       onClick={() => setModalOpen(!modalOpen)}
                       size="sm"
                     >
@@ -2175,7 +2129,6 @@ const Profile = () => {
                     </Button>
                     <Button
                       color="dark"
-                      href="#pablo"
                       onClick={() => setModalOpen1(!modalOpen1)}
                       size="sm"
                     >
@@ -2189,8 +2142,10 @@ const Profile = () => {
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">id</th>
-                    <th scope="col" className="td-nonePadding">name</th>
-                    <th scope="col" ></th>
+                    <th scope="col" className="td-nonePadding">
+                      name
+                    </th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2212,7 +2167,6 @@ const Profile = () => {
                       <UncontrolledDropdown>
                         <DropdownToggle
                           className="btn-icon-only text-light"
-                          href="#pablo"
                           role="button"
                           size="sm"
                           color=""
@@ -2222,19 +2176,16 @@ const Profile = () => {
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
                           <DropdownItem
-                            href="#pablo"
                             onClick={() => setModalOpen2(!modalOpen2)}
                           >
                             Profile
                           </DropdownItem>
                           <DropdownItem
-                            href="#pablo"
                             onClick={() => setModalOpen3(!modalOpen3)}
                           >
                             Report
                           </DropdownItem>
                           <DropdownItem
-                            href="#pablo"
                             onClick={() => setModalOpen4(!modalOpen4)}
                           >
                             Delete
@@ -2262,7 +2213,6 @@ const Profile = () => {
                       <UncontrolledDropdown>
                         <DropdownToggle
                           className="btn-icon-only text-light"
-                          href="#pablo"
                           role="button"
                           size="sm"
                           color=""
@@ -2271,22 +2221,13 @@ const Profile = () => {
                           <i className="fas fa-ellipsis-v" />
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
+                          <DropdownItem onClick={(e) => e.preventDefault()}>
                             Profile
                           </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
+                          <DropdownItem onClick={(e) => e.preventDefault()}>
                             Report
                           </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
+                          <DropdownItem onClick={(e) => e.preventDefault()}>
                             Delete
                           </DropdownItem>
                         </DropdownMenu>
@@ -2312,7 +2253,6 @@ const Profile = () => {
                       <UncontrolledDropdown>
                         <DropdownToggle
                           className="btn-icon-only text-light"
-                          href="#pablo"
                           role="button"
                           size="sm"
                           color=""
@@ -2321,22 +2261,13 @@ const Profile = () => {
                           <i className="fas fa-ellipsis-v" />
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
+                          <DropdownItem onClick={(e) => e.preventDefault()}>
                             Profile
                           </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
+                          <DropdownItem onClick={(e) => e.preventDefault()}>
                             Report
                           </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
+                          <DropdownItem onClick={(e) => e.preventDefault()}>
                             Delete
                           </DropdownItem>
                         </DropdownMenu>
@@ -2362,7 +2293,6 @@ const Profile = () => {
                       <UncontrolledDropdown>
                         <DropdownToggle
                           className="btn-icon-only text-light"
-                          href="#pablo"
                           role="button"
                           size="sm"
                           color=""
@@ -2371,22 +2301,13 @@ const Profile = () => {
                           <i className="fas fa-ellipsis-v" />
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
+                          <DropdownItem onClick={(e) => e.preventDefault()}>
                             Profile
                           </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
+                          <DropdownItem onClick={(e) => e.preventDefault()}>
                             Report
                           </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
+                          <DropdownItem onClick={(e) => e.preventDefault()}>
                             Delete
                           </DropdownItem>
                         </DropdownMenu>
@@ -2407,7 +2328,6 @@ const Profile = () => {
                   <div className="col text-right">
                     <Button
                       color="dark"
-                      href="#pablo"
                       onClick={() => setModalOpen5(!modalOpen5)}
                       size="sm"
                     >
@@ -2419,10 +2339,16 @@ const Profile = () => {
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
-                    <th scope="col" className="td-nonePadding4">Date</th>
-                    <th scope="col" className="td-nonePadding2">completed</th>
-                    <th scope="col" className="td-nonePadding3">absent</th>
-                    <th scope="col" className="td-nonePadding5"/>
+                    <th scope="col" className="td-nonePadding4">
+                      Date
+                    </th>
+                    <th scope="col" className="td-nonePadding2">
+                      completed
+                    </th>
+                    <th scope="col" className="td-nonePadding3">
+                      absent
+                    </th>
+                    <th scope="col" className="td-nonePadding5" />
                   </tr>
                 </thead>
                 <tbody>

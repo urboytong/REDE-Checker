@@ -144,8 +144,8 @@ const Sidebar = (props) => {
   if (!currentUser) {
     return <Redirect to="/auth/login" />;
   }
-  if (currentUser && Role == "Student") {
-    return <Redirect to="/student/student-home" />;
+  if (currentUser && Role == "Teacher1") {
+    return <Redirect to="/professor/profile-home" />;
   }
 
   return (
