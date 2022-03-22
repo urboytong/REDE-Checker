@@ -26,14 +26,20 @@ import FaceRegis from "views/examples/FaceRegis.js";
 import student from "views/examples/student";
 import teacherrhome from "views/examples/professor-home";
 import studenthome from "views/examples/student-home";
-import teacherrhomepath from "views/examples/ProfessorHomePath";
 var routes = [
   {
-    path: "/profile-home",
-    name: "Professor-home",
-    icon: "ni ni-hat-3 text-danger",
-    component: teacherrhomepath,
-    layout: "/professor",
+    path: "/login",
+    name: "Login",
+    icon: "ni ni-key-25 text-yellow",
+    component: Login,
+    layout: "/auth",
+  },
+  {
+    path: "/register",
+    name: "Register",
+    icon: "ni ni-circle-08 text-pink",
+    component: Register,
+    layout: "/auth",
   },
 ];
 export default routes;

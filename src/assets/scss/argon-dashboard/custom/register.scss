@@ -35,7 +35,7 @@ body {
 }
 
 .selectRoleActive {
-  background-color: #698AEA;
+  background-color: #5e72e4;
   color: white;
   width: 48%;
   margin-top: 8px;
@@ -59,12 +59,12 @@ body {
   justify-content: center;
   align-items: center;
   display: flex;
-  border: 3.5px solid #698AEA;
+  border: 3.5px solid #5e72e4;
 }
 
 .faceIcon {
-  width: 80px;
-  height: 80px;  
+  width: 110px;
+  height: 110px;  
 }
 
 .boxButton {
@@ -77,11 +77,12 @@ body {
 .uploadButton {
   width: 30px;
   height: 30px;
-  background-color: #698AEA;
+  background-color: #5e72e4; 
   border-radius: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .penIcon {
@@ -106,4 +107,22 @@ body {
 
 .buttonStyle {
   width: 100%;
+}
+
+.faceDescriptor-error {
+  font-size: 14px;
+  margin-top: -10px;
+}
+
+//face register
+.webcam-style {
+  width: 320px;
+  height: 320px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .webcam-style {
+    width: 270px;
+    height: 270px;
+  }
 }

@@ -4,3 +4,71 @@
   margin-top: 20px;
   font-size: 16px;
 }
+
+//modal edit profile
+.img-profileModal2{
+  width: 150px;
+  // margin-top: 100px;
+  // height: 115px; 
+}
+
+.image2 {
+  height: 159px;
+  width: 159px;
+  border-radius: 150px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border: 5px solid #5e72e4;;
+}
+
+.boxButton {
+  margin-top: -50px !important;
+}
+.btn-uploadFile-imgProfile {
+  border: 2px solid #5e72e4;
+  display: block;
+  margin-top: 20px;
+  background-color: #5e72e4;
+  border-radius: 100px;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  font-weight: bold;
+  width: 35px;
+  height: 35px;
+}
+
+.uploadButton2 {
+  width: 35px;
+  height: 35px;
+  background-color: #5e72e4;;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.penIcon2 {
+  color: white;
+  font-size: 13px;
+}
+
+select {
+  width:100px; 
+  overflow:hidden; 
+  white-space:nowrap; 
+  text-overflow:ellipsis;
+}
+
+@media screen and (max-width: 820px) { 
+  .text-name-status, .text-nameUser {
+    display: inline-block !important;
+  }
+}
+
+@media screen and (max-width: 415px) { 
+  .text-name-status {
+    display: none !important;
+  }
+}

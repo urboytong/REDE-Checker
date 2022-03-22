@@ -18,7 +18,8 @@
 
 // reactstrap components
 import React, { useState } from "react";
-import { Button,
+import {
+  Button,
   Badge,
   Card,
   CardTitle,
@@ -45,7 +46,8 @@ import { Button,
   Modal,
   ModalBody,
   ModalFooter,
-  UncontrolledTooltip,} from "reactstrap";
+  UncontrolledTooltip,
+} from "reactstrap";
 import "assets/scss/argon-dashboard/custom/Header.scss";
 
 const Header = () => {
@@ -88,11 +90,25 @@ const Header = () => {
               </Button>
             </Col>
           </Row>
+          <h4 className="text-center mt-4 mb-2">OR</h4>
+          <div className="text-center">
+            <Button
+              className="mt-2"
+              color="dark"
+              onClick={() => setModalOpen1(!modalOpen1)}
+            >
+              Scan QR Code
+            </Button>
+          </div>
         </ModalBody>
         <ModalFooter></ModalFooter>
       </Modal>
 
-      <Button className="mt-4" color="dark" onClick={() => setModalOpen1(!modalOpen1)} >
+      <Button
+        className="mt-4 join-class-btn"
+        color="dark"
+        onClick={() => setModalOpen1(!modalOpen1)}
+      >
         Join class
       </Button>
     </>

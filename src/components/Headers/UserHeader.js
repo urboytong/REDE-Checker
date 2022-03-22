@@ -1,6 +1,6 @@
-
 // import { Button, Container, Row, Col,Modal, ModalBody, ModalFooter, } from "reactstrap";
-import { Button,
+import {
+  Button,
   Badge,
   Card,
   CardTitle,
@@ -27,18 +27,19 @@ import { Button,
   Modal,
   ModalBody,
   ModalFooter,
-  UncontrolledTooltip,} from "reactstrap";
+  UncontrolledTooltip,
+} from "reactstrap";
 
 import React, { useState } from "react";
 import "assets/scss/argon-dashboard/custom/UserHeader.scss";
 
 const UserHeader = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  
+
   return (
     <>
       <div
-        className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+        className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center bg-classroom"
         style={{
           minHeight: "600px",
           backgroundImage:
@@ -52,16 +53,17 @@ const UserHeader = () => {
         {/* Mask */}
         <span className="mask bg-gradient-default opacity-8" />
         {/* Header container */}
-        <Container className="d-flex align-items-center" fluid>
+        <Container className="d-flex align-items-center subject-detail" fluid>
           <Row>
             <Col lg="7" md="10">
-              <h1 className="display-2 text-white">Software Engineer</h1>
-              <p className="text-white mt-0 mb-5">
-               MONDAY 9.00-12.00 A.M.
+              <h1 className="display-2 text-white subject-name">
+                Software Engineer
+              </h1>
+              <p className="text-white mt-0 mb-5 subject-date-time">
+                MONDAY 9.00-12.00 A.M.
               </p>
               <Button
                 color="dark"
-                href="#pablo"
                 size="sm"
                 className="edit-classroom"
                 onClick={() => setModalOpen(!modalOpen)}
@@ -85,32 +87,36 @@ const UserHeader = () => {
                     <span aria-hidden={true}>×</span>
                   </button>
                 </div>
-                <ModalBody>
+                <ModalBody className="modal-edit-classroom">
                   <Col className="order-xl-1" xl="12">
                     <Card className="bg-secondary shadow">
                       <CardHeader className="bg-white border-0">
                         <Row className="align-items-center">
-                          <Col xs="8">
+                          <Col xs="7">
                             <h3 className="mb-0">Edit Classroom</h3>
                           </Col>
-                          <Col className="text-right" xs="4">
-                            <Button
+                          <Col className="text-right" xs="5">
+                            {/* <Button
                               color="dark"
-                              href="#pablo"
                               onClick={(e) => e.preventDefault()}
                               size="sm"
+                              className="btn-coverImage"
                             >
                               Select Cover Image
-                            </Button>
+                            </Button> */}
+                            <div class="upload-btn-wrapper text-center">
+                              <button class="btn-uploadCoverimg">Select Cover Image</button>
+                              <input type="file" name="myfile" />
+                            </div>
                           </Col>
                         </Row>
                       </CardHeader>
                       <CardBody>
                         <Form>
                           <h6 className="heading-small text-muted mb-4">
-                          Classroom information
+                            Classroom information
                           </h6>
-                          
+
                           <div>
                             <Row>
                               <Col lg="4">
@@ -119,7 +125,7 @@ const UserHeader = () => {
                                     className="form-control-label"
                                     htmlFor="input-username"
                                   >
-                                    Subject Code 
+                                    Subject Code
                                   </label>
                                   <Input
                                     className="form-control-alternative"
@@ -138,7 +144,6 @@ const UserHeader = () => {
                                     className="form-control-alternative"
                                     id=""
                                     placeholder="Software Engineer"
-                                
                                   />
                                 </FormGroup>
                               </Col>
@@ -171,7 +176,11 @@ const UserHeader = () => {
                                   <label className="form-control-label">
                                     Start time
                                   </label>
-                                  <input type="time" name="time" className="form-control-alternative form-time"/>
+                                  <input
+                                    type="time"
+                                    name="time"
+                                    className="form-control-alternative form-time"
+                                  />
                                 </FormGroup>
                               </Col>
                               <Col lg="4">
@@ -180,9 +189,13 @@ const UserHeader = () => {
                                     className="form-control-label"
                                     htmlFor="input-last-name"
                                   >
-                                  End time
+                                    End time
                                   </label>
-                                  <input type="time" name="time" className="form-control-alternative form-time"/>
+                                  <input
+                                    type="time"
+                                    name="time"
+                                    className="form-control-alternative form-time"
+                                  />
                                 </FormGroup>
                               </Col>
                             </Row>
@@ -191,7 +204,9 @@ const UserHeader = () => {
                           {/* Description */}
                           <div>
                             <FormGroup>
-                              <label className="form-control-label">Description</label>
+                              <label className="form-control-label">
+                                Description
+                              </label>
                               <Input
                                 className="form-control-alternative"
                                 placeholder="A few words about classroom ..."
@@ -201,7 +216,10 @@ const UserHeader = () => {
                             </FormGroup>
                           </div>
                           <div className="text-center">
-                            <Button className="mt-2 button-modal-detailClassroom" color="dark">
+                            <Button
+                              className="mt-2 button-modal-detailClassroom"
+                              color="dark"
+                            >
                               Save
                             </Button>
                           </div>
