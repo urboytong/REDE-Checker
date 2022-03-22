@@ -17,8 +17,15 @@
 */
 
 // reactstrap components
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import firebaseApp from "../../firebase";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useHistory,
+} from "react-router-dom";
 
 import {
   Button,
@@ -58,6 +65,118 @@ const Header2 = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [copiedText, setCopiedText] = useState();
 
+  const [SubjectCode, setSubjectCode] = useState("");
+  const [SubjectName, setSubjectName] = useState("");
+  const [ClassDate, setClassDate] = useState("Monday");
+  const [StartTime, setStartTime] = useState("");
+  const [EndTime, setEndTime] = useState("");
+  const [Description, setDescription] = useState("");
+
+  const [SubjectCodeError, setSubjectCodeError] = useState("");
+  const [SubjectNameError, setSubjectNameError] = useState("");
+  const [ClassDateError, setClassDateError] = useState("");
+  const [StartTimeError, setStartTimeError] = useState("");
+  const [EndTimeError, setEndTimeError] = useState("");
+
+  const db = firebaseApp.firestore();
+  const userCollection = db.collection("ClassRoom");
+
+  const [ClassRoom, setClassRoom] = useState({});
+  const [DaysColor, setDaysColor] = useState({'Monday':'#FFF5BA', 'Tuesday':'#ecd6e3', 'Wednesday':'#97c1a9', 'Thursday':'#ffc7a2', 'Friday':'#acdee7', 'Saturday':'#ccaacb', 'Sunday':'#ff9689'});
+
+  const history = useHistory();
+
+  const routeChange = (e) => {
+    history.push({
+      pathname: "/professor/profile-home/profile-class",
+      search: e,
+      state: { detail: e },
+    });
+  };
+
+  async function CreateClass() {
+    clearErrors();
+    ErrorsCheck();
+    let UId = firebaseApp.auth().currentUser.uid
+    if (
+      SubjectCode != "" &&
+      SubjectName != "" &&
+      ClassDate != "" &&
+      StartTime != "" &&
+      EndTime != ""
+    ) {
+      const documentRef = await userCollection.add({
+        SubjectCode,
+        SubjectName,
+        ClassDate,
+        StartTime,
+        EndTime,
+        Description,
+        UId,
+      });
+      window.location.reload();
+    }
+
+    //console.log(`new document has been inserted as ${documentRef.id}`);
+  }
+
+  function ErrorsCheck() {
+    if (SubjectCode == "") setSubjectCodeError("Empty.");
+    if (SubjectName == "") setSubjectNameError("Empty.");
+    if (ClassDate == "") setClassDateError("Empty.");
+    if (StartTime == "") setStartTimeError("Empty.");
+    if (EndTime == "") setEndTimeError("Empty.");
+  }
+
+  const clearErrors = () => {
+    setSubjectCodeError("");
+    setSubjectNameError("");
+    setClassDateError("");
+    setStartTimeError("");
+    setEndTimeError("");
+  };
+
+  useEffect(() => {
+    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
+    firebaseApp.auth().onAuthStateChanged((user) => {
+      const db = firebaseApp.firestore();
+      const userCollection = db
+        .collection("ClassRoom")
+        .where("UId", "==", firebaseApp.auth().currentUser.uid);
+
+      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+      const unsubscribe = userCollection.onSnapshot((ss) => {
+        // ตัวแปร local
+        const ClassRoom = [];
+        let count = 0;
+
+        ss.forEach((document) => {
+          // manipulate ตัวแปร local
+          ClassRoom[count] = document.data();
+          ClassRoom[count].key = document.id;
+          ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate]
+          count++;
+        });
+
+        // เปลี่ยนค่าตัวแปร state
+        ClassRoom.sort((a, b) =>
+          a.SubjectCode > b.SubjectCode
+            ? 1
+            : b.SubjectCode > a.SubjectCode
+            ? -1
+            : 0
+        );
+        setClassRoom(ClassRoom);
+        console.log(ClassRoom);
+      });
+
+      return () => {
+        // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+        unsubscribe();
+      };
+    });
+  }, []);
+
   return (
     <>
       <Modal
@@ -92,123 +211,148 @@ const Header2 = () => {
                       Select Cover Image
                     </Button> */}
                     <div class="upload-btn-wrapper text-center">
-                      <button class="btn-uploadCoverimg">Select Cover Image</button>
+                      <button class="btn-uploadCoverimg">
+                        Select Cover Image
+                      </button>
                       <input type="file" name="myfile" />
                     </div>
                   </Col>
                 </Row>
               </CardHeader>
               <CardBody>
-                <Form>
-                  <h6 className="heading-small text-muted mb-4">
-                    Classroom information
-                  </h6>
+                {/*<Form>*/}
+                <h6 className="heading-small text-muted mb-4">
+                  Classroom information
+                </h6>
 
-                  <div>
-                    <Row>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-username"
-                          >
-                            Subject Code
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            id=""
-                            placeholder="CSSxxx"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="8">
-                        <FormGroup>
-                          <label className="form-control-label">
-                            Subject Name
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            id=""
-                            placeholder="Software Engineer"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label className="form-control-label">
-                            Class Date
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="Lucky"
-                            id="input-first-name"
-                            placeholder="First name"
-                            type="select"
-                          >
-                            <option>Monday</option>
-                            <option>Tuesday</option>
-                            <option>Wednesday</option>
-                            <option>Thursday</option>
-                            <option>Friday</option>
-                            <option>Saturday</option>
-                            <option>Sunday</option>
-                          </Input>
-                        </FormGroup>
-                      </Col>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label className="form-control-label">
-                            Start time
-                          </label>
-                          <input
-                            type="time"
-                            name="time"
-                            className="form-control-alternative form-time"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-last-name"
-                          >
-                            End time
-                          </label>
-                          <input
-                            type="time"
-                            name="time"
-                            className="form-control-alternative form-time"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </div>
+                <div>
+                  <Row>
+                    <Col lg="4">
+                      <FormGroup>
+                        <label
+                          className="form-control-label"
+                          htmlFor="input-username"
+                        >
+                          Subject Code
+                          <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{SubjectCodeError}</span>
+                        </label>
 
-                  {/* Description */}
-                  <div>
-                    <FormGroup>
-                      <label className="form-control-label">Description</label>
-                      <Input
-                        className="form-control-alternative"
-                        placeholder="A few words about classroom ..."
-                        rows="4"
-                        type="textarea"
-                      />
-                    </FormGroup>
-                  </div>
-                  <div className="text-center">
-                    <Button
-                      className="mt-2 button-modal-detailClassroom"
-                      color="dark"
-                    >
-                      Create Classroom
-                    </Button>
-                  </div>
-                </Form>
+                        <Input
+                          className="form-control-alternative"
+                          id=""
+                          placeholder="CSSxxx"
+                          type="text"
+                          onChange={(e) => setSubjectCode(e.target.value)}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col lg="8">
+                      <FormGroup>
+                        <label className="form-control-label">
+                          Subject Name
+                          <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{SubjectNameError}</span>
+                        </label>
+                        <Input
+                          className="form-control-alternative"
+                          id=""
+                          placeholder="Software Engineer"
+                          onChange={(e) => setSubjectName(e.target.value)}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col lg="4">
+                      <FormGroup>
+                        <label className="form-control-label">
+                          Class Date
+                          <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{ClassDateError}</span>
+                        </label>
+                        <Input
+                          className="form-control-alternative"
+                          defaultValue="Lucky"
+                          id="input-first-name"
+                          placeholder="First name"
+                          type="select"
+                          onChange={(e) => setClassDate(e.target.value)}
+                        >
+                          <option>Monday</option>
+                          <option>Tuesday</option>
+                          <option>Wednesday</option>
+                          <option>Thursday</option>
+                          <option>Friday</option>
+                          <option>Saturday</option>
+                          <option>Sunday</option>
+                        </Input>
+                      </FormGroup>
+                    </Col>
+                    <Col lg="4">
+                      <FormGroup>
+                        <label className="form-control-label">
+                          Start time
+                          <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{StartTimeError}</span>
+                        </label>
+                        <input
+                          type="time"
+                          name="time"
+                          className="form-control-alternative form-time"
+                          onChange={(e) => setStartTime(e.target.value)}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col lg="4">
+                      <FormGroup>
+                        <label
+                          className="form-control-label"
+                          htmlFor="input-last-name"
+                        >
+                          End time
+                          <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{EndTimeError}</span>
+                        </label>
+                        <input
+                          type="time"
+                          name="time"
+                          className="form-control-alternative form-time"
+                          onChange={(e) => setEndTime(e.target.value)}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </div>
+
+                {/* Description */}
+                <div>
+                  <FormGroup>
+                    <label className="form-control-label">Description</label>
+                    <Input
+                      className="form-control-alternative"
+                      placeholder="A few words about classroom ..."
+                      rows="4"
+                      type="textarea"
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </FormGroup>
+                </div>
+                <div className="text-center">
+                  <Button
+                    className="mt-2 button-modal-detailClassroom"
+                    color="dark"
+                    onClick={(e) => CreateClass()}
+                  >
+                    Create Classroom
+                  </Button>
+                </div>
+                {/*</Form>*/}
               </CardBody>
             </Card>
           </Col>
@@ -230,216 +374,44 @@ const Header2 = () => {
               </Button>
             </div>
             <Row className="mt-4">
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody className="subject-card">
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Software Engineer
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                          CSS 111
-                        </span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-yellow text-white rounded-circle shadow circle-day"></div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">MONDAY : 9:00 - 12:00</span>
-                      <span className="mr-2 section">SEC : 1</span>{" "}
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody className="subject-card">
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Software Engineer
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                          CSS 111
-                        </span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-pink text-white rounded-circle shadow circle-day"></div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">TUSEDAY : 9:00 - 12:00</span>
-                      <span className="mr-2 section">SEC : 1</span>{" "}
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody className="subject-card">
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Software Engineer
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                          CSS 111
-                        </span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-orange text-white rounded-circle shadow circle-day"></div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">THURSDAY : 9:00 - 12:00</span>
-                      <span className="mr-2 section">SEC : 1</span>{" "}
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody className="subject-card">
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Software Engineer
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                          CSS 111
-                        </span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-orange text-white rounded-circle shadow circle-day"></div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">THURSDAY : 13:00 - 16:00</span>
-                      <span className="mr-2 section">SEC : 1</span>{" "}
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-            <Row className="mt-4">
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody className="subject-card">
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Software Engineer
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                          CSS 111
-                        </span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-green text-white rounded-circle shadow circle-day"></div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">WEDNESDAY : 9:00 - 12:00</span>
-                      <span className="mr-2 section">SEC : 1</span>{" "}
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody className="subject-card">
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Software Engineer
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                          CSS 111
-                        </span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-green text-white rounded-circle shadow circle-day"></div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">WEDNESDAY : 13:00 - 16:00</span>
-                      <span className="mr-2 section">SEC : 1</span>{" "}
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody className="subject-card">
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Software Engineer
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                          CSS 111
-                        </span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-purple text-white rounded-circle shadow circle-day"></div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">FRIDAY : 9:00 - 12:00</span>
-                      <span className="mr-2 section">SEC : 1</span>{" "}
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody className="subject-card">
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Software Engineer
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                          CSS 111
-                        </span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-purple text-white rounded-circle shadow circle-day"></div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="mr-2">FRIDAY : 13:00 - 16:00</span>
-                      <span className="mr-2 section">SEC : 1</span>{" "}
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
+              {Object.keys(ClassRoom).map((id) => {
+                return (
+                  <Col lg="6" xl="3">
+                    <Card
+                      className="card-stats mb-4 mb-xl-0"
+                      onClick={() => routeChange(ClassRoom[id].key)}
+                    >
+                      <CardBody className="subject-card">
+                        <Row>
+                          <div className="col">
+                            <CardTitle
+                              tag="h5"
+                              className="text-uppercase text-muted mb-0"
+                            >
+                              {ClassRoom[id].SubjectName}
+                            </CardTitle>
+                            <span className="h2 font-weight-bold mb-0">
+                              {ClassRoom[id].SubjectCode}
+                            </span>
+                          </div>
+                          <Col className="col-auto">
+                            <div className="icon icon-shape text-white rounded-circle shadow circle-day" style={{ backgroundColor: ClassRoom[id].daycolor }}></div>
+                          </Col>
+                        </Row>
+                        <p className="mt-3 mb-0 text-muted text-sm">
+                          <span className="mr-2">
+                            {" "}
+                            {ClassRoom[id].ClassDate} :{" "}
+                            {ClassRoom[id].StartTime} - {ClassRoom[id].EndTime}
+                          </span>
+                          <span className="mr-2 section">SEC : -</span>{" "}
+                        </p>
+                      </CardBody>
+                    </Card>
+                    &nbsp;
+                  </Col>
+                );
+              })}
             </Row>
           </div>
         </Container>
