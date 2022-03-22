@@ -17,9 +17,9 @@
 */
 //test punch22
 // reactstrap components
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import firebaseApp from "../../firebase";
-import { Redirect } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { AuthContext } from "components/Auth/Auth.js";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -86,6 +86,37 @@ const Profile = () => {
 
   const [uploadFile, setUploadFile] = React.useState();
   const [superHero, setSuperHero] = React.useState();
+
+  const [ClassRoom, setClassRoom] = useState({});
+
+  const location = useLocation();
+
+  useEffect(() => {
+    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
+    firebaseApp.auth().onAuthStateChanged(user => {
+        const db = firebaseApp.firestore()
+        const userCollection = db.collection('ClassRoom').where('__name__' , '==' , location.search.substring(1))       
+    
+      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+      const unsubscribe = userCollection.onSnapshot(ss => {
+          // ตัวแปร local
+          const ClassRoom = {}
+
+          ss.forEach(document => {
+              // manipulate ตัวแปร local
+              ClassRoom[document.id] = document.data()
+          })
+
+          // เปลี่ยนค่าตัวแปร state
+          setClassRoom(ClassRoom)
+      })
+
+      return () => {
+          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+          unsubscribe()
+      }
+      });
+  }, [])
 
   return (
     <>
