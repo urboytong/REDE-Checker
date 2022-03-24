@@ -205,13 +205,6 @@ const Header2 = () => {
                     <h3 className="mb-0">Create Classroom</h3>
                   </Col>
                   <Col className="text-right" xs="4">
-                    {/* <Button
-                      color="dark"
-                      onClick={(e) => e.preventDefault()}
-                      size="sm"
-                    >
-                      Select Cover Image
-                    </Button> */}
                     <div class="upload-btn-wrapper text-center">
                       <button class="btn-uploadCoverimg">
                         Select Cover Image
@@ -229,7 +222,7 @@ const Header2 = () => {
 
                 <div>
                   <Row>
-                    <Col lg="4">
+                    <Col lg="6">
                       <FormGroup>
                         <label
                           className="form-control-label"
@@ -244,13 +237,35 @@ const Header2 = () => {
                         <Input
                           className="form-control-alternative"
                           id=""
-                          placeholder="CSSxxx"
+                          placeholder="CSS xxx"
                           type="text"
                           onChange={(e) => setSubjectCode(e.target.value)}
                         />
                       </FormGroup>
                     </Col>
-                    <Col lg="8">
+                    <Col lg="6">
+                      <FormGroup>
+                        <label
+                          className="form-control-label"
+                          htmlFor="input-username"
+                        >
+                          Section
+                          <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{SubjectCodeError}</span>
+                        </label>
+
+                        <Input
+                          className="form-control-alternative"
+                          type="text"
+                          placeholder="xxx"
+                          // onChange={(e) => setSubjectCode(e.target.value)}
+                        />
+                      </FormGroup>
+                    </Col>
+                    </Row>
+                    <Row>
+                    <Col>
                       <FormGroup>
                         <label className="form-control-label">
                           Subject Name
@@ -362,7 +377,7 @@ const Header2 = () => {
         <ModalFooter></ModalFooter>
       </Modal>
 
-      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
+      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home">
         <Container fluid>
           <div className="header-body">
             <div className="text-right">
@@ -388,7 +403,7 @@ const Header2 = () => {
                           <div className="col">
                             <CardTitle
                               tag="h5"
-                              className="text-uppercase text-muted mb-0"
+                              className="text-uppercase text-muted mb-0 home-subjectName"
                             >
                               {ClassRoom[id].SubjectName}
                             </CardTitle>

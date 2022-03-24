@@ -1,5 +1,5 @@
 .edit-classroom ,.edit-classroom:hover {
-  width: 100%;
+  width: 350px;
   background-color: rgba(124, 124, 124, 0.623); 
   border-radius: 10px;
   margin-top: -50px;
@@ -8,6 +8,21 @@
 
 .edit-classroom:active {
   background-color: rgba(85, 85, 85, 0.623) !important; 
+}
+
+.subject-date-time {
+  width: 255px;
+}
+
+.time-sec {
+  display: flex;
+  flex-direction: row;
+  width: 350px;
+}
+
+.section-userHeader {
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media only screen and (max-width: 767px) {

@@ -1,5 +1,17 @@
+.sidebar-none {
+  display: none !important;
+}
+.navbar-vertical.navbar-expand-md.fixed-left + .main-content {
+  margin-left: 0px;
+}
 @media only screen and (max-width: 767px) {
   .navbar-brand-img {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 415px) {
+  .sidebar-none {
+    display: block !important;
   }
 }

@@ -66,7 +66,7 @@ const Student = (props) => {
 
   return (
     <>
-      <Sidebar
+      {/* <Sidebar
         {...props}
         routes={routes}
         logo={{
@@ -74,7 +74,7 @@ const Student = (props) => {
           imgSrc: require("../assets/img/brand/argon-react.png").default,
           imgAlt: "...",
         }}
-      />
+      /> */}
       <div className="main-content" ref={mainContent}>
         <StudentNavbar
           {...props}
