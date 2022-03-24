@@ -90,7 +90,7 @@ const Header = () => {
               </Button>
             </Col>
           </Row>
-          <h4 className="text-center mt-4 mb-2">OR</h4>
+          {/* <h4 className="text-center mt-4 mb-2">OR</h4>
           <div className="text-center">
             <Button
               className="mt-2"
@@ -99,7 +99,7 @@ const Header = () => {
             >
               Scan QR Code
             </Button>
-          </div>
+          </div> */}
         </ModalBody>
         <ModalFooter></ModalFooter>
       </Modal>

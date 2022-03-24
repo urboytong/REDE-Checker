@@ -12,6 +12,12 @@
   width: 162.79px;
 }
 
+.bg-home {
+  // background-color: #8898aa;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+}
 //modal join classroom
 .subjectName {
   float: left;
@@ -37,6 +43,14 @@
 }
 
 //page
+.home-subjectName {
+  white-space: nowrap; 
+  overflow: hidden; 
+  width: 470px; 
+  text-overflow: ellipsis; 
+  text-align: left;
+}
+
 .circle-day {
   width: 2rem !important;
   height: 2rem !important;
@@ -62,4 +76,74 @@
   padding: 0.25rem 0.5rem;
   font-weight: bold;
   margin-left: auto;
+}
+
+@media only screen and (max-width: 1920px) {
+  .home-subjectName {
+    white-space: nowrap; 
+    overflow: hidden; 
+    width:240px; 
+    text-overflow: ellipsis; 
+    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .home-subjectName {
+    white-space: nowrap; 
+    overflow: hidden; 
+    width:350px; 
+    text-overflow: ellipsis; 
+    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 820px) {
+  .home-subjectName {
+    white-space: nowrap; 
+    overflow: hidden; 
+    width:600px; 
+    text-overflow: ellipsis; 
+    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .home-subjectName {
+    white-space: nowrap; 
+    overflow: hidden; 
+    width:550px; 
+    text-overflow: ellipsis; 
+    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 415px) {
+  .home-subjectName {
+    white-space: nowrap; 
+    overflow: hidden; 
+    width:280px; 
+    text-overflow: ellipsis; 
+    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 391px) {
+  .home-subjectName {
+    white-space: nowrap; 
+    overflow: hidden; 
+    width:260px; 
+    text-overflow: ellipsis; 
+    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 376px) {
+  .home-subjectName {
+    white-space: nowrap; 
+    overflow: hidden; 
+    width:240px; 
+    text-overflow: ellipsis; 
+    text-align: left;
+  }
 }

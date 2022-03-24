@@ -150,7 +150,7 @@ const Sidebar = (props) => {
 
   return (
     <Navbar
-      className="navbar-vertical fixed-left navbar-light bg-white"
+      className="navbar-vertical fixed-left navbar-light bg-white sidebar-none"
       expand="md"
       id="sidenav-main"
     >
@@ -175,21 +175,6 @@ const Sidebar = (props) => {
         ) : null}
         {/* User */}
         <Nav className="align-items-center d-md-none">
-          {/* <UncontrolledDropdown nav>
-            <DropdownToggle nav className="nav-link-icon">
-              <i className="ni ni-bell-55" />
-            </DropdownToggle>
-            <DropdownMenu
-              aria-labelledby="navbar-default_dropdown_1"
-              className="dropdown-menu-arrow"
-              right
-            >
-              <DropdownItem>Action</DropdownItem>
-              <DropdownItem>Another action</DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>Something else here</DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown> */}
           <UncontrolledDropdown nav>
             <DropdownToggle nav>
               <Media className="align-items-center">
@@ -204,21 +189,6 @@ const Sidebar = (props) => {
                 </span>
               </Media>
             </DropdownToggle>
-            <DropdownMenu className="dropdown-menu-arrow" right>
-            <DropdownItem
-                  to="/"
-                  tag={Link}
-                  onClick={() => setModalOpen(!modalOpen)}
-                >
-                  <i className="ni ni-single-02" />
-                  <span>My profileRR</span>
-                </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                <i className="ni ni-user-run" />
-                <span>Logout</span>
-              </DropdownItem>
-            </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>
         
@@ -253,7 +223,17 @@ const Sidebar = (props) => {
             </Row>
           </div>
           {/* Navigation */}
-          <Nav navbar>{createLinks(routes)}</Nav>
+          <Nav className="mb-md-3" navbar>
+            <NavItem className="active-pro active">
+              <DropdownItem>
+                <div>
+                <i className="ni ni-single-02" />
+                &nbsp;
+                My Profile
+                </div>
+              </DropdownItem>
+            </NavItem>
+          </Nav>
           
           {/* Divider */}
           <hr className="my-3" />
@@ -265,10 +245,8 @@ const Sidebar = (props) => {
           <Nav className="mb-md-3" navbar>
             <NavItem className="active-pro active">
               <DropdownItem>
-                <div
-                  className="ni ni-spaceship"
-                  onClick={() => firebaseApp.auth().signOut()}
-                >
+                <div onClick={() => firebaseApp.auth().signOut()}>
+                <i className="ni ni-user-run" />
                   &nbsp; Logout
                 </div>
               </DropdownItem>

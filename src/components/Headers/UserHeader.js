@@ -91,12 +91,22 @@ const UserHeader = () => {
         <Container className="d-flex align-items-center subject-detail" fluid>
           <Row>
             <Col lg="7" md="10">
+              <h1 className=" text-white">
+              {ClassRoom.SubjectCode}
+                <br/>
+              </h1>
               <h1 className="display-2 text-white subject-name">
                 {ClassRoom.SubjectName}
               </h1>
-              <p className="text-white mt-0 mb-5 subject-date-time">
-                {ClassRoom.ClassDate} {ClassRoom.StartTime}-{ClassRoom.EndTime} A.M.
-              </p>
+              <div className="mb-5 time-sec">
+                <span className="text-white mt-0 subject-date-time">
+                  {ClassRoom.ClassDate} {ClassRoom.StartTime} - {ClassRoom.EndTime} A.M.
+                </span>
+                <span className="text-white section-userHeader">
+                &nbsp; &nbsp; &nbsp; Section 2
+                </span>
+              </div>
+              
               <Button
                 color="dark"
                 size="sm"
@@ -131,14 +141,6 @@ const UserHeader = () => {
                             <h3 className="mb-0">Edit Classroom</h3>
                           </Col>
                           <Col className="text-right" xs="5">
-                            {/* <Button
-                              color="dark"
-                              onClick={(e) => e.preventDefault()}
-                              size="sm"
-                              className="btn-coverImage"
-                            >
-                              Select Cover Image
-                            </Button> */}
                             <div class="upload-btn-wrapper text-center">
                               <button class="btn-uploadCoverimg">Select Cover Image</button>
                               <input type="file" name="myfile" />
@@ -154,7 +156,7 @@ const UserHeader = () => {
 
                           <div>
                             <Row>
-                              <Col lg="4">
+                              <Col lg="6">
                                 <FormGroup>
                                   <label
                                     className="form-control-label"
@@ -170,7 +172,26 @@ const UserHeader = () => {
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col lg="8">
+                              <Col lg="6">
+                                <FormGroup>
+                                  <label
+                                    className="form-control-label"
+                                    htmlFor="input-username"
+                                  >
+                                    Section
+                                  </label>
+
+                                  <Input
+                                    className="form-control-alternative"
+                                    type="text"
+                                    placeholder="xxx"
+                                    // onChange={(e) => setSubjectCode(e.target.value)}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              </Row>
+                              <Row>
+                              <Col lg="12">
                                 <FormGroup>
                                   <label className="form-control-label">
                                     Subject Name
