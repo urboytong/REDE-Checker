@@ -138,43 +138,45 @@ const Header2 = () => {
 
   useEffect(() => {
     //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
-    firebaseApp.auth().onAuthStateChanged((user) => {
-      const db = firebaseApp.firestore();
-      const userCollection = db
-        .collection("ClassRoom")
-        .where("UId", "==", firebaseApp.auth().currentUser.uid);
-
-      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
-      const unsubscribe = userCollection.onSnapshot((ss) => {
-        // ตัวแปร local
-        const ClassRoom = [];
-        let count = 0;
-
-        ss.forEach((document) => {
-          // manipulate ตัวแปร local
-          ClassRoom[count] = document.data();
-          ClassRoom[count].key = document.id;
-          ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate]
-          count++;
+    if(firebaseApp.auth().currentUser){
+      firebaseApp.auth().onAuthStateChanged((user) => {
+        const db = firebaseApp.firestore();
+        const userCollection = db
+          .collection("ClassRoom")
+          .where("UId", "==", firebaseApp.auth().currentUser.uid);
+  
+        // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+        const unsubscribe = userCollection.onSnapshot((ss) => {
+          // ตัวแปร local
+          const ClassRoom = [];
+          let count = 0;
+  
+          ss.forEach((document) => {
+            // manipulate ตัวแปร local
+            ClassRoom[count] = document.data();
+            ClassRoom[count].key = document.id;
+            ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate]
+            count++;
+          });
+  
+          // เปลี่ยนค่าตัวแปร state
+          ClassRoom.sort((a, b) =>
+            a.SubjectCode > b.SubjectCode
+              ? 1
+              : b.SubjectCode > a.SubjectCode
+              ? -1
+              : 0
+          );
+          setClassRoom(ClassRoom);
+          console.log(ClassRoom);
         });
-
-        // เปลี่ยนค่าตัวแปร state
-        ClassRoom.sort((a, b) =>
-          a.SubjectCode > b.SubjectCode
-            ? 1
-            : b.SubjectCode > a.SubjectCode
-            ? -1
-            : 0
-        );
-        setClassRoom(ClassRoom);
-        console.log(ClassRoom);
+  
+        return () => {
+          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+          unsubscribe();
+        };
       });
-
-      return () => {
-        // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
-        unsubscribe();
-      };
-    });
+    }
   }, []);
 
   return (
