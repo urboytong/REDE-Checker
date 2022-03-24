@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from "react";
+import firebaseApp from "../../firebase";
+import { useLocation } from "react-router-dom";
 // import { Button, Container, Row, Col,Modal, ModalBody, ModalFooter, } from "reactstrap";
 import {
   Button,
@@ -30,11 +33,43 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 
-import React, { useState } from "react";
 import "assets/scss/argon-dashboard/custom/UserHeader.scss";
 
 const UserHeader = () => {
   const [modalOpen, setModalOpen] = useState(false);
+
+  const [ClassRoom, setClassRoom] = useState({});
+
+  const location = useLocation();
+
+  useEffect(() => {
+    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
+    firebaseApp.auth().onAuthStateChanged(user => {
+        const db = firebaseApp.firestore()
+        const userCollection = db.collection('ClassRoom').where('__name__' , '==' , location.search.substring(1))       
+    
+      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+      const unsubscribe = userCollection.onSnapshot(ss => {
+          // ตัวแปร local
+          let ClassRoom
+
+          ss.forEach(document => {
+              // manipulate ตัวแปร local
+              ClassRoom = document.data()
+          })
+
+          // เปลี่ยนค่าตัวแปร state
+          ClassRoom.ClassDate = ClassRoom.ClassDate.toUpperCase()
+          setClassRoom(ClassRoom)
+          console.log(ClassRoom)
+      })
+
+      return () => {
+          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+          unsubscribe()
+      }
+      });
+  }, [])
 
   return (
     <>
@@ -57,10 +92,10 @@ const UserHeader = () => {
           <Row>
             <Col lg="7" md="10">
               <h1 className="display-2 text-white subject-name">
-                Software Engineer
+                {ClassRoom.SubjectName}
               </h1>
               <p className="text-white mt-0 mb-5 subject-date-time">
-                MONDAY 9.00-12.00 A.M.
+                {ClassRoom.ClassDate} {ClassRoom.StartTime}-{ClassRoom.EndTime} A.M.
               </p>
               <Button
                 color="dark"

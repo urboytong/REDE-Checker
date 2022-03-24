@@ -50,6 +50,14 @@ const Login = () => {
   const [PasswordError, setPasswordError] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [copiedText, setCopiedText] = useState();
+  const [ForgotPassForm, setForgotPassForm] = useState(true);
+  const [ForgotPassForm2, setForgotPassForm2] = useState(false);
+
+  function OpenForgotPassModal() {
+    setModalOpen(!modalOpen);
+    setForgotPassForm(true);
+    setForgotPassForm2(false);
+  }
 
   const clearErrors = () => {
     setEmailError("");
@@ -89,15 +97,21 @@ const Login = () => {
     }
   };
   const forgotPassword = (Email) => {
-    firebaseApp
-      .auth()
-      .sendPasswordResetEmail(Email)
-      .then(function (user) {
-        alert("Please check your email...");
-      })
-      .catch(function (e) {
-        console.log(e);
-      });
+    if (Email != "") {
+      firebaseApp
+        .auth()
+        .sendPasswordResetEmail(Email)
+        .then(function (user) {
+          setForgotPassForm(false);
+          setForgotPassForm2(true);
+        })
+        .catch(function (e) {
+          console.log(e);
+        });
+    }
+    if (Email == "") {
+      //Code
+    }
   };
 
   const { currentUser } = useContext(AuthContext);
@@ -114,7 +128,10 @@ const Login = () => {
               <h1 className="darkGray">Login</h1>
             </div>
             <Form role="form">
-              <div className="topicForm">Email<span className="text-red">&nbsp;&nbsp;&nbsp;{EmailError}</span></div>
+              <div className="topicForm">
+                Email
+                <span className="text-red">&nbsp;&nbsp;&nbsp;{EmailError}</span>
+              </div>
               <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">
                   <Input
@@ -140,7 +157,7 @@ const Login = () => {
               </FormGroup>
               {PasswordError}
               {/* <div className="box1"> */}
-                {/* <div className="custom-control custom-control-alternative custom-checkbox checkbox">
+              {/* <div className="custom-control custom-control-alternative custom-checkbox checkbox">
                   <input
                     className="custom-control-input"
                     id=" customCheckLogin"
@@ -153,13 +170,13 @@ const Login = () => {
                     <span className="text-muted remember">Remember me</span>
                   </label>
                 </div> */}
-                <div
-                  className="forgotPass lightGray-textSize"
-                  // onClick={() => forgotPassword(Email)}
-                  onClick={() => setModalOpen(!modalOpen)}
-                >
-                  Forgot Password ?
-                </div>
+              <div
+                className="forgotPass lightGray-textSize"
+                // onClick={() => forgotPassword(Email)}
+                onClick={() => OpenForgotPassModal()}
+              >
+                Forgot Password ?
+              </div>
               {/* </div> */}
 
               <div className="text-center mt-2">
@@ -209,26 +226,48 @@ const Login = () => {
           </button>
         </div>
         <ModalBody>
-          <h1 className="text-center">Forgot Password</h1>
-          <Row className="align-items-center">
-            <Col>
-              <Input
-                className="form-control-alternative input-classroomCode"
-                id=""
-                placeholder="Please enter your Email"
-              />
-            </Col>
-            <Col className="text-right button-input-classroomCode">
-              <Button
-                color="primary"
-                href="#pablo"
-                size="sm"
-                className="search-classroomCode"
-              >
-                <i class="fa-solid fa-paper-plane"></i>
-              </Button>
-            </Col>
-          </Row>
+          {ForgotPassForm ? (
+            <h1 className="text-center">Forgot Password</h1>
+          ) : null}
+          {ForgotPassForm ? (
+            <Row className="align-items-center">
+              <Col>
+                <Input
+                  className="form-control-alternative input-classroomCode"
+                  id=""
+                  placeholder="Please enter your Email"
+                  name="email"
+                  type="text"
+                  value={Email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Col>
+              <Col className="text-right button-input-classroomCode">
+                <Button
+                  color="primary"
+                  href="#pablo"
+                  size="sm"
+                  className="search-classroomCode"
+                  onClick={() => forgotPassword(Email)}
+                >
+                  <i class="fa-solid fa-paper-plane"></i>
+                </Button>
+              </Col>
+            </Row>
+          ) : null}
+          {ForgotPassForm2 ? (
+            <h1 className="text-center">Please check your email</h1>
+          ) : null}
+          {ForgotPassForm2 ? (
+            <img
+              src={require("../../assets/img/image/mail-sending.gif").default}
+              style={{
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
+              className="webcam-style"
+            />
+          ) : null}
         </ModalBody>
         <ModalFooter></ModalFooter>
       </Modal>
