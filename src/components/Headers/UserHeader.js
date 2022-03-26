@@ -99,11 +99,11 @@ const UserHeader = () => {
                 {ClassRoom.SubjectName}
               </h1>
               <div className="mb-5 time-sec">
+                <span className="text-white">
+                Section 2
+                </span>
                 <span className="text-white mt-0 subject-date-time">
                   {ClassRoom.ClassDate} {ClassRoom.StartTime} - {ClassRoom.EndTime} A.M.
-                </span>
-                <span className="text-white section-userHeader">
-                &nbsp; &nbsp; &nbsp; Section 2
                 </span>
               </div>
               
@@ -257,20 +257,6 @@ const UserHeader = () => {
                             </Row>
                           </div>
 
-                          {/* Description */}
-                          <div>
-                            <FormGroup>
-                              <label className="form-control-label">
-                                Description
-                              </label>
-                              <Input
-                                className="form-control-alternative"
-                                placeholder="A few words about classroom ..."
-                                rows="4"
-                                type="textarea"
-                              />
-                            </FormGroup>
-                          </div>
                           <div className="text-center">
                             <Button
                               className="mt-2 button-modal-detailClassroom"

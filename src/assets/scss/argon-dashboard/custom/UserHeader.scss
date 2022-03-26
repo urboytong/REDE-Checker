@@ -11,19 +11,16 @@
 }
 
 .subject-date-time {
-  width: 255px;
+  display: flex;
 }
 
 .time-sec {
   display: flex;
   flex-direction: row;
   width: 350px;
+  justify-content: space-between;
 }
 
-.section-userHeader {
-  display: flex;
-  justify-content: flex-end;
-}
 
 @media only screen and (max-width: 767px) {
   .modal-edit-classroom {
@@ -43,9 +40,9 @@
     display: block !important;
   }
 
-  .subject-date-time {
-    text-align: center;
-  }
+  // .subject-date-time {
+  //   text-align: center;
+  // }
 
   .edit-classroom ,.edit-classroom:hover {
     width: 60%;

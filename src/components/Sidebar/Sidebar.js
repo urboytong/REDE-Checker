@@ -24,6 +24,8 @@ import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
 import "assets/scss/argon-dashboard/custom/Sidebar.scss";
+import Profile from "components/Headers/Profile.js";
+import ResetPassword from "components/Headers/ResetPassword.js";
 
 // reactstrap components
 import {
@@ -104,7 +106,9 @@ const Sidebar = (props) => {
       target: "_blank",
     };
   }
-
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen1, setModalOpen1] = useState(false);
+  const [modalOpen2, setModalOpen2] = useState(false);
   const [User, setUser] = useState({});
   const [Role, setRole] = useState("");
 
@@ -189,6 +193,17 @@ const Sidebar = (props) => {
                 </span>
               </Media>
             </DropdownToggle>
+            <DropdownMenu className="dropdown-menu-arrow" right>
+              <DropdownItem to="/" tag={Link}>
+                <i className="ni ni-single-02" />
+                <span>My profile</span>
+              </DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                <i className="ni ni-user-run" />
+                <span>Logout</span>
+              </DropdownItem>
+            </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>
         
@@ -225,13 +240,22 @@ const Sidebar = (props) => {
           {/* Navigation */}
           <Nav className="mb-md-3" navbar>
             <NavItem className="active-pro active">
-              <DropdownItem>
+              <DropdownItem
+                onClick={() => setModalOpen(!modalOpen)}
+              >
                 <div>
-                <i className="ni ni-single-02" />
-                &nbsp;
-                My Profile
+                  <i className="ni ni-single-02" />
+                  &nbsp; &nbsp; My Profile
                 </div>
               </DropdownItem>
+              <DropdownItem
+                  onClick={() => setModalOpen2(!modalOpen2)}
+                >
+                  <div>
+                    <i className="ni ni-key-25" />
+                    &nbsp; &nbsp; Reset Password
+                  </div>
+                </DropdownItem>
             </NavItem>
           </Nav>
           
@@ -247,13 +271,15 @@ const Sidebar = (props) => {
               <DropdownItem>
                 <div onClick={() => firebaseApp.auth().signOut()}>
                 <i className="ni ni-user-run" />
-                  &nbsp; Logout
+                  &nbsp; &nbsp; Logout
                 </div>
               </DropdownItem>
             </NavItem>
           </Nav>
         </Collapse>
       </Container>
+      <Profile modalOpen={modalOpen} setModalOpen={setModalOpen} modalOpen1={modalOpen1} setModalOpen1={setModalOpen1}/>
+      <ResetPassword modalOpen2={modalOpen2} setModalOpen2={setModalOpen2}/>      
     </Navbar>
   );
 };

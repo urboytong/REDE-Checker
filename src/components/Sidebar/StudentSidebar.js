@@ -24,6 +24,8 @@ import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
 import "assets/scss/argon-dashboard/custom/Sidebar.scss";
+import Profile from "components/Headers/Profile.js";
+import ResetPassword from "components/Headers/ResetPassword.js";
 
 // reactstrap components
 import {
@@ -104,7 +106,9 @@ const Sidebar = (props) => {
       target: "_blank",
     };
   }
-
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen1, setModalOpen1] = useState(false);
+  const [modalOpen2, setModalOpen2] = useState(false);
   const [User, setUser] = useState({});
   const [Role, setRole] = useState("");
 
@@ -150,7 +154,7 @@ const Sidebar = (props) => {
 
   return (
     <Navbar
-      className="navbar-vertical fixed-left navbar-light bg-white"
+      className="navbar-vertical fixed-left navbar-light bg-white sidebar-none"
       expand="md"
       id="sidenav-main"
     >
@@ -175,21 +179,6 @@ const Sidebar = (props) => {
         ) : null}
         {/* User */}
         <Nav className="align-items-center d-md-none">
-          {/* <UncontrolledDropdown nav>
-            <DropdownToggle nav className="nav-link-icon">
-              <i className="ni ni-bell-55" />
-            </DropdownToggle>
-            <DropdownMenu
-              aria-labelledby="navbar-default_dropdown_1"
-              className="dropdown-menu-arrow"
-              right
-            >
-              <DropdownItem>Action</DropdownItem>
-              <DropdownItem>Another action</DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>Something else here</DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown> */}
           <UncontrolledDropdown nav>
             <DropdownToggle nav>
               <Media className="align-items-center">
@@ -248,27 +237,47 @@ const Sidebar = (props) => {
             </Row>
           </div>
           {/* Navigation */}
-          <Nav navbar>{createLinks(routes)}</Nav>
+          <Nav className="mb-md-3" navbar>
+            <NavItem className="active-pro active">
+              <DropdownItem
+                onClick={() => setModalOpen(!modalOpen)}
+              >
+                <div>
+                  <i className="ni ni-single-02" />
+                  &nbsp; &nbsp; My Profile
+                </div>
+              </DropdownItem>
+              <DropdownItem
+                  onClick={() => setModalOpen2(!modalOpen2)}
+                >
+                  <div>
+                    <i className="ni ni-key-25" />
+                    &nbsp; &nbsp; Reset Password
+                  </div>
+                </DropdownItem>
+            </NavItem>
+          </Nav>
           {/* Divider */}
           <hr className="my-3" />
           {/* Heading */}
 
           {/* Navigation */}
           <Nav className="mb-md-3" navbar></Nav>
+          
           <Nav className="mb-md-3" navbar>
             <NavItem className="active-pro active">
               <DropdownItem>
-                <div
-                  className="ni ni-spaceship"
-                  onClick={() => firebaseApp.auth().signOut()}
-                >
-                  &nbsp; Logout
+                <div onClick={() => firebaseApp.auth().signOut()}>
+                <i className="ni ni-user-run" />
+                  &nbsp; &nbsp; Logout
                 </div>
               </DropdownItem>
             </NavItem>
           </Nav>
         </Collapse>
       </Container>
+      <Profile modalOpen={modalOpen} setModalOpen={setModalOpen} modalOpen1={modalOpen1} setModalOpen1={setModalOpen1}/>
+      <ResetPassword modalOpen2={modalOpen2} setModalOpen2={setModalOpen2}/>      
     </Navbar>
   );
 };
