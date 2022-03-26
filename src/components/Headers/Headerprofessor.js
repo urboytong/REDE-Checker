@@ -70,7 +70,6 @@ const Header2 = () => {
   const [ClassDate, setClassDate] = useState("Monday");
   const [StartTime, setStartTime] = useState("");
   const [EndTime, setEndTime] = useState("");
-  const [Description, setDescription] = useState("");
 
   const [SubjectCodeError, setSubjectCodeError] = useState("");
   const [SubjectNameError, setSubjectNameError] = useState("");
@@ -111,7 +110,6 @@ const Header2 = () => {
         ClassDate,
         StartTime,
         EndTime,
-        Description,
         UId,
       });
       window.location.reload();
@@ -347,19 +345,6 @@ const Header2 = () => {
                   </Row>
                 </div>
 
-                {/* Description */}
-                <div>
-                  <FormGroup>
-                    <label className="form-control-label">Description</label>
-                    <Input
-                      className="form-control-alternative"
-                      placeholder="A few words about classroom ..."
-                      rows="4"
-                      type="textarea"
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
-                  </FormGroup>
-                </div>
                 <div className="text-center">
                   <Button
                     className="mt-2 button-modal-detailClassroom"
@@ -421,7 +406,7 @@ const Header2 = () => {
                             {ClassRoom[id].ClassDate} :{" "}
                             {ClassRoom[id].StartTime} - {ClassRoom[id].EndTime}
                           </span>
-                          <span className="mr-2 section">SEC : -</span>{" "}
+                          <span className="mr-2 section">Sec : -</span>{" "}
                         </p>
                       </CardBody>
                     </Card>

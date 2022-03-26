@@ -19,17 +19,17 @@
   justify-content: center;
   align-items: center;
   display: flex;
-  border: 5px solid #5e72e4;;
+  border: 5px solid #000000;;
 }
 
 .boxButton {
   margin-top: -50px !important;
 }
 .btn-uploadFile-imgProfile {
-  border: 2px solid #5e72e4;
+  border: 2px solid #000000;
   display: block;
   margin-top: 20px;
-  background-color: #5e72e4;
+  background-color: #000000;
   border-radius: 100px;
   font-size: 0.875rem;
   padding: 0.25rem 0.5rem;
@@ -41,7 +41,7 @@
 .uploadButton2 {
   width: 35px;
   height: 35px;
-  background-color: #5e72e4;;
+  background-color: #000000;;
   border-radius: 100px;
   display: flex;
   justify-content: center;
@@ -59,6 +59,15 @@ select {
   overflow:hidden; 
   white-space:nowrap; 
   text-overflow:ellipsis;
+}
+
+.modal-resetPass {
+  padding: 0rem 2.5rem !important;
+}
+
+.resetPass {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 @media screen and (max-width: 820px) { 

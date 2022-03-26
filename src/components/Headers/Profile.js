@@ -51,9 +51,9 @@ import {
 } from "reactstrap";
 import "assets/scss/argon-dashboard/custom/AdminNavbar.scss";
 
-const Profile = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalOpen1, setModalOpen1] = useState(false);
+const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
+  // const [modalOpen, setModalOpen] = useState(false);
+  // const [modalOpen1, setModalOpen1] = useState(false);
   return (
     <>
     
@@ -252,7 +252,7 @@ const Profile = () => {
                     <div className="text-center lightGray">
                       <Button
                         className="mt-4 buttonStyle"
-                        color="primary"
+                        color="dark"
                         type="button"
                       >
                         SAVE

@@ -38,6 +38,22 @@
   font-size: 0.875rem;
   padding: 0.25rem 0.5rem;
   font-weight: bold;
+  width: 70%;
+}
+
+.btn-uploadFile2 {
+  border: 2px solid #fd5757;
+  color: #fd5757;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 5px;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  font-weight: bold;
+  width: 70%;
 }
 
 .upload-btn-wrapper input[type=file] {
@@ -103,6 +119,30 @@
 
 .date-profile {
   margin-bottom: 20px;
+}
+
+.createQuest {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.col-selectQuest {
+  padding: 0px;
+}
+
+.select-quest {
+ width: 98% ;
+}
+
+.select-quest2 {
+  width: 98% ;
+  margin-left: auto;
+ }
+
+.btn-create {
+  width: 50% !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 //request modal 

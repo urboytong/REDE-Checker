@@ -65,8 +65,8 @@ const date = `${current.getDate()}/${
 }/${current.getFullYear()}`;
 const Profile = () => {
   const [modalOpen1, setModalOpen1] = useState(false);
-  const [modalOpen4, setModalOpen4] = useState(false);
-  const [modalOpen11, setModalOpen11] = useState(false);
+  const [modalOpen2, setModalOpen2] = useState(false);
+  const [modalOpen3, setModalOpen3] = useState(false);
 
   return (
     <>
@@ -138,8 +138,8 @@ const Profile = () => {
       </Modal>
 
       <Modal
-        toggle={() => setModalOpen11(!modalOpen11)}
-        isOpen={modalOpen11}
+        toggle={() => setModalOpen2(!modalOpen2)}
+        isOpen={modalOpen2}
         size="lg"
       >
         <div className=" modal-header">
@@ -147,7 +147,59 @@ const Profile = () => {
             aria-label="Close"
             className=" close"
             type="button"
-            onClick={() => setModalOpen11(!modalOpen11)}
+            onClick={() => setModalOpen2(!modalOpen2)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <ModalBody>
+          <Row>
+            {" "}
+            <Col>
+              <Card className="shadow">
+                <CardHeader className="bg-transparent">
+                  <Row className="align-items-center">
+                    <div className="col">
+                      <h2 className="mb-0">Quest Check</h2>
+                    </div>
+                  </Row>
+                </CardHeader>
+                <CardBody className="createQuest">
+                  <Row className="align-items-center mb-4">
+                    <div>Status : Complete</div>
+                  </Row>
+                  <Row>
+                    <div className="box-quest" style={{height: '480px', width: '640px', position: 'relative', overflow: 'auto', padding: '0', background: 'lightgrey'}}>
+                    </div>
+                  </Row>
+                  <Row>
+                    <Button
+                      className="mt-4 buttonStyle btn-create"
+                      color="dark"
+                      type="button"
+                    >
+                      SEND QUEST
+                    </Button>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </ModalBody>
+        <ModalFooter></ModalFooter>
+      </Modal>
+      
+      <Modal
+        toggle={() => setModalOpen3(!modalOpen3)}
+        isOpen={modalOpen3}
+        size="lg"
+      >
+        <div className=" modal-header">
+          <button
+            aria-label="Close"
+            className=" close"
+            type="button"
+            onClick={() => setModalOpen3(!modalOpen3)}
           >
             <span aria-hidden={true}>×</span>
           </button>
@@ -177,49 +229,6 @@ const Profile = () => {
           </Col>
         </ModalBody>
         <ModalFooter className="footer-none"></ModalFooter>
-      </Modal>
-
-      <Modal
-        toggle={() => setModalOpen4(!modalOpen4)}
-        isOpen={modalOpen4}
-        size="sm"
-      >
-        <div className=" modal-header">
-          <button
-            aria-label="Close"
-            className=" close"
-            type="button"
-            onClick={() => setModalOpen4(!modalOpen4)}
-          >
-            <span aria-hidden={true}>×</span>
-          </button>
-        </div>
-        <ModalBody>
-          {" "}
-          <p className="font-weight-light">
-            You want to Delete
-            <span>Natthaphat Wannawat</span> ?
-          </p>
-          <div className="col text-right">
-            <Button
-              color="success"
-              href="#pablo"
-              //onClick={() => setModalOpen1(!modalOpen1)}
-              size="sm"
-            >
-              Confirm
-            </Button>
-            <Button
-              color="danger"
-              href="#pablo"
-              // onClick={() => setModalOpen1(!modalOpen1)}
-              size="sm"
-            >
-              Cancel
-            </Button>
-          </div>{" "}
-        </ModalBody>
-        <ModalFooter></ModalFooter>
       </Modal>
 
       <Container className="mt--7 " fluid>
@@ -264,7 +273,7 @@ const Profile = () => {
                     </h4>
                   </div>
                   <div className="text-center">
-                    <Button className="do-quest" color="dark" type="button">
+                    <Button className="do-quest" color="dark" type="button" onClick={() => setModalOpen2(!modalOpen2)}>
                       LET'S DO QUEST
                     </Button>
                   </div>
@@ -314,7 +323,7 @@ const Profile = () => {
                           color="dark"
                           type="button"
                           size="sm"
-                          onClick={() => setModalOpen11(!modalOpen11)}
+                          onClick={() => setModalOpen3(!modalOpen3)}
                         >
                           See Detail
                         </Button>
@@ -343,7 +352,7 @@ const Profile = () => {
                           color="dark"
                           type="button"
                           size="sm"
-                          onClick={() => setModalOpen11(!modalOpen11)}
+                          onClick={() => setModalOpen3(!modalOpen3)}
                         >
                           See Detail
                         </Button>
@@ -372,7 +381,7 @@ const Profile = () => {
                           color="dark"
                           type="button"
                           size="sm"
-                          onClick={() => setModalOpen11(!modalOpen11)}
+                          onClick={() => setModalOpen3(!modalOpen3)}
                         >
                           See Detail
                         </Button>

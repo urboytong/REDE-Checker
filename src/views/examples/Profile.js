@@ -82,6 +82,7 @@ const Profile = () => {
   const [modalOpen11, setModalOpen11] = useState(false);
   const [modalOpen12, setModalOpen12] = useState(false);
   const [modalOpen13, setModalOpen13] = useState(false);
+  const [modalOpen14, setModalOpen14] = useState(false);
   const [copiedText, setCopiedText] = useState();
 
   const [uploadFile, setUploadFile] = React.useState();
@@ -1669,6 +1670,110 @@ const Profile = () => {
                                   </UncontrolledDropdown>
                                 </td>
                               </tr>
+
+                              <tr>
+                                <th scope="row">
+                                  <Media className="align-items-center">
+                                    <Media>
+                                      <span className="mb-0 text-sm">
+                                        61090500437
+                                      </span>
+                                    </Media>
+                                  </Media>
+                                </th>
+
+                                <td>
+                                  <Badge
+                                    color=""
+                                    className="badge-dot mr-4 short-name2"
+                                  >
+                                    <i className="bg-danger" />
+                                    Natthamon Wannawat
+                                  </Badge>
+                                </td>
+                                <td className="height-statusReport">
+                                  <Badge color="" className="badge-dot mr-4">
+                                    Leave
+                                  </Badge>
+                                </td>
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
+                                      <DropdownItem
+                                        onClick={() =>
+                                          setModalOpen13(!modalOpen13)
+                                        }
+                                      >
+                                        See Leave Form
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <th scope="row">
+                                  <Media className="align-items-center">
+                                    <Media>
+                                      <span className="mb-0 text-sm">
+                                        61090500437
+                                      </span>
+                                    </Media>
+                                  </Media>
+                                </th>
+
+                                <td>
+                                  <Badge
+                                    color=""
+                                    className="badge-dot mr-4 short-name2"
+                                  >
+                                    <i className="bg-danger" />
+                                    Natthamon Wannawat
+                                  </Badge>
+                                </td>
+                                <td className="height-statusReport">
+                                  <Badge color="" className="badge-dot mr-4">
+                                    Leave
+                                  </Badge>
+                                </td>
+                                <td className="text-right threedot">
+                                  <UncontrolledDropdown>
+                                    <DropdownToggle
+                                      className="btn-icon-only text-light"
+                                      role="button"
+                                      size="sm"
+                                      color=""
+                                      onClick={(e) => e.preventDefault()}
+                                    >
+                                      <i className="fas fa-ellipsis-v" />
+                                    </DropdownToggle>
+                                    <DropdownMenu
+                                      className="dropdown-menu-arrow"
+                                      right
+                                    >
+                                      <DropdownItem
+                                        onClick={() =>
+                                          setModalOpen13(!modalOpen13)
+                                        }
+                                      >
+                                        See Leave Form
+                                      </DropdownItem>
+                                    </DropdownMenu>
+                                  </UncontrolledDropdown>
+                                </td>
+                              </tr>
                               <tr>
                                 <th scope="row">
                                   <Media className="align-items-center">
@@ -1865,6 +1970,37 @@ const Profile = () => {
                                 </th>
 
                                 <td>
+                                  <Badge
+                                    color=""
+                                    className="badge-dot mr-4 short-name2"
+                                  >
+                                    <i className="bg-danger" />
+                                    Natthamon Wannawat
+                                  </Badge>
+                                </td>
+                                <td className="height-statusReport">
+                                  <Badge color="" className="badge-dot mr-4">
+                                    Leave
+                                  </Badge>
+                                </td>
+
+                                <td className="text-right threedot">
+                                  
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <th scope="row">
+                                  <Media className="align-items-center">
+                                    <Media>
+                                      <span className="mb-0 text-sm">
+                                        61090500437
+                                      </span>
+                                    </Media>
+                                  </Media>
+                                </th>
+
+                                <td>
                                   <Badge color="" className="badge-dot mr-4">
                                     <i className="bg-danger" />
                                     Natthamon Wannawat
@@ -2021,16 +2157,17 @@ const Profile = () => {
                         alt="..."
                       />
                     </div>
-                    {/* <Button
-                      className="btn-icon btn-2 btn-upfile"
-                      type="button"
-                      size="sm"
-                    >
-                      Select File 
-                    </Button> */}
                     <div class="upload-btn-wrapper text-center">
-                      <button class="btn-uploadFile">Select File</button>
+                      <button class="btn-uploadFile">Upload File</button>
                       <input type="file" name="myfile" />
+                    </div>
+                    <div className="box mt-3">
+                      <div className="line"></div>
+                      <div className="lightGray-textSize or">OR</div>
+                      <div className="line"></div>
+                    </div>
+                    <div>
+                      <button class="btn-uploadFile2">Not Upload File</button>
                     </div>
                   </ModalBody>
                   <ModalFooter></ModalFooter>
@@ -2067,6 +2204,111 @@ const Profile = () => {
                   </ModalBody>
                   <ModalFooter></ModalFooter>
                 </Modal>
+                <Modal
+                  toggle={() => setModalOpen14(!modalOpen14)}
+                  isOpen={modalOpen14}
+                  size="lg"
+                >
+                  <div className=" modal-header">
+                    <button
+                      aria-label="Close"
+                      className=" close"
+                      type="button"
+                      onClick={() => setModalOpen14(!modalOpen14)}
+                    >
+                      <span aria-hidden={true}>×</span>
+                    </button>
+                  </div>
+                  <ModalBody>
+                    <Row>
+                      {" "}
+                      <Col>
+                        <Card className="shadow">
+                          <CardHeader className="bg-transparent">
+                            <Row className="align-items-center">
+                              <div className="col">
+                                <h2 className="mb-0">Create Quest</h2>
+                              </div>
+                            </Row>
+                          </CardHeader>
+                          <CardBody className="createQuest">
+                            <Row className="align-items-center mb-4">
+                              <Col className="col-selectQuest">
+                                <Input
+                                  type="select"
+                                  placeholder="Department"
+                                  style={{
+                                    textAlignVertical: "center",
+                                    textAlign: "center",
+                                  }}
+                                  className="select-quest"
+                                >
+                                  <option value="" disabled selected hidden>
+                                    Select Quest
+                                  </option>
+                                  <option>Random</option>
+                                  <option>Bag</option>
+                                  <option>Banknote</option>
+                                  <option>Book</option>
+                                  <option>Bottle</option>
+                                  <option>Coin</option>
+                                  <option>Comb</option>
+                                  <option>Cup</option>
+                                  <option>Dish</option>
+                                  <option>Fork</option>
+                                  <option>Hanger</option>
+                                  <option>Key</option>
+                                  <option>Mask</option>
+                                  <option>Pen</option>
+                                  <option>Shoe</option>
+                                  <option>Spoon</option>
+                                  <option>Tissue</option>
+                                  <option>Toothpaste</option>
+                                </Input>
+                              </Col>
+                              &nbsp;
+                              <Col className="col-selectQuest">
+                                <Input
+                                  type="select"
+                                  placeholder="Department"
+                                  style={{
+                                    textAlignVertical: "center",
+                                    textAlign: "center",
+                                  }}
+                                  className="select-quest2"
+                                >
+                                  <option value="" disabled selected hidden>
+                                    Countdown Time
+                                  </option>
+                                  <option>5 minute</option>
+                                  <option>10 minute</option>
+                                  <option>15 minute</option>
+                                  <option>20 minute</option>
+                                  <option>25 minute</option>
+                                  <option>30 minute</option>
+                                </Input>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <div className="box-quest" style={{height: '480px', width: '640px', position: 'relative', overflow: 'auto', padding: '0', background: 'lightgrey'}}>
+                              </div>
+                            </Row>
+                            <Row>
+                              <Button
+                                className="mt-4 buttonStyle btn-create"
+                                color="dark"
+                                type="button"
+                              >
+                                SEND QUEST
+                              </Button>
+                            </Row>
+                          </CardBody>
+                        </Card>
+                      </Col>
+                    </Row>
+                  </ModalBody>
+                  <ModalFooter></ModalFooter>
+                </Modal>
               </Row>
 
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4 header-createQuest">
@@ -2083,63 +2325,9 @@ const Profile = () => {
                   <div className="h5 font-weight-300">
                     <h2 className="date-profile">{date}</h2>
                   </div>
-                  <div>
-                    <Input
-                      type="select"
-                      placeholder="Department"
-                      style={{
-                        textAlignVertical: "center",
-                        textAlign: "center",
-                      }}
-                    >
-                      <option value="" disabled selected hidden>
-                        Select Quest
-                      </option>
-
-                      <option>Random</option>
-                      <option>Bag</option>
-                      <option>Banknote</option>
-                      <option>Book</option>
-                      <option>Bottle</option>
-                      <option>Coin</option>
-                      <option>Comb</option>
-                      <option>Cup</option>
-                      <option>Dish</option>
-                      <option>Fork</option>
-                      <option>Hanger</option>
-                      <option>Key</option>
-                      <option>Mask</option>
-                      <option>Pen</option>
-                      <option>Shoe</option>
-                      <option>Spoon</option>
-                      <option>Tissue</option>
-                      <option>Toothpaste</option>
-                    </Input>
-                  </div>
-                  &nbsp;
-                  <div>
-                    <Input
-                      type="select"
-                      placeholder="Department"
-                      style={{
-                        textAlignVertical: "center",
-                        textAlign: "center",
-                      }}
-                    >
-                      <option value="" disabled selected hidden>
-                        Countdown Time
-                      </option>
-                      <option>5 minute</option>
-                      <option>10 minute</option>
-                      <option>15 minute</option>
-                      <option>20 minute</option>
-                      <option>25 minute</option>
-                      <option>30 minute</option>
-                    </Input>
-                  </div>
                   <div className="text-center">
-                    <Button className="mt-4" color="info" type="button">
-                      SEND QUEST
+                    <Button className="mt-3" color="dark" type="button" onClick={() => setModalOpen14(!modalOpen14)}>
+                      CREATE QUEST
                     </Button>
                   </div>
                 </div>
@@ -2420,70 +2608,6 @@ const Profile = () => {
                       </div>
                     </td>
                   </tr>
-                  {/* <tr className="hightBox-profile">
-                    <th scope="row">
-                      <Media className="align-items-center">
-                        <Media>
-                          <span className="mb-0 text-sm">24/01/2022</span>
-                        </Media>
-                      </Media>
-                    </th>
-
-                    <td className="td-nonePadding2">
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-success" />
-                        39
-                      </Badge>
-                    </td>
-                    <td>
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-danger" />1
-                      </Badge>
-                    </td>
-                    <td>
-                      <div className="d-flex align-items-right">
-                        <Button
-                          color="dark"
-                          type="button"
-                          className="btn-seeMore-attendence"
-                        >
-                          See More
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="hightBox-profile">
-                    <th scope="row">
-                      <Media className="align-items-center">
-                        <Media>
-                          <span className="mb-0 text-sm">17/01/2022</span>
-                        </Media>
-                      </Media>
-                    </th>
-
-                    <td className="td-nonePadding2">
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-success" />
-                        39
-                      </Badge>
-                    </td>
-                    <td>
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-danger" />1
-                      </Badge>
-                    </td>
-                    <td>
-                      <div className="d-flex align-items-right">
-                        <Button
-                          color="dark"
-                          type="button"
-                          className="btn-seeMore-attendence"
-                        >
-                          See More
-                        </Button>
-                      </div>
-                    </td>
-                  </tr> */}
                 </tbody>
               </Table>
             </Card>

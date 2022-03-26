@@ -48,10 +48,12 @@ import {
 } from "reactstrap";
 import "assets/scss/argon-dashboard/custom/AdminNavbar.scss";
 import Profile from "components/Headers/Profile.js";
+import ResetPassword from "components/Headers/ResetPassword.js";
 
 const AdminNavbar = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalOpen1, setModalOpen1] = useState(false);
+  const [modalOpen2, setModalOpen2] = useState(false);
   const [User, setUser] = useState({});
   const [Role, setRole] = useState("");
 
@@ -132,6 +134,12 @@ const AdminNavbar = (props) => {
                   <i className="ni ni-single-02" />
                   <span>My profile com</span>
                 </DropdownItem>
+                <DropdownItem
+                  onClick={() => setModalOpen2(!modalOpen2)}
+                >
+                  <i className="ni ni-key-25" />
+                  <span>Reset Password</span>
+                </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem href="#pablo" onClick={() => firebaseApp.auth().signOut()}>
                   <i className="ni ni-user-run" />
@@ -143,7 +151,8 @@ const AdminNavbar = (props) => {
         </Container>
       </Navbar>
 
-      <Profile/>
+      <Profile modalOpen={modalOpen} setModalOpen={setModalOpen} modalOpen1={modalOpen1} setModalOpen1={setModalOpen1}/>
+      <ResetPassword modalOpen2={modalOpen2} setModalOpen2={setModalOpen2}/>      
       
     </>
   );
