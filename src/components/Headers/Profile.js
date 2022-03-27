@@ -87,7 +87,7 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
                   </div>
                 </Col>
               </Row>
-              <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"></CardHeader>
+              <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4 cardHead-myProfile"></CardHeader>
               <CardBody className="pt-0 pt-md-4">
                 <Row>
                   <div className="col">
