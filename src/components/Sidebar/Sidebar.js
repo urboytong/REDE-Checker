@@ -189,21 +189,11 @@ const Sidebar = (props) => {
                       require("../../assets/img/theme/team-4-800x800.jpg")
                         .default
                     }
+                    onClick={() => setModalOpen(!modalOpen)}
                   />
                 </span>
               </Media>
             </DropdownToggle>
-            <DropdownMenu className="dropdown-menu-arrow" right>
-              <DropdownItem to="/" tag={Link}>
-                <i className="ni ni-single-02" />
-                <span>My profile</span>
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                <i className="ni ni-user-run" />
-                <span>Logout</span>
-              </DropdownItem>
-            </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>
         

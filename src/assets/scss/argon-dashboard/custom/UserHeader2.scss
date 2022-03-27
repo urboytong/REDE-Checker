@@ -1,3 +1,42 @@
+.time-sec2 {
+  display: none;
+}
+
+@media only screen and (max-width: 415px) {
+  .subjectCode-userHeader {
+    width: 100%;
+    margin-top: -20px;
+    margin-bottom: 50px;
+    text-align: center;
+  }
+
+  .subject-name {
+    white-space: nowrap; 
+    overflow: hidden; 
+    width: 350px; 
+    text-overflow: ellipsis; 
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .time-sec {
+    display: none;
+  }
+
+  .time-sec2 {
+    display: block;
+    display: flex;
+    flex-direction: row;
+    width: 350px;
+    justify-content: space-between;
+    margin-top: -80px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .subject-name {
+    margin-bottom: 40px;
+  }
+}
 @media screen and (max-width: 376px) { 
   .confirm-leaveRoom {
     font-size: 14px;
@@ -5,5 +44,9 @@
 
   .btn-confirm-leaveRoom {
     font-size: 12px;
+  }
+
+  .subject-name {
+    width: 320px; 
   }
 }

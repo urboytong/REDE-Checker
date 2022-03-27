@@ -141,6 +141,7 @@ const Profile = () => {
         toggle={() => setModalOpen2(!modalOpen2)}
         isOpen={modalOpen2}
         size="lg"
+        className="modal-doQuest"
       >
         <div className=" modal-header">
           <button
@@ -169,7 +170,7 @@ const Profile = () => {
                     <div>Status : Complete</div>
                   </Row>
                   <Row>
-                    <div className="box-quest" style={{height: '480px', width: '640px', position: 'relative', overflow: 'auto', padding: '0', background: 'lightgrey'}}>
+                    <div className="box-quest2" style={{position: 'relative', overflow: 'auto', padding: '0', background: 'lightgrey'}}>
                     </div>
                   </Row>
                   <Row>

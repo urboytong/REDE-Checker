@@ -56,7 +56,15 @@ const UserHeader = () => {
         <Container className="d-flex align-items-center  subject-detail" fluid>
           <Row>
             <Col lg="7" md="10">
-            <h1 className=" text-white">
+            <div className="mb-5 time-sec2">
+                <span className="text-white">
+                Section 2
+                </span>
+                <span className="text-white mt-0 subject-date-time">
+                  MONDAY 9.00-12.00 A.M.
+                </span>
+              </div>
+            <h1 className=" text-white subjectCode-userHeader">
               CSS 111
                 <br/>
               </h1>
