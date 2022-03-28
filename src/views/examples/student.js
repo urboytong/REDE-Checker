@@ -290,7 +290,7 @@ const Profile = () => {
                   <div className="col">
                     <h3 className="mb-0 ">Attendance</h3>
                   </div>
-                  <div className="col text-right"></div>
+                  <div className="col text-right">Hour Learned 90%</div>
                 </Row>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
