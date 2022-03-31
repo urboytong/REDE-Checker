@@ -404,15 +404,15 @@ const Register = () => {
       if (detections.length !== 0) {
         setHeight(detections[0].detection._box._height);
         setWidth(detections[0].detection._box._width);
-        setX(detections[0].detection._box._x);
-        setY(detections[0].detection._box._y);
+        setX(detections[0].detection._box._x+(detections[0].detection._box._width/2));
+        setY(detections[0].detection._box._y+(detections[0].detection._box._height/2));
         if (
           detections[0].detection._box._height >= 100 &&
           detections[0].detection._box._width >= 100 &&
-          detections[0].detection._box._x >= 160 &&
-          detections[0].detection._box._x <= 240 &&
-          detections[0].detection._box._y >= 120 &&
-          detections[0].detection._box._y <= 180
+          detections[0].detection._box._x+(detections[0].detection._box._width/2) >= 270 &&
+          detections[0].detection._box._x+(detections[0].detection._box._width/2) <= 330 &&
+          detections[0].detection._box._y+(detections[0].detection._box._height/2) >= 270 &&
+          detections[0].detection._box._y+(detections[0].detection._box._height/2) <= 330
         ) {
           setPositionCheck("Good");
           setVideoBorderColor("5px solid #4fbc78");
@@ -922,6 +922,8 @@ const Register = () => {
                 <Col>
                   <p className="text-center lightGray">
                     Position : {PositionCheck}
+                    X : {X}
+                    Y : {Y}
                   </p>
                   <div className="text-center lightGray">
                     <Button
