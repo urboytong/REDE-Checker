@@ -394,6 +394,9 @@ const Register = () => {
       // Set video width
       webcamRef.current.video.width = videoWidth;
       webcamRef.current.video.height = videoHeight;
+      console.log(videoWidth/2+30)
+      console.log(videoHeight)
+
 
       const detections = await faceapi
         .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
@@ -409,10 +412,10 @@ const Register = () => {
         if (
           detections[0].detection._box._height >= 100 &&
           detections[0].detection._box._width >= 100 &&
-          detections[0].detection._box._x+(detections[0].detection._box._width/2) >= 270 &&
-          detections[0].detection._box._x+(detections[0].detection._box._width/2) <= 330 &&
-          detections[0].detection._box._y+(detections[0].detection._box._height/2) >= 270 &&
-          detections[0].detection._box._y+(detections[0].detection._box._height/2) <= 330
+          detections[0].detection._box._x+(detections[0].detection._box._width/2) >= videoWidth/2-30 &&
+          detections[0].detection._box._x+(detections[0].detection._box._width/2) <= videoWidth/2+30 &&
+          detections[0].detection._box._y+(detections[0].detection._box._height/2) >= videoHeight/2-80 &&
+          detections[0].detection._box._y+(detections[0].detection._box._height/2) <= videoHeight/2+80
         ) {
           setPositionCheck("Good");
           setVideoBorderColor("5px solid #4fbc78");
@@ -922,8 +925,6 @@ const Register = () => {
                 <Col>
                   <p className="text-center lightGray">
                     Position : {PositionCheck}
-                    X : {X}
-                    Y : {Y}
                   </p>
                   <div className="text-center lightGray">
                     <Button
