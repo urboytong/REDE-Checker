@@ -925,8 +925,6 @@ const Register = () => {
                 <Col>
                   <p className="text-center lightGray">
                     Position : {PositionCheck}
-                    X : {X}
-                    Y : {Y}
                   </p>
                   <div className="text-center lightGray">
                     <Button
