@@ -74,8 +74,8 @@ const Register = () => {
   const userCollection = db.collection("User");
   const [Signuped, setSignuped] = useState(false);
 
-  const videoHeight = 480;
-  const videoWidth = 640;
+  const [videoWidth, setvideoWidth] = useState(false);
+  const [videoHeight, setvideoHeight] = useState(false);
   const [Detection, setDetection] = useState(false);
   const [FaceRec, setFaceRec] = useState(false);
   const [initializing, setinitializing] = useState(false);
@@ -394,8 +394,8 @@ const Register = () => {
       // Set video width
       webcamRef.current.video.width = videoWidth;
       webcamRef.current.video.height = videoHeight;
-      console.log(videoWidth/2+30)
-      console.log(videoHeight)
+      setvideoWidth(videoWidth);
+      setvideoHeight(videoHeight);
 
 
       const detections = await faceapi
