@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import firebaseApp from "../../firebase";
-import { useLocation } from "react-router-dom";
+import { useLocation, Redirect } from "react-router-dom";
+import { AuthContext } from "components/Auth/Auth.js";
 // import { Button, Container, Row, Col,Modal, ModalBody, ModalFooter, } from "reactstrap";
 import {
   Button,
@@ -39,37 +40,58 @@ const UserHeader = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const [ClassRoom, setClassRoom] = useState({});
+  const [Permission, setPermission] = useState(true);
 
   const location = useLocation();
 
-  useEffect(() => {
-    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
-    firebaseApp.auth().onAuthStateChanged(user => {
-        const db = firebaseApp.firestore()
-        const userCollection = db.collection('ClassRoom').where('__name__' , '==' , location.search.substring(1))       
-    
-      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
-      const unsubscribe = userCollection.onSnapshot(ss => {
-          // ตัวแปร local
-          let ClassRoom
+  const { currentUser } = useContext(AuthContext);
 
-          ss.forEach(document => {
-              // manipulate ตัวแปร local
-              ClassRoom = document.data()
-          })
+  useEffect(() => {
+    if (currentUser) {
+      //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
+      firebaseApp.auth().onAuthStateChanged((user) => {
+        const db = firebaseApp.firestore();
+        const userCollection = db
+          .collection("ClassRoom")
+          .where("__name__", "==", location.search.substring(1));
+
+        // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+        const unsubscribe = userCollection.onSnapshot((ss) => {
+          // ตัวแปร local
+          let ClassRoom;
+
+          ss.forEach((document) => {
+            // manipulate ตัวแปร local
+            ClassRoom = document.data();
+          });
 
           // เปลี่ยนค่าตัวแปร state
-          ClassRoom.ClassDate = ClassRoom.ClassDate.toUpperCase()
-          setClassRoom(ClassRoom)
-          console.log(ClassRoom)
-      })
+          if (ClassRoom) {
+            ClassRoom.ClassDate = ClassRoom.ClassDate.toUpperCase();
+            setClassRoom(ClassRoom);
+            setPermission(ClassRoom.UId.includes(currentUser._delegate.uid));
+            console.log(ClassRoom.UId.includes(currentUser._delegate.uid));
+          }
+          if (!ClassRoom) {
+            setPermission(false);
+          }
+        });
 
-      return () => {
+        return () => {
           // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
-          unsubscribe()
-      }
+          unsubscribe();
+        };
       });
-  }, [])
+    }
+  }, []);
+
+  if (Permission == false) {
+    return <Redirect to="/professor/profile-home" />;
+  }
+
+  if (location.search.substring(1) == "") {
+    return <Redirect to="/professor/profile-home" />;
+  }
 
   return (
     <>
@@ -92,21 +114,20 @@ const UserHeader = () => {
           <Row>
             <Col lg="7" md="10">
               <h1 className=" text-white">
-              {ClassRoom.SubjectCode}
-                <br/>
+                {ClassRoom.SubjectCode}
+                <br />
               </h1>
               <h1 className="display-2 text-white subject-name">
                 {ClassRoom.SubjectName}
               </h1>
               <div className="mb-5 time-sec">
-                <span className="text-white">
-                Section 2
-                </span>
+                <span className="text-white">Section 2</span>
                 <span className="text-white mt-0 subject-date-time">
-                  {ClassRoom.ClassDate} {ClassRoom.StartTime} - {ClassRoom.EndTime} A.M.
+                  {ClassRoom.ClassDate} {ClassRoom.StartTime} -{" "}
+                  {ClassRoom.EndTime} A.M.
                 </span>
               </div>
-              
+
               <Button
                 color="dark"
                 size="sm"
@@ -142,7 +163,9 @@ const UserHeader = () => {
                           </Col>
                           <Col className="text-right" xs="5">
                             <div class="upload-btn-wrapper text-center">
-                              <button class="btn-uploadCoverimg">Select Cover Image</button>
+                              <button class="btn-uploadCoverimg">
+                                Select Cover Image
+                              </button>
                               <input type="file" name="myfile" />
                             </div>
                           </Col>
@@ -189,8 +212,8 @@ const UserHeader = () => {
                                   />
                                 </FormGroup>
                               </Col>
-                              </Row>
-                              <Row>
+                            </Row>
+                            <Row>
                               <Col lg="12">
                                 <FormGroup>
                                   <label className="form-control-label">

@@ -25,27 +25,13 @@ import Quest from "views/examples/Quest.js";
 import FaceRegis from "views/examples/FaceRegis.js";
 import student from "views/examples/student";
 import teacherrhome from "views/examples/professor-home";
-import studenthome from "views/examples/student-home";
+import studenthome from "views/examples/StudentHomePath";
 var routes = [
-  {
-    path: "/student-class",
-    name: "Student",
-    icon: "ni ni-hat-3 text-yellow",
-    component: student,
-    layout: "/student",
-  },
   {
     path: "/student-home",
     name: "Student-home",
     icon: "ni ni-hat-3 text-dark",
     component: studenthome,
-    layout: "/student",
-  },
-  {
-    path: "/FaceRegis",
-    name: "FaceRegis",
-    icon: "ni ni-satisfied text-green",
-    component: FaceRegis,
     layout: "/student",
   },
   {
