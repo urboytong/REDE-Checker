@@ -81,7 +81,15 @@ const Header2 = () => {
   const userCollection = db.collection("ClassRoom");
 
   const [ClassRoom, setClassRoom] = useState({});
-  const [DaysColor, setDaysColor] = useState({'Monday':'#FFF5BA', 'Tuesday':'#ecd6e3', 'Wednesday':'#97c1a9', 'Thursday':'#ffc7a2', 'Friday':'#acdee7', 'Saturday':'#ccaacb', 'Sunday':'#ff9689'});
+  const [DaysColor, setDaysColor] = useState({
+    Monday: "#FFF5BA",
+    Tuesday: "#ecd6e3",
+    Wednesday: "#97c1a9",
+    Thursday: "#ffc7a2",
+    Friday: "#acdee7",
+    Saturday: "#ccaacb",
+    Sunday: "#ff9689",
+  });
 
   const history = useHistory();
 
@@ -96,7 +104,7 @@ const Header2 = () => {
   async function CreateClass() {
     clearErrors();
     ErrorsCheck();
-    let UId = firebaseApp.auth().currentUser.uid
+    let UId = firebaseApp.auth().currentUser.uid;
     let members = [];
     let request = [];
     if (
@@ -113,9 +121,8 @@ const Header2 = () => {
         StartTime,
         EndTime,
         UId,
-        'Members': members,
-        'Request': request,
-
+        Members: members,
+        Request: request,
       });
       window.location.reload();
     }
@@ -141,27 +148,27 @@ const Header2 = () => {
 
   useEffect(() => {
     //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
-    if(firebaseApp.auth().currentUser){
+    if (firebaseApp.auth().currentUser) {
       firebaseApp.auth().onAuthStateChanged((user) => {
         const db = firebaseApp.firestore();
         const userCollection = db
           .collection("ClassRoom")
           .where("UId", "==", firebaseApp.auth().currentUser.uid);
-  
+
         // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
         const unsubscribe = userCollection.onSnapshot((ss) => {
           // ตัวแปร local
           const ClassRoom = [];
           let count = 0;
-  
+
           ss.forEach((document) => {
             // manipulate ตัวแปร local
             ClassRoom[count] = document.data();
             ClassRoom[count].key = document.id;
-            ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate]
+            ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
             count++;
           });
-  
+
           // เปลี่ยนค่าตัวแปร state
           ClassRoom.sort((a, b) =>
             a.SubjectCode > b.SubjectCode
@@ -173,7 +180,7 @@ const Header2 = () => {
           setClassRoom(ClassRoom);
           console.log(ClassRoom);
         });
-  
+
         return () => {
           // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
           unsubscribe();
@@ -266,8 +273,8 @@ const Header2 = () => {
                         />
                       </FormGroup>
                     </Col>
-                    </Row>
-                    <Row>
+                  </Row>
+                  <Row>
                     <Col>
                       <FormGroup>
                         <label className="form-control-label">
@@ -402,7 +409,12 @@ const Header2 = () => {
                             </span>
                           </div>
                           <Col className="col-auto">
-                            <div className="icon icon-shape text-white rounded-circle shadow circle-day" style={{ backgroundColor: ClassRoom[id].daycolor }}></div>
+                            <div
+                              className="icon icon-shape text-white rounded-circle shadow circle-day"
+                              style={{
+                                backgroundColor: ClassRoom[id].daycolor,
+                              }}
+                            ></div>
                           </Col>
                         </Row>
                         <p className="mt-3 mb-0 text-muted text-sm">
