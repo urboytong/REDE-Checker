@@ -101,11 +101,11 @@ const Profile = () => {
       // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
       const unsubscribe = userCollection.onSnapshot(ss => {
           // ตัวแปร local
-          const ClassRoom = {}
+          let ClassRoom = {}
 
           ss.forEach(document => {
               // manipulate ตัวแปร local
-              ClassRoom[document.id] = document.data()
+              ClassRoom = document.data()
           })
 
           // เปลี่ยนค่าตัวแปร state
@@ -163,18 +163,13 @@ const Profile = () => {
                     <div className="text-center">
                       {" "}
                       <h1 className="invite-className">
-                        CSS 111 Software Engineer
+                        {ClassRoom.SubjectCode} {ClassRoom.SubjectName}
                       </h1>
-                      <img
-                        src="https://maesot.kpru.ac.th/wp-content/uploads/2018/01/maesot.png"
-                        className="img-fluid shadow-4"
-                        alt="..."
-                      />
                       <CopyToClipboard
-                        text={"https://tftactics.gg/tierlist/team-comps"}
+                        text={location.search.substring(1)}
                         onCopy={() =>
                           setCopiedText(
-                            "https://tftactics.gg/tierlist/team-comps"
+                            location.search.substring(1)
                           )
                         }
                       >
@@ -186,8 +181,7 @@ const Profile = () => {
                           <div className="link-box">
                             <i class="fas fa-solid fa-link link-icon"></i>
                             <h4 className="link-text">
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Link :
-                              https://tftactics.gg/tierlist/team-comps
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{location.search.substring(1)}
                             </h4>
                           </div>
                         </button>

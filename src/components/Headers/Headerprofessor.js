@@ -97,6 +97,8 @@ const Header2 = () => {
     clearErrors();
     ErrorsCheck();
     let UId = firebaseApp.auth().currentUser.uid
+    let members = [];
+    let request = [];
     if (
       SubjectCode != "" &&
       SubjectName != "" &&
@@ -111,6 +113,9 @@ const Header2 = () => {
         StartTime,
         EndTime,
         UId,
+        'Members': members,
+        'Request': request,
+
       });
       window.location.reload();
     }
