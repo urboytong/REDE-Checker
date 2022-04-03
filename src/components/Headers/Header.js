@@ -43,6 +43,7 @@ const Header = () => {
   const userCollection = db.collection("ClassRoom");
 
   const [ClassRoom, setClassRoom] = useState({});
+  const [RequestClassRoom, setRequestClassRoom] = useState({});
   const [DaysColor, setDaysColor] = useState({
     Monday: "#FFF5BA",
     Tuesday: "#ecd6e3",
@@ -70,7 +71,11 @@ const Header = () => {
         const db = firebaseApp.firestore();
         const userCollection = db
           .collection("ClassRoom")
-          .where("Members", "array-contains", firebaseApp.auth().currentUser.uid);
+          .where(
+            "Members",
+            "array-contains",
+            firebaseApp.auth().currentUser.uid
+          );
 
         // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
         const unsubscribe = userCollection.onSnapshot((ss) => {
@@ -95,6 +100,53 @@ const Header = () => {
               : 0
           );
           setClassRoom(ClassRoom);
+          console.log(ClassRoom);
+        });
+
+        return () => {
+          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+          unsubscribe();
+        };
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
+    if (firebaseApp.auth().currentUser) {
+      firebaseApp.auth().onAuthStateChanged((user) => {
+        const db = firebaseApp.firestore();
+        const userCollection = db
+          .collection("ClassRoom")
+          .where(
+            "Request",
+            "array-contains",
+            firebaseApp.auth().currentUser.uid
+          );
+
+        // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+        const unsubscribe = userCollection.onSnapshot((ss) => {
+          // ตัวแปร local
+          const ClassRoom = [];
+          let count = 0;
+
+          ss.forEach((document) => {
+            // manipulate ตัวแปร local
+            ClassRoom[count] = document.data();
+            ClassRoom[count].key = document.id;
+            ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
+            count++;
+          });
+
+          // เปลี่ยนค่าตัวแปร state
+          ClassRoom.sort((a, b) =>
+            a.SubjectCode > b.SubjectCode
+              ? 1
+              : b.SubjectCode > a.SubjectCode
+              ? -1
+              : 0
+          );
+          setRequestClassRoom(ClassRoom);
           console.log(ClassRoom);
         });
 
@@ -150,6 +202,50 @@ const Header = () => {
                             {" "}
                             {ClassRoom[id].ClassDate} :{" "}
                             {ClassRoom[id].StartTime} - {ClassRoom[id].EndTime}
+                          </span>
+                          <span className="mr-2 section">Sec : -</span>{" "}
+                        </p>
+                      </CardBody>
+                    </Card>
+                    &nbsp;
+                  </Col>
+                );
+              })}
+              {Object.keys(RequestClassRoom).map((id) => {
+                return (
+                  <Col lg="6" xl="3">
+                    <Card className="card-stats mb-4 mb-xl-0">
+                      <CardBody className="subject-card">
+                        <Row>
+                          <div className="col">
+                            <CardTitle
+                              tag="h5"
+                              className="text-uppercase text-muted mb-0 home-subjectName"
+                            >
+                              {RequestClassRoom[id].SubjectName}{" "}
+                              <span className="text-red text-center">
+                                &nbsp;&nbsp;Wait for permission
+                              </span>
+                            </CardTitle>
+                            <span className="h2 font-weight-bold mb-0">
+                              {RequestClassRoom[id].SubjectCode}
+                            </span>
+                          </div>
+                          <Col className="col-auto">
+                            <div
+                              className="icon icon-shape text-white rounded-circle shadow circle-day"
+                              style={{
+                                backgroundColor: RequestClassRoom[id].daycolor,
+                              }}
+                            ></div>
+                          </Col>
+                        </Row>
+                        <p className="mt-3 mb-0 text-muted text-sm">
+                          <span className="mr-2">
+                            {" "}
+                            {RequestClassRoom[id].ClassDate} :{" "}
+                            {RequestClassRoom[id].StartTime} -{" "}
+                            {RequestClassRoom[id].EndTime}
                           </span>
                           <span className="mr-2 section">Sec : -</span>{" "}
                         </p>

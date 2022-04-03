@@ -94,30 +94,32 @@ const Profile = () => {
 
   useEffect(() => {
     //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
-    firebaseApp.auth().onAuthStateChanged(user => {
-        const db = firebaseApp.firestore()
-        const userCollection = db.collection('ClassRoom').where('__name__' , '==' , location.search.substring(1))       
-    
+    firebaseApp.auth().onAuthStateChanged((user) => {
+      const db = firebaseApp.firestore();
+      const userCollection = db
+        .collection("ClassRoom")
+        .where("__name__", "==", location.search.substring(1));
+
       // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
-      const unsubscribe = userCollection.onSnapshot(ss => {
-          // ตัวแปร local
-          let ClassRoom = {}
+      const unsubscribe = userCollection.onSnapshot((ss) => {
+        // ตัวแปร local
+        let ClassRoom = {};
 
-          ss.forEach(document => {
-              // manipulate ตัวแปร local
-              ClassRoom = document.data()
-          })
+        ss.forEach((document) => {
+          // manipulate ตัวแปร local
+          ClassRoom = document.data();
+        });
 
-          // เปลี่ยนค่าตัวแปร state
-          setClassRoom(ClassRoom)
-      })
+        // เปลี่ยนค่าตัวแปร state
+        setClassRoom(ClassRoom);
+      });
 
       return () => {
-          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
-          unsubscribe()
-      }
-      });
-  }, [])
+        // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+        unsubscribe();
+      };
+    });
+  }, []);
 
   return (
     <>
@@ -168,9 +170,7 @@ const Profile = () => {
                       <CopyToClipboard
                         text={location.search.substring(1)}
                         onCopy={() =>
-                          setCopiedText(
-                            location.search.substring(1)
-                          )
+                          setCopiedText(location.search.substring(1))
                         }
                       >
                         <button
@@ -181,7 +181,8 @@ const Profile = () => {
                           <div className="link-box">
                             <i class="fas fa-solid fa-link link-icon"></i>
                             <h4 className="link-text">
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{location.search.substring(1)}
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                              {location.search.substring(1)}
                             </h4>
                           </div>
                         </button>
@@ -1978,9 +1979,7 @@ const Profile = () => {
                                   </Badge>
                                 </td>
 
-                                <td className="text-right threedot">
-                                  
-                                </td>
+                                <td className="text-right threedot"></td>
                               </tr>
 
                               <tr>
@@ -2284,8 +2283,17 @@ const Profile = () => {
                               </Col>
                             </Row>
                             <Row>
-                              <div className="box-quest" style={{height: '480px', width: '640px', position: 'relative', overflow: 'auto', padding: '0', background: 'lightgrey'}}>
-                              </div>
+                              <div
+                                className="box-quest"
+                                style={{
+                                  height: "480px",
+                                  width: "640px",
+                                  position: "relative",
+                                  overflow: "auto",
+                                  padding: "0",
+                                  background: "lightgrey",
+                                }}
+                              ></div>
                             </Row>
                             <Row>
                               <Button
@@ -2320,7 +2328,12 @@ const Profile = () => {
                     <h2 className="date-profile">{date}</h2>
                   </div>
                   <div className="text-center">
-                    <Button className="mt-3" color="dark" type="button" onClick={() => setModalOpen14(!modalOpen14)}>
+                    <Button
+                      className="mt-3"
+                      color="dark"
+                      type="button"
+                      onClick={() => setModalOpen14(!modalOpen14)}
+                    >
                       CREATE QUEST
                     </Button>
                   </div>
