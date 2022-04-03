@@ -69,12 +69,13 @@ const AdminNavbar = (props) => {
         // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
         const unsubscribe = userCollection.onSnapshot((ss) => {
           // ตัวแปร local
-          const User = {};
+          let User = {};
 
           ss.forEach((document) => {
             // manipulate ตัวแปร local
             User[document.id] = document.data();
             setRole(User[document.id].role);
+            User = document.data();
           });
 
           // เปลี่ยนค่าตัวแปร state
@@ -123,7 +124,7 @@ const AdminNavbar = (props) => {
                   </span>
                   <Media className="ml-2 d-none d-lg-block text-nameUser">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Natthaphat Wannawat
+                    {User.FirstName} {User.LastName}
                     </span>
                   </Media>
                 </Media>
