@@ -66,12 +66,14 @@ const Header2 = () => {
   const [copiedText, setCopiedText] = useState();
 
   const [SubjectCode, setSubjectCode] = useState("");
+  const [Section, setSection] = useState("");
   const [SubjectName, setSubjectName] = useState("");
   const [ClassDate, setClassDate] = useState("Monday");
   const [StartTime, setStartTime] = useState("");
   const [EndTime, setEndTime] = useState("");
 
   const [SubjectCodeError, setSubjectCodeError] = useState("");
+  const [SectionError, setSectionError] = useState("");
   const [SubjectNameError, setSubjectNameError] = useState("");
   const [ClassDateError, setClassDateError] = useState("");
   const [StartTimeError, setStartTimeError] = useState("");
@@ -109,6 +111,7 @@ const Header2 = () => {
     let request = [];
     if (
       SubjectCode != "" &&
+      Section != "" &&
       SubjectName != "" &&
       ClassDate != "" &&
       StartTime != "" &&
@@ -116,6 +119,7 @@ const Header2 = () => {
     ) {
       const documentRef = await userCollection.add({
         SubjectCode,
+        Section,
         SubjectName,
         ClassDate,
         StartTime,
@@ -124,7 +128,7 @@ const Header2 = () => {
         Members: members,
         Request: request,
       });
-      window.location.reload();
+      setModalOpen(!modalOpen)
     }
 
     //console.log(`new document has been inserted as ${documentRef.id}`);
@@ -132,6 +136,7 @@ const Header2 = () => {
 
   function ErrorsCheck() {
     if (SubjectCode == "") setSubjectCodeError("Empty.");
+    if (Section == "") setSectionError("Empty.");
     if (SubjectName == "") setSubjectNameError("Empty.");
     if (ClassDate == "") setClassDateError("Empty.");
     if (StartTime == "") setStartTimeError("Empty.");
@@ -140,6 +145,7 @@ const Header2 = () => {
 
   const clearErrors = () => {
     setSubjectCodeError("");
+    setSectionError("");
     setSubjectNameError("");
     setClassDateError("");
     setStartTimeError("");
@@ -262,14 +268,14 @@ const Header2 = () => {
                           Section
                           <span className="text-red">*</span>
                           &nbsp;
-                          <span className="text-red">{SubjectCodeError}</span>
+                          <span className="text-red">{SectionError}</span>
                         </label>
 
                         <Input
                           className="form-control-alternative"
                           type="text"
                           placeholder="xxx"
-                          // onChange={(e) => setSubjectCode(e.target.value)}
+                          onChange={(e) => setSection(e.target.value)}
                         />
                       </FormGroup>
                     </Col>
@@ -378,7 +384,6 @@ const Header2 = () => {
         <Container fluid>
           <div className="header-body">
             <div className="text-right">
-              <JoinClass />
               <Button
                 className="mt-4"
                 color="dark"
@@ -423,7 +428,7 @@ const Header2 = () => {
                             {ClassRoom[id].ClassDate} :{" "}
                             {ClassRoom[id].StartTime} - {ClassRoom[id].EndTime}
                           </span>
-                          <span className="mr-2 section">Sec : -</span>{" "}
+                          <span className="mr-2 section">Sec : {ClassRoom[id].Section}</span>{" "}
                         </p>
                       </CardBody>
                     </Card>

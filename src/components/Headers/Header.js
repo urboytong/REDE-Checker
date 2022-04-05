@@ -203,7 +203,7 @@ const Header = () => {
                             {ClassRoom[id].ClassDate} :{" "}
                             {ClassRoom[id].StartTime} - {ClassRoom[id].EndTime}
                           </span>
-                          <span className="mr-2 section">Sec : -</span>{" "}
+                          <span className="mr-2 section">Sec : {ClassRoom[id].Section}</span>{" "}
                         </p>
                       </CardBody>
                     </Card>

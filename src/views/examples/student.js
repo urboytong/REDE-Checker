@@ -113,7 +113,6 @@ const Profile = () => {
                     <td>
                       <Button
                         color="success"
-                        href="#pablo"
                         //onClick={() => setModalOpen1(!modalOpen1)}
                         size="md"
                       >
@@ -121,7 +120,6 @@ const Profile = () => {
                       </Button>
                       <Button
                         color="danger"
-                        href="#pablo"
                         // onClick={() => setModalOpen1(!modalOpen1)}
                         size="md"
                       >
@@ -239,7 +237,7 @@ const Profile = () => {
               <Row className="justify-content-center">
                 <Col className="order-lg-2" lg="3">
                   <div className="card-profile-image">
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                    <a onClick={(e) => e.preventDefault()}>
                       <img
                         alt="..."
                         className="rounded-circle img-facedetection"

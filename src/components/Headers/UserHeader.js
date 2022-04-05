@@ -42,6 +42,20 @@ const UserHeader = () => {
   const [ClassRoom, setClassRoom] = useState({});
   const [Permission, setPermission] = useState(true);
 
+  const [SubjectCode, setSubjectCode] = useState("");
+  const [Section, setSection] = useState("");
+  const [SubjectName, setSubjectName] = useState("");
+  const [ClassDate, setClassDate] = useState("");
+  const [StartTime, setStartTime] = useState("");
+  const [EndTime, setEndTime] = useState("");
+
+  const [SubjectCodeError, setSubjectCodeError] = useState("");
+  const [SectionError, setSectionError] = useState("");
+  const [SubjectNameError, setSubjectNameError] = useState("");
+  const [ClassDateError, setClassDateError] = useState("");
+  const [StartTimeError, setStartTimeError] = useState("");
+  const [EndTimeError, setEndTimeError] = useState("");
+
   const location = useLocation();
 
   const { currentUser } = useContext(AuthContext);
@@ -67,7 +81,6 @@ const UserHeader = () => {
 
           // เปลี่ยนค่าตัวแปร state
           if (ClassRoom) {
-            ClassRoom.ClassDate = ClassRoom.ClassDate.toUpperCase();
             setClassRoom(ClassRoom);
             setPermission(ClassRoom.UId.includes(currentUser._delegate.uid));
             console.log(ClassRoom.UId.includes(currentUser._delegate.uid));
@@ -84,6 +97,59 @@ const UserHeader = () => {
       });
     }
   }, []);
+
+  const editclassroom = () => {
+    setSubjectCode(ClassRoom.SubjectCode);
+    setSection(ClassRoom.Section)
+    setSubjectName(ClassRoom.SubjectName);
+    setClassDate(ClassRoom.ClassDate);
+    setStartTime(ClassRoom.StartTime);
+    setEndTime(ClassRoom.EndTime);
+    clearErrors();
+    setModalOpen(!modalOpen)
+  };
+
+  const updateclassroom = async () => {
+    clearErrors();
+    ErrorsCheck();
+    const db = firebaseApp.firestore();
+      if (
+        SubjectCode != "" &&
+        Section != "" &&
+        SubjectName != "" &&
+        ClassDate != "" &&
+        StartTime != "" &&
+        EndTime != ""
+      ) {
+        const res = await db.collection("ClassRoom").doc(location.search.substring(1)).update({
+          SubjectCode: SubjectCode,
+          Section: Section,
+          SubjectName: SubjectName,
+          ClassDate: ClassDate,
+          StartTime: StartTime,
+          EndTime: EndTime,
+        });
+        setModalOpen(!modalOpen)
+      }
+  }
+
+  function ErrorsCheck() {
+    if (SubjectCode == "") setSubjectCodeError("Empty.");
+    if (Section == "") setSectionError("Empty.");
+    if (SubjectName == "") setSubjectNameError("Empty.");
+    if (ClassDate == "") setClassDateError("Empty.");
+    if (StartTime == "") setStartTimeError("Empty.");
+    if (EndTime == "") setEndTimeError("Empty.");
+  }
+
+  const clearErrors = () => {
+    setSubjectCodeError("");
+    setSectionError("");
+    setSubjectNameError("");
+    setClassDateError("");
+    setStartTimeError("");
+    setEndTimeError("");
+  };
 
   if (Permission == false) {
     return <Redirect to="/professor/profile-home" />;
@@ -121,7 +187,7 @@ const UserHeader = () => {
                 {ClassRoom.SubjectName}
               </h1>
               <div className="mb-5 time-sec">
-                <span className="text-white">Section 2</span>
+                <span className="text-white">Section {ClassRoom.Section}</span>
                 <span className="text-white mt-0 subject-date-time">
                   {ClassRoom.ClassDate} {ClassRoom.StartTime} -{" "}
                   {ClassRoom.EndTime} A.M.
@@ -132,7 +198,7 @@ const UserHeader = () => {
                 color="dark"
                 size="sm"
                 className="edit-classroom"
-                onClick={() => setModalOpen(!modalOpen)}
+                onClick={() => editclassroom()}
               >
                 Edit Classroom
               </Button>
@@ -186,12 +252,17 @@ const UserHeader = () => {
                                     htmlFor="input-username"
                                   >
                                     Subject Code
+                                    <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{SubjectCodeError}</span>
                                   </label>
                                   <Input
                                     className="form-control-alternative"
                                     id=""
                                     placeholder="CSSxxx"
                                     type="text"
+                                    value={SubjectCode}
+                                    onChange={(e) => setSubjectCode(e.target.value)}
                                   />
                                 </FormGroup>
                               </Col>
@@ -202,13 +273,17 @@ const UserHeader = () => {
                                     htmlFor="input-username"
                                   >
                                     Section
+                                    <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{SectionError}</span>
                                   </label>
 
                                   <Input
                                     className="form-control-alternative"
                                     type="text"
                                     placeholder="xxx"
-                                    // onChange={(e) => setSubjectCode(e.target.value)}
+                                    value={Section}
+                                    onChange={(e) => setSection(e.target.value)}
                                   />
                                 </FormGroup>
                               </Col>
@@ -218,11 +293,16 @@ const UserHeader = () => {
                                 <FormGroup>
                                   <label className="form-control-label">
                                     Subject Name
+                                    <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{SubjectNameError}</span>
                                   </label>
                                   <Input
                                     className="form-control-alternative"
                                     id=""
                                     placeholder="Software Engineer"
+                                    value={SubjectName}
+                                    onChange={(e) => setSubjectName(e.target.value)}
                                   />
                                 </FormGroup>
                               </Col>
@@ -232,6 +312,9 @@ const UserHeader = () => {
                                 <FormGroup>
                                   <label className="form-control-label">
                                     Class Date
+                                    <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{ClassDateError}</span>
                                   </label>
                                   <Input
                                     className="form-control-alternative"
@@ -239,6 +322,8 @@ const UserHeader = () => {
                                     id="input-first-name"
                                     placeholder="First name"
                                     type="select"
+                                    value={ClassDate}
+                                    onChange={(e) => setClassDate(e.target.value)}
                                   >
                                     <option>Monday</option>
                                     <option>Tuesday</option>
@@ -254,11 +339,16 @@ const UserHeader = () => {
                                 <FormGroup>
                                   <label className="form-control-label">
                                     Start time
+                                    <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{StartTimeError}</span>
                                   </label>
                                   <input
                                     type="time"
                                     name="time"
                                     className="form-control-alternative form-time"
+                                    value={StartTime}
+                                    onChange={(e) => setStartTime(e.target.value)}
                                   />
                                 </FormGroup>
                               </Col>
@@ -269,11 +359,16 @@ const UserHeader = () => {
                                     htmlFor="input-last-name"
                                   >
                                     End time
+                                    <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{EndTimeError}</span>
                                   </label>
                                   <input
                                     type="time"
                                     name="time"
                                     className="form-control-alternative form-time"
+                                    value={EndTime}
+                                    onChange={(e) => setEndTime(e.target.value)}
                                   />
                                 </FormGroup>
                               </Col>
@@ -284,6 +379,7 @@ const UserHeader = () => {
                             <Button
                               className="mt-2 button-modal-detailClassroom"
                               color="dark"
+                              onClick={() => updateclassroom()}
                             >
                               Save
                             </Button>
