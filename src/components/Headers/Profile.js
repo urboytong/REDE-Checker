@@ -17,7 +17,10 @@
 */
 
 // reactstrap components
-import React, { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import firebaseApp from "../../firebase";
+import { Redirect } from "react-router-dom";
+import { AuthContext } from "components/Auth/Auth.js";
 import {
   Button,
   Badge,
@@ -50,10 +53,144 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 import "assets/scss/argon-dashboard/custom/AdminNavbar.scss";
+import { async } from "@firebase/util";
 
 const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
   // const [modalOpen, setModalOpen] = useState(false);
   // const [modalOpen1, setModalOpen1] = useState(false);
+  const [TeacherRoleForm, setTeacherRoleForm] = useState(false);
+  const [StudentRoleForm, setStudentRoleForm] = useState(false);
+
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [AcademicRanks, setAcademicRanks] = useState("");
+  const [Faculty, setFaculty] = useState("");
+  const [Department, setDepartment] = useState("");
+  const [Major, setMajor] = useState("");
+
+  const [FirstNameError, setFirstNameError] = useState("");
+  const [LastNameError, setLastNameError] = useState("");
+  const [AcademicRanksError, setAcademicRanksError] = useState("");
+  const [FacultyError, setFacultyError] = useState("");
+  const [DepartmentError, setDepartmentError] = useState("");
+  const [MajorError, setMajorError] = useState("");
+
+  const [User, setUser] = useState({});
+  const [UserDocID, setUserDocID] = useState("");
+
+  const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (currentUser) {
+      //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
+      firebaseApp.auth().onAuthStateChanged((user) => {
+        const db = firebaseApp.firestore();
+        const userCollection = db
+          .collection("User")
+          .where("Uid", "==", firebaseApp.auth().currentUser.uid);
+
+        // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+        const unsubscribe = userCollection.onSnapshot((ss) => {
+          // ตัวแปร local
+          let User = {};
+
+          ss.forEach((document) => {
+            // manipulate ตัวแปร local
+            User = document.data();
+            setUserDocID(document.id)
+          });
+
+          // เปลี่ยนค่าตัวแปร state
+          setUser(User);
+        });
+
+        return () => {
+          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+          unsubscribe();
+        };
+      });
+    }
+  }, []);
+
+  const editprofile = () => {
+    if(User.role == "Student"){
+      setStudentRoleForm(true);
+    }
+    if(User.role == "Teacher1"){
+      setTeacherRoleForm(true);
+    }
+    setAcademicRanks(User.AcademicRanks);
+    setFirstName(User.FirstName);
+    setLastName(User.LastName);
+    setFaculty(User.Faculty);
+    setDepartment(User.Department);
+    setMajor(User.Major);
+    clearErrors();
+    setModalOpen1(!modalOpen1);
+  };
+
+  const updateprofile = async () => {
+    clearErrors();
+    ErrorsCheck();
+    const db = firebaseApp.firestore();
+    if(User.role == "Student"){
+      if (
+        FirstName !== "" &&
+        LastName !== "" &&
+        Faculty !== "" &&
+        Department !== "" &&
+        Major !== ""
+      ) {
+        const res = await db.collection("User").doc(UserDocID).update({
+          FirstName: FirstName,
+          LastName: LastName,
+          Faculty: Faculty,
+          Department: Department,
+          Major: Major,
+        });
+        setModalOpen1(!modalOpen1)
+      }
+    }
+    if(User.role == "Teacher1"){
+      if (
+        FirstName !== "" &&
+        LastName !== "" &&
+        AcademicRanks !== "" &&
+        Faculty !== "" &&
+        Department !== "" &&
+        Major !== ""
+      ) {
+        const res = await db.collection("User").doc(UserDocID).update({
+          AcademicRanks: AcademicRanks,
+          FirstName: FirstName,
+          LastName: LastName,
+          Faculty: Faculty,
+          Department: Department,
+          Major: Major,
+        });
+        setModalOpen1(!modalOpen1)
+      }
+    }
+  }
+
+  function ErrorsCheck() {
+    if (FirstName == "") setFirstNameError("Must not be empty.");
+    if (LastName == "") setLastNameError("Must not be empty.");
+    if (AcademicRanks == "") setAcademicRanksError("Must not be empty.");
+    if (Faculty == "") setFacultyError("Must not be empty.");
+    if (Department == "") setDepartmentError("Must not be empty.");
+    if (Major == "") setMajorError("Must not be empty.");
+  }
+
+  const clearErrors = () => {
+    setFirstNameError("");
+    setLastNameError("");
+    setAcademicRanksError("");
+    setFacultyError("");
+    setDepartmentError("");
+    setMajorError("");
+  };
+
   return (
     <>
     
@@ -74,7 +211,7 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
               <Row className="justify-content-center">
                 <Col className="order-lg-2" lg="3">
                   <div className="card-profile-image">
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                    <a onClick={(e) => e.preventDefault()}>
                       <img
                         alt="..."
                         className="rounded-circle img-profileModal"
@@ -93,30 +230,29 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
                   <div className="col">
                     <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                       <div>
-                        <h2 className="heading">61090500411</h2>
+                        <h2 className="heading">61090500...</h2>
                       </div>
                     </div>
                   </div>
                 </Row>
                 <div className="text-center">
-                  <h2>Natthaphat Wannawat</h2>
+                  <h2>{User.FirstName} {User.LastName}</h2>
                   <div className="h3 font-weight-300">
                     <i className="ni location_pin mr-2" />
-                    Science, Mathematics
+                    {User.Faculty}, {User.Department}
                   </div>
                   <Button
                     color="dark"
-                    href="#pablo"
                     size="sm"
                     className="edit-profile"
-                    onClick={() => setModalOpen1(!modalOpen1)}
+                    onClick={() => editprofile()}
                   >
                     Edit Profile
                   </Button>
                   <hr className="my-4" />
                   <div className="h5 mt-4">
                     <i className="ni business_briefcase-24 mr-2" />
-                    Natthaphat.tong@mail.kmutt.ac.th
+                    {User.Email}
                   </div>
                 </div>
               </CardBody>
@@ -169,13 +305,18 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
                     </div>
                   </div>
                   <Form role="form" className="formTeacher">
-                    <div className="topicForm">Academic Ranks</div>
+                  {TeacherRoleForm ? (
+                    <div className="topicForm">Academic Ranks<span className="text-red">*</span></div>
+                    ) : null}
+                    {TeacherRoleForm ? (
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
                         <Input
                           className="darkGray"
                           type="select"
                           placeholder="Academic Ranks"
+                          value={AcademicRanks}
+                          onChange={(e) => setAcademicRanks(e.target.value)}
                         >
                           <option>Assoc. Prof.</option>
                           <option>Asst. Prof.</option>
@@ -185,28 +326,42 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
                         </Input>
                       </InputGroup>
                     </FormGroup>
-
-                    <div className="topicForm lightGray">First Name</div>
+                    ) : null}
+                                      <div className="topicForm lightGray">First Name
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{FirstNameError}</span>
+                  </div>
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
-                        <Input className="darkGray" type="text" />
+                        <Input value={FirstName} onChange={(e) => setFirstName(e.target.value)} className="darkGray" type="text" />
                       </InputGroup>
                     </FormGroup>
 
-                    <div className="topicForm lightGray">Last Name</div>
+                    <div className="topicForm lightGray">Last Name
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{LastNameError}</span>
+                    </div>
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
-                        <Input className="darkGray" type="text" />
+                        <Input value={LastName} onChange={(e) => setLastName(e.target.value)} className="darkGray" type="text" />
                       </InputGroup>
                     </FormGroup>
 
-                    <div className="topicForm lightGray">Faculty</div>
+                    <div className="topicForm lightGray">Faculty
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{FacultyError}</span>
+                  </div>
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
                         <Input
                           className="darkGray"
                           type="select"
                           placeholder="Faculty"
+                          value={Faculty}
+                          onChange={(e) => setFaculty(e.target.value)}
                         >
                           <option>College of Multidisciplinary Science</option>
                           <option>
@@ -235,17 +390,25 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
                       </InputGroup>
                     </FormGroup>
 
-                    <div className="topicForm lightGray">Department</div>
+                    <div className="topicForm lightGray">Department
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{DepartmentError}</span>
+                  </div>
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
-                        <Input className="darkGray" type="text" />
+                        <Input value={Department} onChange={(e) => setDepartment(e.target.value)} className="darkGray" type="text" />
                       </InputGroup>
                     </FormGroup>
 
-                    <div className="topicForm lightGray">Major</div>
+                    <div className="topicForm lightGray">Major
+                    <span className="text-red">*</span>
+                    &nbsp;
+                    <span className="text-red">{MajorError}</span>
+                  </div>
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
-                        <Input className="darkGray" type="text" />
+                        <Input value={Major} onChange={(e) => setMajor(e.target.value)} className="darkGray" type="text" />
                       </InputGroup>
                     </FormGroup>
 
@@ -254,6 +417,7 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
                         className="mt-4 buttonStyle"
                         color="dark"
                         type="button"
+                        onClick={() => updateprofile()}
                       >
                         SAVE
                       </Button>

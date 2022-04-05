@@ -86,16 +86,6 @@ const Index = (props) => {
   const hist = createBrowserHistory();
 
   const location = useLocation();
-  useEffect(() => {
-    if (location.pathname == "/professor/profile-home/profile-class") {
-      setSwitchCheck(true);
-    }
-    if (SwitchCheck == true) {
-      setSwitchCheck(false);
-      window.location.reload();
-    }
-    console.log(location.pathname);
-  }, [location]);
 
   return (
     <>

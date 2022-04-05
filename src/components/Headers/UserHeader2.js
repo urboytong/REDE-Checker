@@ -86,6 +86,18 @@ const UserHeader = () => {
     }
   }, []);
 
+  const leaveclassroom = async () => {
+    const db = firebaseApp.firestore();
+    let MemberList = ClassRoom.Members;
+    var myIndex = MemberList.indexOf(currentUser._delegate.uid);
+    if (myIndex !== -1) {
+      MemberList.splice(myIndex, 1);
+    }
+    const res = await db.collection("ClassRoom").doc(location.search.substring(1)).update({
+      Members: MemberList,
+    });
+  };
+
   if (Permission == false) {
     return <Redirect to="/student/student-home" />;
   }
@@ -129,7 +141,7 @@ const UserHeader = () => {
                 {ClassRoom.SubjectName}
               </h1>
               <div className="mb-5 time-sec">
-                <span className="text-white">Section 2</span>
+                <span className="text-white">Section {ClassRoom.Section}</span>
                 <span className="text-white mt-0 subject-date-time">
                   {ClassRoom.ClassDate} {ClassRoom.StartTime} -{" "}
                   {ClassRoom.EndTime} A.M.
@@ -137,7 +149,6 @@ const UserHeader = () => {
               </div>
               <Button
                 color="dark"
-                href="#pablo"
                 size="sm"
                 className="edit-classroom"
                 onClick={() => setModalOpen(!modalOpen)}
@@ -159,16 +170,15 @@ const UserHeader = () => {
           {" "}
           <span className="font-weight-light confirm-leaveRoom text-center">
             Do you want to leave <br />
-            <span className="font-weight-bold">CSS 111</span>
+            <span className="font-weight-bold">{ClassRoom.SubjectCode}</span>
             &nbsp;
-            <span className="font-weight-bold">Software Engineer</span>
+            <span className="font-weight-bold">{ClassRoom.SubjectName}</span>
             &nbsp; ?
           </span>
           <div className="col text-center mt-4">
             <Button
               color="success"
-              href="#pablo"
-              //onClick={() => setModalOpen1(!modalOpen1)}
+              onClick={() => leaveclassroom()}
               className="ml-2 mr-2 btn-confirm-leaveRoom"
               size="l"
             >
@@ -176,7 +186,6 @@ const UserHeader = () => {
             </Button>
             <Button
               color="danger"
-              href="#pablo"
               size="l"
               aria-label="Close"
               onClick={() => setModalOpen(!modalOpen)}
