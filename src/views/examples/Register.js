@@ -74,8 +74,8 @@ const Register = () => {
   const userCollection = db.collection("User");
   const [Signuped, setSignuped] = useState(false);
 
-  const videoHeight = 480;
-  const videoWidth = 640;
+  const [videoWidth, setvideoWidth] = useState(false);
+  const [videoHeight, setvideoHeight] = useState(false);
   const [Detection, setDetection] = useState(false);
   const [FaceRec, setFaceRec] = useState(false);
   const [initializing, setinitializing] = useState(false);
@@ -394,6 +394,9 @@ const Register = () => {
       // Set video width
       webcamRef.current.video.width = videoWidth;
       webcamRef.current.video.height = videoHeight;
+      setvideoWidth(videoWidth);
+      setvideoHeight(videoHeight);
+
 
       const detections = await faceapi
         .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
@@ -404,15 +407,15 @@ const Register = () => {
       if (detections.length !== 0) {
         setHeight(detections[0].detection._box._height);
         setWidth(detections[0].detection._box._width);
-        setX(detections[0].detection._box._x);
-        setY(detections[0].detection._box._y);
+        setX(detections[0].detection._box._x+(detections[0].detection._box._width/2));
+        setY(detections[0].detection._box._y+(detections[0].detection._box._height/2));
         if (
           detections[0].detection._box._height >= 100 &&
           detections[0].detection._box._width >= 100 &&
-          detections[0].detection._box._x >= 160 &&
-          detections[0].detection._box._x <= 240 &&
-          detections[0].detection._box._y >= 120 &&
-          detections[0].detection._box._y <= 180
+          detections[0].detection._box._x+(detections[0].detection._box._width/2) >= videoWidth/2-30 &&
+          detections[0].detection._box._x+(detections[0].detection._box._width/2) <= videoWidth/2+30 &&
+          detections[0].detection._box._y+(detections[0].detection._box._height/2) >= videoHeight/2-80 &&
+          detections[0].detection._box._y+(detections[0].detection._box._height/2) <= videoHeight/2+80
         ) {
           setPositionCheck("Good");
           setVideoBorderColor("5px solid #4fbc78");

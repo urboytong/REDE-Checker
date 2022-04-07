@@ -63,8 +63,8 @@ import {
   chartExample2,
 } from "variables/charts.js";
 
-import ProfessorHome from "views/examples/professor-home.js";
-import Class from "views/examples/Profile.js";
+import StudentHome from "views/examples/student-home.js";
+import Class from "views/examples/student.js";
 
 const Index = (props) => {
   const [activeNav, setActiveNav] = useState(1);
@@ -93,11 +93,11 @@ const Index = (props) => {
         <Switch>
           <Route
             exact
-            path="/professor/profile-home"
-            component={ProfessorHome}
+            path="/student/student-home"
+            component={StudentHome}
           />
           <Route
-            path="/professor/profile-home/profile-class"
+            path="/student/student-home/student-class"
             component={Class}
           />
         </Switch>

@@ -62,6 +62,7 @@ import {
   chartExample1,
   chartExample2,
 } from "variables/charts.js";
+import { async } from "@firebase/util";
 
 const current = new Date();
 const date = `${current.getDate()}/${
@@ -89,35 +90,130 @@ const Profile = () => {
   const [superHero, setSuperHero] = React.useState();
 
   const [ClassRoom, setClassRoom] = useState({});
+  const [Request, setRequest] = useState({});
+  const [Members, setMembers] = useState({});
+  const [CurrentRequestProfile, setCurrentRequestProfile] = useState({});
 
   const location = useLocation();
 
   useEffect(() => {
     //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
-    firebaseApp.auth().onAuthStateChanged(user => {
-        const db = firebaseApp.firestore()
-        const userCollection = db.collection('ClassRoom').where('__name__' , '==' , location.search.substring(1))       
-    
+    firebaseApp.auth().onAuthStateChanged((user) => {
+      const db = firebaseApp.firestore();
+      const userCollection = db
+        .collection("ClassRoom")
+        .where("__name__", "==", location.search.substring(1));
+
       // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
-      const unsubscribe = userCollection.onSnapshot(ss => {
-          // ตัวแปร local
-          const ClassRoom = {}
+      const unsubscribe = userCollection.onSnapshot((ss) => {
+        // ตัวแปร local
+        let ClassRoom = {};
 
-          ss.forEach(document => {
-              // manipulate ตัวแปร local
-              ClassRoom[document.id] = document.data()
-          })
+        ss.forEach((document) => {
+          // manipulate ตัวแปร local
+          ClassRoom = document.data();
+        });
 
-          // เปลี่ยนค่าตัวแปร state
-          setClassRoom(ClassRoom)
-      })
+        // เปลี่ยนค่าตัวแปร state
+        setClassRoom(ClassRoom);
+
+        const userCollection = db
+        .collection("User")
+
+      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+      const unsubscribe = userCollection.onSnapshot((ss) => {
+        // ตัวแปร local
+        let request = {};
+        let members = {};
+
+        ss.forEach((document) => {
+          // manipulate ตัวแปร local
+          if(ClassRoom.Request.includes(document.data().Uid)){
+            request[document.id] = document.data();
+          }
+          if(ClassRoom.Members.includes(document.data().Uid)){
+            members[document.id] = document.data();
+          }
+        });
+
+        // เปลี่ยนค่าตัวแปร state
+        setRequest(request);
+        setMembers(members);
+
+        return () => {
+          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+          unsubscribe();
+        };
+        
+      });
+
+        
+      });
 
       return () => {
-          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
-          unsubscribe()
-      }
-      });
-  }, [])
+        // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+        unsubscribe();
+      };
+    });
+  }, []);
+
+  const ProfileModalOpens = (requestinfo) => {
+    setModalOpen2(!modalOpen2);
+    setCurrentRequestProfile(requestinfo)
+  };
+
+  const ReportModalOpens = (requestinfo) => {
+    setModalOpen3(!modalOpen3)
+    setCurrentRequestProfile(requestinfo)
+  };
+
+  const DeleteModalOpens = (requestinfo) => {
+    setModalOpen4(!modalOpen4)
+    setCurrentRequestProfile(requestinfo)
+  };
+
+  const DeleteMember = async (id) => {
+    const db = firebaseApp.firestore();
+    let MemberList = ClassRoom.Members;
+    var myIndex = MemberList.indexOf(id);
+    if (myIndex !== -1) {
+      MemberList.splice(myIndex, 1);
+    }
+    const res = await db.collection("ClassRoom").doc(location.search.substring(1)).update({
+      Members: MemberList,
+    });
+    setModalOpen4(!modalOpen4)
+  };
+
+  const accept = async (id) => {
+    const db = firebaseApp.firestore();
+    let RequestList = ClassRoom.Request;
+    var myIndex = RequestList.indexOf(id);
+    if (myIndex !== -1) {
+      RequestList.splice(myIndex, 1);
+    }
+    const res = await db.collection("ClassRoom").doc(location.search.substring(1)).update({
+      Request: RequestList,
+    });
+    let MemberList = ClassRoom.Members;
+    MemberList.push(id);
+    const res2 = await db.collection("ClassRoom").doc(location.search.substring(1)).update({
+      Members: MemberList,
+    });
+  };
+
+  const refuse = async (id) => {
+    const db = firebaseApp.firestore();
+    let RequestList = ClassRoom.Request;
+    var myIndex = RequestList.indexOf(id);
+    if (myIndex !== -1) {
+      RequestList.splice(myIndex, 1);
+    }
+    const res = await db.collection("ClassRoom").doc(location.search.substring(1)).update({
+      Request: RequestList,
+    });
+  };
+
 
   return (
     <>
@@ -163,19 +259,12 @@ const Profile = () => {
                     <div className="text-center">
                       {" "}
                       <h1 className="invite-className">
-                        CSS 111 Software Engineer
+                        {ClassRoom.SubjectCode} {ClassRoom.SubjectName}
                       </h1>
-                      <img
-                        src="https://maesot.kpru.ac.th/wp-content/uploads/2018/01/maesot.png"
-                        className="img-fluid shadow-4"
-                        alt="..."
-                      />
                       <CopyToClipboard
-                        text={"https://tftactics.gg/tierlist/team-comps"}
+                        text={location.search.substring(1)}
                         onCopy={() =>
-                          setCopiedText(
-                            "https://tftactics.gg/tierlist/team-comps"
-                          )
+                          setCopiedText(location.search.substring(1))
                         }
                       >
                         <button
@@ -186,8 +275,8 @@ const Profile = () => {
                           <div className="link-box">
                             <i class="fas fa-solid fa-link link-icon"></i>
                             <h4 className="link-text">
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Link :
-                              https://tftactics.gg/tierlist/team-comps
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                              {location.search.substring(1)}
                             </h4>
                           </div>
                         </button>
@@ -247,12 +336,14 @@ const Profile = () => {
                             </tr>
                           </thead>
                           <tbody>
+                          {Object.keys(Request).map((id) => {
+                            return (
                             <tr>
                               <th scope="row">
                                 <Media className="align-items-center">
                                   <Media>
                                     <span className="mb-0 text-sm">
-                                      61090500411
+                                      61090500...
                                     </span>
                                   </Media>
                                 </Media>
@@ -260,13 +351,13 @@ const Profile = () => {
 
                               <td>
                                 <Badge color="" className="badge-dot mr-4">
-                                  Natthaphat Wannawat
+                                  {Request[id].FirstName} {Request[id].LastName}
                                 </Badge>
                               </td>
                               <td>
                                 <Button
                                   color="success"
-                                  //onClick={() => setModalOpen1(!modalOpen1)}
+                                  onClick={() => accept(Request[id].Uid)}
                                   size="sm"
                                   className="icon-requestModal"
                                 >
@@ -274,7 +365,7 @@ const Profile = () => {
                                 </Button>
                                 <Button
                                   color="danger"
-                                  // onClick={() => setModalOpen1(!modalOpen1)}
+                                  onClick={() => refuse(Request[id].Uid)}
                                   size="sm"
                                   className="icon-requestModal"
                                 >
@@ -297,7 +388,7 @@ const Profile = () => {
                                     right
                                   >
                                     <DropdownItem
-                                      onClick={() => setModalOpen2(!modalOpen2)}
+                                      onClick={() => ProfileModalOpens(Request[id])}
                                     >
                                       Profile
                                     </DropdownItem>
@@ -305,6 +396,8 @@ const Profile = () => {
                                 </UncontrolledDropdown>
                               </td>
                             </tr>
+                            );
+                          })}
                           </tbody>
                         </Table>
                       </Card>
@@ -351,21 +444,21 @@ const Profile = () => {
                             <div className="col">
                               <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                 <div>
-                                  <h2 className="heading">61090500411</h2>
+                                  <h2 className="heading">61090500...</h2>
                                 </div>
                               </div>
                             </div>
                           </Row>
                           <div className="text-center">
-                            <h2>Natthaphat Wannawat</h2>
+                            <h2>{CurrentRequestProfile.FirstName} {CurrentRequestProfile.LastName}</h2>
                             <div className="h3 font-weight-300">
                               <i className="ni location_pin mr-2" />
-                              Science, Mathematics
+                              {CurrentRequestProfile.Faculty}, {CurrentRequestProfile.Department}
                             </div>
                             <hr className="my-4" />
                             <div className="h5 mt-4">
                               <i className="ni business_briefcase-24 mr-2" />
-                              Natthaphat.tong@mail.kmutt.ac.th
+                              {CurrentRequestProfile.Email}
                             </div>
                           </div>
                         </CardBody>
@@ -417,21 +510,21 @@ const Profile = () => {
                               <div className="col">
                                 <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                   <div>
-                                    <h2 className="heading">61090500411</h2>
+                                    <h2 className="heading">61090500...</h2>
                                   </div>
                                 </div>
                               </div>
                             </Row>
                             <div className="text-center">
-                              <h2>Natthaphat Wannawat</h2>
+                              <h2>{CurrentRequestProfile.FirstName} {CurrentRequestProfile.LastName}</h2>
                               <div className="h3 font-weight-300">
                                 <i className="ni location_pin mr-2" />
-                                Science, Mathematics
+                                {CurrentRequestProfile.Faculty}, {CurrentRequestProfile.Department}
                               </div>
                               <hr className="my-4" />
                               <div className="h5 mt-4">
                                 <i className="ni business_briefcase-24 mr-2" />
-                                Natthaphat.tong@mail.kmutt.ac.th
+                                {CurrentRequestProfile.Email}
                               </div>
                             </div>
                           </CardBody>
@@ -447,7 +540,7 @@ const Profile = () => {
                                     <h3 className="mb-0">Report</h3>
                                   </div>
                                   <div className="col text-right">
-                                    <h3>CSS411</h3>
+                                    <h3>{ClassRoom.SubjectCode}</h3>
                                   </div>
                                 </Row>
                               </CardHeader>
@@ -873,14 +966,14 @@ const Profile = () => {
                     <span className="font-weight-light">
                       You want to Delete &nbsp;
                       <span className="font-weight-bold">
-                        Natthaphat Wannawat
+                        {CurrentRequestProfile.FirstName} {CurrentRequestProfile.LastName}
                       </span>
                       &nbsp; ?
                     </span>
                     <div className="col text-center mt-4">
                       <Button
                         color="success"
-                        //onClick={() => setModalOpen1(!modalOpen1)}
+                        onClick={() => DeleteMember(CurrentRequestProfile.Uid)}
                         className="ml-2 mr-2"
                         size="l"
                       >
@@ -1984,9 +2077,7 @@ const Profile = () => {
                                   </Badge>
                                 </td>
 
-                                <td className="text-right threedot">
-                                  
-                                </td>
+                                <td className="text-right threedot"></td>
                               </tr>
 
                               <tr>
@@ -2290,8 +2381,17 @@ const Profile = () => {
                               </Col>
                             </Row>
                             <Row>
-                              <div className="box-quest" style={{height: '480px', width: '640px', position: 'relative', overflow: 'auto', padding: '0', background: 'lightgrey'}}>
-                              </div>
+                              <div
+                                className="box-quest"
+                                style={{
+                                  height: "480px",
+                                  width: "640px",
+                                  position: "relative",
+                                  overflow: "auto",
+                                  padding: "0",
+                                  background: "lightgrey",
+                                }}
+                              ></div>
                             </Row>
                             <Row>
                               <Button
@@ -2326,7 +2426,12 @@ const Profile = () => {
                     <h2 className="date-profile">{date}</h2>
                   </div>
                   <div className="text-center">
-                    <Button className="mt-3" color="dark" type="button" onClick={() => setModalOpen14(!modalOpen14)}>
+                    <Button
+                      className="mt-3"
+                      color="dark"
+                      type="button"
+                      onClick={() => setModalOpen14(!modalOpen14)}
+                    >
                       CREATE QUEST
                     </Button>
                   </div>
@@ -2371,18 +2476,20 @@ const Profile = () => {
                   </tr>
                 </thead>
                 <tbody>
+                {Object.keys(Members).map((id) => {
+                            return (
                   <tr>
                     <th scope="row">
                       <Media className="align-items-center">
                         <Media>
-                          <span className="mb-0 text-sm">61090500411</span>
+                          <span className="mb-0 text-sm">61090500...</span>
                         </Media>
                       </Media>
                     </th>
 
                     <td className="td-nonePadding hightBox-profile">
                       <Badge color="" className="badge-dot mr-4  short-name">
-                        Natthaphat Wannawat
+                        {Members[id].FirstName} {Members[id].LastName} 
                       </Badge>
                     </td>
                     <td className="text-right threedot">
@@ -2398,17 +2505,17 @@ const Profile = () => {
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
                           <DropdownItem
-                            onClick={() => setModalOpen2(!modalOpen2)}
+                            onClick={() => ProfileModalOpens(Members[id])}
                           >
                             Profile
                           </DropdownItem>
                           <DropdownItem
-                            onClick={() => setModalOpen3(!modalOpen3)}
+                            onClick={() => ReportModalOpens(Members[id])}
                           >
                             Report
                           </DropdownItem>
                           <DropdownItem
-                            onClick={() => setModalOpen4(!modalOpen4)}
+                            onClick={() => DeleteModalOpens(Members[id])}
                           >
                             Delete
                           </DropdownItem>
@@ -2416,126 +2523,8 @@ const Profile = () => {
                       </UncontrolledDropdown>
                     </td>
                   </tr>
-
-                  <tr>
-                    <th scope="row">
-                      <Media className="align-items-center id-member">
-                        <Media>
-                          <span className="mb-0 text-sm ">61090500437</span>
-                        </Media>
-                      </Media>
-                    </th>
-
-                    <td className="td-nonePadding hightBox-profile">
-                      <Badge color="" className="badge-dot mr-3 short-name">
-                        Natthamon Wannawat
-                      </Badge>
-                    </td>
-                    <td className="text-right threedot">
-                      <UncontrolledDropdown>
-                        <DropdownToggle
-                          className="btn-icon-only text-light"
-                          role="button"
-                          size="sm"
-                          color=""
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <i className="fas fa-ellipsis-v" />
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-arrow" right>
-                          <DropdownItem onClick={(e) => e.preventDefault()}>
-                            Profile
-                          </DropdownItem>
-                          <DropdownItem onClick={(e) => e.preventDefault()}>
-                            Report
-                          </DropdownItem>
-                          <DropdownItem onClick={(e) => e.preventDefault()}>
-                            Delete
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">
-                      <Media className="align-items-center id-member">
-                        <Media>
-                          <span className="mb-0 text-sm ">61090500437</span>
-                        </Media>
-                      </Media>
-                    </th>
-
-                    <td className="td-nonePadding hightBox-profile">
-                      <Badge color="" className="badge-dot mr-3 short-name">
-                        Natthamon Wannawat
-                      </Badge>
-                    </td>
-                    <td className="text-right threedot">
-                      <UncontrolledDropdown>
-                        <DropdownToggle
-                          className="btn-icon-only text-light"
-                          role="button"
-                          size="sm"
-                          color=""
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <i className="fas fa-ellipsis-v" />
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-arrow" right>
-                          <DropdownItem onClick={(e) => e.preventDefault()}>
-                            Profile
-                          </DropdownItem>
-                          <DropdownItem onClick={(e) => e.preventDefault()}>
-                            Report
-                          </DropdownItem>
-                          <DropdownItem onClick={(e) => e.preventDefault()}>
-                            Delete
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <th scope="row">
-                      <Media className="align-items-center id-member">
-                        <Media>
-                          <span className="mb-0 text-sm ">61090500437</span>
-                        </Media>
-                      </Media>
-                    </th>
-
-                    <td className="td-nonePadding hightBox-profile">
-                      <Badge color="" className="badge-dot mr-3 short-name">
-                        Natthamon Wannawat
-                      </Badge>
-                    </td>
-                    <td className="text-right threedot">
-                      <UncontrolledDropdown>
-                        <DropdownToggle
-                          className="btn-icon-only text-light"
-                          role="button"
-                          size="sm"
-                          color=""
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <i className="fas fa-ellipsis-v" />
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-arrow" right>
-                          <DropdownItem onClick={(e) => e.preventDefault()}>
-                            Profile
-                          </DropdownItem>
-                          <DropdownItem onClick={(e) => e.preventDefault()}>
-                            Report
-                          </DropdownItem>
-                          <DropdownItem onClick={(e) => e.preventDefault()}>
-                            Delete
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                  </tr>
+                                              );
+                                            })}
                 </tbody>
               </Table>
             </Card>

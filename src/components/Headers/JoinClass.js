@@ -17,7 +17,9 @@
 */
 
 // reactstrap components
-import React, { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import firebaseApp from "../../firebase";
+import { AuthContext } from "components/Auth/Auth.js";
 import {
   Button,
   Badge,
@@ -52,6 +54,96 @@ import "assets/scss/argon-dashboard/custom/Header.scss";
 
 const Header = () => {
   const [modalOpen1, setModalOpen1] = useState(false);
+  const [Code, setCode] = useState("");
+  const [CodeError, setCodeError] = useState("");
+  const [ClassRoom, setClassRoom] = useState({});
+  const [JoinClassForm, setJoinClassForm] = useState(true);
+  const [SentSuccess, setSentSuccess] = useState(false);
+
+  const db = firebaseApp.firestore();
+
+  const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
+    firebaseApp.auth().onAuthStateChanged((user) => {
+      const db = firebaseApp.firestore();
+      const userCollection = db
+        .collection("ClassRoom")
+        .where("__name__", "==", Code);
+
+      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+      const unsubscribe = userCollection.onSnapshot((ss) => {
+        // ตัวแปร local
+        let ClassRoom = {};
+
+        ss.forEach((document) => {
+          // manipulate ตัวแปร local
+          ClassRoom = document.data();
+        });
+
+        // เปลี่ยนค่าตัวแปร state
+        setClassRoom(ClassRoom);
+        console.log(ClassRoom);
+      });
+
+      return () => {
+        // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+        unsubscribe();
+      };
+    });
+  }, [Code]);
+
+  const ModalOpens = () => {
+    setJoinClassForm(true);
+    setSentSuccess(false);
+    setModalOpen1(!modalOpen1);
+    setCodeError("");
+  };
+
+  const JoinClass = async () => {
+    const UId = currentUser._delegate.uid;
+    setCodeError("");
+    if (Code == "") {
+      setCodeError("Must not be empty.");
+      //console.log(currentUser._delegate.uid)
+    }
+    if (Object.keys(ClassRoom).length == 0) {
+      setCodeError("This code cannot be used.");
+    }
+    if (Object.keys(ClassRoom).length != 0) {
+      if (!ClassRoom.Members.includes(UId)) {
+        if (ClassRoom.Request.includes(UId)) {
+          setCodeError("You have already sent a request.");
+        }
+        if (!ClassRoom.Request.includes(UId)) {
+          if (!ClassRoom.Request) {
+            const request = [UId];
+            console.log(request);
+            const res = await db.collection("ClassRoom").doc(Code).update({
+              Request: request,
+            });
+            setJoinClassForm(false);
+            setSentSuccess(true);
+          }
+          if (ClassRoom.Request) {
+            const request = ClassRoom.Request;
+            request.push(UId);
+            console.log(request);
+            const res = await db.collection("ClassRoom").doc(Code).update({
+              Request: request,
+            });
+            setJoinClassForm(false);
+            setSentSuccess(true);
+          }
+        }
+      }
+      if (ClassRoom.Members.includes(UId)) {
+        setCodeError("You are already in this classroom.");
+      }
+    }
+  };
+
   return (
     <>
       <Modal
@@ -69,28 +161,33 @@ const Header = () => {
             <span aria-hidden={true}>×</span>
           </button>
         </div>
-        <ModalBody>
-          <h1 className="text-center">Join Classroom</h1>
-          <Row className="align-items-center">
-            <Col>
-              <Input
-                className="form-control-alternative input-classroomCode"
-                id=""
-                placeholder="Classroom Code"
-              />
-            </Col>
-            <Col className="text-right button-input-classroomCode">
-              <Button
-                color="dark"
-                href="#pablo"
-                size="sm"
-                className="search-classroomCode"
-              >
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </Button>
-            </Col>
-          </Row>
-          {/* <h4 className="text-center mt-4 mb-2">OR</h4>
+        {JoinClassForm ? (
+          <ModalBody>
+            <h1 className="text-center">Join Classroom</h1>
+            <Row className="align-items-center">
+              <Col>
+                <div className="topicForm lightGray">
+                  <span className="text-red">{CodeError}</span>
+                </div>
+                <Input
+                  className="form-control-alternative input-classroomCode"
+                  id=""
+                  placeholder="Classroom Code"
+                  onChange={(e) => setCode(e.target.value)}
+                />
+              </Col>
+              <Col className="text-right button-input-classroomCode">
+                <Button
+                  color="dark"
+                  size="sm"
+                  className="search-classroomCode"
+                  onClick={JoinClass}
+                >
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </Button>
+              </Col>
+            </Row>
+            {/* <h4 className="text-center mt-4 mb-2">OR</h4>
           <div className="text-center">
             <Button
               className="mt-2"
@@ -100,15 +197,30 @@ const Header = () => {
               Scan QR Code
             </Button>
           </div> */}
-        </ModalBody>
+          </ModalBody>
+        ) : null}
+        {SentSuccess ? (
+          <ModalBody>
+            <h1 className="text-center">The request has been sent</h1>
+            <img
+              src={require("../../assets/img/image/CheckGreen.gif").default}
+              style={{
+                borderRadius: "50%",
+                objectFit: "cover",
+                width: "50%",
+                height: "50%",
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+              className="webcam-style"
+            />
+          </ModalBody>
+        ) : null}
         <ModalFooter></ModalFooter>
       </Modal>
 
-      <Button
-        className="mt-4 join-class-btn"
-        color="dark"
-        onClick={() => setModalOpen1(!modalOpen1)}
-      >
+      <Button className="mt-4 join-class-btn" color="dark" onClick={ModalOpens}>
         Join class
       </Button>
     </>
