@@ -48,6 +48,7 @@ const Register = () => {
 
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
+  const [StudentID, setStudentID] = useState("");
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
@@ -61,6 +62,7 @@ const Register = () => {
 
   const [FirstNameError, setFirstNameError] = useState("");
   const [LastNameError, setLastNameError] = useState("");
+  const [StudentIDError, setStudentIDError] = useState("");
   const [EmailError, setEmailError] = useState("");
   const [PasswordError, setPasswordError] = useState("");
   const [ConfirmPasswordError, setConfirmPasswordError] = useState("");
@@ -124,6 +126,7 @@ const Register = () => {
       FirstName,
       LastName,
       Email,
+      StudentID,
       Uid,
       Faculty,
       Department,
@@ -138,10 +141,12 @@ const Register = () => {
   const changeRole = (role) => {
     if (role === "Teacher") {
       setRole("Teacher1");
+      clearErrors();
       setTeacherRoleForm(true);
       setStudentRoleForm(false);
     } else {
       setRole("Student");
+      clearErrors();
       setTeacherRoleForm(false);
       setStudentRoleForm(true);
     }
@@ -207,9 +212,9 @@ const Register = () => {
         if (
           FirstName !== "" &&
           LastName !== "" &&
+          StudentID !== "" &&
           ConfirmPassword !== "" &&
           ConfirmPassword == Password &&
-          AcademicRanks !== "" &&
           Faculty !== "" &&
           Department !== "" &&
           Major !== "" &&
@@ -249,6 +254,7 @@ const Register = () => {
     if (Password == "") setPasswordError("Must not be empty.");
     if (FirstName == "") setFirstNameError("Must not be empty.");
     if (LastName == "") setLastNameError("Must not be empty.");
+    if (StudentID == "") setStudentIDError("Must not be empty.");
     if (ConfirmPassword == "") setConfirmPasswordError("Must not be empty.");
     if (ConfirmPassword !== Password)
       setConfirmPasswordError("Passwords do not match.");
@@ -271,6 +277,7 @@ const Register = () => {
     setDepartmentError("");
     setMajorError("");
     setFaceDescriptorError("");
+    setStudentIDError("");
   };
 
   useEffect(() => {
@@ -397,7 +404,6 @@ const Register = () => {
       setvideoWidth(videoWidth);
       setvideoHeight(videoHeight);
 
-
       const detections = await faceapi
         .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
         .withFaceLandmarks()
@@ -407,15 +413,29 @@ const Register = () => {
       if (detections.length !== 0) {
         setHeight(detections[0].detection._box._height);
         setWidth(detections[0].detection._box._width);
-        setX(detections[0].detection._box._x+(detections[0].detection._box._width/2));
-        setY(detections[0].detection._box._y+(detections[0].detection._box._height/2));
+        setX(
+          detections[0].detection._box._x +
+            detections[0].detection._box._width / 2
+        );
+        setY(
+          detections[0].detection._box._y +
+            detections[0].detection._box._height / 2
+        );
         if (
           detections[0].detection._box._height >= 100 &&
           detections[0].detection._box._width >= 100 &&
-          detections[0].detection._box._x+(detections[0].detection._box._width/2) >= videoWidth/2-30 &&
-          detections[0].detection._box._x+(detections[0].detection._box._width/2) <= videoWidth/2+30 &&
-          detections[0].detection._box._y+(detections[0].detection._box._height/2) >= videoHeight/2-80 &&
-          detections[0].detection._box._y+(detections[0].detection._box._height/2) <= videoHeight/2+80
+          detections[0].detection._box._x +
+            detections[0].detection._box._width / 2 >=
+            videoWidth / 2 - 30 &&
+          detections[0].detection._box._x +
+            detections[0].detection._box._width / 2 <=
+            videoWidth / 2 + 30 &&
+          detections[0].detection._box._y +
+            detections[0].detection._box._height / 2 >=
+            videoHeight / 2 - 80 &&
+          detections[0].detection._box._y +
+            detections[0].detection._box._height / 2 <=
+            videoHeight / 2 + 80
         ) {
           setPositionCheck("Good");
           setVideoBorderColor("5px solid #4fbc78");
@@ -513,29 +533,30 @@ const Register = () => {
 
               {/* form regis teacher */}
               <div className="teacher">
-                {StudentRoleForm ? 
-                  null : (
-                    <div className="uploadImage">
-                      <div className="image2">
-                        <img
-                          className="faceIcon"
-                          alt="..."
-                          src={require("../../assets/img/image/face.png").default}
-                        />
-                      </div>
-                      <div className="boxButton">
-                        <div class="upload-btn-wrapper text-center">
-                          <button class="btn-uploadFile-imgProfile">
-                            <i class="fas fa-pencil-alt penIcon"></i>
-                          </button>
-                          <input type="file" name="myfile" />
-                        </div>
+                {StudentRoleForm ? null : (
+                  <div className="uploadImage">
+                    <div className="image2">
+                      <img
+                        className="faceIcon"
+                        alt="..."
+                        src={require("../../assets/img/image/face.png").default}
+                      />
+                    </div>
+                    <div className="boxButton">
+                      <div class="upload-btn-wrapper text-center">
+                        <button class="btn-uploadFile-imgProfile">
+                          <i class="fas fa-pencil-alt penIcon"></i>
+                        </button>
+                        <input type="file" name="myfile" />
                       </div>
                     </div>
-                  )}
+                  </div>
+                )}
                 <Form role="form" className="formTeacher">
                   {TeacherRoleForm ? (
-                    <div className="topicForm">Academic Ranks<span className="text-red">*</span></div>
+                    <div className="topicForm">
+                      Academic Ranks<span className="text-red">*</span>
+                    </div>
                   ) : null}
                   {TeacherRoleForm ? (
                     <FormGroup>
@@ -587,10 +608,13 @@ const Register = () => {
                     </div>
                   ) : null}
                   {StudentRoleForm ? (
-                    <div className="text-center text-red mb-4 faceDescriptor-error">{FaceDescriptorError}</div>
+                    <div className="text-center text-red mb-4 faceDescriptor-error">
+                      {FaceDescriptorError}
+                    </div>
                   ) : null}
 
-                  <div className="topicForm lightGray">First Name
+                  <div className="topicForm lightGray">
+                    First Name
                     <span className="text-red">*</span>
                     &nbsp;
                     <span className="text-red">{FirstNameError}</span>
@@ -606,11 +630,12 @@ const Register = () => {
                     </InputGroup>
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Last Name
+                  <div className="topicForm lightGray">
+                    Last Name
                     <span className="text-red">*</span>
                     &nbsp;
                     <span className="text-red">{LastNameError}</span>
-                    </div>
+                  </div>
                   <FormGroup>
                     <InputGroup className="input-group-alternative mb-3">
                       <Input
@@ -622,7 +647,29 @@ const Register = () => {
                     </InputGroup>
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Faculty
+                  {StudentRoleForm ? (
+                    <div className="topicForm lightGray">
+                      Student ID
+                      <span className="text-red">*</span>
+                      &nbsp;
+                      <span className="text-red">{StudentIDError}</span>
+                    </div>
+                  ) : null}
+                  {StudentRoleForm ? (
+                    <FormGroup>
+                      <InputGroup className="input-group-alternative mb-3">
+                        <Input
+                          className="darkGray"
+                          type="text"
+                          value={StudentID}
+                          onChange={(e) => setStudentID(e.target.value)}
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                  ) : null}
+
+                  <div className="topicForm lightGray">
+                    Faculty
                     <span className="text-red">*</span>
                     &nbsp;
                     <span className="text-red">{FacultyError}</span>
@@ -663,7 +710,8 @@ const Register = () => {
                     </InputGroup>
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Department
+                  <div className="topicForm lightGray">
+                    Department
                     <span className="text-red">*</span>
                     &nbsp;
                     <span className="text-red">{DepartmentError}</span>
@@ -679,7 +727,8 @@ const Register = () => {
                     </InputGroup>
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Major
+                  <div className="topicForm lightGray">
+                    Major
                     <span className="text-red">*</span>
                     &nbsp;
                     <span className="text-red">{MajorError}</span>
@@ -695,7 +744,8 @@ const Register = () => {
                     </InputGroup>
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Email
+                  <div className="topicForm lightGray">
+                    Email
                     <span className="text-red">*</span>
                     &nbsp;
                     <span className="text-red">{EmailError}</span>
@@ -712,7 +762,8 @@ const Register = () => {
                     </InputGroup>
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Password
+                  <div className="topicForm lightGray">
+                    Password
                     <span className="text-red">*</span>
                     &nbsp;
                     <span className="text-red">{PasswordError}</span>
@@ -728,7 +779,8 @@ const Register = () => {
                     </InputGroup>
                   </FormGroup>
 
-                  <div className="topicForm lightGray">Confirm Password
+                  <div className="topicForm lightGray">
+                    Confirm Password
                     <span className="text-red">*</span>
                     &nbsp;
                     <span className="text-red">{ConfirmPasswordError}</span>
@@ -893,7 +945,7 @@ const Register = () => {
                           border: VideoBorderColor,
                           transform: "rotateY(180deg)",
                         }}
-                      className="webcam-style"
+                        className="webcam-style"
                       />
                     ) : null}
 
@@ -904,7 +956,7 @@ const Register = () => {
                           borderRadius: "50%",
                           objectFit: "cover",
                         }}
-                      className="webcam-style"
+                        className="webcam-style"
                       />
                     ) : null}
 
@@ -917,7 +969,7 @@ const Register = () => {
                           borderRadius: "50%",
                           objectFit: "cover",
                         }}
-                      className="webcam-style"
+                        className="webcam-style"
                       />
                     ) : null}
                   </div>
