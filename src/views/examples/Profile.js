@@ -343,7 +343,7 @@ const Profile = () => {
                                 <Media className="align-items-center">
                                   <Media>
                                     <span className="mb-0 text-sm">
-                                      61090500...
+                                      {Request[id].StudentID}
                                     </span>
                                   </Media>
                                 </Media>
@@ -444,7 +444,7 @@ const Profile = () => {
                             <div className="col">
                               <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                 <div>
-                                  <h2 className="heading">61090500...</h2>
+                                  <h2 className="heading">{CurrentRequestProfile.StudentID}</h2>
                                 </div>
                               </div>
                             </div>
@@ -510,7 +510,7 @@ const Profile = () => {
                               <div className="col">
                                 <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                   <div>
-                                    <h2 className="heading">61090500...</h2>
+                                    <h2 className="heading">{CurrentRequestProfile.StudentID}</h2>
                                   </div>
                                 </div>
                               </div>
@@ -2482,7 +2482,7 @@ const Profile = () => {
                     <th scope="row">
                       <Media className="align-items-center">
                         <Media>
-                          <span className="mb-0 text-sm">61090500...</span>
+                          <span className="mb-0 text-sm">{Members[id].StudentID}</span>
                         </Media>
                       </Media>
                     </th>

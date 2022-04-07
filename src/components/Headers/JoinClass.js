@@ -99,17 +99,20 @@ const Header = () => {
     setSentSuccess(false);
     setModalOpen1(!modalOpen1);
     setCodeError("");
+    setCode("");
+    setClassRoom({});
   };
 
   const JoinClass = async () => {
     const UId = currentUser._delegate.uid;
     setCodeError("");
-    if (Code == "") {
-      setCodeError("Must not be empty.");
-      //console.log(currentUser._delegate.uid)
-    }
     if (Object.keys(ClassRoom).length == 0) {
-      setCodeError("This code cannot be used.");
+      if (Code == "") {
+        setCodeError("Must not be empty.");
+      }
+      if (Code != "") {
+        setCodeError("This code cannot be used.");
+      }
     }
     if (Object.keys(ClassRoom).length != 0) {
       if (!ClassRoom.Members.includes(UId)) {
@@ -166,9 +169,6 @@ const Header = () => {
             <h1 className="text-center">Join Classroom</h1>
             <Row className="align-items-center">
               <Col>
-                <div className="topicForm lightGray">
-                  <span className="text-red">{CodeError}</span>
-                </div>
                 <Input
                   className="form-control-alternative input-classroomCode"
                   id=""
@@ -187,6 +187,9 @@ const Header = () => {
                 </Button>
               </Col>
             </Row>
+            <div className="topicForm lightGray">
+              <span className="text-red">&nbsp;&nbsp;{CodeError}</span>
+            </div>
             {/* <h4 className="text-center mt-4 mb-2">OR</h4>
           <div className="text-center">
             <Button

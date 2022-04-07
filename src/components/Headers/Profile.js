@@ -29,7 +29,7 @@ import {
   CardHeader,
   CardBody,
   FormGroup,
-  Form,  
+  Form,
   Input,
   InputGroup,
   Container,
@@ -55,7 +55,7 @@ import {
 import "assets/scss/argon-dashboard/custom/AdminNavbar.scss";
 import { async } from "@firebase/util";
 
-const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
+const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
   // const [modalOpen, setModalOpen] = useState(false);
   // const [modalOpen1, setModalOpen1] = useState(false);
   const [TeacherRoleForm, setTeacherRoleForm] = useState(false);
@@ -67,6 +67,7 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
   const [Faculty, setFaculty] = useState("");
   const [Department, setDepartment] = useState("");
   const [Major, setMajor] = useState("");
+  const [StudentID, setStudentID] = useState("");
 
   const [FirstNameError, setFirstNameError] = useState("");
   const [LastNameError, setLastNameError] = useState("");
@@ -74,6 +75,7 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
   const [FacultyError, setFacultyError] = useState("");
   const [DepartmentError, setDepartmentError] = useState("");
   const [MajorError, setMajorError] = useState("");
+  const [StudentIDError, setStudentIDError] = useState("");
 
   const [User, setUser] = useState({});
   const [UserDocID, setUserDocID] = useState("");
@@ -97,7 +99,7 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
           ss.forEach((document) => {
             // manipulate ตัวแปร local
             User = document.data();
-            setUserDocID(document.id)
+            setUserDocID(document.id);
           });
 
           // เปลี่ยนค่าตัวแปร state
@@ -113,10 +115,10 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
   }, []);
 
   const editprofile = () => {
-    if(User.role == "Student"){
+    if (User.role == "Student") {
       setStudentRoleForm(true);
     }
-    if(User.role == "Teacher1"){
+    if (User.role == "Teacher1") {
       setTeacherRoleForm(true);
     }
     setAcademicRanks(User.AcademicRanks);
@@ -125,6 +127,7 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
     setFaculty(User.Faculty);
     setDepartment(User.Department);
     setMajor(User.Major);
+    setStudentID(User.StudentID);
     clearErrors();
     setModalOpen1(!modalOpen1);
   };
@@ -133,10 +136,11 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
     clearErrors();
     ErrorsCheck();
     const db = firebaseApp.firestore();
-    if(User.role == "Student"){
+    if (User.role == "Student") {
       if (
         FirstName !== "" &&
         LastName !== "" &&
+        StudentID !== "" &&
         Faculty !== "" &&
         Department !== "" &&
         Major !== ""
@@ -144,14 +148,15 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
         const res = await db.collection("User").doc(UserDocID).update({
           FirstName: FirstName,
           LastName: LastName,
+          StudentID: StudentID,
           Faculty: Faculty,
           Department: Department,
           Major: Major,
         });
-        setModalOpen1(!modalOpen1)
+        setModalOpen1(!modalOpen1);
       }
     }
-    if(User.role == "Teacher1"){
+    if (User.role == "Teacher1") {
       if (
         FirstName !== "" &&
         LastName !== "" &&
@@ -168,10 +173,10 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
           Department: Department,
           Major: Major,
         });
-        setModalOpen1(!modalOpen1)
+        setModalOpen1(!modalOpen1);
       }
     }
-  }
+  };
 
   function ErrorsCheck() {
     if (FirstName == "") setFirstNameError("Must not be empty.");
@@ -180,6 +185,7 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
     if (Faculty == "") setFacultyError("Must not be empty.");
     if (Department == "") setDepartmentError("Must not be empty.");
     if (Major == "") setMajorError("Must not be empty.");
+    if (StudentID == "") setStudentIDError("Must not be empty.");
   }
 
   const clearErrors = () => {
@@ -189,11 +195,11 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
     setFacultyError("");
     setDepartmentError("");
     setMajorError("");
+    setStudentIDError("");
   };
 
   return (
     <>
-    
       <Modal toggle={() => setModalOpen(!modalOpen)} isOpen={modalOpen}>
         <div className=" modal-header">
           <button
@@ -230,13 +236,15 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
                   <div className="col">
                     <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                       <div>
-                        <h2 className="heading">61090500...</h2>
+                        <h2 className="heading">{User.StudentID}</h2>
                       </div>
                     </div>
                   </div>
                 </Row>
                 <div className="text-center">
-                  <h2>{User.FirstName} {User.LastName}</h2>
+                  <h2>
+                    {User.FirstName} {User.LastName}
+                  </h2>
                   <div className="h3 font-weight-300">
                     <i className="ni location_pin mr-2" />
                     {User.Faculty}, {User.Department}
@@ -299,61 +307,98 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
                     <div className="boxButton">
                       <div class="upload-btn-wrapper text-center">
                         <button class="btn-uploadFile-imgProfile">
-                        <i class="fas fa-pencil-alt penIcon"></i></button>
+                          <i class="fas fa-pencil-alt penIcon"></i>
+                        </button>
                         <input type="file" name="myfile" />
                       </div>
                     </div>
                   </div>
                   <Form role="form" className="formTeacher">
-                  {TeacherRoleForm ? (
-                    <div className="topicForm">Academic Ranks<span className="text-red">*</span></div>
+                    {TeacherRoleForm ? (
+                      <div className="topicForm">
+                        Academic Ranks<span className="text-red">*</span>
+                      </div>
                     ) : null}
                     {TeacherRoleForm ? (
-                    <FormGroup>
-                      <InputGroup className="input-group-alternative mb-3">
-                        <Input
-                          className="darkGray"
-                          type="select"
-                          placeholder="Academic Ranks"
-                          value={AcademicRanks}
-                          onChange={(e) => setAcademicRanks(e.target.value)}
-                        >
-                          <option>Assoc. Prof.</option>
-                          <option>Asst. Prof.</option>
-                          <option>Dr.</option>
-                          <option>Instructor</option>
-                          <option>Prof.</option>
-                        </Input>
-                      </InputGroup>
-                    </FormGroup>
+                      <FormGroup>
+                        <InputGroup className="input-group-alternative mb-3">
+                          <Input
+                            className="darkGray"
+                            type="select"
+                            placeholder="Academic Ranks"
+                            value={AcademicRanks}
+                            onChange={(e) => setAcademicRanks(e.target.value)}
+                          >
+                            <option>Assoc. Prof.</option>
+                            <option>Asst. Prof.</option>
+                            <option>Dr.</option>
+                            <option>Instructor</option>
+                            <option>Prof.</option>
+                          </Input>
+                        </InputGroup>
+                      </FormGroup>
                     ) : null}
-                                      <div className="topicForm lightGray">First Name
-                    <span className="text-red">*</span>
-                    &nbsp;
-                    <span className="text-red">{FirstNameError}</span>
-                  </div>
-                    <FormGroup>
-                      <InputGroup className="input-group-alternative mb-3">
-                        <Input value={FirstName} onChange={(e) => setFirstName(e.target.value)} className="darkGray" type="text" />
-                      </InputGroup>
-                    </FormGroup>
-
-                    <div className="topicForm lightGray">Last Name
-                    <span className="text-red">*</span>
-                    &nbsp;
-                    <span className="text-red">{LastNameError}</span>
+                    <div className="topicForm lightGray">
+                      First Name
+                      <span className="text-red">*</span>
+                      &nbsp;
+                      <span className="text-red">{FirstNameError}</span>
                     </div>
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
-                        <Input value={LastName} onChange={(e) => setLastName(e.target.value)} className="darkGray" type="text" />
+                        <Input
+                          value={FirstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          className="darkGray"
+                          type="text"
+                        />
                       </InputGroup>
                     </FormGroup>
 
-                    <div className="topicForm lightGray">Faculty
-                    <span className="text-red">*</span>
-                    &nbsp;
-                    <span className="text-red">{FacultyError}</span>
-                  </div>
+                    <div className="topicForm lightGray">
+                      Last Name
+                      <span className="text-red">*</span>
+                      &nbsp;
+                      <span className="text-red">{LastNameError}</span>
+                    </div>
+                    <FormGroup>
+                      <InputGroup className="input-group-alternative mb-3">
+                        <Input
+                          value={LastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          className="darkGray"
+                          type="text"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+
+                    {StudentRoleForm ? (
+                      <div className="topicForm lightGray">
+                        Student ID
+                        <span className="text-red">*</span>
+                        &nbsp;
+                        <span className="text-red">{StudentIDError}</span>
+                      </div>
+                    ) : null}
+                    {StudentRoleForm ? (
+                      <FormGroup>
+                        <InputGroup className="input-group-alternative mb-3">
+                          <Input
+                            value={StudentID}
+                            onChange={(e) => setStudentID(e.target.value)}
+                            className="darkGray"
+                            type="text"
+                          />
+                        </InputGroup>
+                      </FormGroup>
+                    ) : null}
+
+                    <div className="topicForm lightGray">
+                      Faculty
+                      <span className="text-red">*</span>
+                      &nbsp;
+                      <span className="text-red">{FacultyError}</span>
+                    </div>
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
                         <Input
@@ -390,25 +435,37 @@ const Profile = ({modalOpen,setModalOpen,modalOpen1,setModalOpen1}) => {
                       </InputGroup>
                     </FormGroup>
 
-                    <div className="topicForm lightGray">Department
-                    <span className="text-red">*</span>
-                    &nbsp;
-                    <span className="text-red">{DepartmentError}</span>
-                  </div>
+                    <div className="topicForm lightGray">
+                      Department
+                      <span className="text-red">*</span>
+                      &nbsp;
+                      <span className="text-red">{DepartmentError}</span>
+                    </div>
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
-                        <Input value={Department} onChange={(e) => setDepartment(e.target.value)} className="darkGray" type="text" />
+                        <Input
+                          value={Department}
+                          onChange={(e) => setDepartment(e.target.value)}
+                          className="darkGray"
+                          type="text"
+                        />
                       </InputGroup>
                     </FormGroup>
 
-                    <div className="topicForm lightGray">Major
-                    <span className="text-red">*</span>
-                    &nbsp;
-                    <span className="text-red">{MajorError}</span>
-                  </div>
+                    <div className="topicForm lightGray">
+                      Major
+                      <span className="text-red">*</span>
+                      &nbsp;
+                      <span className="text-red">{MajorError}</span>
+                    </div>
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
-                        <Input value={Major} onChange={(e) => setMajor(e.target.value)} className="darkGray" type="text" />
+                        <Input
+                          value={Major}
+                          onChange={(e) => setMajor(e.target.value)}
+                          className="darkGray"
+                          type="text"
+                        />
                       </InputGroup>
                     </FormGroup>
 
