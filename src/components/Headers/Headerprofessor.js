@@ -134,6 +134,12 @@ const Header2 = () => {
         Request: request,
       });
       setModalOpen(!modalOpen);
+      setSubjectCode("");
+      setSection("");
+      setSubjectName("");
+      setClassDate("Monday");
+      setStartTime("");
+      setEndTime("");
     }
 
     //console.log(`new document has been inserted as ${documentRef.id}`);
