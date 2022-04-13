@@ -124,7 +124,8 @@ const Profile = () => {
       const unsubscribe = userCollection.onSnapshot((ss) => {
         // ตัวแปร local
         let request = {};
-        let members = {};
+        let members = [];
+        let count = 0;
 
         ss.forEach((document) => {
           // manipulate ตัวแปร local
@@ -132,12 +133,22 @@ const Profile = () => {
             request[document.id] = document.data();
           }
           if(ClassRoom.Members.includes(document.data().Uid)){
-            members[document.id] = document.data();
+            members[count] = document.data();
+            members[count].key = document.id;
+            count++;
           }
         });
 
         // เปลี่ยนค่าตัวแปร state
         setRequest(request);
+        members.sort((a, b) =>
+        a.StudentID > b.StudentID
+          ? 1
+          : b.StudentID > a.StudentID
+          ? -1
+          : 0
+        );
+        console.log(members)
         setMembers(members);
 
         return () => {
@@ -343,7 +354,7 @@ const Profile = () => {
                                 <Media className="align-items-center">
                                   <Media>
                                     <span className="mb-0 text-sm">
-                                      61090500...
+                                      {Request[id].StudentID}
                                     </span>
                                   </Media>
                                 </Media>
@@ -444,7 +455,7 @@ const Profile = () => {
                             <div className="col">
                               <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                 <div>
-                                  <h2 className="heading">61090500...</h2>
+                                  <h2 className="heading">{CurrentRequestProfile.StudentID}</h2>
                                 </div>
                               </div>
                             </div>
@@ -510,7 +521,7 @@ const Profile = () => {
                               <div className="col">
                                 <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                   <div>
-                                    <h2 className="heading">61090500...</h2>
+                                    <h2 className="heading">{CurrentRequestProfile.StudentID}</h2>
                                   </div>
                                 </div>
                               </div>
@@ -2482,7 +2493,7 @@ const Profile = () => {
                     <th scope="row">
                       <Media className="align-items-center">
                         <Media>
-                          <span className="mb-0 text-sm">61090500...</span>
+                          <span className="mb-0 text-sm">{Members[id].StudentID}</span>
                         </Media>
                       </Media>
                     </th>

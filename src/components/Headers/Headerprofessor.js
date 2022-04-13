@@ -103,6 +103,11 @@ const Header2 = () => {
     });
   };
 
+  const ModalOpens = () => {
+    clearErrors();
+    setModalOpen(!modalOpen);
+  };
+
   async function CreateClass() {
     clearErrors();
     ErrorsCheck();
@@ -128,7 +133,7 @@ const Header2 = () => {
         Members: members,
         Request: request,
       });
-      setModalOpen(!modalOpen)
+      setModalOpen(!modalOpen);
     }
 
     //console.log(`new document has been inserted as ${documentRef.id}`);
@@ -387,7 +392,7 @@ const Header2 = () => {
               <Button
                 className="mt-4"
                 color="dark"
-                onClick={() => setModalOpen(!modalOpen)}
+                onClick={() => ModalOpens()}
               >
                 Create Classroom
               </Button>
@@ -428,7 +433,9 @@ const Header2 = () => {
                             {ClassRoom[id].ClassDate} :{" "}
                             {ClassRoom[id].StartTime} - {ClassRoom[id].EndTime}
                           </span>
-                          <span className="mr-2 section">Sec : {ClassRoom[id].Section}</span>{" "}
+                          <span className="mr-2 section">
+                            Sec : {ClassRoom[id].Section}
+                          </span>{" "}
                         </p>
                       </CardBody>
                     </Card>
