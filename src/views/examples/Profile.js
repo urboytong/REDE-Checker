@@ -17,10 +17,11 @@
 */
 //test punch22
 // reactstrap components
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import firebaseApp from "../../firebase";
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "components/Auth/Auth.js";
+import Draggable from "react-draggable";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -94,6 +95,25 @@ const Profile = () => {
   const [Members, setMembers] = useState({});
   const [CurrentRequestProfile, setCurrentRequestProfile] = useState({});
 
+  const [ObjectSelect, setObjectSelect] = useState("");
+  const [CountdownTime, setCountdownTime] = useState("");
+  const [FaceBoxposition, setFaceBoxposition] = useState({ x: 165, y: 250 });
+  const [ObjectBoxposition, setObjectBoxposition] = useState({
+    x: 480,
+    y: 250,
+  });
+  const [CurrentQuest, setCurrentQuest] = useState({});
+  const [StartTime, setStartTime] = useState();
+  const [EndTime, setEndTime] = useState();
+  const [Countdown, setCountdown] = useState();
+  const [CountdownSec, setCountdownSec] = useState();
+
+  const [ObjectSelectError, setObjectSelectError] = useState("");
+  const [CountdownTimeError, setCountdownTimeError] = useState("");
+
+  const [NotOnQuest, setNotOnQuest] = useState(false);
+  const [OnQuest, setOnQuest] = useState(false);
+
   const location = useLocation();
 
   useEffect(() => {
@@ -117,48 +137,40 @@ const Profile = () => {
         // เปลี่ยนค่าตัวแปร state
         setClassRoom(ClassRoom);
 
-        const userCollection = db
-        .collection("User")
+        const userCollection = db.collection("User");
 
-      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
-      const unsubscribe = userCollection.onSnapshot((ss) => {
-        // ตัวแปร local
-        let request = {};
-        let members = [];
-        let count = 0;
+        // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+        const unsubscribe = userCollection.onSnapshot((ss) => {
+          // ตัวแปร local
+          let request = {};
+          let members = [];
+          let count = 0;
 
-        ss.forEach((document) => {
-          // manipulate ตัวแปร local
-          if(ClassRoom.Request.includes(document.data().Uid)){
-            request[document.id] = document.data();
-          }
-          if(ClassRoom.Members.includes(document.data().Uid)){
-            members[count] = document.data();
-            members[count].key = document.id;
-            count++;
-          }
+          ss.forEach((document) => {
+            // manipulate ตัวแปร local
+            if (ClassRoom.Request.includes(document.data().Uid)) {
+              request[document.id] = document.data();
+            }
+            if (ClassRoom.Members.includes(document.data().Uid)) {
+              members[count] = document.data();
+              members[count].key = document.id;
+              count++;
+            }
+          });
+
+          // เปลี่ยนค่าตัวแปร state
+          setRequest(request);
+          members.sort((a, b) =>
+            a.StudentID > b.StudentID ? 1 : b.StudentID > a.StudentID ? -1 : 0
+          );
+          console.log(members);
+          setMembers(members);
+
+          return () => {
+            // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+            unsubscribe();
+          };
         });
-
-        // เปลี่ยนค่าตัวแปร state
-        setRequest(request);
-        members.sort((a, b) =>
-        a.StudentID > b.StudentID
-          ? 1
-          : b.StudentID > a.StudentID
-          ? -1
-          : 0
-        );
-        console.log(members)
-        setMembers(members);
-
-        return () => {
-          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
-          unsubscribe();
-        };
-        
-      });
-
-        
       });
 
       return () => {
@@ -168,19 +180,81 @@ const Profile = () => {
     });
   }, []);
 
+  useEffect(() => {
+    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
+    firebaseApp.auth().onAuthStateChanged((user) => {
+      const db = firebaseApp.firestore();
+      const userCollection = db
+        .collection("Quest")
+        .where("ClassRoomId", "==", location.search.substring(1));
+
+      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+      const unsubscribe = userCollection.onSnapshot((ss) => {
+        // ตัวแปร local
+        let CurrentQuest = {};
+
+        ss.forEach((document) => {
+          // manipulate ตัวแปร local
+          if (document.data().EndTimeStamp >= Date.now()) {
+            CurrentQuest = document.data();
+          }
+        });
+
+        // เปลี่ยนค่าตัวแปร state
+        setCurrentQuest(CurrentQuest);
+        const startdate = new Date(CurrentQuest.StartTimeStamp);
+        const enddate = new Date(CurrentQuest.EndTimeStamp);
+        setStartTime(startdate.toLocaleString("en-GB"));
+        setEndTime(enddate.toLocaleString("en-GB"));
+
+        if (Object.keys(CurrentQuest).length != 0) {
+          setOnQuest(true);
+          setNotOnQuest(false);
+        }
+        if (Object.keys(CurrentQuest).length == 0) {
+          setOnQuest(false);
+          setNotOnQuest(true);
+        }
+      });
+
+      return () => {
+        // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+        unsubscribe();
+      };
+    });
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (Date.now() > CurrentQuest.EndTimeStamp) {
+        setOnQuest(false);
+        setNotOnQuest(true);
+      }
+      setCountdown(millisToMinutesAndSeconds(CurrentQuest.EndTimeStamp - Date.now()));
+    }, 1000);
+  
+    return () => clearInterval(interval);
+  }, [millisToMinutesAndSeconds(CurrentQuest.EndTimeStamp - Date.now())]);
+
+  function millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+  }
+
   const ProfileModalOpens = (requestinfo) => {
     setModalOpen2(!modalOpen2);
-    setCurrentRequestProfile(requestinfo)
+    setCurrentRequestProfile(requestinfo);
   };
 
   const ReportModalOpens = (requestinfo) => {
-    setModalOpen3(!modalOpen3)
-    setCurrentRequestProfile(requestinfo)
+    setModalOpen3(!modalOpen3);
+    setCurrentRequestProfile(requestinfo);
   };
 
   const DeleteModalOpens = (requestinfo) => {
-    setModalOpen4(!modalOpen4)
-    setCurrentRequestProfile(requestinfo)
+    setModalOpen4(!modalOpen4);
+    setCurrentRequestProfile(requestinfo);
   };
 
   const DeleteMember = async (id) => {
@@ -190,10 +264,13 @@ const Profile = () => {
     if (myIndex !== -1) {
       MemberList.splice(myIndex, 1);
     }
-    const res = await db.collection("ClassRoom").doc(location.search.substring(1)).update({
-      Members: MemberList,
-    });
-    setModalOpen4(!modalOpen4)
+    const res = await db
+      .collection("ClassRoom")
+      .doc(location.search.substring(1))
+      .update({
+        Members: MemberList,
+      });
+    setModalOpen4(!modalOpen4);
   };
 
   const accept = async (id) => {
@@ -203,14 +280,20 @@ const Profile = () => {
     if (myIndex !== -1) {
       RequestList.splice(myIndex, 1);
     }
-    const res = await db.collection("ClassRoom").doc(location.search.substring(1)).update({
-      Request: RequestList,
-    });
+    const res = await db
+      .collection("ClassRoom")
+      .doc(location.search.substring(1))
+      .update({
+        Request: RequestList,
+      });
     let MemberList = ClassRoom.Members;
     MemberList.push(id);
-    const res2 = await db.collection("ClassRoom").doc(location.search.substring(1)).update({
-      Members: MemberList,
-    });
+    const res2 = await db
+      .collection("ClassRoom")
+      .doc(location.search.substring(1))
+      .update({
+        Members: MemberList,
+      });
   };
 
   const refuse = async (id) => {
@@ -220,11 +303,77 @@ const Profile = () => {
     if (myIndex !== -1) {
       RequestList.splice(myIndex, 1);
     }
-    const res = await db.collection("ClassRoom").doc(location.search.substring(1)).update({
-      Request: RequestList,
-    });
+    const res = await db
+      .collection("ClassRoom")
+      .doc(location.search.substring(1))
+      .update({
+        Request: RequestList,
+      });
   };
 
+  const FacetrackPos = (data) => {
+    setFaceBoxposition({ x: data.x + 110, y: data.y + 110 });
+  };
+  const ObjecttrackPos = (data) => {
+    setObjectBoxposition({ x: data.x + 110, y: data.y + 110 });
+  };
+
+  async function SendQuest() {
+    clearErrors();
+    ErrorsCheck();
+    let UId = firebaseApp.auth().currentUser.uid;
+    let ClassRoomId = location.search.substring(1);
+    let Complete = {};
+    let Absent = {};
+    let Leave = {};
+    let StartTimeStamp = Date.now();
+    let EndTimeStamp = Date.now() + CountdownTime * 60000;
+    function padTo2Digits(num) {
+      return num.toString().padStart(2, "0");
+    }
+
+    function formatDate(date) {
+      return [
+        padTo2Digits(date.getDate()),
+        padTo2Digits(date.getMonth() + 1),
+        date.getFullYear(),
+      ].join("/");
+    }
+    let date = formatDate(new Date());
+    if (ObjectSelect != "" && CountdownTime != "") {
+      const db = firebaseApp.firestore();
+      const userCollection = db.collection("Quest");
+      const documentRef = await userCollection.add({
+        UId,
+        ClassRoomId,
+        ObjectSelect,
+        CountdownTime,
+        StartTimeStamp,
+        EndTimeStamp,
+        Date: date,
+        FaceBoxposition,
+        ObjectBoxposition,
+        Complete,
+        Absent,
+        Leave,
+      });
+      setModalOpen14(!modalOpen14);
+      setObjectSelect("");
+      setCountdownTime("");
+      setFaceBoxposition({ x: 165, y: 250 });
+      setObjectBoxposition({ x: 480, y: 250 });
+    }
+  }
+
+  function ErrorsCheck() {
+    if (ObjectSelect == "") setObjectSelectError("Must not be empty");
+    if (CountdownTime == "") setCountdownTimeError("Must not be empty");
+  }
+
+  const clearErrors = () => {
+    setObjectSelectError("");
+    setCountdownTimeError("");
+  };
 
   return (
     <>
@@ -347,68 +496,71 @@ const Profile = () => {
                             </tr>
                           </thead>
                           <tbody>
-                          {Object.keys(Request).map((id) => {
-                            return (
-                            <tr>
-                              <th scope="row">
-                                <Media className="align-items-center">
-                                  <Media>
-                                    <span className="mb-0 text-sm">
-                                      {Request[id].StudentID}
-                                    </span>
-                                  </Media>
-                                </Media>
-                              </th>
+                            {Object.keys(Request).map((id) => {
+                              return (
+                                <tr>
+                                  <th scope="row">
+                                    <Media className="align-items-center">
+                                      <Media>
+                                        <span className="mb-0 text-sm">
+                                          {Request[id].StudentID}
+                                        </span>
+                                      </Media>
+                                    </Media>
+                                  </th>
 
-                              <td>
-                                <Badge color="" className="badge-dot mr-4">
-                                  {Request[id].FirstName} {Request[id].LastName}
-                                </Badge>
-                              </td>
-                              <td>
-                                <Button
-                                  color="success"
-                                  onClick={() => accept(Request[id].Uid)}
-                                  size="sm"
-                                  className="icon-requestModal"
-                                >
-                                  <i class="fas fa-solid fa-check"></i>
-                                </Button>
-                                <Button
-                                  color="danger"
-                                  onClick={() => refuse(Request[id].Uid)}
-                                  size="sm"
-                                  className="icon-requestModal"
-                                >
-                                  <i class="fas fa-regular fa-xmark"></i>
-                                </Button>
-                              </td>
-                              <td className="text-right threedot">
-                                <UncontrolledDropdown>
-                                  <DropdownToggle
-                                    className="btn-icon-only text-light"
-                                    role="button"
-                                    size="sm"
-                                    color=""
-                                    onClick={(e) => e.preventDefault()}
-                                  >
-                                    <i className="fas fa-ellipsis-v" />
-                                  </DropdownToggle>
-                                  <DropdownMenu
-                                    className="dropdown-menu-arrow"
-                                    right
-                                  >
-                                    <DropdownItem
-                                      onClick={() => ProfileModalOpens(Request[id])}
+                                  <td>
+                                    <Badge color="" className="badge-dot mr-4">
+                                      {Request[id].FirstName}{" "}
+                                      {Request[id].LastName}
+                                    </Badge>
+                                  </td>
+                                  <td>
+                                    <Button
+                                      color="success"
+                                      onClick={() => accept(Request[id].Uid)}
+                                      size="sm"
+                                      className="icon-requestModal"
                                     >
-                                      Profile
-                                    </DropdownItem>
-                                  </DropdownMenu>
-                                </UncontrolledDropdown>
-                              </td>
-                            </tr>
-                            );
-                          })}
+                                      <i class="fas fa-solid fa-check"></i>
+                                    </Button>
+                                    <Button
+                                      color="danger"
+                                      onClick={() => refuse(Request[id].Uid)}
+                                      size="sm"
+                                      className="icon-requestModal"
+                                    >
+                                      <i class="fas fa-regular fa-xmark"></i>
+                                    </Button>
+                                  </td>
+                                  <td className="text-right threedot">
+                                    <UncontrolledDropdown>
+                                      <DropdownToggle
+                                        className="btn-icon-only text-light"
+                                        role="button"
+                                        size="sm"
+                                        color=""
+                                        onClick={(e) => e.preventDefault()}
+                                      >
+                                        <i className="fas fa-ellipsis-v" />
+                                      </DropdownToggle>
+                                      <DropdownMenu
+                                        className="dropdown-menu-arrow"
+                                        right
+                                      >
+                                        <DropdownItem
+                                          onClick={() =>
+                                            ProfileModalOpens(Request[id])
+                                          }
+                                        >
+                                          Profile
+                                        </DropdownItem>
+                                      </DropdownMenu>
+                                    </UncontrolledDropdown>
+                                  </td>
+                                </tr>
+                              );
+                            })}
                           </tbody>
                         </Table>
                       </Card>
@@ -455,16 +607,22 @@ const Profile = () => {
                             <div className="col">
                               <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                 <div>
-                                  <h2 className="heading">{CurrentRequestProfile.StudentID}</h2>
+                                  <h2 className="heading">
+                                    {CurrentRequestProfile.StudentID}
+                                  </h2>
                                 </div>
                               </div>
                             </div>
                           </Row>
                           <div className="text-center">
-                            <h2>{CurrentRequestProfile.FirstName} {CurrentRequestProfile.LastName}</h2>
+                            <h2>
+                              {CurrentRequestProfile.FirstName}{" "}
+                              {CurrentRequestProfile.LastName}
+                            </h2>
                             <div className="h3 font-weight-300">
                               <i className="ni location_pin mr-2" />
-                              {CurrentRequestProfile.Faculty}, {CurrentRequestProfile.Department}
+                              {CurrentRequestProfile.Faculty},{" "}
+                              {CurrentRequestProfile.Department}
                             </div>
                             <hr className="my-4" />
                             <div className="h5 mt-4">
@@ -521,16 +679,22 @@ const Profile = () => {
                               <div className="col">
                                 <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                   <div>
-                                    <h2 className="heading">{CurrentRequestProfile.StudentID}</h2>
+                                    <h2 className="heading">
+                                      {CurrentRequestProfile.StudentID}
+                                    </h2>
                                   </div>
                                 </div>
                               </div>
                             </Row>
                             <div className="text-center">
-                              <h2>{CurrentRequestProfile.FirstName} {CurrentRequestProfile.LastName}</h2>
+                              <h2>
+                                {CurrentRequestProfile.FirstName}{" "}
+                                {CurrentRequestProfile.LastName}
+                              </h2>
                               <div className="h3 font-weight-300">
                                 <i className="ni location_pin mr-2" />
-                                {CurrentRequestProfile.Faculty}, {CurrentRequestProfile.Department}
+                                {CurrentRequestProfile.Faculty},{" "}
+                                {CurrentRequestProfile.Department}
                               </div>
                               <hr className="my-4" />
                               <div className="h5 mt-4">
@@ -977,7 +1141,8 @@ const Profile = () => {
                     <span className="font-weight-light">
                       You want to Delete &nbsp;
                       <span className="font-weight-bold">
-                        {CurrentRequestProfile.FirstName} {CurrentRequestProfile.LastName}
+                        {CurrentRequestProfile.FirstName}{" "}
+                        {CurrentRequestProfile.LastName}
                       </span>
                       &nbsp; ?
                     </span>
@@ -2336,6 +2501,17 @@ const Profile = () => {
                           <CardBody className="createQuest">
                             <Row className="align-items-center mb-4">
                               <Col className="col-selectQuest">
+                                <label
+                                  className="form-control-label"
+                                  htmlFor="input-username"
+                                >
+                                  Select Quest
+                                  <span className="text-red">*</span>
+                                  &nbsp;
+                                  <span className="text-red">
+                                    {ObjectSelectError}
+                                  </span>
+                                </label>
                                 <Input
                                   type="select"
                                   placeholder="Department"
@@ -2344,32 +2520,30 @@ const Profile = () => {
                                     textAlign: "center",
                                   }}
                                   className="select-quest"
+                                  onChange={(event) =>
+                                    setObjectSelect(event.target.value)
+                                  }
                                 >
                                   <option value="" disabled selected hidden>
                                     Select Quest
                                   </option>
-                                  <option>Random</option>
-                                  <option>Bag</option>
-                                  <option>Banknote</option>
-                                  <option>Book</option>
-                                  <option>Bottle</option>
-                                  <option>Coin</option>
-                                  <option>Comb</option>
-                                  <option>Cup</option>
-                                  <option>Dish</option>
-                                  <option>Fork</option>
-                                  <option>Hanger</option>
-                                  <option>Key</option>
-                                  <option>Mask</option>
-                                  <option>Pen</option>
-                                  <option>Shoe</option>
-                                  <option>Spoon</option>
-                                  <option>Tissue</option>
-                                  <option>Toothpaste</option>
+                                  <option value="cup">cup</option>
+                                  <option value="bottle">bottle</option>
                                 </Input>
                               </Col>
                               &nbsp;
                               <Col className="col-selectQuest">
+                                <label
+                                  className="form-control-label"
+                                  htmlFor="input-username"
+                                >
+                                  Countdown Time
+                                  <span className="text-red">*</span>
+                                  &nbsp;
+                                  <span className="text-red">
+                                    {CountdownTimeError}
+                                  </span>
+                                </label>
                                 <Input
                                   type="select"
                                   placeholder="Department"
@@ -2378,22 +2552,26 @@ const Profile = () => {
                                     textAlign: "center",
                                   }}
                                   className="select-quest2"
+                                  onChange={(event) =>
+                                    setCountdownTime(event.target.value)
+                                  }
                                 >
                                   <option value="" disabled selected hidden>
                                     Countdown Time
                                   </option>
-                                  <option>5 minute</option>
-                                  <option>10 minute</option>
-                                  <option>15 minute</option>
-                                  <option>20 minute</option>
-                                  <option>25 minute</option>
-                                  <option>30 minute</option>
+                                  <option value="0.2">12 second</option>
+                                  <option value="5">5 minute</option>
+                                  <option value="10">10 minute</option>
+                                  <option value="15">15 minute</option>
+                                  <option value="20">20 minute</option>
+                                  <option value="25">25 minute</option>
+                                  <option value="30">30 minute</option>
                                 </Input>
                               </Col>
                             </Row>
                             <Row>
                               <div
-                                className="box-quest"
+                                className="box"
                                 style={{
                                   height: "480px",
                                   width: "640px",
@@ -2402,13 +2580,67 @@ const Profile = () => {
                                   padding: "0",
                                   background: "lightgrey",
                                 }}
-                              ></div>
+                              >
+                                <div
+                                  style={{
+                                    height: "480px",
+                                    width: "640px",
+                                    padding: "10px",
+                                  }}
+                                >
+                                  <Draggable
+                                    bounds="parent"
+                                    onDrag={(e, data) => FacetrackPos(data)}
+                                    defaultPosition={{ x: 55, y: 140 }}
+                                  >
+                                    <div
+                                      style={{
+                                        height: "200px",
+                                        width: "200px",
+                                        position: "absolute",
+                                        cursor: "move",
+                                        color: "black",
+                                        borderRadius: "5px",
+                                        margin: "auto",
+                                        userSelect: "none",
+                                        background: "white",
+                                      }}
+                                    >
+                                      Face x: {FaceBoxposition.x.toFixed(0)}, y:{" "}
+                                      {FaceBoxposition.y.toFixed(0)}
+                                    </div>
+                                  </Draggable>
+                                  <Draggable
+                                    bounds="parent"
+                                    onDrag={(e, data) => ObjecttrackPos(data)}
+                                    defaultPosition={{ x: 370, y: 140 }}
+                                  >
+                                    <div
+                                      style={{
+                                        height: "200px",
+                                        width: "200px",
+                                        position: "absolute",
+                                        cursor: "move",
+                                        color: "black",
+                                        borderRadius: "5px",
+                                        margin: "auto",
+                                        userSelect: "none",
+                                        background: "white",
+                                      }}
+                                    >
+                                      Object x: {ObjectBoxposition.x.toFixed(0)}
+                                      , y: {ObjectBoxposition.y.toFixed(0)}
+                                    </div>
+                                  </Draggable>
+                                </div>
+                              </div>
                             </Row>
                             <Row>
                               <Button
                                 className="mt-4 buttonStyle btn-create"
                                 color="dark"
                                 type="button"
+                                onClick={(e) => SendQuest()}
                               >
                                 SEND QUEST
                               </Button>
@@ -2437,14 +2669,29 @@ const Profile = () => {
                     <h2 className="date-profile">{date}</h2>
                   </div>
                   <div className="text-center">
-                    <Button
-                      className="mt-3"
-                      color="dark"
-                      type="button"
-                      onClick={() => setModalOpen14(!modalOpen14)}
-                    >
-                      CREATE QUEST
-                    </Button>
+                    {NotOnQuest ? (
+                      <Button
+                        className="mt-3"
+                        color="dark"
+                        type="button"
+                        onClick={() => setModalOpen14(!modalOpen14)}
+                      >
+                        CREATE QUEST
+                      </Button>
+                    ) : null}
+                    {OnQuest ? (
+                      <div>
+                        <p>ObjectSelect: {CurrentQuest.ObjectSelect}</p>
+                        <p>
+                          CountdownTime: {CurrentQuest.CountdownTime} Minute
+                        </p>
+                        <p>Start: {StartTime}</p>
+                        <p>End: {EndTime}</p>
+                        <p>
+                          Remaining time: {Countdown}
+                        </p>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </CardBody>
@@ -2487,55 +2734,60 @@ const Profile = () => {
                   </tr>
                 </thead>
                 <tbody>
-                {Object.keys(Members).map((id) => {
-                            return (
-                  <tr>
-                    <th scope="row">
-                      <Media className="align-items-center">
-                        <Media>
-                          <span className="mb-0 text-sm">{Members[id].StudentID}</span>
-                        </Media>
-                      </Media>
-                    </th>
+                  {Object.keys(Members).map((id) => {
+                    return (
+                      <tr>
+                        <th scope="row">
+                          <Media className="align-items-center">
+                            <Media>
+                              <span className="mb-0 text-sm">
+                                {Members[id].StudentID}
+                              </span>
+                            </Media>
+                          </Media>
+                        </th>
 
-                    <td className="td-nonePadding hightBox-profile">
-                      <Badge color="" className="badge-dot mr-4  short-name">
-                        {Members[id].FirstName} {Members[id].LastName} 
-                      </Badge>
-                    </td>
-                    <td className="text-right threedot">
-                      <UncontrolledDropdown>
-                        <DropdownToggle
-                          className="btn-icon-only text-light"
-                          role="button"
-                          size="sm"
-                          color=""
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <i className="fas fa-ellipsis-v" />
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-arrow" right>
-                          <DropdownItem
-                            onClick={() => ProfileModalOpens(Members[id])}
+                        <td className="td-nonePadding hightBox-profile">
+                          <Badge
+                            color=""
+                            className="badge-dot mr-4  short-name"
                           >
-                            Profile
-                          </DropdownItem>
-                          <DropdownItem
-                            onClick={() => ReportModalOpens(Members[id])}
-                          >
-                            Report
-                          </DropdownItem>
-                          <DropdownItem
-                            onClick={() => DeleteModalOpens(Members[id])}
-                          >
-                            Delete
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                  </tr>
-                                              );
-                                            })}
+                            {Members[id].FirstName} {Members[id].LastName}
+                          </Badge>
+                        </td>
+                        <td className="text-right threedot">
+                          <UncontrolledDropdown>
+                            <DropdownToggle
+                              className="btn-icon-only text-light"
+                              role="button"
+                              size="sm"
+                              color=""
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <i className="fas fa-ellipsis-v" />
+                            </DropdownToggle>
+                            <DropdownMenu className="dropdown-menu-arrow" right>
+                              <DropdownItem
+                                onClick={() => ProfileModalOpens(Members[id])}
+                              >
+                                Profile
+                              </DropdownItem>
+                              <DropdownItem
+                                onClick={() => ReportModalOpens(Members[id])}
+                              >
+                                Report
+                              </DropdownItem>
+                              <DropdownItem
+                                onClick={() => DeleteModalOpens(Members[id])}
+                              >
+                                Delete
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </UncontrolledDropdown>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </Table>
             </Card>

@@ -307,10 +307,10 @@ const Icons = () => {
   }, []);
 
   const FacetrackPos = (data) => {
-    setFaceBoxposition({ x: data.x + 135, y: data.y + 135 });
+    setFaceBoxposition({ x: data.x + 110, y: data.y + 110 });
   };
   const ObjecttrackPos = (data) => {
-    setObjectBoxposition({ x: data.x + 135, y: data.y + 135 });
+    setObjectBoxposition({ x: data.x + 110, y: data.y + 110 });
   };
 
   let lastUrl = window.location.href;
@@ -376,14 +376,14 @@ const Icons = () => {
                     <Draggable
                       bounds="parent"
                       position={{
-                        x: FaceBoxposition.x - 135,
-                        y: FaceBoxposition.y - 135,
+                        x: FaceBoxposition.x - 110,
+                        y: FaceBoxposition.y - 110,
                       }}
                     >
                       <div
                         style={{
-                          height: "250px",
-                          width: "250px",
+                          height: "200px",
+                          width: "200px",
                           position: "absolute",
                           cursor: "move",
                           color: "#6b8be8",
@@ -399,14 +399,14 @@ const Icons = () => {
                     <Draggable
                       bounds="parent"
                       position={{
-                        x: ObjectBoxposition.x - 135,
-                        y: ObjectBoxposition.y - 135,
+                        x: ObjectBoxposition.x - 110,
+                        y: ObjectBoxposition.y - 110,
                       }}
                     >
                       <div
                         style={{
-                          height: "250px",
-                          width: "250px",
+                          height: "200px",
+                          width: "200px",
                           position: "absolute",
                           cursor: "move",
                           color: "#6b8be8",
@@ -459,12 +459,12 @@ const Icons = () => {
                 <Draggable
                   bounds="parent"
                   onDrag={(e, data) => FacetrackPos(data)}
-                  defaultPosition={{ x: 30, y: 115 }}
+                  defaultPosition={{ x: 55, y: 140 }}
                 >
                   <div
                     style={{
-                      height: "250px",
-                      width: "250px",
+                      height: "200px",
+                      width: "200px",
                       position: "absolute",
                       cursor: "move",
                       color: "black",
@@ -481,12 +481,12 @@ const Icons = () => {
                 <Draggable
                   bounds="parent"
                   onDrag={(e, data) => ObjecttrackPos(data)}
-                  defaultPosition={{ x: 345, y: 115 }}
+                  defaultPosition={{ x: 370, y: 140 }}
                 >
                   <div
                     style={{
-                      height: "250px",
-                      width: "250px",
+                      height: "200px",
+                      width: "200px",
                       position: "absolute",
                       cursor: "move",
                       color: "black",
