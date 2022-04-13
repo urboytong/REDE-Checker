@@ -70,6 +70,89 @@ select {
   padding-right: 2rem;
 }
 
+.nav-link-icon-noti {
+  font-size: 20px;
+}
+
+.have-noti {
+  background-color: #fc3b3b;
+  border-radius: 100px;
+  width: 10px;
+  height: 10px;
+  z-index: 1;
+  position: absolute;
+  margin-left: 27px;
+  margin-top: -34px;
+}
+
+.noti-nav {
+  margin-top: 10px !important;
+  left: -10px !important;
+}
+
+.box-noti-nav {
+  padding: 0rem;
+  max-height: 600px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  width: 327px !important;
+}
+
+.box-noti-nav::-webkit-scrollbar {
+  width: 8px;
+}
+
+.box-noti-nav::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+.box-noti-nav::-webkit-scrollbar-thumb {
+  background-color: #aaaaaa;
+  border-radius: 100px;
+}
+
+.sub-noti-nav {
+  margin: 10px 10px;
+  font-size: 14px;
+  width: 293px !important;
+}
+
+.never-see-noti-nav {
+  color: #5e72e4;
+}
+
+.see-noti-nav {
+  color: #929292;
+}
+
+.from-noti-nav {
+  padding: 0px 0px 0px 20px;
+  font-weight: bold;
+  flex-direction: row;
+}
+
+.code-noti-nav {
+  margin-right: 10px;
+}
+
+.text-noti-nav {
+  padding: 0px 0px 0px 20px;
+  font-size: 14px;
+}
+
+.shortName-noti-nav {
+  white-space: nowrap; 
+  overflow: hidden; 
+  width: 290px; 
+  text-overflow: ellipsis; 
+}
+
+.time-noti-nav {
+  padding: 0px 0px 0px 20px;
+  font-size: 12px;
+}
+
 @media screen and (max-width: 820px) { 
   .text-name-status, .text-nameUser {
     display: inline-block !important;

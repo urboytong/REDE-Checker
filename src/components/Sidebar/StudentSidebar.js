@@ -66,9 +66,19 @@ const Sidebar = (props) => {
   const activeRoute = (routeName) => {
     return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   };
+
+  const [collapseOpen2, setCollapseOpen2] = useState();
+  // verifies if routeName is the one active (in browser input)
+  const activeRoute2 = (routeName) => {
+    return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
+  };
   // toggles collapse between opened and closed (true/false)
   const toggleCollapse = () => {
     setCollapseOpen((data) => !data);
+  };
+
+  const toggleCollapse2 = () => {
+    setCollapseOpen2((data) => !data);
   };
   // closes the collapse
   const closeCollapse = () => {
@@ -179,6 +189,14 @@ const Sidebar = (props) => {
         ) : null}
         {/* User */}
         <Nav className="align-items-center d-md-none">
+          <button
+          className="navbar-toggler noti-button"
+          type="button"
+          onClick={toggleCollapse2}
+          >
+            <i className="ni ni-bell-55 icon-noti-sidebar"/>
+          </button>
+          <div className="have-noti-sidebar"></div>
           <UncontrolledDropdown nav>
             <DropdownToggle nav>
               <Media className="align-items-center">
@@ -196,6 +214,116 @@ const Sidebar = (props) => {
             </DropdownToggle>
           </UncontrolledDropdown>
         </Nav>
+
+        {/* Collapse noti*/}
+        <Collapse navbar isOpen={collapseOpen2} className="noti">
+          {/* Navigation */}
+          <Nav className="mb-md-3" navbar>
+            <NavItem className="active-pro active">
+              <div className="sub-noti">
+                <Row className="from-noti see-noti">
+                  <div className="code-noti">FROM : SPY888</div>
+                  <div className="subject-noti shortName-noti">SPY X FAMILY gerkogkerpogkreopgkeropgkeropgkeropgkeropg</div>
+                </Row>
+                <Row className="text-noti see-noti">Your request has been approved.</Row>
+                <Row className="time-noti see-noti">36 minutes ago</Row>
+              </div>
+              <div className="sub-noti">
+                <Row className="from-noti never-see-noti">
+                  <div className="code-noti">FROM : ABC123</div>
+                  <div className="subject-noti shortName-noti">Software Engoneering II</div>
+                </Row>
+                <Row className="text-noti">Your quest has begun !!</Row>
+                <Row className="time-noti never-see-noti">2 hours ago</Row>
+              </div>
+
+
+              {/* example noti */}
+              <div className="sub-noti">
+                <Row className="from-noti never-see-noti">
+                  <div className="code-noti">FROM : ABC123</div>
+                  <div className="subject-noti shortName-noti">Software Engoneering II</div>
+                </Row>
+                <Row className="text-noti">Your quest has begun !!</Row>
+                <Row className="time-noti never-see-noti">2 hours ago</Row>
+              </div>
+              <div className="sub-noti">
+                <Row className="from-noti never-see-noti">
+                  <div className="code-noti">FROM : ABC123</div>
+                  <div className="subject-noti shortName-noti">Software Engoneering II</div>
+                </Row>
+                <Row className="text-noti">Your quest has begun !!</Row>
+                <Row className="time-noti never-see-noti">2 hours ago</Row>
+              </div>
+              <div className="sub-noti">
+                <Row className="from-noti never-see-noti">
+                  <div className="code-noti">FROM : ABC123</div>
+                  <div className="subject-noti shortName-noti">Software Engoneering II</div>
+                </Row>
+                <Row className="text-noti">Your quest has begun !!</Row>
+                <Row className="time-noti never-see-noti">2 hours ago</Row>
+              </div>
+              <div className="sub-noti">
+                <Row className="from-noti never-see-noti">
+                  <div className="code-noti">FROM : ABC123</div>
+                  <div className="subject-noti shortName-noti">Software Engoneering II</div>
+                </Row>
+                <Row className="text-noti">Your quest has begun !!</Row>
+                <Row className="time-noti never-see-noti">2 hours ago</Row>
+              </div>
+              <div className="sub-noti">
+                <Row className="from-noti never-see-noti">
+                  <div className="code-noti">FROM : ABC123</div>
+                  <div className="subject-noti shortName-noti">Software Engoneering II</div>
+                </Row>
+                <Row className="text-noti">Your quest has begun !!</Row>
+                <Row className="time-noti never-see-noti">2 hours ago</Row>
+              </div>
+              <div className="sub-noti">
+                <Row className="from-noti never-see-noti">
+                  <div className="code-noti">FROM : ABC123</div>
+                  <div className="subject-noti shortName-noti">Software Engoneering II</div>
+                </Row>
+                <Row className="text-noti">Your quest has begun !!</Row>
+                <Row className="time-noti never-see-noti">2 hours ago</Row>
+              </div>
+              <div className="sub-noti">
+                <Row className="from-noti never-see-noti">
+                  <div className="code-noti">FROM : ABC123</div>
+                  <div className="subject-noti shortName-noti">Software Engoneering II</div>
+                </Row>
+                <Row className="text-noti">Your quest has begun !!</Row>
+                <Row className="time-noti never-see-noti">2 hours ago</Row>
+              </div>
+              <div className="sub-noti">
+                <Row className="from-noti never-see-noti">
+                  <div className="code-noti">FROM : ABC123</div>
+                  <div className="subject-noti shortName-noti">Software Engoneering II</div>
+                </Row>
+                <Row className="text-noti">Your quest has begun !!</Row>
+                <Row className="time-noti never-see-noti">2 hours ago</Row>
+              </div>
+              <div className="sub-noti">
+                <Row className="from-noti never-see-noti">
+                  <div className="code-noti">FROM : ABC123</div>
+                  <div className="subject-noti shortName-noti">Software Engoneering II</div>
+                </Row>
+                <Row className="text-noti">Your quest has begun !!</Row>
+                <Row className="time-noti never-see-noti">2 hours ago</Row>
+              </div>
+              <div className="sub-noti">
+                <Row className="from-noti never-see-noti">
+                  <div className="code-noti">FROM : ABC123</div>
+                  <div className="subject-noti shortName-noti">Software Engoneering II</div>
+                </Row>
+                <Row className="text-noti">Your quest has begun !!</Row>
+                <Row className="time-noti never-see-noti">2 hours ago</Row>
+              </div>
+            </NavItem>
+          </Nav>
+          {/* Divider */}
+          {/* <hr className="my-3" /> */}
+        </Collapse>
         
         {/* Collapse */}
         <Collapse navbar isOpen={collapseOpen}>

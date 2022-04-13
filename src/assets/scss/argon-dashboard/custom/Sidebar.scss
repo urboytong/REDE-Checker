@@ -14,4 +14,80 @@
   .sidebar-none {
     display: block !important;
   }
+
+  .have-noti-sidebar {
+    background-color: #fc3b3b;
+    border-radius: 100px;
+    width: 12px;
+    height: 12px;
+    z-index: 1;
+    position: absolute;
+    margin-left: 26px;
+    margin-top: -25px;
+  }
+
+  .noti-button {
+    font-size: 26px;
+  }
+
+  .icon-noti-sidebar {
+    color: rgb(170, 170, 170);
+  }
+
+  .sub-noti {
+    padding: 10px;
+  }
+
+  .never-see-noti {
+    color: #5e72e4;
+  }
+
+  .see-noti {
+    color: #929292;
+  }
+
+  .noti {
+    margin-top: 75px;
+    padding: 10px 25px !important;
+
+    padding: 1rem;
+    max-height: 800px;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+
+  .from-noti {
+    padding: 0px 15px;
+    font-weight: bold;
+  }
+
+  .code-noti {
+    margin-right: 10px;
+  }
+
+  .shortName-noti {
+    white-space: nowrap; 
+    overflow: hidden; 
+    width: 220px; 
+    text-overflow: ellipsis; 
+  }
+
+  .text-noti {
+    padding: 0px 15px;
+  }
+
+  .time-noti {
+    padding: 0px 15px;
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 376px) { 
+  .noti {
+    max-height: 730px;
+  }
+
+  .shortName-noti {
+    width: 310px; 
+  }
 }
