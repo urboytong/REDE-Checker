@@ -124,7 +124,8 @@ const Profile = () => {
       const unsubscribe = userCollection.onSnapshot((ss) => {
         // ตัวแปร local
         let request = {};
-        let members = {};
+        let members = [];
+        let count = 0;
 
         ss.forEach((document) => {
           // manipulate ตัวแปร local
@@ -132,12 +133,22 @@ const Profile = () => {
             request[document.id] = document.data();
           }
           if(ClassRoom.Members.includes(document.data().Uid)){
-            members[document.id] = document.data();
+            members[count] = document.data();
+            members[count].key = document.id;
+            count++;
           }
         });
 
         // เปลี่ยนค่าตัวแปร state
         setRequest(request);
+        members.sort((a, b) =>
+        a.StudentID > b.StudentID
+          ? 1
+          : b.StudentID > a.StudentID
+          ? -1
+          : 0
+        );
+        console.log(members)
         setMembers(members);
 
         return () => {
