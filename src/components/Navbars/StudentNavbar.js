@@ -111,6 +111,111 @@ const AdminNavbar = (props) => {
 
           <Nav className="align-items-center d-none d-md-flex" navbar>
             <UncontrolledDropdown nav>
+              <DropdownToggle nav className="nav-link-icon-noti">
+                <i className="ni ni-bell-55" />
+              </DropdownToggle>
+              <div className="have-noti"></div>
+              <DropdownMenu
+                aria-labelledby="navbar-default_dropdown_1"
+                className="dropdown-menu-arrow noti-nav"
+                right
+              >
+                <div className="box-noti-nav">
+                  <div className="sub-noti-nav">
+                    <Row className="from-noti-nav see-noti-nav">
+                      <div className="code-noti-nav">FROM : SPY888</div>
+                      <div className="subject-noti-nav shortName-noti-nav">SPY X FAMILY gerkogkerpogkreopgkeropgkeropgkeropgkeropg</div>
+                    </Row>
+                    <Row className="text-noti-nav see-noti-nav">Your request has been approved.</Row>
+                    <Row className="time-noti-nav see-noti-nav">36 minutes ago</Row>
+                  </div>
+                  <div className="sub-noti-nav">
+                    <Row className="from-noti-nav never-see-noti-nav">
+                      <div className="code-noti-nav">FROM : SPY888</div>
+                      <div className="subject-noti-nav shortName-noti-nav">SPY X FAMILY gerkogkerpogkreopgkeropgkeropgkeropgkeropg</div>
+                    </Row>
+                    <Row className="text-noti-nav">Your request has been approved.</Row>
+                    <Row className="time-noti-nav never-see-noti-nav">36 minutes ago</Row>
+                  </div>
+
+                  {/* example noti */}
+                  <div className="sub-noti-nav">
+                    <Row className="from-noti-nav never-see-noti-nav">
+                      <div className="code-noti-nav">FROM : SPY888</div>
+                      <div className="subject-noti-nav shortName-noti-nav">SPY X FAMILY gerkogkerpogkreopgkeropgkeropgkeropgkeropg</div>
+                    </Row>
+                    <Row className="text-noti-nav">Your request has been approved.</Row>
+                    <Row className="time-noti-nav never-see-noti-nav">36 minutes ago</Row>
+                  </div>
+                  <div className="sub-noti-nav">
+                    <Row className="from-noti-nav never-see-noti-nav">
+                      <div className="code-noti-nav">FROM : SPY888</div>
+                      <div className="subject-noti-nav shortName-noti-nav">SPY X FAMILY gerkogkerpogkreopgkeropgkeropgkeropgkeropg</div>
+                    </Row>
+                    <Row className="text-noti-nav">Your request has been approved.</Row>
+                    <Row className="time-noti-nav never-see-noti-nav">36 minutes ago</Row>
+                  </div>
+                  <div className="sub-noti-nav">
+                    <Row className="from-noti-nav never-see-noti-nav">
+                      <div className="code-noti-nav">FROM : SPY888</div>
+                      <div className="subject-noti-nav shortName-noti-nav">SPY X FAMILY gerkogkerpogkreopgkeropgkeropgkeropgkeropg</div>
+                    </Row>
+                    <Row className="text-noti-nav">Your request has been approved.</Row>
+                    <Row className="time-noti-nav never-see-noti-nav">36 minutes ago</Row>
+                  </div>
+                  <div className="sub-noti-nav">
+                    <Row className="from-noti-nav never-see-noti-nav">
+                      <div className="code-noti-nav">FROM : SPY888</div>
+                      <div className="subject-noti-nav shortName-noti-nav">SPY X FAMILY gerkogkerpogkreopgkeropgkeropgkeropgkeropg</div>
+                    </Row>
+                    <Row className="text-noti-nav">Your request has been approved.</Row>
+                    <Row className="time-noti-nav never-see-noti-nav">36 minutes ago</Row>
+                  </div>
+                  <div className="sub-noti-nav">
+                    <Row className="from-noti-nav never-see-noti-nav">
+                      <div className="code-noti-nav">FROM : SPY888</div>
+                      <div className="subject-noti-nav shortName-noti-nav">SPY X FAMILY gerkogkerpogkreopgkeropgkeropgkeropgkeropg</div>
+                    </Row>
+                    <Row className="text-noti-nav">Your request has been approved.</Row>
+                    <Row className="time-noti-nav never-see-noti-nav">36 minutes ago</Row>
+                  </div>
+                  <div className="sub-noti-nav">
+                    <Row className="from-noti-nav never-see-noti-nav">
+                      <div className="code-noti-nav">FROM : SPY888</div>
+                      <div className="subject-noti-nav shortName-noti-nav">SPY X FAMILY gerkogkerpogkreopgkeropgkeropgkeropgkeropg</div>
+                    </Row>
+                    <Row className="text-noti-nav">Your request has been approved.</Row>
+                    <Row className="time-noti-nav never-see-noti-nav">36 minutes ago</Row>
+                  </div>
+                  <div className="sub-noti-nav">
+                    <Row className="from-noti-nav never-see-noti-nav">
+                      <div className="code-noti-nav">FROM : SPY888</div>
+                      <div className="subject-noti-nav shortName-noti-nav">SPY X FAMILY gerkogkerpogkreopgkeropgkeropgkeropgkeropg</div>
+                    </Row>
+                    <Row className="text-noti-nav">Your request has been approved.</Row>
+                    <Row className="time-noti-nav never-see-noti-nav">36 minutes ago</Row>
+                  </div>
+                  <div className="sub-noti-nav">
+                    <Row className="from-noti-nav never-see-noti-nav">
+                      <div className="code-noti-nav">FROM : SPY888</div>
+                      <div className="subject-noti-nav shortName-noti-nav">SPY X FAMILY gerkogkerpogkreopgkeropgkeropgkeropgkeropg</div>
+                    </Row>
+                    <Row className="text-noti-nav">Your request has been approved.</Row>
+                    <Row className="time-noti-nav never-see-noti-nav">36 minutes ago</Row>
+                  </div>
+                  <div className="sub-noti-nav">
+                    <Row className="from-noti-nav never-see-noti-nav">
+                      <div className="code-noti-nav">FROM : SPY888</div>
+                      <div className="subject-noti-nav shortName-noti-nav">SPY X FAMILY gerkogkerpogkreopgkeropgkeropgkeropgkeropg</div>
+                    </Row>
+                    <Row className="text-noti-nav">Your request has been approved.</Row>
+                    <Row className="time-noti-nav never-see-noti-nav">36 minutes ago</Row>
+                  </div>
+                </div>
+                
+              </DropdownMenu>
+            </UncontrolledDropdown>
+            <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">
                   <span className="avatar avatar-sm rounded-circle">
