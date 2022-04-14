@@ -52,6 +52,7 @@ import "assets/scss/argon-dashboard/custom/student.scss";
 
 // core components
 import UserHeader from "components/Headers/UserHeader2.js";
+import Quest from "views/examples/Quest.js";
 import {
   chartOptions,
   parseOptions,
@@ -72,7 +73,6 @@ const Profile = () => {
     <>
       <UserHeader />
       {/* Page content */}
-
       <Modal
         toggle={() => setModalOpen1(!modalOpen1)}
         isOpen={modalOpen1}
@@ -165,11 +165,7 @@ const Profile = () => {
                 </CardHeader>
                 <CardBody className="createQuest">
                   <Row className="align-items-center mb-4">
-                    <div>Status : Complete</div>
-                  </Row>
-                  <Row>
-                    <div className="box-quest2" style={{position: 'relative', overflow: 'auto', padding: '0', background: 'lightgrey'}}>
-                    </div>
+                    <Quest />
                   </Row>
                   <Row>
                     <Button
@@ -187,7 +183,7 @@ const Profile = () => {
         </ModalBody>
         <ModalFooter></ModalFooter>
       </Modal>
-      
+
       <Modal
         toggle={() => setModalOpen3(!modalOpen3)}
         isOpen={modalOpen3}
@@ -272,7 +268,12 @@ const Profile = () => {
                     </h4>
                   </div>
                   <div className="text-center">
-                    <Button className="do-quest" color="dark" type="button" onClick={() => setModalOpen2(!modalOpen2)}>
+                    <Button
+                      className="do-quest"
+                      color="dark"
+                      type="button"
+                      onClick={() => setModalOpen2(!modalOpen2)}
+                    >
                       LET'S DO QUEST
                     </Button>
                   </div>
@@ -294,8 +295,12 @@ const Profile = () => {
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
-                    <th scope="col" className="td-nonePadding6">Date</th>
-                    <th scope="col" className="td-nonePadding">Status</th>
+                    <th scope="col" className="td-nonePadding6">
+                      Date
+                    </th>
+                    <th scope="col" className="td-nonePadding">
+                      Status
+                    </th>
                     <th scope="col" className="td-nonePadding"></th>
                   </tr>
                 </thead>
