@@ -358,6 +358,12 @@ const Sidebar = (props) => {
           {/* Navigation */}
           <Nav className="mb-md-3" navbar>
             <NavItem className="active-pro active">
+              <DropdownItem>
+                <div>
+                  <i class="fa-solid fa-house-chimney"/>
+                  &nbsp; &nbsp; Home
+                </div>
+              </DropdownItem>
               <DropdownItem
                 onClick={() => setModalOpen(!modalOpen)}
               >

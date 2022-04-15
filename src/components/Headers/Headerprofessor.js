@@ -84,13 +84,13 @@ const Header2 = () => {
 
   const [ClassRoom, setClassRoom] = useState({});
   const [DaysColor, setDaysColor] = useState({
-    Monday: "#FFF5BA",
-    Tuesday: "#ecd6e3",
-    Wednesday: "#97c1a9",
-    Thursday: "#ffc7a2",
-    Friday: "#acdee7",
-    Saturday: "#ccaacb",
-    Sunday: "#ff9689",
+    Monday: "#ffd600",
+    Tuesday: "#f3a4b5",
+    Wednesday: "#2dce89",
+    Thursday: "#fb6340",
+    Friday: "#5e72e4",
+    Saturday: "#8965e0",
+    Sunday: "#f5365c",
   });
 
   const history = useHistory();
