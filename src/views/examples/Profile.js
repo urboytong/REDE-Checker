@@ -2687,9 +2687,19 @@ const Profile = () => {
                         <p>
                           CountdownTime: {CurrentQuest.CountdownTime} Minute
                         </p>
-                        <p>Start: {StartTime}</p>
-                        <p>End: {EndTime}</p>
-                        <p>Remaining time: {Countdown}</p>
+                        {/* <p className="mt-5">Start: {StartTime}</p> */}
+                        {/* <p>End: {EndTime}</p> */}
+                        <h3 className="text-red mt-5">
+                          Remaining time: {Countdown} Minute
+                        </h3>
+                        <p className="text-red">End: {EndTime}</p>
+                        <Button
+                        className="mt-3"
+                        color="dark"
+                        type="button"
+                        >
+                        CANCEL QUEST
+                      </Button>
                       </div>
                     ) : null}
                   </div>

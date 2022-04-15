@@ -625,6 +625,7 @@ const Register = () => {
                         className="darkGray"
                         type="text"
                         value={FirstName}
+                        pattern="[A-Za-z]"
                         onChange={(e) => setFirstName(e.target.value)}
                       />
                     </InputGroup>
@@ -808,113 +809,6 @@ const Register = () => {
                   </div>
                 </Form>
               </div>
-
-              {/* form regis student*/}
-
-              {/* <div className="student">
-              <div className="uploadImage">
-                <div className="image2">
-                  <img className="faceIcon"
-                    alt="..."
-                    src={
-                      require("../../assets/img/image/face.png").default
-                    }
-                  />
-                </div>
-                <div className="boxButton">
-                  <div className="uploadButton2">
-                    <i class="fas fa-solid fa-camera penIcon"></i>
-                  </div>
-                </div>
-              </div>
-
-              <Form role="form" className="formStudent">
-                <div className="topicForm lightGray">First Name</div>
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <Input className="darkGray" type="text"/>
-                  </InputGroup>
-                </FormGroup>
-
-                <div className="topicForm lightGray">Last Name</div>
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <Input className="darkGray" type="text"/>
-                  </InputGroup>
-                </FormGroup>
-
-                <div className="topicForm lightGray">Student ID</div>
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <Input className="darkGray" type="text"/>
-                  </InputGroup>
-                </FormGroup>
-
-                <div className="topicForm lightGray">Faculty</div>
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <Input className="darkGray" type="select" placeholder="Faculty">
-                      <option>College of Multidisciplinary Science</option>
-                      <option>Darunsikkhalai School of Innovation Learning</option>
-                      <option>Engineering</option>
-                      <option>Engineering Science Classroom</option>
-                      <option>Graduate School of Management and Innovation</option>
-                      <option>Industrial Education and Technology</option>
-                      <option>Institute of Field Robotics</option>
-                      <option>KOSEN KMUTT</option>                    
-                      <option>School of Architecture and Design</option>
-                      <option>School of Bioresources and Technology</option>
-                      <option>School of Energy, Environment and Materials</option>
-                      <option>School of Information Technology</option>
-                      <option>School of Liberal Arts</option>
-                      <option>Science</option>
-                      <option>The Joint Graduate School of Energy and Environment</option>
-                    </Input>
-                  </InputGroup>
-                </FormGroup>
-
-                <div className="topicForm lightGray">Department</div>
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <Input className="darkGray" type="text"/>
-                  </InputGroup>
-                </FormGroup>
-
-                <div className="topicForm lightGray">Major</div>
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <Input className="darkGray" type="text"/>
-                  </InputGroup>
-                </FormGroup>
-
-                <div className="topicForm lightGray">Email</div>
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <Input className="darkGray" type="text"/>
-                  </InputGroup>
-                </FormGroup>
-
-                <div className="topicForm lightGray">Password</div>
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <Input className="darkGray" type="password"/>
-                  </InputGroup>
-                </FormGroup>
-
-                <div className="topicForm lightGray">Confirm Password</div>
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <Input className="darkGray" type="password" />
-                  </InputGroup>
-                </FormGroup>
-
-                <div className="text-center">
-                  <Button className="mt-4 buttonStyle" color="primary" type="button">
-                    SIGNUP
-                  </Button>
-                </div>
-              </Form>
-            </div> */}
             </CardBody>
           ) : null}
           {FaceRegisForm ? (
