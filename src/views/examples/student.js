@@ -17,7 +17,9 @@
 */
 
 // reactstrap components
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import firebaseApp from "../../firebase";
+import { useLocation } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   Button,
@@ -68,6 +70,87 @@ const Profile = () => {
   const [modalOpen1, setModalOpen1] = useState(false);
   const [modalOpen2, setModalOpen2] = useState(false);
   const [modalOpen3, setModalOpen3] = useState(false);
+
+  const [CurrentQuest, setCurrentQuest] = useState({});
+  const [StartTime, setStartTime] = useState();
+  const [EndTime, setEndTime] = useState();
+  const [Countdown, setCountdown] = useState();
+
+  const [NotOnQuest, setNotOnQuest] = useState(false);
+  const [OnQuest, setOnQuest] = useState(false);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
+    firebaseApp.auth().onAuthStateChanged((user) => {
+      const db = firebaseApp.firestore();
+      const userCollection = db
+        .collection("Quest")
+        .where("ClassRoomId", "==", location.search.substring(1));
+
+      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+      const unsubscribe = userCollection.onSnapshot((ss) => {
+        // ตัวแปร local
+        let CurrentQuest = {};
+        let count = 0;
+
+        ss.forEach((document) => {
+          // manipulate ตัวแปร local
+          console.log(document.data().Complete)
+          for(let i = 0 ; i < document.data().Complete.length ; i++){
+            if(document.data().Complete[i].Uid == firebaseApp.auth().currentUser.uid){
+              count++
+            }
+          }
+          if (document.data().EndTimeStamp >= Date.now() && count == 0) {
+            CurrentQuest = document.data();
+          }
+        });
+
+        // เปลี่ยนค่าตัวแปร state
+        setCurrentQuest(CurrentQuest);
+        const startdate = new Date(CurrentQuest.StartTimeStamp);
+        const enddate = new Date(CurrentQuest.EndTimeStamp);
+        setStartTime(startdate.toLocaleString("en-GB"));
+        setEndTime(enddate.toLocaleString("en-GB"));
+
+        if (Object.keys(CurrentQuest).length != 0) {
+          setOnQuest(true);
+          setNotOnQuest(false);
+        }
+        if (Object.keys(CurrentQuest).length == 0) {
+          setOnQuest(false);
+          setNotOnQuest(true);
+        }
+      });
+
+      return () => {
+        // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+        unsubscribe();
+      };
+    });
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (Date.now() > CurrentQuest.EndTimeStamp) {
+        setOnQuest(false);
+        setNotOnQuest(true);
+      }
+      setCountdown(
+        millisToMinutesAndSeconds(CurrentQuest.EndTimeStamp - Date.now())
+      );
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [millisToMinutesAndSeconds(CurrentQuest.EndTimeStamp - Date.now())]);
+
+  function millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+  }
 
   return (
     <>
@@ -167,15 +250,6 @@ const Profile = () => {
                   <Row className="align-items-center mb-4">
                     <Quest />
                   </Row>
-                  <Row>
-                    <Button
-                      className="mt-4 buttonStyle btn-create"
-                      color="dark"
-                      type="button"
-                    >
-                      SEND QUEST
-                    </Button>
-                  </Row>
                 </CardBody>
               </Card>
             </Col>
@@ -260,23 +334,38 @@ const Profile = () => {
                   <div className="h1 font-weight-300">
                     <h2 className="date-profile">{date}</h2>
                   </div>
-                  <div>
-                    <h1 className="mb-0 text-danger">" Selfie with a Pen "</h1>
+                  {OnQuest ? (
+                    <div>
+                      <div>
+                        <h1 className="mb-0 text-danger">
+                          " Selfie with a {CurrentQuest.ObjectSelect} "
+                        </h1>
 
-                    <h4 className="mb-0 text-danger">
-                      TIME REMAING : 5 minute
-                    </h4>
-                  </div>
-                  <div className="text-center">
-                    <Button
-                      className="do-quest"
-                      color="dark"
-                      type="button"
-                      onClick={() => setModalOpen2(!modalOpen2)}
-                    >
-                      LET'S DO QUEST
-                    </Button>
-                  </div>
+                        <h4 className="mb-0 text-danger">
+                          TIME REMAING : {Countdown} minute
+                        </h4>
+                      </div>
+                      <div className="text-center">
+                        <Button
+                          className="do-quest"
+                          color="dark"
+                          type="button"
+                          onClick={() => setModalOpen2(!modalOpen2)}
+                        >
+                          LET'S DO QUEST
+                        </Button>
+                      </div>
+                    </div>
+                  ) : null}
+                  {NotOnQuest ? (
+                    <div>
+                      <div>
+                        <h1 className="mb-0">" NOTHING TO DO "</h1>
+
+                        <h4 className="mb-0">---------------------------</h4>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               </CardBody>
             </Card>
