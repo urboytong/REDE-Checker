@@ -247,7 +247,8 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
                   </h2>
                   <div className="h3 font-weight-300">
                     <i className="ni location_pin mr-2" />
-                    {User.Faculty}, {User.Department}
+                    {User.Faculty}, {User.Department} 
+                    <br/> {User.Major}
                   </div>
                   <Button
                     color="primary"

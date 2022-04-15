@@ -87,6 +87,8 @@
 
 .invite-className {
   margin-bottom: 15px;
+  // width: 430px;
+  margin-bottom: 0px;
 }
 
 //member card
@@ -146,12 +148,18 @@
 }
 
 //request modal 
-.x-icon {
-  font-weight: 1000;
-}
-
 .icon-requestModal{
   width: 30.3px;
+}
+
+.header-request {
+  width: 400px;
+}
+
+.no-request {
+  text-align: center;
+  margin: 20px 0px;
+  font-weight: bold;
 }
 
 //profile modal
@@ -199,13 +207,19 @@
   margin-top: 20px;
 }
 
+.summary-history {
+  width: 600px;
+}
+
 //upload leave form modal
 .img-upload {
   width: 170px;
 }
+
 .box-img-cloud {
   box-shadow: none !important;
 }
+
 .btn-upfile, .btn-upfile:hover {
   border: 2px solid #00b7ff;
   color: #00b7ff;
@@ -214,6 +228,11 @@
   margin-right: auto;
   margin-top: 20px;
 }
+
+.upload-leave-form {
+  width: 350px;
+}
+
 
 //leave form modal
 .img-leaveForm {
@@ -225,6 +244,15 @@
 
 .heading-leaveForm {
   margin-top: -20px;
+}
+
+//invite modal
+.subjectname-invite {
+  white-space: nowrap; 
+  overflow: hidden; 
+  width: 350px; 
+  text-overflow: ellipsis; 
+  text-align: center;
 }
 
 @media only screen and (max-width: 1920px) {

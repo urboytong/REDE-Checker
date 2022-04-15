@@ -10,6 +10,19 @@
   margin-top: 30px;
 }
 
+.text-home {
+  text-align: center;
+  color: white;
+  position: fixed;
+ top: 50%;  
+ left: 50%;  
+ transform:translate(-50%,-50%);
+}
+
+.btn-joinclass-home-std {
+  margin-top: 40px;
+}
+
 .sand-clock-icon {
   animation: sand-clock-icon 2s linear infinite;
  }
