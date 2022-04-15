@@ -45,13 +45,13 @@ const Header = () => {
   const [ClassRoom, setClassRoom] = useState({});
   const [RequestClassRoom, setRequestClassRoom] = useState({});
   const [DaysColor, setDaysColor] = useState({
-    Monday: "#FFF5BA",
-    Tuesday: "#ecd6e3",
-    Wednesday: "#97c1a9",
-    Thursday: "#ffc7a2",
-    Friday: "#acdee7",
-    Saturday: "#ccaacb",
-    Sunday: "#ff9689",
+    Monday: "#ffd600",
+    Tuesday: "#f3a4b5",
+    Wednesday: "#2dce89",
+    Thursday: "#fb6340",
+    Friday: "#28b8ed",
+    Saturday: "#8965e0",
+    Sunday: "#f5365c",
   });
 
   const history = useHistory();
@@ -194,7 +194,8 @@ const Header = () => {
                               style={{
                                 backgroundColor: ClassRoom[id].daycolor,
                               }}
-                            ></div>
+                              
+                            ><i class="fa-solid fa-hourglass sand-clock-icon"/></div>
                           </Col>
                         </Row>
                         <p className="mt-3 mb-0 text-muted text-sm">

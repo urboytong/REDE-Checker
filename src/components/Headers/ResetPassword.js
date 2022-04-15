@@ -121,7 +121,7 @@ const Profile = ({modalOpen2,setModalOpen2}) => {
           <div className="text-center mt-2">
             <Button
               className="my-4 buttonStyle"
-              color="dark"
+              color="primary"
               type="button"
               // onClick={handleSubmit}
             >

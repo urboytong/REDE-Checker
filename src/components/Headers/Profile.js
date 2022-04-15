@@ -250,7 +250,7 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
                     {User.Faculty}, {User.Department}
                   </div>
                   <Button
-                    color="dark"
+                    color="primary"
                     size="sm"
                     className="edit-profile"
                     onClick={() => editprofile()}
@@ -472,7 +472,7 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
                     <div className="text-center lightGray">
                       <Button
                         className="mt-4 buttonStyle"
-                        color="dark"
+                        color="primary"
                         type="button"
                         onClick={() => updateprofile()}
                       >

@@ -49,6 +49,7 @@ import {
 import "assets/scss/argon-dashboard/custom/AdminNavbar.scss";
 import Profile from "components/Headers/Profile.js";
 import ResetPassword from "components/Headers/ResetPassword.js";
+import Notification from "components/Navbars/Notification.js";
 
 const AdminNavbar = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -109,6 +110,8 @@ const AdminNavbar = (props) => {
           </Link>
 
           <Nav className="align-items-center d-none d-md-flex" navbar>
+
+            <Notification/>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">
@@ -133,7 +136,7 @@ const AdminNavbar = (props) => {
                   onClick={() => setModalOpen(!modalOpen)}
                 >
                   <i className="ni ni-single-02" />
-                  <span>My profile com</span>
+                  <span>My profile</span>
                 </DropdownItem>
                 <DropdownItem
                   onClick={() => setModalOpen2(!modalOpen2)}
