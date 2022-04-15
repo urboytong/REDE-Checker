@@ -230,9 +230,11 @@ const Profile = () => {
         setOnQuest(false);
         setNotOnQuest(true);
       }
-      setCountdown(millisToMinutesAndSeconds(CurrentQuest.EndTimeStamp - Date.now()));
+      setCountdown(
+        millisToMinutesAndSeconds(CurrentQuest.EndTimeStamp - Date.now())
+      );
     }, 1000);
-  
+
     return () => clearInterval(interval);
   }, [millisToMinutesAndSeconds(CurrentQuest.EndTimeStamp - Date.now())]);
 
@@ -323,9 +325,9 @@ const Profile = () => {
     ErrorsCheck();
     let UId = firebaseApp.auth().currentUser.uid;
     let ClassRoomId = location.search.substring(1);
-    let Complete = {};
-    let Absent = {};
-    let Leave = {};
+    let Complete = [];
+    let Absent = [];
+    let Leave = [];
     let StartTimeStamp = Date.now();
     let EndTimeStamp = Date.now() + CountdownTime * 60000;
     function padTo2Digits(num) {
@@ -2687,9 +2689,7 @@ const Profile = () => {
                         </p>
                         <p>Start: {StartTime}</p>
                         <p>End: {EndTime}</p>
-                        <p>
-                          Remaining time: {Countdown}
-                        </p>
+                        <p>Remaining time: {Countdown}</p>
                       </div>
                     ) : null}
                   </div>

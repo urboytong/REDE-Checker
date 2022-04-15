@@ -28,6 +28,7 @@ import Draggable from "react-draggable";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 // reactstrap components
 import {
+  Button,
   Card,
   CardHeader,
   CardBody,
@@ -72,6 +73,14 @@ const Icons = () => {
 
   const { currentUser } = useContext(AuthContext);
   const [User, setUser] = useState({});
+  const [image, setimage] = useState('')
+  const [ScreenShot, setScreenShot] = useState()
+
+  const [CurrentQuest, setCurrentQuest] = useState({});
+  const [QuestSuccess, setQuestSuccess] = useState(false);
+
+  const [QuestForm, setQuestForm] = useState(true);
+  const [SendQuestForm, setSendQuestForm] = useState(false);
 
   const location = useLocation();
 
@@ -107,13 +116,59 @@ const Icons = () => {
     }
   }, []);
 
+  useEffect(() => {
+    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
+    firebaseApp.auth().onAuthStateChanged((user) => {
+      const db = firebaseApp.firestore();
+      const userCollection = db
+        .collection("Quest")
+        .where("ClassRoomId", "==", location.search.substring(1));
+
+      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+      const unsubscribe = userCollection.onSnapshot((ss) => {
+        // ตัวแปร local
+        let CurrentQuest = {};
+
+        ss.forEach((document) => {
+          // manipulate ตัวแปร local
+          if (document.data().EndTimeStamp >= Date.now()) {
+            CurrentQuest = document.data();
+            CurrentQuest.DocId = document.id
+          }
+        });
+        if (Object.keys(CurrentQuest).length == 0) {
+          window.location.reload();
+        }
+        // เปลี่ยนค่าตัวแปร state
+        setCurrentQuest(CurrentQuest);
+        setObjectSelect(CurrentQuest.ObjectSelect);
+        setFaceBoxposition({
+          x: CurrentQuest.FaceBoxposition.x,
+          y: CurrentQuest.FaceBoxposition.y,
+        });
+        setObjectBoxposition({
+          x: CurrentQuest.ObjectBoxposition.x,
+          y: CurrentQuest.ObjectBoxposition.y,
+        });
+        console.log(CurrentQuest);
+      });
+
+      return () => {
+        // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+        unsubscribe();
+      };
+    });
+  }, []);
+
   const runCoco = async (FaceDescriptor) => {
     const net = await yolo.v3();
     console.log("yolo model loaded.");
 
-    setInterval(() => {
+    const interval = setInterval(() => {
       detect(net, FaceDescriptor);
     }, 1000);
+
+    return () => clearInterval(interval);
   };
 
   const detect = async (net, FaceDescriptor) => {
@@ -139,7 +194,6 @@ const Icons = () => {
         .withFaceDescriptors();
 
       const labeledFaceDescriptorsJson = JSON.parse(FaceDescriptor);
-      console.log(FaceDescriptor);
 
       if (labeledFaceDescriptorsJson) {
         var labeledFaceDescriptors = labeledFaceDescriptorsJson.map((x) =>
@@ -157,7 +211,6 @@ const Icons = () => {
         );
 
         if (results.length !== 0) {
-          //console.log(results[0]._label)
           setFaceRec(results[0]._label);
           setDetectionsBoxX(
             (detections[0].detection._box._x +
@@ -198,7 +251,9 @@ const Icons = () => {
       }
 
       // Make Detections
-      const obj = await net.predict(video);
+      const obj = await net.predict(video, {
+        maxBoxes: 5, // defaults to 20
+      });
       setObjectArr(obj);
       let text = "";
       if (obj.length >= 1) {
@@ -285,11 +340,55 @@ const Icons = () => {
           ObjBC.current == "2px solid #79ffe1"
         ) {
           console.log(FaceBC.current + " " + ObjBC.current);
-          alert("Success!");
+          setScreenShot(webcamRef.current.getScreenshot());
+          setQuestSuccess(true);
         }
       }, 2000);
     }
   }, [FaceBorderBoxColor, ObjectBorderBoxColor]);
+
+  useEffect(() => {
+    if(QuestSuccess){
+      setQuestForm(false);
+      setSendQuestForm(true);
+      setQuestSuccess(false);
+    }
+  }, [QuestSuccess]);
+
+  const SendQuest = async () => {
+    const files = ScreenShot;
+    const data = new FormData()
+    data.append('file', files)
+    data.append('upload_preset', 'Quest_images')
+    const res = await fetch(
+      '	https://api.cloudinary.com/v1_1/daxwfdlwj/image/upload',
+      {
+        method: 'POST',
+        body: data
+      }
+    )
+    const file = await res.json()
+ //เปลี่ยน setIimage เป็น setImage เพื่อเก็บ url โดยตรง
+    setimage(file.secure_url)
+    console.log(file.secure_url)
+
+    let myquest = {Uid:firebaseApp.auth().currentUser.uid, Image:file.secure_url};
+    let complete = CurrentQuest.Complete
+    complete.push(myquest)
+    const db = firebaseApp.firestore();
+    const res2 = await db
+    .collection("Quest")
+    .doc(CurrentQuest.DocId)
+    .update({
+      Complete: complete,
+    });
+    window.location.reload()
+  }
+
+  const Retake = async () => {
+    setQuestForm(true);
+    setSendQuestForm(false);
+  }
 
   useEffect(() => {
     const loadModels = async () => {
@@ -305,13 +404,6 @@ const Icons = () => {
     };
     loadModels();
   }, []);
-
-  const FacetrackPos = (data) => {
-    setFaceBoxposition({ x: data.x + 110, y: data.y + 110 });
-  };
-  const ObjecttrackPos = (data) => {
-    setObjectBoxposition({ x: data.x + 110, y: data.y + 110 });
-  };
 
   let lastUrl = window.location.href;
   new MutationObserver(() => {
@@ -331,8 +423,11 @@ const Icons = () => {
       {/* Page content */}
       {/* Table */}
       <div className="col">
-        {location.search.substring(1)}
-        <Row>
+      {QuestForm ? (<div className="text-center">
+          <h1 className="mb-0">Object: {ObjectSelect}</h1>
+        </div>) : null}
+
+        {QuestForm ? (<Row>
           <Col>
             <div style={{ position: "relative" }}>
               <Webcam
@@ -425,7 +520,7 @@ const Icons = () => {
             </div>
           </Col>
           <Col>
-            <p>Person : {FaceRec}</p>
+            {/*<p>Person : {FaceRec}</p>
             <p>Emotion : {Detection}</p>
             <p>Object : {DObject}</p>
             <p>
@@ -439,90 +534,45 @@ const Icons = () => {
             </p>
             <p>
               ObjectBox : x={ObjectBoxposition.x} y={ObjectBoxposition.y}
-            </p>
+            </p>*/}
           </Col>
-        </Row>
-        <Row>
+        </Row>) : null}
+        {SendQuestForm ? (<div className="text-center">
+          <h1 className="mb-0">Complete!</h1>
+        </div>) : null}
+        {SendQuestForm ? (<Row>
           <Col>
-            <div
-              className="box"
-              style={{
-                height: "480px",
-                width: "640px",
-                position: "relative",
-                overflow: "auto",
-                padding: "0",
-                background: "lightgrey",
-              }}
-            >
-              <div style={{ height: "480px", width: "640px", padding: "10px" }}>
-                <Draggable
-                  bounds="parent"
-                  onDrag={(e, data) => FacetrackPos(data)}
-                  defaultPosition={{ x: 55, y: 140 }}
+          <div style={{ position: "relative" }}>
+            <img src={ScreenShot} style={{   display: "block", marginLeft: "auto", marginRight: "auto", transform: "rotateY(180deg)" }} />
+            <Row>
+                <Button
+                  className="mt-4 buttonStyle btn-create"
+                  color="dark"
+                  type="button"
+                  onClick={() => SendQuest()}
                 >
-                  <div
-                    style={{
-                      height: "200px",
-                      width: "200px",
-                      position: "absolute",
-                      cursor: "move",
-                      color: "black",
-                      borderRadius: "5px",
-                      margin: "auto",
-                      userSelect: "none",
-                      background: "white",
-                    }}
-                  >
-                    Face x: {FaceBoxposition.x.toFixed(0)}, y:{" "}
-                    {FaceBoxposition.y.toFixed(0)}
-                  </div>
-                </Draggable>
-                <Draggable
-                  bounds="parent"
-                  onDrag={(e, data) => ObjecttrackPos(data)}
-                  defaultPosition={{ x: 370, y: 140 }}
-                >
-                  <div
-                    style={{
-                      height: "200px",
-                      width: "200px",
-                      position: "absolute",
-                      cursor: "move",
-                      color: "black",
-                      borderRadius: "5px",
-                      margin: "auto",
-                      userSelect: "none",
-                      background: "white",
-                    }}
-                  >
-                    Object x: {ObjectBoxposition.x.toFixed(0)}, y:{" "}
-                    {ObjectBoxposition.y.toFixed(0)}
-                  </div>
-                </Draggable>
-              </div>
+                  SEND QUEST
+                </Button>
+            </Row>
+            <div className="box mt-3">
+                <div className="line"></div>
+                <div className="lightGray-textSize or">OR</div>
+                <div className="line"></div>
+                </div>
             </div>
+            <Row>
+                <Button
+                  className="mt-4 buttonStyle btn-create"
+                  color="dark"
+                  type="button"
+                  onClick={() => Retake()}
+                >
+                  RETAKE
+                </Button>
+            </Row>
           </Col>
-          <Col>
-            <Input
-              type="select"
-              placeholder="Department"
-              style={{
-                textAlignVertical: "center",
-                textAlign: "center",
-                width: "300px",
-              }}
-              onChange={(event) => setObjectSelect(event.target.value)}
-            >
-              <option value="" disabled selected hidden>
-                Select Quest
-              </option>
-
-              <option value="cup">cup</option>
-              <option value="bottle">bottle</option>
-            </Input>
-          </Col>
-        </Row>
+        </Row>) : null}
+        <Row></Row>
       </div>
     </>
   );
