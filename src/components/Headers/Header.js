@@ -167,6 +167,12 @@ const Header = () => {
           </div>
           <div className="header-body">
             {/* Card stats */}
+            <Row>
+              <h2 className="text-home">Let's join the classroom and start to do Quest Check.</h2>
+              <div className="btn-joinclass-home-std text-home">
+                <JoinClass />
+              </div>
+            </Row>
             <Row className="row-student-home">
               {Object.keys(ClassRoom).map((id) => {
                 return (

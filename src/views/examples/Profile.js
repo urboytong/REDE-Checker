@@ -420,9 +420,17 @@ const Profile = () => {
                     {" "}
                     <div className="text-center">
                       {" "}
-                      <h1 className="invite-className">
-                        {ClassRoom.SubjectCode} {ClassRoom.SubjectName}
+                      <h1 className="invite-className subjectname-invite">
+                        <span>
+                          {ClassRoom.SubjectCode}
+                        </span> &nbsp;
+                        <span>
+                          {ClassRoom.SubjectName}
+                        </span>
                       </h1>
+                      {/* <h1 className="invite-className">
+                        {ClassRoom.SubjectCode} {ClassRoom.SubjectName}
+                      </h1> */}
                       <CopyToClipboard
                         text={location.search.substring(1)}
                         onCopy={() =>
@@ -479,7 +487,7 @@ const Profile = () => {
                         <CardHeader className="border-0">
                           <Row className="align-items-center">
                             <div className="col">
-                              <h3 className="text-center">
+                              <h3 className="text-center header-request">
                                 Request to join a class
                               </h3>
                             </div>
@@ -565,6 +573,7 @@ const Profile = () => {
                             })}
                           </tbody>
                         </Table>
+                        <div className="no-request text-red">No requests recently</div>
                       </Card>
                     </Col>
                   </ModalBody>
@@ -2104,7 +2113,7 @@ const Profile = () => {
                         <Card className="bg-secondary shadow margintop-card">
                           <CardHeader className="border-0">
                             <Row>
-                              <div className="col">
+                              <div className="col summary-history">
                                 <h3 className="mb-0">Summary</h3>
                               </div>
                             </Row>
@@ -2416,7 +2425,7 @@ const Profile = () => {
                     {" "}
                     <div className="text-center">
                       {" "}
-                      <h2>Please upload leave form</h2>
+                      <h2 className="upload-leave-form">Please upload leave form</h2>
                       <img
                         src={
                           require("../../assets/img/theme/img-upload.png")

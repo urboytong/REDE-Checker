@@ -395,6 +395,7 @@ const Header2 = () => {
         <Container fluid>
           <div className="header-body">
             <div className="text-right">
+              <JoinClass/>
               <Button
                 className="mt-4"
                 color="dark"
@@ -403,6 +404,19 @@ const Header2 = () => {
                 Create Classroom
               </Button>
             </div>
+            <Row>
+              <h2 className="text-home">Let's join the classroom or create classroom and start to create Quest Check.</h2>
+              <div className="btn-joinclass-home-std text-home">
+                <JoinClass />
+                <Button
+                  className="mt-4"
+                  color="dark"
+                  onClick={() => ModalOpens()}
+                >
+                  Create Classroom
+                </Button>
+              </div>
+            </Row>
             <Row className="mt-4">
               {Object.keys(ClassRoom).map((id) => {
                 return (
@@ -430,7 +444,9 @@ const Header2 = () => {
                               style={{
                                 backgroundColor: ClassRoom[id].daycolor,
                               }}
-                            ></div>
+                            >
+                              <i class="fa-solid fa-user-plus human-plus-icon sand-clock-icon"></i>
+                            </div>
                           </Col>
                         </Row>
                         <p className="mt-3 mb-0 text-muted text-sm">

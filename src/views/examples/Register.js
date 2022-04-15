@@ -578,9 +578,67 @@ const Register = () => {
                       {AcademicRanksError}
                     </FormGroup>
                   ) : null}
+
                   {StudentRoleForm ? (
-                    <div className="text-center lightGray mb-4">
-                      <Button
+                    <div>
+                      {FaceDesFillState ? (
+                          <img
+                            className="faceIcon verified-status"
+                            alt="..."
+                            src={
+                              require("../../assets/img/image/Verified2.gif")
+                                .default
+                            }
+                          />
+                        ) : null}
+
+                        {FaceDesEmptyState ? (
+                          <div className="text-center lightGray mb-4 scan-face-regis">
+                            <div className="uploadImage">
+                              <div className="image2">
+                                <img
+                                  className="faceIcon"
+                                  alt="..."
+                                  src={require("../../assets/img/image/face.png").default}
+                                />
+                              </div>
+                              <div className="boxButton">
+                                <div class="upload-btn-wrapper text-center">
+                                  <button 
+                                    class="btn-uploadFile-imgProfile" 
+                                    onClick={ShowFaceRegisForm}
+                                  >
+                                    <i class="fa-solid fa-camera text-white"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ) : null}
+
+
+
+                      {/* <div className="text-center lightGray mb-4">
+                      <div className="uploadImage">
+                        <div className="image2">
+                          <img
+                            className="faceIcon"
+                            alt="..."
+                            src={require("../../assets/img/image/face.png").default}
+                          />
+                        </div>
+                        <div className="boxButton">
+                          <div class="upload-btn-wrapper text-center">
+                            <button class="btn-uploadFile-imgProfile">
+                              <i class="fa-solid fa-camera text-white"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div> */}
+                    
+                      
+                      {/* <Button
                         style={{ backgroundColor: "white" }}
                         onClick={ShowFaceRegisForm}
                       >
@@ -604,7 +662,7 @@ const Register = () => {
                             }
                           />
                         ) : null}
-                      </Button>
+                      </Button> */}
                     </div>
                   ) : null}
                   {StudentRoleForm ? (
