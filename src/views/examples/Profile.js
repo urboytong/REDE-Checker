@@ -85,6 +85,7 @@ const Profile = () => {
   const [modalOpen12, setModalOpen12] = useState(false);
   const [modalOpen13, setModalOpen13] = useState(false);
   const [modalOpen14, setModalOpen14] = useState(false);
+  const [modalOpen15, setModalOpen15] = useState(false);
   const [copiedText, setCopiedText] = useState();
 
   const [uploadFile, setUploadFile] = React.useState();
@@ -2670,6 +2671,40 @@ const Profile = () => {
                   </ModalBody>
                   <ModalFooter></ModalFooter>
                 </Modal>
+                <Modal
+                  toggle={() => setModalOpen15(!modalOpen15)}
+                  isOpen={modalOpen15}
+                  size="sm"
+                >
+                  <div className=" modal-header"></div>
+                  <ModalBody className="question-box">
+                    {" "}
+                    <span className="font-weight-bold confirm-leaveRoom text-center ">
+                      Do you want to cancel this quest ?
+                    </span>
+                    
+                    <div className="col text-center mt-4">
+                      <Button
+                        color="success"
+                        // onClick={() => leaveclassroom()}
+                        className="ml-2 mr-2 btn-confirm-leaveRoom"
+                        size="l"
+                      >
+                        Confirm
+                      </Button>
+                      <Button
+                        color="danger"
+                        size="l"
+                        aria-label="Close"
+                        onClick={() => setModalOpen15(!modalOpen15)}
+                        className="ml-2 mr-2 btn-confirm-leaveRoom"
+                      >
+                        Cancel
+                      </Button>
+                    </div>{" "}
+                  </ModalBody>
+                  <ModalFooter></ModalFooter>
+                </Modal>
               </Row>
 
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4 header-createQuest">
@@ -2713,6 +2748,7 @@ const Profile = () => {
                         className="mt-3"
                         color="dark"
                         type="button"
+                        onClick={() => setModalOpen15(!modalOpen15)}
                         >
                         CANCEL QUEST
                       </Button>

@@ -24,6 +24,7 @@ import * as faceapi from "face-api.js";
 import yolo from "tfjs-yolo";
 import Webcam from "react-webcam";
 import Draggable from "react-draggable";
+import "assets/scss/argon-dashboard/custom/Quest.scss";
 // react component that copies the given text inside your clipboard
 import { CopyToClipboard } from "react-copy-to-clipboard";
 // reactstrap components
@@ -424,7 +425,7 @@ const Icons = () => {
       {/* Table */}
       <div className="col">
       {QuestForm ? (<div className="text-center">
-          <h1 className="mb-0">Object: {ObjectSelect}</h1>
+          <h1 className="mb-3">Object: {ObjectSelect}</h1>
         </div>) : null}
 
         {QuestForm ? (<Row>
@@ -538,39 +539,61 @@ const Icons = () => {
           </Col>
         </Row>) : null}
         {SendQuestForm ? (<div className="text-center">
-          <h1 className="mb-0">Complete!</h1>
+          <h1 className="mb-3 text-green">Complete</h1>
         </div>) : null}
         {SendQuestForm ? (<Row>
-          <Col>
+          {/* <Col> */}
           <div style={{ position: "relative" }}>
             <img src={ScreenShot} style={{   display: "block", marginLeft: "auto", marginRight: "auto", transform: "rotateY(180deg)" }} />
             <Row>
+              <Col>
                 <Button
-                  className="mt-4 buttonStyle btn-create"
-                  color="dark"
+                  className="mt-4 buttonStyle btn-quest"
+                  color="success"
                   type="button"
                   onClick={() => SendQuest()}
                 >
                   SEND QUEST
-                </Button>
-            </Row>
-            <div className="box mt-3">
-                <div className="line"></div>
-                <div className="lightGray-textSize or">OR</div>
-                <div className="line"></div>
-                </div>
-            </div>
-            <Row>
+              </Button>
+              </Col>
+              <Col>
                 <Button
-                  className="mt-4 buttonStyle btn-create"
+                  className="mt-4 buttonStyle btn-quest"
+                  color="danger"
+                  type="button"
+                  onClick={() => Retake()}
+                >
+                  RETAKE
+                </Button>
+              </Col>
+            </Row>
+            {/* <Col>
+              <Button
+                className="mt-4 buttonStyle btn-quest"
+                color="dark"
+                type="button"
+                onClick={() => SendQuest()}
+              >
+                SEND QUEST
+              </Button>
+            </Col> */}
+            {/* <div className="box mt-3">
+              <div className="line"></div>
+              <div className="lightGray-textSize or">OR</div>
+              <div className="line"></div>
+            </div> */}
+            {/* <Col>
+                <Button
+                  className="mt-4 buttonStyle btn-quest"
                   color="dark"
                   type="button"
                   onClick={() => Retake()}
                 >
                   RETAKE
                 </Button>
-            </Row>
-          </Col>
+            </Col> */}
+          </div>
+          {/* </Col> */}
         </Row>) : null}
         <Row></Row>
       </div>
