@@ -58,11 +58,11 @@ const Icons = () => {
   const [DetectionsBoxX, setDetectionsBoxX] = useState(false);
   const [DetectionsBoxY, setDetectionsBoxY] = useState(false);
   const [FaceBorderBoxColor, setFaceBorderBoxColor] =
-    useState("2px solid #6b8be8");
+    useState("3px solid #6b8be8");
   const [ObjectBoxX, setObjectBoxX] = useState(false);
   const [ObjectBoxY, setObjectBoxY] = useState(false);
   const [ObjectBorderBoxColor, setObjectBorderBoxColor] =
-    useState("2px solid #6b8be8");
+    useState("3px solid #6b8be8");
   const [ObjectSelect, setObjectSelect] = useState(false);
   const [ObjectArr, setObjectArr] = useState(false);
   const FaceBC = useRef();
@@ -248,7 +248,7 @@ const Icons = () => {
       }
       if (detections.length === 0) {
         setDetection("none");
-        setFaceBorderBoxColor("2px solid #6b8be8");
+        setFaceBorderBoxColor("3px solid #6b8be8");
       }
 
       // Make Detections
@@ -266,14 +266,14 @@ const Icons = () => {
           setObject("none");
           setObjectBoxX(false);
           setObjectBoxY(false);
-          setObjectBorderBoxColor("2px solid #6b8be8");
+          setObjectBorderBoxColor("3px solid #6b8be8");
         }
       }
       if (obj.length == 0) {
         setObject("none");
         setObjectBoxX(false);
         setObjectBoxY(false);
-        setObjectBorderBoxColor("2px solid #6b8be8");
+        setObjectBorderBoxColor("3px solid #6b8be8");
       }
     }
   };
@@ -288,9 +288,9 @@ const Icons = () => {
       DetectionsBoxY <= FaceBoxposition.y + 100 &&
       FaceRec != "unknown"
     ) {
-      setFaceBorderBoxColor("2px solid #79ffe1");
+      setFaceBorderBoxColor("3px solid #79ffe1");
     } else {
-      setFaceBorderBoxColor("2px solid #6b8be8");
+      setFaceBorderBoxColor("3px solid #6b8be8");
     }
   }, [FaceBoxposition, DetectionsBoxX, DetectionsBoxY, FaceRec]);
 
@@ -311,7 +311,7 @@ const Icons = () => {
         if (check == 0) {
           setObjectBoxX(false);
           setObjectBoxY(false);
-          setObjectBorderBoxColor("2px solid #6b8be8");
+          setObjectBorderBoxColor("3px solid #6b8be8");
         }
       }
     }
@@ -321,9 +321,9 @@ const Icons = () => {
       ObjectBoxY >= ObjectBoxposition.y - 100 &&
       ObjectBoxY <= ObjectBoxposition.y + 100
     ) {
-      setObjectBorderBoxColor("2px solid #79ffe1");
+      setObjectBorderBoxColor("3px solid #79ffe1");
     } else {
-      setObjectBorderBoxColor("2px solid #6b8be8");
+      setObjectBorderBoxColor("3px solid #6b8be8");
     }
   }, [ObjectBoxposition, ObjectBoxX, ObjectBoxY, ObjectArr, ObjectSelect]);
 
@@ -331,14 +331,14 @@ const Icons = () => {
     FaceBC.current = FaceBorderBoxColor;
     ObjBC.current = ObjectBorderBoxColor;
     if (
-      FaceBorderBoxColor == "2px solid #79ffe1" &&
-      ObjectBorderBoxColor == "2px solid #79ffe1"
+      FaceBorderBoxColor == "3px solid #79ffe1" &&
+      ObjectBorderBoxColor == "3px solid #79ffe1"
     ) {
       console.log(FaceBorderBoxColor + " " + ObjectBorderBoxColor);
       setTimeout(function () {
         if (
-          FaceBC.current == "2px solid #79ffe1" &&
-          ObjBC.current == "2px solid #79ffe1"
+          FaceBC.current == "3px solid #79ffe1" &&
+          ObjBC.current == "3px solid #79ffe1"
         ) {
           console.log(FaceBC.current + " " + ObjBC.current);
           setScreenShot(webcamRef.current.getScreenshot());
@@ -466,7 +466,7 @@ const Icons = () => {
                       height: "480px",
                       width: "640px",
                       padding: "10px",
-                      border: "2px solid #6b8be8",
+                      border: "3px solid #6b8be8",
                     }}
                   >
                     <Draggable
@@ -512,7 +512,7 @@ const Icons = () => {
                           border: ObjectBorderBoxColor,
                         }}
                       >
-                        Object
+                        {ObjectSelect}
                       </div>
                     </Draggable>
                   </div>
