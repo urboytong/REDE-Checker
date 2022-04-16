@@ -360,9 +360,7 @@ const Profile = () => {
                   {NotOnQuest ? (
                     <div>
                       <div>
-                        <h1 className="mb-0">" NOTHING TO DO "</h1>
-
-                        <h4 className="mb-0">---------------------------</h4>
+                        <h1 className="mb-4 text-red">" NOTHING TO DO "</h1>
                       </div>
                     </div>
                   ) : null}

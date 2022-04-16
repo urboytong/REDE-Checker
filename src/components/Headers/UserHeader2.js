@@ -166,15 +166,16 @@ const UserHeader = () => {
         size="sm"
       >
         <div className=" modal-header"></div>
-        <ModalBody>
+        <ModalBody className="question-box">
           {" "}
           <span className="font-weight-light confirm-leaveRoom text-center">
-            Do you want to leave <br />
+            Do you want to leave &nbsp;
             <span className="font-weight-bold">{ClassRoom.SubjectCode}</span>
-            &nbsp;
-            <span className="font-weight-bold">{ClassRoom.SubjectName}</span>
-            &nbsp; ?
+            <br/>
           </span>
+          <span className="font-weight-bold">{ClassRoom.SubjectName}</span>
+          <span className="question">&nbsp;?</span>
+          
           <div className="col text-center mt-4">
             <Button
               color="success"
