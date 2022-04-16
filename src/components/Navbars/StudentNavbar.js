@@ -112,7 +112,7 @@ const AdminNavbar = (props) => {
 
           <Nav className="align-items-center d-none d-md-flex" navbar>
 
-            <Notification/>
+            {/* <Notification/> */}
             
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
