@@ -17,8 +17,9 @@
 */
 
 // reactstrap components
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import firebaseApp from "../../firebase";
+import { AuthContext } from "components/Auth/Auth.js";
 import { useLocation } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
@@ -81,7 +82,12 @@ const Profile = () => {
 
   const location = useLocation();
 
+  const { currentUser } = useContext(AuthContext);
+
   useEffect(() => {
+    if(currentUser._delegate.uid){
+      console.log("currentUser")
+      console.log(firebaseApp.auth().currentUser.uid)
     //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
     firebaseApp.auth().onAuthStateChanged((user) => {
       const db = firebaseApp.firestore();
@@ -98,9 +104,11 @@ const Profile = () => {
         ss.forEach((document) => {
           // manipulate ตัวแปร local
           console.log(document.data().Complete)
-          for(let i = 0 ; i < document.data().Complete.length ; i++){
-            if(document.data().Complete[i].Uid == firebaseApp.auth().currentUser.uid){
-              count++
+          if (document.data().EndTimeStamp >= Date.now()) {
+            for(let i = 0 ; i < document.data().Complete.length ; i++){
+              if(document.data().Complete[i].Uid == currentUser._delegate.uid){
+                count++
+              }
             }
           }
           if (document.data().EndTimeStamp >= Date.now() && count == 0) {
@@ -130,6 +138,8 @@ const Profile = () => {
         unsubscribe();
       };
     });
+    }
+
   }, []);
 
   useEffect(() => {

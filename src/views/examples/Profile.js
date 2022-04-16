@@ -92,6 +92,7 @@ const Profile = () => {
 
   const [ClassRoom, setClassRoom] = useState({});
   const [Request, setRequest] = useState({});
+  const [EmptyRequest, setEmptyRequest] = useState(false);
   const [Members, setMembers] = useState({});
   const [CurrentRequestProfile, setCurrentRequestProfile] = useState({});
 
@@ -163,7 +164,13 @@ const Profile = () => {
           members.sort((a, b) =>
             a.StudentID > b.StudentID ? 1 : b.StudentID > a.StudentID ? -1 : 0
           );
-          console.log(members);
+          console.log(Object.keys(request).length);
+          if(Object.keys(request).length == 0){
+            setEmptyRequest(true);
+          }
+          if(Object.keys(request).length != 0){
+            setEmptyRequest(false);
+          }
           setMembers(members);
 
           return () => {
@@ -573,7 +580,7 @@ const Profile = () => {
                             })}
                           </tbody>
                         </Table>
-                        <div className="no-request text-red">No requests recently</div>
+                        {EmptyRequest ? (<div className="no-request text-red">No requests recently</div>) : null}
                       </Card>
                     </Col>
                   </ModalBody>

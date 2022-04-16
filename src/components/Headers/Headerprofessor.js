@@ -83,6 +83,7 @@ const Header2 = () => {
   const userCollection = db.collection("ClassRoom");
 
   const [ClassRoom, setClassRoom] = useState({});
+  const [EmptyClassRoom, setEmptyClassRoom] = useState(false);
   const [DaysColor, setDaysColor] = useState({
     Monday: "#ffd600",
     Tuesday: "#f3a4b5",
@@ -183,6 +184,12 @@ const Header2 = () => {
             ClassRoom[count] = document.data();
             ClassRoom[count].key = document.id;
             ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
+            if(document.data().Request.length == 0){
+              ClassRoom[count].RequestBool = false
+            }
+            if(document.data().Request.length != 0){
+              ClassRoom[count].RequestBool = true
+            }
             count++;
           });
 
@@ -196,6 +203,12 @@ const Header2 = () => {
           );
           setClassRoom(ClassRoom);
           console.log(ClassRoom);
+          if(ClassRoom.length == 0){
+            setEmptyClassRoom(true);
+          }
+          if(ClassRoom.length != 0){
+            setEmptyClassRoom(false);
+          }
         });
 
         return () => {
@@ -394,8 +407,7 @@ const Header2 = () => {
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home">
         <Container fluid>
           <div className="header-body">
-            <div className="text-right">
-              <JoinClass/>
+          {!EmptyClassRoom ? (<div className="text-right">
               <Button
                 className="mt-4"
                 color="dark"
@@ -403,11 +415,10 @@ const Header2 = () => {
               >
                 Create Classroom
               </Button>
-            </div>
-            <Row>
-              <h2 className="text-home">Let's join the classroom or create classroom and start to create Quest Check.</h2>
+            </div>) : null}
+            {EmptyClassRoom ? (<Row>
+              <h2 className="text-home">Let's create classroom and start to create Quest Check.</h2>
               <div className="btn-joinclass-home-std text-home">
-                <JoinClass />
                 <Button
                   className="mt-4"
                   color="dark"
@@ -416,7 +427,7 @@ const Header2 = () => {
                   Create Classroom
                 </Button>
               </div>
-            </Row>
+            </Row>) : null}
             <Row className="mt-4">
               {Object.keys(ClassRoom).map((id) => {
                 return (
@@ -445,7 +456,7 @@ const Header2 = () => {
                                 backgroundColor: ClassRoom[id].daycolor,
                               }}
                             >
-                              <i class="fa-solid fa-user-plus human-plus-icon sand-clock-icon"></i>
+                              {ClassRoom[id].RequestBool ? (<i class="fa-solid fa-user-plus human-plus-icon sand-clock-icon"></i>) : null}
                             </div>
                           </Col>
                         </Row>
