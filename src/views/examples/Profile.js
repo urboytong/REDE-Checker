@@ -109,6 +109,14 @@ const Profile = () => {
   const [EndTime, setEndTime] = useState();
   const [Countdown, setCountdown] = useState();
   const [CountdownSec, setCountdownSec] = useState();
+  const [AllQuest, setAllQuest] = useState([]);
+  const [SeeMore, setSeeMore] = useState([]);
+  const [SeeMoreDate, setSeeMoreDate] = useState("");
+  const [AllQuestAndMember, setAllQuestAndMember] = useState([]);
+  const [SeeMoreComplete, setSeeMoreComplete] = useState([]);
+  const [SeeMoreAbsent, setSeeMoreAbsent] = useState([]);
+  const [SeeMoreCompleteObject, setSeeMoreCompleteObject] = useState([]);
+  const [CompleteSeeMore, setCompleteSeeMore] = useState({});
 
   const [ObjectSelectError, setObjectSelectError] = useState("");
   const [CountdownTimeError, setCountdownTimeError] = useState("");
@@ -165,7 +173,6 @@ const Profile = () => {
           members.sort((a, b) =>
             a.StudentID > b.StudentID ? 1 : b.StudentID > a.StudentID ? -1 : 0
           );
-          console.log(Object.keys(request).length);
           if (Object.keys(request).length == 0) {
             setEmptyRequest(true);
           }
@@ -200,6 +207,8 @@ const Profile = () => {
       const unsubscribe = userCollection.onSnapshot((ss) => {
         // ตัวแปร local
         let CurrentQuest = {};
+        let AllQuest = [];
+        let countall = 0;
 
         ss.forEach((document) => {
           // manipulate ตัวแปร local
@@ -207,9 +216,21 @@ const Profile = () => {
             CurrentQuest = document.data();
             CurrentQuest.DocId = document.id;
           }
+
+          AllQuest[countall] = document.data();
+          countall++;
         });
 
         // เปลี่ยนค่าตัวแปร state
+        AllQuest.sort((a, b) =>
+          a.EndTimeStamp < b.EndTimeStamp
+            ? 1
+            : b.EndTimeStamp < a.EndTimeStamp
+            ? -1
+            : 0
+        );
+        console.log(AllQuest);
+        setAllQuest(AllQuest);
         setCurrentQuest(CurrentQuest);
         const startdate = new Date(CurrentQuest.StartTimeStamp);
         const enddate = new Date(CurrentQuest.EndTimeStamp);
@@ -232,6 +253,88 @@ const Profile = () => {
       };
     });
   }, []);
+
+  useEffect(() => {
+    if (Object.keys(Members).length != 0 && Object.keys(AllQuest).length != 0) {
+      let members = Members;
+      let allquest = AllQuest;
+      let absentlist = [];
+      let membersid = [];
+      let allquestid = [];
+      let absent = [];
+
+      for (let i = 0; i < members.length; i++) {
+        membersid[i] = members[i].Uid;
+      }
+
+      for (let i = 0; i < allquest.length; i++) {
+        let test = [];
+        for (let j = 0; j < allquest[i].Complete.length; j++) {
+          test.push(allquest[i].Complete[j].Uid);
+        }
+        allquestid[i] = test;
+      }
+
+      for (let i = 0; i < allquestid.length; i++) {
+        absent[i] = membersid;
+        for (let j = 0; j < allquestid[i].length; j++) {
+          absent[i] = absent[i].filter((el) => !allquestid[i].includes(el));
+        }
+        allquest[i].Absent = absent[i];
+      }
+
+      for (let i = 0; i < allquest.length; i++) {
+        for (let j = 0; j < allquest[i].Absent.length; j++) {
+          if (!allquest[i].Absent[j].Uid) {
+            let test = { Uid: allquest[i].Absent[j] };
+            allquest[i].Absent[j] = test;
+          }
+        }
+      }
+
+      for (let i = 0; i < allquest.length; i++) {
+        for (let j = 0; j < allquest[i].Absent.length; j++) {
+          for (let k = 0; k < members.length; k++) {
+            if (allquest[i].Absent[j].Uid == members[k].Uid) {
+              allquest[i].Absent[j].FirstName = members[k].FirstName;
+              allquest[i].Absent[j].LastName = members[k].LastName;
+              allquest[i].Absent[j].StudentID = members[k].StudentID;
+            }
+          }
+        }
+      }
+
+      for (let i = 0; i < allquest.length; i++) {
+        for (let j = 0; j < allquest[i].Complete.length; j++) {
+          for (let k = 0; k < members.length; k++) {
+            if (allquest[i].Complete[j].Uid == members[k].Uid) {
+              allquest[i].Complete[j].FirstName = members[k].FirstName;
+              allquest[i].Complete[j].LastName = members[k].LastName;
+              allquest[i].Complete[j].StudentID = members[k].StudentID;
+            }
+          }
+        }
+      }
+
+      //ตัดรายการคนที่ออกจากห้อง
+      for (let i = 0; i < allquest.length; i++) {
+        for (let j = 0; j < allquest[i].Complete.length; j++) {
+          if (!allquest[i].Complete[j].FirstName) {
+            allquest[i].Complete[j] = "emp";
+          }
+        }
+      }
+
+      for (let i = 0; i < allquest.length; i++) {
+        allquest[i].Complete = allquest[i].Complete.filter((x) => x !== "emp");
+      }
+
+      console.log("allquest");
+      console.log(allquest);
+
+      setAllQuestAndMember(allquest);
+    }
+  }, [AllQuest, Members]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -331,6 +434,35 @@ const Profile = () => {
     documentRef.delete();
 
     setModalOpen15(!modalOpen15);
+  };
+
+  const seemore = (date) => {
+    setModalOpen6(!modalOpen6);
+    let quest = [];
+    for (let i = 0; i < AllQuestAndMember.length; i++) {
+      if (AllQuestAndMember[i].Date == date) {
+        quest.push(AllQuestAndMember[i]);
+      }
+    }
+    console.log(quest);
+    setSeeMore(quest);
+    setSeeMoreDate(date);
+  };
+
+  const seemorecomplete = (data) => {
+    setSeeMoreComplete(data.Complete);
+    setSeeMoreCompleteObject(data.ObjectSelect);
+  };
+
+  const seemoreabsent = (data) => {
+    setSeeMoreAbsent(data.Absent);
+    console.log(data.Absent);
+    setSeeMoreCompleteObject(data.ObjectSelect);
+  };
+
+  const completeseemore = (data) => {
+    setModalOpen9(!modalOpen9);
+    setCompleteSeeMore(data);
   };
 
   const FacetrackPos = (data) => {
@@ -1104,54 +1236,24 @@ const Profile = () => {
                     </button>
                   </div>
                   <ModalBody>
-                    {" "}
                     <Col className="order-xl-2 mb-5 mb-xl-0" xl="12">
                       <Card className="card-profile shadow profileModal">
-                        <Row className="justify-content-center">
-                          <Col className="order-lg-2" lg="3">
-                            <div className="card-profile-image">
-                              <a onClick={(e) => e.preventDefault()}>
-                                <img
-                                  alt="..."
-                                  className="rounded-circle img-profileModal"
-                                  src={
-                                    require("../../assets/img/theme/team-4-800x800.jpg")
-                                      .default
-                                  }
-                                />
-                              </a>
-                            </div>
-                          </Col>
-                        </Row>
-                        <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"></CardHeader>
                         <CardBody className="pt-0 pt-md-4">
-                          <Row>
-                            <div className="col">
-                              <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
-                                <div>
-                                  <h2 className="heading">61090500411</h2>
-                                </div>
-                              </div>
-                            </div>
-                          </Row>
                           <div className="text-center">
-                            <h2>Natthaphat Wannawat</h2>
-                            <div className="h3 font-weight-300">
-                              Science, Mathematics
-                            </div>
-                            <hr className="my-4" />
                             <h2 className="text-success">Completed</h2>
                             <div>
-                              <h4>31/01/2022</h4>
-                              <h4>TIME : 9:47 A.M.</h4>
+                              <h4>{SeeMoreDate}</h4>
                             </div>
 
                             <img
-                              src="https://www.img.in.th/images/3176e43743c0c9e923693782aa34c326.jpg"
-                              width="180"
-                              height="360"
+                              src={CompleteSeeMore.Image}
+                              width="640"
+                              height="480"
                               className="img-fluid shadow-4"
                               alt="..."
+                              style={{
+                                transform: "rotateY(180deg)",
+                              }}
                             />
                           </div>
                         </CardBody>
@@ -1499,7 +1601,7 @@ const Profile = () => {
                                 <h3 className="mb-0">Quest Check</h3>
                               </div>
                               <div className="col text-right">
-                                <h3>31/1/2021</h3>
+                                <h3>{SeeMoreDate}</h3>
                               </div>
                             </Row>
                           </CardHeader>
@@ -1516,66 +1618,53 @@ const Profile = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        Selfie with a pen
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
+                              {Object.keys(SeeMore).map((id) => {
+                                return (
+                                  <tr>
+                                    <th scope="row">
+                                      <Media className="align-items-center">
+                                        <Media>
+                                          <span className="mb-0 text-sm">
+                                            Selfie with a{" "}
+                                            {SeeMore[id].ObjectSelect}
+                                          </span>
+                                        </Media>
+                                      </Media>
+                                    </th>
 
-                                <td>
-                                  {" "}
-                                  <div>
-                                    <Button
-                                      color="success"
-                                      outline
-                                      type="button"
-                                      id="toggler1"
-                                    >
-                                      39
-                                    </Button>
-                                  </div>
-                                </td>
-                                <td>
-                                  <Button
-                                    color="danger"
-                                    outline
-                                    type="button"
-                                    id="toggler"
-                                  >
-                                    1
-                                  </Button>
-                                </td>
-                                <td></td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        Selfie with a spoon
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  {" "}
-                                  <Button color="success" outline type="button">
-                                    39
-                                  </Button>
-                                </td>
-                                <td>
-                                  <Button color="danger" outline type="button">
-                                    1
-                                  </Button>
-                                </td>
-                                <td></td>
-                              </tr>
+                                    <td>
+                                      {" "}
+                                      <div>
+                                        <Button
+                                          color="success"
+                                          outline
+                                          type="button"
+                                          id="toggler1"
+                                          onClick={() =>
+                                            seemorecomplete(SeeMore[id])
+                                          }
+                                        >
+                                          {SeeMore[id].Complete.length}
+                                        </Button>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <Button
+                                        color="danger"
+                                        outline
+                                        type="button"
+                                        id="toggler"
+                                        onClick={() =>
+                                          seemoreabsent(SeeMore[id])
+                                        }
+                                      >
+                                        {SeeMore[id].Absent.length}
+                                      </Button>
+                                    </td>
+                                    <td></td>
+                                  </tr>
+                                );
+                              })}
                             </tbody>
                           </Table>
                         </Card>
@@ -1585,7 +1674,9 @@ const Profile = () => {
                           <CardHeader className="border-0">
                             <Row className="align-items-center">
                               <div className="col">
-                                <h3 className="mb-0">Selfie with a pen</h3>
+                                <h3 className="mb-0">
+                                  Selfie with a {SeeMoreCompleteObject}
+                                </h3>
                               </div>
                               <div className="align-items-center">
                                 <h4 className="col text-right text-success status-report">
@@ -1606,180 +1697,59 @@ const Profile = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500411
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
+                              {Object.keys(SeeMoreComplete).map((id) => {
+                                return (
+                                  <tr>
+                                    <th scope="row">
+                                      <Media className="align-items-center">
+                                        <Media>
+                                          <span className="mb-0 text-sm">
+                                            {SeeMoreComplete[id].StudentID}
+                                          </span>
+                                        </Media>
+                                      </Media>
+                                    </th>
 
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-success" />
-                                    Natthaphat Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen9(!modalOpen9)
-                                        }
+                                    <td>
+                                      <Badge
+                                        color=""
+                                        className="badge-dot mr-4"
                                       >
-                                        See More
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-success" />
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen9(!modalOpen9)
-                                        }
-                                      >
-                                        See More
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-success" />
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen9(!modalOpen9)
-                                        }
-                                      >
-                                        See More
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-success" />
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen9(!modalOpen9)
-                                        }
-                                      >
-                                        See More
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
+                                        <i className="bg-success" />
+                                        {SeeMoreComplete[id].FirstName}{" "}
+                                        {SeeMoreComplete[id].LastName}
+                                      </Badge>
+                                    </td>
+                                    <td className="text-right threedot">
+                                      <UncontrolledDropdown>
+                                        <DropdownToggle
+                                          className="btn-icon-only text-light"
+                                          role="button"
+                                          size="sm"
+                                          color=""
+                                          onClick={(e) => e.preventDefault()}
+                                        >
+                                          <i className="fas fa-ellipsis-v" />
+                                        </DropdownToggle>
+                                        <DropdownMenu
+                                          className="dropdown-menu-arrow"
+                                          right
+                                        >
+                                          <DropdownItem
+                                            onClick={() =>
+                                              completeseemore(
+                                                SeeMoreComplete[id]
+                                              )
+                                            }
+                                          >
+                                            See More
+                                          </DropdownItem>
+                                        </DropdownMenu>
+                                      </UncontrolledDropdown>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
                             </tbody>
                           </Table>
                         </Card>
@@ -1790,7 +1760,9 @@ const Profile = () => {
                           <CardHeader className="border-0">
                             <Row>
                               <div className="col">
-                                <h3 className="mb-0">Selfie with a pen</h3>
+                                <h3 className="mb-0">
+                                  Selfie with a {SeeMoreCompleteObject}
+                                </h3>
                               </div>
                               <div className="align-items-center">
                                 <h4 className="col text-right text-danger status-report">
@@ -1812,61 +1784,69 @@ const Profile = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500411
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
+                              {Object.keys(SeeMoreAbsent).map((id) => {
+                                return (
+                                  <tr>
+                                    <th scope="row">
+                                      <Media className="align-items-center">
+                                        <Media>
+                                          <span className="mb-0 text-sm">
+                                            {SeeMoreAbsent[id].StudentID}
+                                          </span>
+                                        </Media>
+                                      </Media>
+                                    </th>
 
-                                <td>
-                                  <Badge
-                                    color=""
-                                    className="badge-dot mr-4 short-name2"
-                                  >
-                                    <i className="bg-danger" />
-                                    Natthaphat Wannawat
-                                  </Badge>
-                                </td>
-
-                                <td className="height-statusReport">
-                                  <Badge color="" className="badge-dot mr-4">
-                                    Absent
-                                  </Badge>
-                                </td>
-
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen12(!modalOpen12)
-                                        }
+                                    <td>
+                                      <Badge
+                                        color=""
+                                        className="badge-dot mr-4 short-name2"
                                       >
-                                        Leave
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
+                                        <i className="bg-danger" />
+                                        {SeeMoreAbsent[id].FirstName}{" "}
+                                        {SeeMoreAbsent[id].LastName}
+                                      </Badge>
+                                    </td>
 
-                              <tr>
+                                    <td className="height-statusReport">
+                                      <Badge
+                                        color=""
+                                        className="badge-dot mr-4"
+                                      >
+                                        Absent
+                                      </Badge>
+                                    </td>
+
+                                    <td className="text-right threedot">
+                                      <UncontrolledDropdown>
+                                        <DropdownToggle
+                                          className="btn-icon-only text-light"
+                                          role="button"
+                                          size="sm"
+                                          color=""
+                                          onClick={(e) => e.preventDefault()}
+                                        >
+                                          <i className="fas fa-ellipsis-v" />
+                                        </DropdownToggle>
+                                        <DropdownMenu
+                                          className="dropdown-menu-arrow"
+                                          right
+                                        >
+                                          <DropdownItem
+                                            onClick={() =>
+                                              setModalOpen12(!modalOpen12)
+                                            }
+                                          >
+                                            Leave
+                                          </DropdownItem>
+                                        </DropdownMenu>
+                                      </UncontrolledDropdown>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+
+                              {/*<tr>
                                 <th scope="row">
                                   <Media className="align-items-center">
                                     <Media>
@@ -2124,13 +2104,13 @@ const Profile = () => {
                                     </DropdownMenu>
                                   </UncontrolledDropdown>
                                 </td>
-                              </tr>
+                              </tr>*/}
                             </tbody>
                           </Table>
                         </Card>
                       </UncontrolledCollapse>
                       <row>
-                        <Card className="bg-secondary shadow margintop-card">
+                        {/*<Card className="bg-secondary shadow margintop-card">
                           <CardHeader className="border-0">
                             <Row>
                               <div className="col summary-history">
@@ -2385,7 +2365,7 @@ const Profile = () => {
                               </tr>
                             </tbody>
                           </Table>
-                        </Card>
+                        </Card>*/}
                       </row>
                     </Col>
                   </ModalBody>
@@ -2902,40 +2882,70 @@ const Profile = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="hightBox-profile">
-                    <th scope="row" className="td-nonePadding4">
-                      <Media className="align-items-center">
-                        <Media>
-                          <span className="mb-0 text-sm">31/01/2022</span>
-                        </Media>
-                      </Media>
-                    </th>
+                  {Object.keys(AllQuestAndMember).map((id) => {
+                    return (
+                      <tr className="hightBox-profile">
+                        <th scope="row" className="td-nonePadding4">
+                          <Media className="align-items-center">
+                            <Media>
+                              <span className="mb-0 text-sm">
+                                {AllQuestAndMember[id].Date}
+                              </span>
+                            </Media>
+                          </Media>
+                        </th>
 
-                    <td className="td-nonePadding2">
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-success" />
-                        39
-                      </Badge>
-                    </td>
-                    <td className="td-nonePadding3">
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-danger" />1
-                      </Badge>
-                    </td>
+                        <td className="td-nonePadding2">
+                          <Badge color="" className="badge-dot mr-4">
+                            <i className="bg-success" />
+                            {AllQuestAndMember[id].Complete.length}
+                          </Badge>
+                        </td>
+                        {AllQuestAndMember[id].EndTimeStamp < Date.now() ? (
+                          <td className="td-nonePadding3">
+                            <Badge color="" className="badge-dot mr-4">
+                              <i className="bg-danger" />
+                              {AllQuestAndMember[id].Absent.length}
+                            </Badge>
+                          </td>
+                        ) : null}
 
-                    <td className="td-nonePadding5">
-                      <div className="d-flex align-items-right">
-                        <Button
-                          color="dark"
-                          type="button"
-                          onClick={() => setModalOpen6(!modalOpen6)}
-                          className="btn-seeMore-attendence"
-                        >
-                          See More
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
+                        {AllQuestAndMember[id].EndTimeStamp >= Date.now() ? (
+                          <td className="td-nonePadding3">
+                            <Badge color="" className="badge-dot mr-4">
+                              <i className="bg-primary" />
+                              {AllQuestAndMember[id].Absent.length}
+                            </Badge>
+                          </td>
+                        ) : null}
+
+                        {AllQuestAndMember[id].EndTimeStamp < Date.now() ? (
+                          <td className="td-nonePadding5">
+                            <div className="d-flex align-items-right">
+                              <Button
+                                color="dark"
+                                type="button"
+                                onClick={() =>
+                                  seemore(AllQuestAndMember[id].Date)
+                                }
+                                className="btn-seeMore-attendence"
+                              >
+                                See More
+                              </Button>
+                            </div>
+                          </td>
+                        ) : null}
+
+                        {AllQuestAndMember[id].EndTimeStamp >= Date.now() ? (
+                          <td className="td-nonePadding5">
+                            <div className="d-flex align-items-right">
+                              On going...
+                            </div>
+                          </td>
+                        ) : null}
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </Table>
             </Card>
