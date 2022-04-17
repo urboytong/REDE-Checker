@@ -93,6 +93,7 @@ const Profile = () => {
 
   const [ClassRoom, setClassRoom] = useState({});
   const [Request, setRequest] = useState({});
+  const [EmptyRequest, setEmptyRequest] = useState(false);
   const [Members, setMembers] = useState({});
   const [CurrentRequestProfile, setCurrentRequestProfile] = useState({});
 
@@ -164,7 +165,13 @@ const Profile = () => {
           members.sort((a, b) =>
             a.StudentID > b.StudentID ? 1 : b.StudentID > a.StudentID ? -1 : 0
           );
-          console.log(members);
+          console.log(Object.keys(request).length);
+          if (Object.keys(request).length == 0) {
+            setEmptyRequest(true);
+          }
+          if (Object.keys(request).length != 0) {
+            setEmptyRequest(false);
+          }
           setMembers(members);
 
           return () => {
@@ -198,6 +205,7 @@ const Profile = () => {
           // manipulate ตัวแปร local
           if (document.data().EndTimeStamp >= Date.now()) {
             CurrentQuest = document.data();
+            CurrentQuest.DocId = document.id;
           }
         });
 
@@ -314,6 +322,17 @@ const Profile = () => {
       });
   };
 
+  const cancelquest = () => {
+    const db = firebaseApp.firestore();
+    const userCollection = db.collection("Quest");
+
+    const documentRef = userCollection.doc(CurrentQuest.DocId);
+
+    documentRef.delete();
+
+    setModalOpen15(!modalOpen15);
+  };
+
   const FacetrackPos = (data) => {
     setFaceBoxposition({ x: data.x + 110, y: data.y + 110 });
   };
@@ -422,12 +441,8 @@ const Profile = () => {
                     <div className="text-center">
                       {" "}
                       <h1 className="invite-className subjectname-invite">
-                        <span>
-                          {ClassRoom.SubjectCode}
-                        </span> &nbsp;
-                        <span>
-                          {ClassRoom.SubjectName}
-                        </span>
+                        <span>{ClassRoom.SubjectCode}</span> &nbsp;
+                        <span>{ClassRoom.SubjectName}</span>
                       </h1>
                       {/* <h1 className="invite-className">
                         {ClassRoom.SubjectCode} {ClassRoom.SubjectName}
@@ -574,7 +589,11 @@ const Profile = () => {
                             })}
                           </tbody>
                         </Table>
-                        <div className="no-request text-red">No requests recently</div>
+                        {EmptyRequest ? (
+                          <div className="no-request text-red">
+                            No requests recently
+                          </div>
+                        ) : null}
                       </Card>
                     </Col>
                   </ModalBody>
@@ -2426,7 +2445,9 @@ const Profile = () => {
                     {" "}
                     <div className="text-center">
                       {" "}
-                      <h2 className="upload-leave-form">Please upload leave form</h2>
+                      <h2 className="upload-leave-form">
+                        Please upload leave form
+                      </h2>
                       <img
                         src={
                           require("../../assets/img/theme/img-upload.png")
@@ -2675,13 +2696,13 @@ const Profile = () => {
                     <span className="font-weight-bold confirm-leaveRoom text-center ">
                       Do you want to cancel this quest ?
                     </span>
-                    
                     <div className="col text-center mt-4">
                       <Button
                         color="success"
                         // onClick={() => leaveclassroom()}
                         className="ml-2 mr-2 btn-confirm-leaveRoom"
                         size="l"
+                        onClick={() => cancelquest()}
                       >
                         Confirm
                       </Button>
@@ -2738,13 +2759,13 @@ const Profile = () => {
                         </h3>
                         <p className="text-red">End: {EndTime}</p>
                         <Button
-                        className="mt-3"
-                        color="dark"
-                        type="button"
-                        onClick={() => setModalOpen15(!modalOpen15)}
+                          className="mt-3"
+                          color="dark"
+                          type="button"
+                          onClick={() => setModalOpen15(!modalOpen15)}
                         >
-                        CANCEL QUEST
-                      </Button>
+                          CANCEL QUEST
+                        </Button>
                       </div>
                     ) : null}
                   </div>

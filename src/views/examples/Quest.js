@@ -58,11 +58,11 @@ const Icons = () => {
   const [DetectionsBoxX, setDetectionsBoxX] = useState(false);
   const [DetectionsBoxY, setDetectionsBoxY] = useState(false);
   const [FaceBorderBoxColor, setFaceBorderBoxColor] =
-    useState("2px solid #6b8be8");
+    useState("3px solid #6b8be8");
   const [ObjectBoxX, setObjectBoxX] = useState(false);
   const [ObjectBoxY, setObjectBoxY] = useState(false);
   const [ObjectBorderBoxColor, setObjectBorderBoxColor] =
-    useState("2px solid #6b8be8");
+    useState("3px solid #6b8be8");
   const [ObjectSelect, setObjectSelect] = useState(false);
   const [ObjectArr, setObjectArr] = useState(false);
   const FaceBC = useRef();
@@ -74,8 +74,8 @@ const Icons = () => {
 
   const { currentUser } = useContext(AuthContext);
   const [User, setUser] = useState({});
-  const [image, setimage] = useState('')
-  const [ScreenShot, setScreenShot] = useState()
+  const [image, setimage] = useState("");
+  const [ScreenShot, setScreenShot] = useState();
 
   const [CurrentQuest, setCurrentQuest] = useState({});
   const [QuestSuccess, setQuestSuccess] = useState(false);
@@ -134,7 +134,7 @@ const Icons = () => {
           // manipulate ตัวแปร local
           if (document.data().EndTimeStamp >= Date.now()) {
             CurrentQuest = document.data();
-            CurrentQuest.DocId = document.id
+            CurrentQuest.DocId = document.id;
           }
         });
         if (Object.keys(CurrentQuest).length == 0) {
@@ -248,7 +248,7 @@ const Icons = () => {
       }
       if (detections.length === 0) {
         setDetection("none");
-        setFaceBorderBoxColor("2px solid #6b8be8");
+        setFaceBorderBoxColor("3px solid #6b8be8");
       }
 
       // Make Detections
@@ -266,14 +266,14 @@ const Icons = () => {
           setObject("none");
           setObjectBoxX(false);
           setObjectBoxY(false);
-          setObjectBorderBoxColor("2px solid #6b8be8");
+          setObjectBorderBoxColor("3px solid #6b8be8");
         }
       }
       if (obj.length == 0) {
         setObject("none");
         setObjectBoxX(false);
         setObjectBoxY(false);
-        setObjectBorderBoxColor("2px solid #6b8be8");
+        setObjectBorderBoxColor("3px solid #6b8be8");
       }
     }
   };
@@ -288,9 +288,9 @@ const Icons = () => {
       DetectionsBoxY <= FaceBoxposition.y + 100 &&
       FaceRec != "unknown"
     ) {
-      setFaceBorderBoxColor("2px solid #79ffe1");
+      setFaceBorderBoxColor("3px solid #79ffe1");
     } else {
-      setFaceBorderBoxColor("2px solid #6b8be8");
+      setFaceBorderBoxColor("3px solid #6b8be8");
     }
   }, [FaceBoxposition, DetectionsBoxX, DetectionsBoxY, FaceRec]);
 
@@ -311,7 +311,7 @@ const Icons = () => {
         if (check == 0) {
           setObjectBoxX(false);
           setObjectBoxY(false);
-          setObjectBorderBoxColor("2px solid #6b8be8");
+          setObjectBorderBoxColor("3px solid #6b8be8");
         }
       }
     }
@@ -321,9 +321,9 @@ const Icons = () => {
       ObjectBoxY >= ObjectBoxposition.y - 100 &&
       ObjectBoxY <= ObjectBoxposition.y + 100
     ) {
-      setObjectBorderBoxColor("2px solid #79ffe1");
+      setObjectBorderBoxColor("3px solid #79ffe1");
     } else {
-      setObjectBorderBoxColor("2px solid #6b8be8");
+      setObjectBorderBoxColor("3px solid #6b8be8");
     }
   }, [ObjectBoxposition, ObjectBoxX, ObjectBoxY, ObjectArr, ObjectSelect]);
 
@@ -331,25 +331,30 @@ const Icons = () => {
     FaceBC.current = FaceBorderBoxColor;
     ObjBC.current = ObjectBorderBoxColor;
     if (
-      FaceBorderBoxColor == "2px solid #79ffe1" &&
-      ObjectBorderBoxColor == "2px solid #79ffe1"
+      FaceBorderBoxColor == "3px solid #79ffe1" &&
+      ObjectBorderBoxColor == "3px solid #79ffe1"
     ) {
       console.log(FaceBorderBoxColor + " " + ObjectBorderBoxColor);
-      setTimeout(function () {
+      const interval = setInterval(() => {
         if (
-          FaceBC.current == "2px solid #79ffe1" &&
-          ObjBC.current == "2px solid #79ffe1"
+          FaceBC.current == "3px solid #79ffe1" &&
+          ObjBC.current == "3px solid #79ffe1"
         ) {
-          console.log(FaceBC.current + " " + ObjBC.current);
-          setScreenShot(webcamRef.current.getScreenshot());
-          setQuestSuccess(true);
+          try {
+            console.log(FaceBC.current + " " + ObjBC.current);
+            setScreenShot(webcamRef.current.getScreenshot());
+            setQuestSuccess(true);
+          } catch (error) {
+            console.log(error);
+          }
         }
       }, 2000);
+      return () => clearInterval(interval);
     }
   }, [FaceBorderBoxColor, ObjectBorderBoxColor]);
 
   useEffect(() => {
-    if(QuestSuccess){
+    if (QuestSuccess) {
       setQuestForm(false);
       setSendQuestForm(true);
       setQuestSuccess(false);
@@ -358,38 +363,38 @@ const Icons = () => {
 
   const SendQuest = async () => {
     const files = ScreenShot;
-    const data = new FormData()
-    data.append('file', files)
-    data.append('upload_preset', 'Quest_images')
+    const data = new FormData();
+    data.append("file", files);
+    data.append("upload_preset", "Quest_images");
     const res = await fetch(
-      '	https://api.cloudinary.com/v1_1/daxwfdlwj/image/upload',
+      "	https://api.cloudinary.com/v1_1/daxwfdlwj/image/upload",
       {
-        method: 'POST',
-        body: data
+        method: "POST",
+        body: data,
       }
-    )
-    const file = await res.json()
- //เปลี่ยน setIimage เป็น setImage เพื่อเก็บ url โดยตรง
-    setimage(file.secure_url)
-    console.log(file.secure_url)
+    );
+    const file = await res.json();
+    //เปลี่ยน setIimage เป็น setImage เพื่อเก็บ url โดยตรง
+    setimage(file.secure_url);
+    console.log(file.secure_url);
 
-    let myquest = {Uid:firebaseApp.auth().currentUser.uid, Image:file.secure_url};
-    let complete = CurrentQuest.Complete
-    complete.push(myquest)
+    let myquest = {
+      Uid: firebaseApp.auth().currentUser.uid,
+      Image: file.secure_url,
+    };
+    let complete = CurrentQuest.Complete;
+    complete.push(myquest);
     const db = firebaseApp.firestore();
-    const res2 = await db
-    .collection("Quest")
-    .doc(CurrentQuest.DocId)
-    .update({
+    const res2 = await db.collection("Quest").doc(CurrentQuest.DocId).update({
       Complete: complete,
     });
-    window.location.reload()
-  }
+    window.location.reload();
+  };
 
   const Retake = async () => {
     setQuestForm(true);
     setSendQuestForm(false);
-  }
+  };
 
   useEffect(() => {
     const loadModels = async () => {
@@ -424,104 +429,107 @@ const Icons = () => {
       {/* Page content */}
       {/* Table */}
       <div className="col">
-      {QuestForm ? (<div className="text-center">
-          <h1 className="mb-3">Object: {ObjectSelect}</h1>
-        </div>) : null}
+        {QuestForm ? (
+          <div className="text-center">
+            <h1 className="mb-3">Object: {ObjectSelect}</h1>
+          </div>
+        ) : null}
 
-        {QuestForm ? (<Row>
-          <Col>
-            <div style={{ position: "relative" }}>
-              <Webcam
-                ref={webcamRef}
-                muted={true}
-                style={{
-                  width: 640,
-                  height: 480,
-                  transform: "rotateY(180deg)",
-                }}
-              />
-
-              <div
-                style={{
-                  position: "absolute",
-                  width: 640,
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  left: 0,
-                }}
-              >
-                <div
-                  className="box"
+        {QuestForm ? (
+          <Row>
+            <Col>
+              <div style={{ position: "relative" }}>
+                <Webcam
+                  ref={webcamRef}
+                  muted={true}
                   style={{
-                    height: "480px",
-                    width: "640px",
-                    position: "relative",
-                    overflow: "auto",
-                    padding: "0",
+                    width: 640,
+                    height: 480,
+                    transform: "rotateY(180deg)",
+                  }}
+                />
+
+                <div
+                  style={{
+                    position: "absolute",
+                    width: 640,
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
                   }}
                 >
                   <div
+                    className="box"
                     style={{
                       height: "480px",
                       width: "640px",
-                      padding: "10px",
-                      border: "2px solid #6b8be8",
+                      position: "relative",
+                      overflow: "auto",
+                      padding: "0",
                     }}
                   >
-                    <Draggable
-                      bounds="parent"
-                      position={{
-                        x: FaceBoxposition.x - 110,
-                        y: FaceBoxposition.y - 110,
+                    <div
+                      style={{
+                        height: "480px",
+                        width: "640px",
+                        padding: "10px",
+                        border: "3px solid #6b8be8",
                       }}
                     >
-                      <div
-                        style={{
-                          height: "200px",
-                          width: "200px",
-                          position: "absolute",
-                          cursor: "move",
-                          color: "#6b8be8",
-                          borderRadius: "5px",
-                          margin: "auto",
-                          userSelect: "none",
-                          border: FaceBorderBoxColor,
+                      <Draggable
+                        bounds="parent"
+                        position={{
+                          x: FaceBoxposition.x - 110,
+                          y: FaceBoxposition.y - 110,
                         }}
                       >
-                        Face
-                      </div>
-                    </Draggable>
-                    <Draggable
-                      bounds="parent"
-                      position={{
-                        x: ObjectBoxposition.x - 110,
-                        y: ObjectBoxposition.y - 110,
-                      }}
-                    >
-                      <div
-                        style={{
-                          height: "200px",
-                          width: "200px",
-                          position: "absolute",
-                          cursor: "move",
-                          color: "#6b8be8",
-                          borderRadius: "5px",
-                          margin: "auto",
-                          userSelect: "none",
-                          border: ObjectBorderBoxColor,
+                        <div
+                          style={{
+                            height: "200px",
+                            width: "200px",
+                            position: "absolute",
+                            cursor: "move",
+                            color: "#6b8be8",
+                            borderRadius: "5px",
+                            margin: "auto",
+                            userSelect: "none",
+                            border: FaceBorderBoxColor,
+                          }}
+                        >
+                          Face
+                        </div>
+                      </Draggable>
+                      <Draggable
+                        bounds="parent"
+                        position={{
+                          x: ObjectBoxposition.x - 110,
+                          y: ObjectBoxposition.y - 110,
                         }}
                       >
-                        Object
-                      </div>
-                    </Draggable>
+                        <div
+                          style={{
+                            height: "200px",
+                            width: "200px",
+                            position: "absolute",
+                            cursor: "move",
+                            color: "#6b8be8",
+                            borderRadius: "5px",
+                            margin: "auto",
+                            userSelect: "none",
+                            border: ObjectBorderBoxColor,
+                          }}
+                        >
+                          {ObjectSelect}
+                        </div>
+                      </Draggable>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Col>
-          <Col>
-            {/*<p>Person : {FaceRec}</p>
+            </Col>
+            <Col>
+              {/*<p>Person : {FaceRec}</p>
             <p>Emotion : {Detection}</p>
             <p>Object : {DObject}</p>
             <p>
@@ -536,38 +544,50 @@ const Icons = () => {
             <p>
               ObjectBox : x={ObjectBoxposition.x} y={ObjectBoxposition.y}
             </p>*/}
-          </Col>
-        </Row>) : null}
-        {SendQuestForm ? (<div className="text-center">
-          <h1 className="mb-3 text-green">Complete</h1>
-        </div>) : null}
-        {SendQuestForm ? (<Row>
-          {/* <Col> */}
-          <div style={{ position: "relative" }}>
-            <img src={ScreenShot} style={{   display: "block", marginLeft: "auto", marginRight: "auto", transform: "rotateY(180deg)" }} />
-            <Row>
-              <Col>
-                <Button
-                  className="mt-4 buttonStyle btn-quest"
-                  color="success"
-                  type="button"
-                  onClick={() => SendQuest()}
-                >
-                  SEND QUEST
-              </Button>
-              </Col>
-              <Col>
-                <Button
-                  className="mt-4 buttonStyle btn-quest"
-                  color="danger"
-                  type="button"
-                  onClick={() => Retake()}
-                >
-                  RETAKE
-                </Button>
-              </Col>
-            </Row>
-            {/* <Col>
+            </Col>
+          </Row>
+        ) : null}
+        {SendQuestForm ? (
+          <div className="text-center">
+            <h1 className="mb-3 text-green">Complete</h1>
+          </div>
+        ) : null}
+        {SendQuestForm ? (
+          <Row>
+            {/* <Col> */}
+            <div style={{ position: "relative" }}>
+              <img
+                src={ScreenShot}
+                style={{
+                  display: "block",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  transform: "rotateY(180deg)",
+                }}
+              />
+              <Row>
+                <Col>
+                  <Button
+                    className="mt-4 buttonStyle btn-quest"
+                    color="success"
+                    type="button"
+                    onClick={() => SendQuest()}
+                  >
+                    SEND QUEST
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    className="mt-4 buttonStyle btn-quest"
+                    color="danger"
+                    type="button"
+                    onClick={() => Retake()}
+                  >
+                    RETAKE
+                  </Button>
+                </Col>
+              </Row>
+              {/* <Col>
               <Button
                 className="mt-4 buttonStyle btn-quest"
                 color="dark"
@@ -577,12 +597,12 @@ const Icons = () => {
                 SEND QUEST
               </Button>
             </Col> */}
-            {/* <div className="box mt-3">
+              {/* <div className="box mt-3">
               <div className="line"></div>
               <div className="lightGray-textSize or">OR</div>
               <div className="line"></div>
             </div> */}
-            {/* <Col>
+              {/* <Col>
                 <Button
                   className="mt-4 buttonStyle btn-quest"
                   color="dark"
@@ -592,9 +612,10 @@ const Icons = () => {
                   RETAKE
                 </Button>
             </Col> */}
-          </div>
-          {/* </Col> */}
-        </Row>) : null}
+            </div>
+            {/* </Col> */}
+          </Row>
+        ) : null}
         <Row></Row>
       </div>
     </>

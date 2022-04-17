@@ -43,7 +43,7 @@ const Header = () => {
   const userCollection = db.collection("ClassRoom");
 
   const [ClassRoom, setClassRoom] = useState({});
-  const [RequestClassRoom, setRequestClassRoom] = useState({});
+  const [EmptyClassRoom, setEmptyClassRoom] = useState(false);
   const [DaysColor, setDaysColor] = useState({
     Monday: "#ffd600",
     Tuesday: "#f3a4b5",
@@ -53,6 +53,7 @@ const Header = () => {
     Saturday: "#8965e0",
     Sunday: "#f5365c",
   });
+  const [CurrentQuest, setCurrentQuest] = useState([]);
 
   const history = useHistory();
 
@@ -65,10 +66,40 @@ const Header = () => {
   };
 
   useEffect(() => {
-    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
-    if (firebaseApp.auth().currentUser) {
+
+        //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
+        if (firebaseApp.auth().currentUser) {
+
+    firebaseApp.auth().onAuthStateChanged((user) => {
+      const db = firebaseApp.firestore();
+      const userCollection = db
+        .collection("Quest")
+        .where("EndTimeStamp", ">=", Date.now());
+
+      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+      const unsubscribe = userCollection.onSnapshot((ss) => {
+        // ตัวแปร local
+        let CurrentQuest = [];
+
+        ss.forEach((document) => {
+          // manipulate ตัวแปร local
+            CurrentQuest.push(document.data().ClassRoomId)
+        });
+        // เปลี่ยนค่าตัวแปร state
+        setCurrentQuest(CurrentQuest);
+      });
+
+      return () => {
+        // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+        unsubscribe();
+      };
+    });
+
+    }
+  }, []);
+
+  useEffect(() => {
       firebaseApp.auth().onAuthStateChanged((user) => {
-        const db = firebaseApp.firestore();
         const userCollection = db
           .collection("ClassRoom")
           .where(
@@ -76,21 +107,25 @@ const Header = () => {
             "array-contains",
             firebaseApp.auth().currentUser.uid
           );
-
+  
         // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
         const unsubscribe = userCollection.onSnapshot((ss) => {
           // ตัวแปร local
           const ClassRoom = [];
           let count = 0;
-
+  
           ss.forEach((document) => {
             // manipulate ตัวแปร local
             ClassRoom[count] = document.data();
             ClassRoom[count].key = document.id;
             ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
+            ClassRoom[count].CurrentQuestBool = false;
+            if (CurrentQuest.includes(document.id)){
+              ClassRoom[count].CurrentQuestBool = true;
+            }
             count++;
           });
-
+  
           // เปลี่ยนค่าตัวแปร state
           ClassRoom.sort((a, b) =>
             a.SubjectCode > b.SubjectCode
@@ -101,78 +136,37 @@ const Header = () => {
           );
           setClassRoom(ClassRoom);
           console.log(ClassRoom);
+          if(ClassRoom.length == 0){
+            setEmptyClassRoom(true);
+          }
+          if(ClassRoom.length != 0){
+            setEmptyClassRoom(false);
+          }
         });
-
+  
         return () => {
           // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
           unsubscribe();
         };
       });
-    }
-  }, []);
-
-  useEffect(() => {
-    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
-    if (firebaseApp.auth().currentUser) {
-      firebaseApp.auth().onAuthStateChanged((user) => {
-        const db = firebaseApp.firestore();
-        const userCollection = db
-          .collection("ClassRoom")
-          .where(
-            "Request",
-            "array-contains",
-            firebaseApp.auth().currentUser.uid
-          );
-
-        // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
-        const unsubscribe = userCollection.onSnapshot((ss) => {
-          // ตัวแปร local
-          const ClassRoom = [];
-          let count = 0;
-
-          ss.forEach((document) => {
-            // manipulate ตัวแปร local
-            ClassRoom[count] = document.data();
-            ClassRoom[count].key = document.id;
-            ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
-            count++;
-          });
-
-          // เปลี่ยนค่าตัวแปร state
-          ClassRoom.sort((a, b) =>
-            a.SubjectCode > b.SubjectCode
-              ? 1
-              : b.SubjectCode > a.SubjectCode
-              ? -1
-              : 0
-          );
-          setRequestClassRoom(ClassRoom);
-          console.log(ClassRoom);
-        });
-
-        return () => {
-          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
-          unsubscribe();
-        };
-      });
-    }
-  }, []);
+    
+  }, [CurrentQuest]);
 
   return (
     <>
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home">
         <Container fluid>
-          <div className="text-right">
+        {!EmptyClassRoom ? (<div className="text-right">
             <JoinClass />
-          </div>
+          </div>) : null}
           <div className="header-body">
             {/* Card stats */}
-            <Row>
+            {EmptyClassRoom ? (<Row>
               <h2 className="text-home">Let's join the classroom and start to do Quest Check.</h2>
               <div className="btn-joinclass-home-std text-home">
                 <JoinClass />
               </div>
-            </Row>
+            </Row>) : null}
             <Row className="row-student-home">
               {Object.keys(ClassRoom).map((id) => {
                 return (
@@ -201,7 +195,7 @@ const Header = () => {
                                 backgroundColor: ClassRoom[id].daycolor,
                               }}
                               
-                            ><i class="fa-solid fa-hourglass sand-clock-icon"/></div>
+                            >{ClassRoom[id].CurrentQuestBool ? (<i class="fa-solid fa-hourglass sand-clock-icon"/>) : null}</div>
                           </Col>
                         </Row>
                         <p className="mt-3 mb-0 text-muted text-sm">
@@ -211,50 +205,6 @@ const Header = () => {
                             {ClassRoom[id].StartTime} - {ClassRoom[id].EndTime}
                           </span>
                           <span className="mr-2 section">Sec : {ClassRoom[id].Section}</span>{" "}
-                        </p>
-                      </CardBody>
-                    </Card>
-                    &nbsp;
-                  </Col>
-                );
-              })}
-              {Object.keys(RequestClassRoom).map((id) => {
-                return (
-                  <Col lg="6" xl="3">
-                    <Card className="card-stats mb-4 mb-xl-0">
-                      <CardBody className="subject-card">
-                        <Row>
-                          <div className="col">
-                            <CardTitle
-                              tag="h5"
-                              className="text-uppercase text-muted mb-0 home-subjectName"
-                            >
-                              {RequestClassRoom[id].SubjectName}{" "}
-                              <span className="text-red text-center">
-                                &nbsp;&nbsp;Wait for permission
-                              </span>
-                            </CardTitle>
-                            <span className="h2 font-weight-bold mb-0">
-                              {RequestClassRoom[id].SubjectCode}
-                            </span>
-                          </div>
-                          <Col className="col-auto">
-                            <div
-                              className="icon icon-shape text-white rounded-circle shadow circle-day"
-                              style={{
-                                backgroundColor: RequestClassRoom[id].daycolor,
-                              }}
-                            ></div>
-                          </Col>
-                        </Row>
-                        <p className="mt-3 mb-0 text-muted text-sm">
-                          <span className="mr-2">
-                            {" "}
-                            {RequestClassRoom[id].ClassDate} :{" "}
-                            {RequestClassRoom[id].StartTime} -{" "}
-                            {RequestClassRoom[id].EndTime}
-                          </span>
-                          <span className="mr-2 section">Sec : -</span>{" "}
                         </p>
                       </CardBody>
                     </Card>

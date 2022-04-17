@@ -17,8 +17,9 @@
 */
 
 // reactstrap components
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import firebaseApp from "../../firebase";
+import { AuthContext } from "components/Auth/Auth.js";
 import { useLocation } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
@@ -72,64 +73,95 @@ const Profile = () => {
   const [modalOpen3, setModalOpen3] = useState(false);
 
   const [CurrentQuest, setCurrentQuest] = useState({});
+  const [AllQuest, setAllQuest] = useState([]);
   const [StartTime, setStartTime] = useState();
   const [EndTime, setEndTime] = useState();
   const [Countdown, setCountdown] = useState();
+  const [SeeDetail, setSeeDetail] = useState({});
 
   const [NotOnQuest, setNotOnQuest] = useState(false);
   const [OnQuest, setOnQuest] = useState(false);
 
   const location = useLocation();
 
+  const { currentUser } = useContext(AuthContext);
+
   useEffect(() => {
-    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
-    firebaseApp.auth().onAuthStateChanged((user) => {
-      const db = firebaseApp.firestore();
-      const userCollection = db
-        .collection("Quest")
-        .where("ClassRoomId", "==", location.search.substring(1));
+    if (currentUser._delegate.uid) {
+      //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
+      firebaseApp.auth().onAuthStateChanged((user) => {
+        const db = firebaseApp.firestore();
+        const userCollection = db
+          .collection("Quest")
+          .where("ClassRoomId", "==", location.search.substring(1));
 
-      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
-      const unsubscribe = userCollection.onSnapshot((ss) => {
-        // ตัวแปร local
-        let CurrentQuest = {};
-        let count = 0;
+        // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+        const unsubscribe = userCollection.onSnapshot((ss) => {
+          // ตัวแปร local
+          let CurrentQuest = {};
+          let AllQuest = [];
+          let count = 0;
+          let countall = 0;
 
-        ss.forEach((document) => {
-          // manipulate ตัวแปร local
-          console.log(document.data().Complete)
-          for(let i = 0 ; i < document.data().Complete.length ; i++){
-            if(document.data().Complete[i].Uid == firebaseApp.auth().currentUser.uid){
-              count++
+          ss.forEach((document) => {
+            // manipulate ตัวแปร local
+            if (document.data().EndTimeStamp >= Date.now()) {
+              for (let i = 0; i < document.data().Complete.length; i++) {
+                if (
+                  document.data().Complete[i].Uid == currentUser._delegate.uid
+                ) {
+                  count++;
+                }
+              }
             }
+            if (document.data().EndTimeStamp >= Date.now() && count == 0) {
+              CurrentQuest = document.data();
+            }
+            AllQuest[countall] = document.data();
+            AllQuest[countall].Complete = false;
+            for (let i = 0; i < document.data().Complete.length; i++) {
+              if (
+                document.data().Complete[i].Uid == currentUser._delegate.uid
+              ) {
+                AllQuest[countall].Complete = true;
+                AllQuest[countall].Image = document.data().Complete[i].Image;
+              }
+            }
+            countall++;
+          });
+
+          // เปลี่ยนค่าตัวแปร state
+          AllQuest.sort((a, b) =>
+            a.EndTimeStamp < b.EndTimeStamp
+              ? 1
+              : b.EndTimeStamp < a.EndTimeStamp
+              ? -1
+              : 0
+          );
+          console.log(AllQuest);
+          setAllQuest(AllQuest);
+          setCurrentQuest(CurrentQuest);
+          const startdate = new Date(CurrentQuest.StartTimeStamp);
+          const enddate = new Date(CurrentQuest.EndTimeStamp);
+          setStartTime(startdate.toLocaleString("en-GB"));
+          setEndTime(enddate.toLocaleString("en-GB"));
+
+          if (Object.keys(CurrentQuest).length != 0) {
+            setOnQuest(true);
+            setNotOnQuest(false);
           }
-          if (document.data().EndTimeStamp >= Date.now() && count == 0) {
-            CurrentQuest = document.data();
+          if (Object.keys(CurrentQuest).length == 0) {
+            setOnQuest(false);
+            setNotOnQuest(true);
           }
         });
 
-        // เปลี่ยนค่าตัวแปร state
-        setCurrentQuest(CurrentQuest);
-        const startdate = new Date(CurrentQuest.StartTimeStamp);
-        const enddate = new Date(CurrentQuest.EndTimeStamp);
-        setStartTime(startdate.toLocaleString("en-GB"));
-        setEndTime(enddate.toLocaleString("en-GB"));
-
-        if (Object.keys(CurrentQuest).length != 0) {
-          setOnQuest(true);
-          setNotOnQuest(false);
-        }
-        if (Object.keys(CurrentQuest).length == 0) {
-          setOnQuest(false);
-          setNotOnQuest(true);
-        }
+        return () => {
+          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+          unsubscribe();
+        };
       });
-
-      return () => {
-        // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
-        unsubscribe();
-      };
-    });
+    }
   }, []);
 
   useEffect(() => {
@@ -151,6 +183,12 @@ const Profile = () => {
     var seconds = ((millis % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   }
+
+  const seedetail = (id) => {
+    setModalOpen3(!modalOpen3);
+    setSeeDetail(AllQuest[id]);
+    console.log(AllQuest[id]);
+  };
 
   return (
     <>
@@ -280,15 +318,16 @@ const Profile = () => {
               <CardBody className="pt-0 pt-md-4">
                 <div className="text-center">
                   <h2 className="text-success text-complete">Completed</h2>
-                  <h2 className="text-success">" Selfie with a Pen"</h2>
+                  <h2 className="text-success">
+                    " Selfie with a {SeeDetail.ObjectSelect}"
+                  </h2>
                   <div>
-                    <h4>31/01/2022</h4>
-                    <h4>TIME : 9:47 A.M.</h4>
+                    <h4>{SeeDetail.Date}</h4>
                   </div>
                   <img
-                    src="https://www.img.in.th/images/3176e43743c0c9e923693782aa34c326.jpg"
-                    width="180"
-                    height="360"
+                    src={SeeDetail.Image}
+                    width="640"
+                    height="480"
                     className="img-fluid shadow-4"
                     alt="..."
                   />
@@ -376,7 +415,7 @@ const Profile = () => {
                   <div className="col">
                     <h3 className="mb-0 ">Attendance</h3>
                   </div>
-                  <div className="col text-right">Hour Learned 90%</div>
+                  <div className="col text-right">Hour Learned --%</div>
                 </Row>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
@@ -392,93 +431,65 @@ const Profile = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row" className="td-nonePadding6">
-                      <Media className="align-items-center">
-                        <Media>
-                          <span className="mb-0 text-sm">31/01/2022</span>
-                        </Media>
-                      </Media>
-                    </th>
+                  {Object.keys(AllQuest).map((id) => {
+                    return (
+                      <tr>
+                        <th scope="row" className="td-nonePadding6">
+                          <Media className="align-items-center">
+                            <Media>
+                              <span className="mb-0 text-sm">
+                                {AllQuest[id].Date}
+                              </span>
+                            </Media>
+                          </Media>
+                        </th>
 
-                    <td className="td-nonePadding hightBox-profile">
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-success" />
-                        Completed
-                      </Badge>
-                    </td>
+                        {AllQuest[id].Complete ? (
+                          <td className="td-nonePadding hightBox-profile">
+                            <Badge color="" className="badge-dot mr-4">
+                              <i className="bg-success" />
+                              Completed
+                            </Badge>
+                          </td>
+                        ) : null}
 
-                    <td className="td-nonePadding hightBox-profile">
-                      <div className="d-flex align-items-center">
-                        <Button
-                          color="dark"
-                          type="button"
-                          size="sm"
-                          onClick={() => setModalOpen3(!modalOpen3)}
-                        >
-                          See Detail
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className="td-nonePadding6">
-                      <Media className="align-items-center">
-                        <Media>
-                          <span className="mb-0 text-sm">24/01/2022</span>
-                        </Media>
-                      </Media>
-                    </th>
+                        {!AllQuest[id].Complete &&
+                        AllQuest[id].EndTimeStamp < Date.now() ? (
+                          <td className="td-nonePadding hightBox-profile">
+                            <Badge color="" className="badge-dot mr-4">
+                              <i className="bg-danger" />
+                              Absent
+                            </Badge>
+                          </td>
+                        ) : null}
 
-                    <td className="td-nonePadding hightBox-profile">
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-danger" />
-                        Absent
-                      </Badge>
-                    </td>
+                        {!AllQuest[id].Complete &&
+                        AllQuest[id].EndTimeStamp >= Date.now() ? (
+                          <td className="td-nonePadding hightBox-profile">
+                            <Badge color="" className="badge-dot mr-4">
+                              <i className="bg-primary" />
+                              On going
+                            </Badge>
+                          </td>
+                        ) : null}
 
-                    <td className="td-nonePadding hightBox-profile">
-                      <div className="d-flex align-items-center">
-                        <Button
-                          color="dark"
-                          type="button"
-                          size="sm"
-                          onClick={() => setModalOpen3(!modalOpen3)}
-                        >
-                          See Detail
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row" className="td-nonePadding6">
-                      <Media className="align-items-center">
-                        <Media>
-                          <span className="mb-0 text-sm">17/01/2022</span>
-                        </Media>
-                      </Media>
-                    </th>
-
-                    <td className="td-nonePadding hightBox-profile">
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-danger" />
-                        Leave
-                      </Badge>
-                    </td>
-
-                    <td className="td-nonePadding hightBox-profile">
-                      <div className="d-flex align-items-center">
-                        <Button
-                          color="dark"
-                          type="button"
-                          size="sm"
-                          onClick={() => setModalOpen3(!modalOpen3)}
-                        >
-                          See Detail
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
+                        {AllQuest[id].Complete ? (
+                          <td className="td-nonePadding hightBox-profile">
+                            <div className="d-flex align-items-center">
+                              <Button
+                                color="dark"
+                                type="button"
+                                size="sm"
+                                onClick={() => seedetail(id)}
+                              >
+                                See Detail
+                              </Button>
+                            </div>
+                          </td>
+                        ) : null}
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </Table>
             </Card>
