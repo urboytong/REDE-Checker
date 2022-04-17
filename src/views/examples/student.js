@@ -330,6 +330,9 @@ const Profile = () => {
                     height="480"
                     className="img-fluid shadow-4"
                     alt="..."
+                    style={{
+                      transform: "rotateY(180deg)",
+                    }}
                   />
                 </div>
               </CardBody>

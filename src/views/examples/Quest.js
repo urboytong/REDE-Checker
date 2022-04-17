@@ -392,6 +392,8 @@ const Icons = () => {
   };
 
   const Retake = async () => {
+    setFaceBorderBoxColor("3px solid #6b8be8");
+    setObjectBorderBoxColor("3px solid #6b8be8");
     setQuestForm(true);
     setSendQuestForm(false);
   };
