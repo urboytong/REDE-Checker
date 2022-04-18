@@ -438,7 +438,7 @@ const Header2 = () => {
                     >
                       <CardBody className="subject-card">
                         <Row>
-                          <div className="col">
+                          <Col>
                             <CardTitle
                               tag="h5"
                               className="text-uppercase text-muted mb-0 home-subjectName"
@@ -448,7 +448,7 @@ const Header2 = () => {
                             <span className="h2 font-weight-bold mb-0">
                               {ClassRoom[id].SubjectCode}
                             </span>
-                          </div>
+                          </Col>
                           <Col className="col-auto">
                             <div
                               className="icon icon-shape text-white rounded-circle shadow circle-day"
