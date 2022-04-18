@@ -2567,7 +2567,6 @@ const Profile = () => {
                                   <option value="" disabled selected hidden>
                                     Countdown Time
                                   </option>
-                                  <option value="0.2">12 second</option>
                                   <option value="5">5 minute</option>
                                   <option value="10">10 minute</option>
                                   <option value="15">15 minute</option>
