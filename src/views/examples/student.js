@@ -402,7 +402,7 @@ const Profile = () => {
                   {NotOnQuest ? (
                     <div>
                       <div>
-                        <h1 className="mb-4 text-red">" NOTHING TO DO "</h1>
+                        <h1 className="mb-4 text-red">" There is no quest available "</h1>
                       </div>
                     </div>
                   ) : null}
@@ -418,7 +418,7 @@ const Profile = () => {
                   <div className="col">
                     <h3 className="mb-0 ">Attendance</h3>
                   </div>
-                  <div className="col text-right">Hour Learned --%</div>
+                  <div className="col text-right">Quest Completed -- %</div>
                 </Row>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
