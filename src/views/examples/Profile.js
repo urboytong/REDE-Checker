@@ -94,7 +94,7 @@ const Profile = () => {
   const [ClassRoom, setClassRoom] = useState({});
   const [Request, setRequest] = useState({});
   const [EmptyRequest, setEmptyRequest] = useState(false);
-  const [Members, setMembers] = useState({});
+  const [Members, setMembers] = useState([]);
   const [CurrentRequestProfile, setCurrentRequestProfile] = useState({});
 
   const [ObjectSelect, setObjectSelect] = useState("");
@@ -181,70 +181,63 @@ const Profile = () => {
           }
           setMembers(members);
 
-          return () => {
-            // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
-            unsubscribe();
-          };
-        });
-      });
-
-      return () => {
-        // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
-        unsubscribe();
-      };
-    });
-  }, []);
-
-  useEffect(() => {
-    //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
-    firebaseApp.auth().onAuthStateChanged((user) => {
-      const db = firebaseApp.firestore();
-      const userCollection = db
-        .collection("Quest")
-        .where("ClassRoomId", "==", location.search.substring(1));
-
-      // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
-      const unsubscribe = userCollection.onSnapshot((ss) => {
-        // ตัวแปร local
-        let CurrentQuest = {};
-        let AllQuest = [];
-        let countall = 0;
-
-        ss.forEach((document) => {
-          // manipulate ตัวแปร local
-          if (document.data().EndTimeStamp >= Date.now()) {
-            CurrentQuest = document.data();
-            CurrentQuest.DocId = document.id;
+          const userCollection = db
+          .collection("Quest")
+          .where("ClassRoomId", "==", location.search.substring(1));
+  
+        // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+        const unsubscribe = userCollection.onSnapshot((ss) => {
+          // ตัวแปร local
+          let CurrentQuest = {};
+          let AllQuest = [];
+          let countall = 0;
+  
+          ss.forEach((document) => {
+            // manipulate ตัวแปร local
+            if (document.data().EndTimeStamp >= Date.now()) {
+              CurrentQuest = document.data();
+              CurrentQuest.DocId = document.id;
+            }
+  
+            AllQuest[countall] = document.data();
+            countall++;
+          });
+  
+          // เปลี่ยนค่าตัวแปร state
+          AllQuest.sort((a, b) =>
+            a.EndTimeStamp < b.EndTimeStamp
+              ? 1
+              : b.EndTimeStamp < a.EndTimeStamp
+              ? -1
+              : 0
+          );
+          console.log(AllQuest);
+          setAllQuest(AllQuest);
+          setCurrentQuest(CurrentQuest);
+          const startdate = new Date(CurrentQuest.StartTimeStamp);
+          const enddate = new Date(CurrentQuest.EndTimeStamp);
+          setStartTime(startdate.toLocaleString("en-GB"));
+          setEndTime(enddate.toLocaleString("en-GB"));
+  
+          if (Object.keys(CurrentQuest).length != 0) {
+            setOnQuest(true);
+            setNotOnQuest(false);
           }
-
-          AllQuest[countall] = document.data();
-          countall++;
+          if (Object.keys(CurrentQuest).length == 0) {
+            setOnQuest(false);
+            setNotOnQuest(true);
+          }
         });
-
-        // เปลี่ยนค่าตัวแปร state
-        AllQuest.sort((a, b) =>
-          a.EndTimeStamp < b.EndTimeStamp
-            ? 1
-            : b.EndTimeStamp < a.EndTimeStamp
-            ? -1
-            : 0
-        );
-        console.log(AllQuest);
-        setAllQuest(AllQuest);
-        setCurrentQuest(CurrentQuest);
-        const startdate = new Date(CurrentQuest.StartTimeStamp);
-        const enddate = new Date(CurrentQuest.EndTimeStamp);
-        setStartTime(startdate.toLocaleString("en-GB"));
-        setEndTime(enddate.toLocaleString("en-GB"));
-
-        if (Object.keys(CurrentQuest).length != 0) {
-          setOnQuest(true);
-          setNotOnQuest(false);
-        }
-        if (Object.keys(CurrentQuest).length == 0) {
-          setOnQuest(false);
-          setNotOnQuest(true);
-        }
+  
+        return () => {
+          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+          unsubscribe();
+        };
+        });
+        return () => {
+          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+          unsubscribe();
+        };
       });
 
       return () => {
@@ -254,8 +247,10 @@ const Profile = () => {
     });
   }, []);
 
+
   useEffect(() => {
-    if (Object.keys(Members).length != 0 && Object.keys(AllQuest).length != 0) {
+    console.log("Members");
+    console.log(Members);
       let members = Members;
       let allquest = AllQuest;
       let absentlist = [];
@@ -333,7 +328,7 @@ const Profile = () => {
       console.log(allquest);
 
       setAllQuestAndMember(allquest);
-    }
+    
   }, [AllQuest, Members]);
 
   useEffect(() => {
