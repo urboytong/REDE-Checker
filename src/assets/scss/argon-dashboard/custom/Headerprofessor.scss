@@ -83,53 +83,50 @@
   font-size: 15px !important;
 }
 
+.subjectcode-day {
+  justify-content: space-between;
+  background-color: aquamarine;
+}
+
 @media only screen and (max-width: 1920px) {
   .home-subjectName {
-    white-space: nowrap; 
-    overflow: hidden; 
     width:240px; 
-    text-overflow: ellipsis; 
-    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 1367px) {
+  .home-subjectName {
+    width:200px; 
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+  .home-subjectName {
+    width:180px; 
   }
 }
 
 @media only screen and (max-width: 1024px) {
   .home-subjectName {
-    white-space: nowrap; 
-    overflow: hidden; 
     width:350px; 
-    text-overflow: ellipsis; 
-    text-align: left;
   }
 }
 
 @media only screen and (max-width: 820px) {
   .home-subjectName {
-    white-space: nowrap; 
-    overflow: hidden; 
     width:600px; 
-    text-overflow: ellipsis; 
-    text-align: left;
   }
 }
 
 @media only screen and (max-width: 768px) {
   .home-subjectName {
-    white-space: nowrap; 
-    overflow: hidden; 
     width:550px; 
-    text-overflow: ellipsis; 
-    text-align: left;
   }
 }
 
 @media only screen and (max-width: 415px) {
   .home-subjectName {
-    white-space: nowrap; 
-    overflow: hidden; 
     width:280px; 
-    text-overflow: ellipsis; 
-    text-align: left;
   }
 
   .bg-home {
@@ -145,20 +142,12 @@
 
 @media only screen and (max-width: 391px) {
   .home-subjectName {
-    white-space: nowrap; 
-    overflow: hidden; 
     width:260px; 
-    text-overflow: ellipsis; 
-    text-align: left;
   }
 }
 
 @media only screen and (max-width: 376px) {
   .home-subjectName {
-    white-space: nowrap; 
-    overflow: hidden; 
     width:240px; 
-    text-overflow: ellipsis; 
-    text-align: left;
   }
 }

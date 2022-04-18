@@ -1333,7 +1333,7 @@ const Profile = () => {
                                 <th scope="col" className="td-nonePadding">
                                   name
                                 </th>
-                                <th scope="col">hour learned</th>
+                                <th scope="col">quest completed</th>
                                 <th scope="col">completed</th>
                                 <th scope="col">absent</th>
                                 <th scope="col" className="text-right"></th>
