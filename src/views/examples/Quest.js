@@ -82,6 +82,7 @@ const Icons = () => {
 
   const [QuestForm, setQuestForm] = useState(true);
   const [SendQuestForm, setSendQuestForm] = useState(false);
+  const [SendQuestComplete, setSendQuestComplete] = useState(false);
 
   const location = useLocation();
 
@@ -362,33 +363,37 @@ const Icons = () => {
   }, [QuestSuccess]);
 
   const SendQuest = async () => {
-    const files = ScreenShot;
-    const data = new FormData();
-    data.append("file", files);
-    data.append("upload_preset", "Quest_images");
-    const res = await fetch(
-      "	https://api.cloudinary.com/v1_1/daxwfdlwj/image/upload",
-      {
-        method: "POST",
-        body: data,
-      }
-    );
-    const file = await res.json();
-    //เปลี่ยน setIimage เป็น setImage เพื่อเก็บ url โดยตรง
-    setimage(file.secure_url);
-    console.log(file.secure_url);
+    if(!SendQuestComplete){
+      setSendQuestComplete(true);
+      const files = ScreenShot;
+      const data = new FormData();
+      data.append("file", files);
+      data.append("upload_preset", "Quest_images");
+      const res = await fetch(
+        "	https://api.cloudinary.com/v1_1/daxwfdlwj/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const file = await res.json();
+      //เปลี่ยน setIimage เป็น setImage เพื่อเก็บ url โดยตรง
+      setimage(file.secure_url);
+      console.log(file.secure_url);
+  
+      let myquest = {
+        Uid: firebaseApp.auth().currentUser.uid,
+        Image: file.secure_url,
+      };
+      let complete = CurrentQuest.Complete;
+      complete.push(myquest);
+      const db = firebaseApp.firestore();
+      const res2 = await db.collection("Quest").doc(CurrentQuest.DocId).update({
+        Complete: complete,
+      });
+      window.location.reload();
+    }
 
-    let myquest = {
-      Uid: firebaseApp.auth().currentUser.uid,
-      Image: file.secure_url,
-    };
-    let complete = CurrentQuest.Complete;
-    complete.push(myquest);
-    const db = firebaseApp.firestore();
-    const res2 = await db.collection("Quest").doc(CurrentQuest.DocId).update({
-      Complete: complete,
-    });
-    window.location.reload();
   };
 
   const Retake = async () => {
