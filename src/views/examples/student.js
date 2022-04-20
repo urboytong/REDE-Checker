@@ -427,7 +427,7 @@ const Profile = () => {
                   <div className="col">
                     <h3 className="mb-0 ">Attendance</h3>
                   </div>
-                  <div className="col text-right">Quest Completed {QuestCompleted} %</div>
+                  <div className="col text-right">Quest Completed {QuestCompleted.toFixed(0)} %</div>
                 </Row>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
