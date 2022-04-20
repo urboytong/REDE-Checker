@@ -78,6 +78,7 @@ const Profile = () => {
   const [EndTime, setEndTime] = useState();
   const [Countdown, setCountdown] = useState();
   const [SeeDetail, setSeeDetail] = useState({});
+  const [QuestCompleted, setQuestCompleted] = useState(0);
 
   const [NotOnQuest, setNotOnQuest] = useState(false);
   const [OnQuest, setOnQuest] = useState(false);
@@ -138,6 +139,14 @@ const Profile = () => {
               ? -1
               : 0
           );
+          let completecount = 0;
+          for(let i = 0; i < AllQuest.length; i++){
+            if(AllQuest[i].Complete){
+              completecount++;
+            }
+          }
+          setQuestCompleted(100*completecount/AllQuest.length);
+          completecount = 0;
           console.log(AllQuest);
           setAllQuest(AllQuest);
           setCurrentQuest(CurrentQuest);
@@ -418,7 +427,7 @@ const Profile = () => {
                   <div className="col">
                     <h3 className="mb-0 ">Attendance</h3>
                   </div>
-                  <div className="col text-right">Quest Completed -- %</div>
+                  <div className="col text-right">Quest Completed {QuestCompleted} %</div>
                 </Row>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
