@@ -54,7 +54,7 @@ const Register = () => {
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const [AcademicRanks, setAcademicRanks] = useState("Assoc. Prof.");
   const [Faculty, setFaculty] = useState(
-    "College of Multidisciplinary Science"
+    "Science"
   );
   const [Department, setDepartment] = useState("");
   const [Major, setMajor] = useState("");
@@ -102,6 +102,28 @@ const Register = () => {
   const [FaceRegisLoading, setFaceRegisLoading] = useState(
     require("../../assets/img/image/Loading.gif").default
   );
+  const [{ country, state }, setData] = useState({
+    country: "Chemistry",
+    state: "Chemistry"
+  });
+  const countriesData = [
+    {
+      name: "Chemistry",
+      states: ["Chemistry"]
+    },
+    {
+      name: "Mathematics",
+      states: ["Applied Computer Science", "Mathematics", "Statistics"]
+    },
+    {
+      name: "Microbiology",
+      states: ["Food Science and Technology", "Microbiology"]
+    },
+    {
+      name: "Physics",
+      states: ["Physics"]
+    }
+  ];
 
   ////////////// Register //////////////
 
@@ -112,8 +134,8 @@ const Register = () => {
       Email,
       Uid,
       Faculty,
-      Department,
-      Major,
+      Department: country,
+      Major: state,
       AcademicRanks,
       role,
     });
@@ -129,8 +151,8 @@ const Register = () => {
       StudentID,
       Uid,
       Faculty,
-      Department,
-      Major,
+      Department: country,
+      Major: state,
       role,
       FaceDescriptor,
     });
@@ -178,9 +200,7 @@ const Register = () => {
           ConfirmPassword !== "" &&
           ConfirmPassword == Password &&
           AcademicRanks !== "" &&
-          Faculty !== "" &&
-          Department !== "" &&
-          Major !== ""
+          Faculty !== ""
         ) {
           firebaseApp
             .auth()
@@ -216,8 +236,6 @@ const Register = () => {
           ConfirmPassword !== "" &&
           ConfirmPassword == Password &&
           Faculty !== "" &&
-          Department !== "" &&
-          Major !== "" &&
           FaceDescriptor !== null
         ) {
           firebaseApp
@@ -249,6 +267,26 @@ const Register = () => {
     }
   };
 
+  const countries = countriesData.map((country) => (
+    <option key={country.name} value={country.name}>
+      {country.name}
+    </option>
+  ));
+
+  const states = countriesData.find(item => item.name === country)?.states.map((state) => (
+    <option key={state} value={state}>
+      {state}
+    </option>
+  ));
+
+  function handleCountryChange(event) {
+    setData(data => ({ ...data, state: event.target.value, country: event.target.value }));
+  }
+
+  function handleStateChange(event) {
+    setData(data => ({ ...data, state: event.target.value }));
+  }
+
   function ErrorsCheck() {
     if (Email == "") setEmailError("Must not be empty.");
     if (Password == "") setPasswordError("Must not be empty.");
@@ -260,8 +298,8 @@ const Register = () => {
       setConfirmPasswordError("Passwords do not match.");
     if (AcademicRanks == "") setAcademicRanksError("Must not be empty.");
     if (Faculty == "") setFacultyError("Must not be empty.");
-    if (Department == "") setDepartmentError("Must not be empty.");
-    if (Major == "") setMajorError("Must not be empty.");
+    //if (Department == "") setDepartmentError("Must not be empty.");
+    //if (Major == "") setMajorError("Must not be empty.");
     if (FaceDescriptor == null)
       setFaceDescriptorError("Face Descriptor Must not be empty.");
   }
@@ -274,8 +312,8 @@ const Register = () => {
     setConfirmPasswordError("");
     setAcademicRanksError("");
     setFacultyError("");
-    setDepartmentError("");
-    setMajorError("");
+    //setDepartmentError("");
+    //setMajorError("");
     setFaceDescriptorError("");
     setStudentIDError("");
   };
@@ -768,13 +806,8 @@ const Register = () => {
                         className="darkGray"
                         type="select"
                         placeholder="Department"
-                        value={Department}
-                        onChange={(e) => setFaculty(e.target.value)}
-                      >
-                        <option>Chemistry</option>
-                        <option>Mathematics</option>
-                        <option>Microbiology</option>
-                        <option>Physics</option>
+                        value={country} onChange={handleCountryChange}>
+                          {countries}
                       </Input>
                     </InputGroup>
                   </FormGroup>
@@ -786,62 +819,15 @@ const Register = () => {
                     <span className="text-red">{MajorError}</span>
                   </div>
                   <FormGroup>
-                    {/* <InputGroup className="input-group-alternative mb-3">
+                    <InputGroup className="input-group-alternative mb-3">
                       <Input
                         className="darkGray"
-                        type="text"
-                        value={Major}
-                        onChange={(e) => setMajor(e.target.value)}
-                      />
-                    </InputGroup> */}
-                    
-                    {/* Chemistry */}
-                    <Input
-                      className="darkGray"
-                      type="select"
-                      placeholder="Major"
-                      value={Major}
-                      onChange={(e) => setFaculty(e.target.value)}
-                    >
-                      <option>Chemistry</option>
-                    </Input>
-
-                    {/* Mathematics */}
-                    <Input
-                      className="darkGray"
-                      type="select"
-                      placeholder="Major"
-                      value={Major}
-                      onChange={(e) => setFaculty(e.target.value)}
-                    >
-                      <option>Applied Computer Science</option>
-                      <option>Mathematics</option>
-                      <option>Statistics</option>
-                    </Input>
-
-                    {/* Microbiology */}
-                    <Input
-                      className="darkGray"
-                      type="select"
-                      placeholder="Major"
-                      value={Major}
-                      onChange={(e) => setFaculty(e.target.value)}
-                    >
-                      <option>Food Science and Technology</option>
-                      <option>Microbiology</option>
-                    </Input>
-
-                    {/* Physics */}
-                    <Input
-                      className="darkGray"
-                      type="select"
-                      placeholder="Major"
-                      value={Major}
-                      onChange={(e) => setFaculty(e.target.value)}
-                    >
-                      <option>Physics</option>
-                    </Input>
-
+                        type="select"
+                        placeholder="Major"
+                        value={state} onChange={handleStateChange}>
+                          {states}
+                      </Input>
+                    </InputGroup>
                   </FormGroup>
 
                   <div className="topicForm lightGray">

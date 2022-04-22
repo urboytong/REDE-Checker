@@ -117,6 +117,8 @@ const Profile = () => {
   const [SeeMoreAbsent, setSeeMoreAbsent] = useState([]);
   const [SeeMoreCompleteObject, setSeeMoreCompleteObject] = useState([]);
   const [CompleteSeeMore, setCompleteSeeMore] = useState({});
+  const [Report, setReport] = useState({ Complete: [], Absent: [] });
+  const [ReportImage, setReportImage] = useState("");
 
   const [ObjectSelectError, setObjectSelectError] = useState("");
   const [CountdownTimeError, setCountdownTimeError] = useState("");
@@ -182,57 +184,57 @@ const Profile = () => {
           setMembers(members);
 
           const userCollection = db
-          .collection("Quest")
-          .where("ClassRoomId", "==", location.search.substring(1));
-  
-        // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
-        const unsubscribe = userCollection.onSnapshot((ss) => {
-          // ตัวแปร local
-          let CurrentQuest = {};
-          let AllQuest = [];
-          let countall = 0;
-  
-          ss.forEach((document) => {
-            // manipulate ตัวแปร local
-            if (document.data().EndTimeStamp >= Date.now()) {
-              CurrentQuest = document.data();
-              CurrentQuest.DocId = document.id;
+            .collection("Quest")
+            .where("ClassRoomId", "==", location.search.substring(1));
+
+          // subscription นี้จะเกิด callback กับทุกการเปลี่ยนแปลงของ collection Food
+          const unsubscribe = userCollection.onSnapshot((ss) => {
+            // ตัวแปร local
+            let CurrentQuest = {};
+            let AllQuest = [];
+            let countall = 0;
+
+            ss.forEach((document) => {
+              // manipulate ตัวแปร local
+              if (document.data().EndTimeStamp >= Date.now()) {
+                CurrentQuest = document.data();
+                CurrentQuest.DocId = document.id;
+              }
+
+              AllQuest[countall] = document.data();
+              countall++;
+            });
+
+            // เปลี่ยนค่าตัวแปร state
+            AllQuest.sort((a, b) =>
+              a.EndTimeStamp < b.EndTimeStamp
+                ? 1
+                : b.EndTimeStamp < a.EndTimeStamp
+                ? -1
+                : 0
+            );
+            console.log(AllQuest);
+            setAllQuest(AllQuest);
+            setCurrentQuest(CurrentQuest);
+            const startdate = new Date(CurrentQuest.StartTimeStamp);
+            const enddate = new Date(CurrentQuest.EndTimeStamp);
+            setStartTime(startdate.toLocaleString("en-GB"));
+            setEndTime(enddate.toLocaleString("en-GB"));
+
+            if (Object.keys(CurrentQuest).length != 0) {
+              setOnQuest(true);
+              setNotOnQuest(false);
             }
-  
-            AllQuest[countall] = document.data();
-            countall++;
+            if (Object.keys(CurrentQuest).length == 0) {
+              setOnQuest(false);
+              setNotOnQuest(true);
+            }
           });
-  
-          // เปลี่ยนค่าตัวแปร state
-          AllQuest.sort((a, b) =>
-            a.EndTimeStamp < b.EndTimeStamp
-              ? 1
-              : b.EndTimeStamp < a.EndTimeStamp
-              ? -1
-              : 0
-          );
-          console.log(AllQuest);
-          setAllQuest(AllQuest);
-          setCurrentQuest(CurrentQuest);
-          const startdate = new Date(CurrentQuest.StartTimeStamp);
-          const enddate = new Date(CurrentQuest.EndTimeStamp);
-          setStartTime(startdate.toLocaleString("en-GB"));
-          setEndTime(enddate.toLocaleString("en-GB"));
-  
-          if (Object.keys(CurrentQuest).length != 0) {
-            setOnQuest(true);
-            setNotOnQuest(false);
-          }
-          if (Object.keys(CurrentQuest).length == 0) {
-            setOnQuest(false);
-            setNotOnQuest(true);
-          }
-        });
-  
-        return () => {
-          // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
-          unsubscribe();
-        };
+
+          return () => {
+            // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
+            unsubscribe();
+          };
         });
         return () => {
           // ยกเลิก subsciption เมื่อ component ถูกถอดจาก dom
@@ -247,88 +249,86 @@ const Profile = () => {
     });
   }, []);
 
-
   useEffect(() => {
     console.log("Members");
     console.log(Members);
-      let members = Members;
-      let allquest = AllQuest;
-      let absentlist = [];
-      let membersid = [];
-      let allquestid = [];
-      let absent = [];
+    let members = Members;
+    let allquest = AllQuest;
+    let absentlist = [];
+    let membersid = [];
+    let allquestid = [];
+    let absent = [];
 
-      for (let i = 0; i < members.length; i++) {
-        membersid[i] = members[i].Uid;
+    for (let i = 0; i < members.length; i++) {
+      membersid[i] = members[i].Uid;
+    }
+
+    for (let i = 0; i < allquest.length; i++) {
+      let test = [];
+      for (let j = 0; j < allquest[i].Complete.length; j++) {
+        test.push(allquest[i].Complete[j].Uid);
       }
+      allquestid[i] = test;
+    }
 
-      for (let i = 0; i < allquest.length; i++) {
-        let test = [];
-        for (let j = 0; j < allquest[i].Complete.length; j++) {
-          test.push(allquest[i].Complete[j].Uid);
+    for (let i = 0; i < allquestid.length; i++) {
+      absent[i] = membersid;
+      for (let j = 0; j < allquestid[i].length; j++) {
+        absent[i] = absent[i].filter((el) => !allquestid[i].includes(el));
+      }
+      allquest[i].Absent = absent[i];
+    }
+
+    for (let i = 0; i < allquest.length; i++) {
+      for (let j = 0; j < allquest[i].Absent.length; j++) {
+        if (!allquest[i].Absent[j].Uid) {
+          let test = { Uid: allquest[i].Absent[j] };
+          allquest[i].Absent[j] = test;
         }
-        allquestid[i] = test;
       }
+    }
 
-      for (let i = 0; i < allquestid.length; i++) {
-        absent[i] = membersid;
-        for (let j = 0; j < allquestid[i].length; j++) {
-          absent[i] = absent[i].filter((el) => !allquestid[i].includes(el));
-        }
-        allquest[i].Absent = absent[i];
-      }
-
-      for (let i = 0; i < allquest.length; i++) {
-        for (let j = 0; j < allquest[i].Absent.length; j++) {
-          if (!allquest[i].Absent[j].Uid) {
-            let test = { Uid: allquest[i].Absent[j] };
-            allquest[i].Absent[j] = test;
+    for (let i = 0; i < allquest.length; i++) {
+      for (let j = 0; j < allquest[i].Absent.length; j++) {
+        for (let k = 0; k < members.length; k++) {
+          if (allquest[i].Absent[j].Uid == members[k].Uid) {
+            allquest[i].Absent[j].FirstName = members[k].FirstName;
+            allquest[i].Absent[j].LastName = members[k].LastName;
+            allquest[i].Absent[j].StudentID = members[k].StudentID;
           }
         }
       }
+    }
 
-      for (let i = 0; i < allquest.length; i++) {
-        for (let j = 0; j < allquest[i].Absent.length; j++) {
-          for (let k = 0; k < members.length; k++) {
-            if (allquest[i].Absent[j].Uid == members[k].Uid) {
-              allquest[i].Absent[j].FirstName = members[k].FirstName;
-              allquest[i].Absent[j].LastName = members[k].LastName;
-              allquest[i].Absent[j].StudentID = members[k].StudentID;
-            }
+    for (let i = 0; i < allquest.length; i++) {
+      for (let j = 0; j < allquest[i].Complete.length; j++) {
+        for (let k = 0; k < members.length; k++) {
+          if (allquest[i].Complete[j].Uid == members[k].Uid) {
+            allquest[i].Complete[j].FirstName = members[k].FirstName;
+            allquest[i].Complete[j].LastName = members[k].LastName;
+            allquest[i].Complete[j].StudentID = members[k].StudentID;
           }
         }
       }
+    }
 
-      for (let i = 0; i < allquest.length; i++) {
-        for (let j = 0; j < allquest[i].Complete.length; j++) {
-          for (let k = 0; k < members.length; k++) {
-            if (allquest[i].Complete[j].Uid == members[k].Uid) {
-              allquest[i].Complete[j].FirstName = members[k].FirstName;
-              allquest[i].Complete[j].LastName = members[k].LastName;
-              allquest[i].Complete[j].StudentID = members[k].StudentID;
-            }
-          }
+    //ตัดรายการคนที่ออกจากห้อง
+    for (let i = 0; i < allquest.length; i++) {
+      for (let j = 0; j < allquest[i].Complete.length; j++) {
+        if (!allquest[i].Complete[j].FirstName) {
+          allquest[i].Complete[j] = "emp";
         }
       }
+    }
 
-      //ตัดรายการคนที่ออกจากห้อง
-      for (let i = 0; i < allquest.length; i++) {
-        for (let j = 0; j < allquest[i].Complete.length; j++) {
-          if (!allquest[i].Complete[j].FirstName) {
-            allquest[i].Complete[j] = "emp";
-          }
-        }
-      }
+    for (let i = 0; i < allquest.length; i++) {
+      allquest[i].Complete = allquest[i].Complete.filter((x) => x !== "emp");
+    }
 
-      for (let i = 0; i < allquest.length; i++) {
-        allquest[i].Complete = allquest[i].Complete.filter((x) => x !== "emp");
-      }
+    console.log("allquest");
+    console.log(allquest);
 
-      console.log("allquest");
-      console.log(allquest);
-
-      setAllQuestAndMember(allquest);
-    
+    setAllQuestAndMember(allquest);
   }, [AllQuest, Members]);
 
   useEffect(() => {
@@ -358,6 +358,33 @@ const Profile = () => {
 
   const ReportModalOpens = (requestinfo) => {
     setModalOpen3(!modalOpen3);
+    let complete = [];
+    let absent = [];
+    let image = "";
+    let count = 0;
+    for (let i = 0; i < AllQuestAndMember.length; i++) {
+      for (let j = 0; j < AllQuestAndMember[i].Complete.length; j++) {
+        if (AllQuestAndMember[i].Complete[j].Uid == requestinfo.Uid) {
+          count++;
+          image = AllQuestAndMember[i].Complete[j].Image;
+        }
+      }
+      if (count > 0) {
+        complete.push({
+          Date: AllQuestAndMember[i].Date,
+          ObjectSelect: AllQuestAndMember[i].ObjectSelect,
+          Image: image,
+        });
+      }
+      if (count == 0) {
+        absent.push({
+          Date: AllQuestAndMember[i].Date,
+          ObjectSelect: AllQuestAndMember[i].ObjectSelect,
+        });
+      }
+      count = 0;
+    }
+    setReport({ Complete: complete, Absent: absent });
     setCurrentRequestProfile(requestinfo);
   };
 
@@ -458,6 +485,11 @@ const Profile = () => {
   const completeseemore = (data) => {
     setModalOpen9(!modalOpen9);
     setCompleteSeeMore(data);
+  };
+
+  const reportimage = (image) => {
+    setModalOpen11(!modalOpen11);
+    setReportImage(image);
   };
 
   const FacetrackPos = (data) => {
@@ -909,7 +941,7 @@ const Profile = () => {
                                           type="button"
                                           id="toggler1"
                                         >
-                                          5
+                                          {Report.Complete.length}
                                         </Button>
                                       </div>
                                     </td>
@@ -920,7 +952,7 @@ const Profile = () => {
                                         type="button"
                                         id="toggler"
                                       >
-                                        1
+                                        {Report.Absent.length}
                                       </Button>
                                     </td>
                                   </tr>
@@ -951,167 +983,47 @@ const Profile = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <th scope="row">
-                                      <Media className="align-items-center">
-                                        <Media>
-                                          <span className="mb-0 text-sm">
-                                            31/01/2022
-                                          </span>
-                                        </Media>
-                                      </Media>
-                                    </th>
+                                  {Object.keys(Report.Complete).map((id) => {
+                                    return (
+                                      <tr>
+                                        <th scope="row">
+                                          <Media className="align-items-center">
+                                            <Media>
+                                              <span className="mb-0 text-sm">
+                                                {Report.Complete[id].Date}
+                                              </span>
+                                            </Media>
+                                          </Media>
+                                        </th>
 
-                                    <td>
-                                      <Badge
-                                        color=""
-                                        className="badge-dot mr-4"
-                                      >
-                                        <i className="bg-success" />
-                                        Selfie with a Pen
-                                      </Badge>
-                                    </td>
-                                    <td className="text-right">
-                                      <Button
-                                        className="btn-icon btn-2"
-                                        color="dark"
-                                        type="button"
-                                        size="sm"
-                                        onClick={() =>
-                                          setModalOpen11(!modalOpen11)
-                                        }
-                                      >
-                                        <i className="ni ni-image" />
-                                      </Button>
-                                    </td>
-                                  </tr>
-
-                                  <tr>
-                                    <th scope="row">
-                                      <Media className="align-items-center">
-                                        <Media>
-                                          <span className="mb-0 text-sm">
-                                            24/01/2022
-                                          </span>
-                                        </Media>
-                                      </Media>
-                                    </th>
-
-                                    <td>
-                                      <Badge
-                                        color=""
-                                        className="badge-dot mr-4"
-                                      >
-                                        <i className="bg-success" />
-                                        Selfie with a Pen
-                                      </Badge>
-                                    </td>
-                                    <td className="text-right">
-                                      <Button
-                                        className="btn-icon btn-2"
-                                        color="dark"
-                                        type="button"
-                                        size="sm"
-                                      >
-                                        <i className="ni ni-image" />
-                                      </Button>
-                                    </td>
-                                  </tr>
-
-                                  <tr>
-                                    <th scope="row">
-                                      <Media className="align-items-center">
-                                        <Media>
-                                          <span className="mb-0 text-sm">
-                                            17/01/2022
-                                          </span>
-                                        </Media>
-                                      </Media>
-                                    </th>
-
-                                    <td>
-                                      <Badge
-                                        color=""
-                                        className="badge-dot mr-4"
-                                      >
-                                        <i className="bg-success" />
-                                        Selfie with a Pen
-                                      </Badge>
-                                    </td>
-                                    <td className="text-right">
-                                      <Button
-                                        className="btn-icon btn-2"
-                                        color="dark"
-                                        type="button"
-                                        size="sm"
-                                      >
-                                        <i className="ni ni-image" />
-                                      </Button>
-                                    </td>
-                                  </tr>
-
-                                  <tr>
-                                    <th scope="row">
-                                      <Media className="align-items-center">
-                                        <Media>
-                                          <span className="mb-0 text-sm">
-                                            10/01/2022
-                                          </span>
-                                        </Media>
-                                      </Media>
-                                    </th>
-
-                                    <td>
-                                      <Badge
-                                        color=""
-                                        className="badge-dot mr-4"
-                                      >
-                                        <i className="bg-success" />
-                                        Selfie with a Pen
-                                      </Badge>
-                                    </td>
-                                    <td className="text-right">
-                                      <Button
-                                        className="btn-icon btn-2"
-                                        color="dark"
-                                        type="button"
-                                        size="sm"
-                                      >
-                                        <i className="ni ni-image" />
-                                      </Button>
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">
-                                      <Media className="align-items-center">
-                                        <Media>
-                                          <span className="mb-0 text-sm">
-                                            3/01/2022
-                                          </span>
-                                        </Media>
-                                      </Media>
-                                    </th>
-
-                                    <td>
-                                      <Badge
-                                        color=""
-                                        className="badge-dot mr-4"
-                                      >
-                                        <i className="bg-success" />
-                                        Selfie with a Pen
-                                      </Badge>
-                                    </td>
-                                    <td className="text-right">
-                                      <Button
-                                        className="btn-icon btn-2"
-                                        color="dark"
-                                        type="button"
-                                        size="sm"
-                                      >
-                                        <i className="ni ni-image" />
-                                      </Button>
-                                    </td>
-                                  </tr>
+                                        <td>
+                                          <Badge
+                                            color=""
+                                            className="badge-dot mr-4"
+                                          >
+                                            <i className="bg-success" />
+                                            Selfie with a{" "}
+                                            {Report.Complete[id].ObjectSelect}
+                                          </Badge>
+                                        </td>
+                                        <td className="text-right">
+                                          <Button
+                                            className="btn-icon btn-2"
+                                            color="dark"
+                                            type="button"
+                                            size="sm"
+                                            onClick={() =>
+                                              reportimage(
+                                                Report.Complete[id].Image
+                                              )
+                                            }
+                                          >
+                                            <i className="ni ni-image" />
+                                          </Button>
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
                                 </tbody>
                               </Table>
                             </Card>
@@ -1122,11 +1034,9 @@ const Profile = () => {
                               <CardHeader className="border-0">
                                 <Row>
                                   <div className="col">
-                                    <h3 className="mb-0">Selfie with a pen</h3>
+                                    <h3 className="mb-0">Absent</h3>
                                   </div>
-                                  <div className="col text-right">
-                                    <h4>Absent</h4>
-                                  </div>
+                                  <div className="col text-right"></div>
                                 </Row>
                               </CardHeader>
                               <Table
@@ -1140,27 +1050,32 @@ const Profile = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <th scope="row">
-                                      <Media className="align-items-center">
-                                        <Media>
-                                          <span className="mb-0 text-sm">
-                                            7 February 2022
-                                          </span>
-                                        </Media>
-                                      </Media>
-                                    </th>
+                                  {Object.keys(Report.Absent).map((id) => {
+                                    return (
+                                      <tr>
+                                        <th scope="row">
+                                          <Media className="align-items-center">
+                                            <Media>
+                                              <span className="mb-0 text-sm">
+                                                {Report.Absent[id].Date}
+                                              </span>
+                                            </Media>
+                                          </Media>
+                                        </th>
 
-                                    <td>
-                                      <Badge
-                                        color=""
-                                        className="badge-dot mr-4"
-                                      >
-                                        <i className="bg-danger" />
-                                        Selfie with Pillow
-                                      </Badge>
-                                    </td>
-                                  </tr>
+                                        <td>
+                                          <Badge
+                                            color=""
+                                            className="badge-dot mr-4"
+                                          >
+                                            <i className="bg-danger" />
+                                            Selfie with a{" "}
+                                            {Report.Absent[id].ObjectSelect}
+                                          </Badge>
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
                                 </tbody>
                               </Table>
                             </Card>
@@ -1193,15 +1108,14 @@ const Profile = () => {
                         <CardBody className="pt-0 pt-md-4">
                           <div className="text-center">
                             <img
-                              src="https://www.img.in.th/images/3176e43743c0c9e923693782aa34c326.jpg"
-                              width="300"
-                              height="450"
+                              src={ReportImage}
+                              width="640"
+                              height="480"
                               className="img-fluid shadow-4"
                               alt="..."
                             />
                             <div>
                               <i className="ni education_hat mr-2" />
-                              <h2>TIME : 9:47 A.M.</h2>
                             </div>
                             <div className="h3 font-weight-300">
                               <i className="ni location_pin mr-2" />
@@ -2567,7 +2481,6 @@ const Profile = () => {
                                   <option value="" disabled selected hidden>
                                     Countdown Time
                                   </option>
-                                  <option value="0.2">12 second</option>
                                   <option value="5">5 minute</option>
                                   <option value="10">10 minute</option>
                                   <option value="15">15 minute</option>
@@ -2907,10 +2820,7 @@ const Profile = () => {
 
                         {AllQuestAndMember[id].EndTimeStamp >= Date.now() ? (
                           <td className="td-nonePadding3">
-                            <Badge color="" className="badge-dot mr-4">
-                              <i className="bg-primary" />
-                              {AllQuestAndMember[id].Absent.length}
-                            </Badge>
+                            <Badge color="" className="badge-dot mr-4"></Badge>
                           </td>
                         ) : null}
 

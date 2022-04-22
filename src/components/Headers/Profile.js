@@ -68,6 +68,28 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
   const [Department, setDepartment] = useState("");
   const [Major, setMajor] = useState("");
   const [StudentID, setStudentID] = useState("");
+  const [{ country, state }, setData] = useState({
+    country: "",
+    state: "",
+  });
+  const countriesData = [
+    {
+      name: "Chemistry",
+      states: ["Chemistry"],
+    },
+    {
+      name: "Mathematics",
+      states: ["Applied Computer Science", "Mathematics", "Statistics"],
+    },
+    {
+      name: "Microbiology",
+      states: ["Food Science and Technology", "Microbiology"],
+    },
+    {
+      name: "Physics",
+      states: ["Physics"],
+    },
+  ];
 
   const [FirstNameError, setFirstNameError] = useState("");
   const [LastNameError, setLastNameError] = useState("");
@@ -124,10 +146,11 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
     setAcademicRanks(User.AcademicRanks);
     setFirstName(User.FirstName);
     setLastName(User.LastName);
-    setFaculty(User.Faculty);
-    setDepartment(User.Department);
-    setMajor(User.Major);
+    setFaculty("Science");
+    //setDepartment(User.Department);
+    //setMajor(User.Major);
     setStudentID(User.StudentID);
+    setData({ country: User.Department, state: User.Major });
     clearErrors();
     setModalOpen1(!modalOpen1);
   };
@@ -142,16 +165,16 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
         LastName !== "" &&
         StudentID !== "" &&
         Faculty !== "" &&
-        Department !== "" &&
-        Major !== ""
+        country !== "" &&
+        state !== ""
       ) {
         const res = await db.collection("User").doc(UserDocID).update({
           FirstName: FirstName,
           LastName: LastName,
           StudentID: StudentID,
           Faculty: Faculty,
-          Department: Department,
-          Major: Major,
+          Department: country,
+          Major: state,
         });
         setModalOpen1(!modalOpen1);
       }
@@ -162,16 +185,16 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
         LastName !== "" &&
         AcademicRanks !== "" &&
         Faculty !== "" &&
-        Department !== "" &&
-        Major !== ""
+        country !== "" &&
+        state !== ""
       ) {
         const res = await db.collection("User").doc(UserDocID).update({
           AcademicRanks: AcademicRanks,
           FirstName: FirstName,
           LastName: LastName,
           Faculty: Faculty,
-          Department: Department,
-          Major: Major,
+          Department: country,
+          Major: state,
         });
         setModalOpen1(!modalOpen1);
       }
@@ -183,8 +206,8 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
     if (LastName == "") setLastNameError("Must not be empty.");
     if (AcademicRanks == "") setAcademicRanksError("Must not be empty.");
     if (Faculty == "") setFacultyError("Must not be empty.");
-    if (Department == "") setDepartmentError("Must not be empty.");
-    if (Major == "") setMajorError("Must not be empty.");
+    if (country == "") setDepartmentError("Must not be empty.");
+    if (state == "") setMajorError("Must not be empty.");
     if (StudentID == "") setStudentIDError("Must not be empty.");
   }
 
@@ -197,6 +220,32 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
     setMajorError("");
     setStudentIDError("");
   };
+
+  const countries = countriesData.map((country) => (
+    <option key={country.name} value={country.name}>
+      {country.name}
+    </option>
+  ));
+
+  const states = countriesData
+    .find((item) => item.name === country)
+    ?.states.map((state) => (
+      <option key={state} value={state}>
+        {state}
+      </option>
+    ));
+
+  function handleCountryChange(event) {
+    setData((data) => ({
+      ...data,
+      state: event.target.value,
+      country: event.target.value,
+    }));
+  }
+
+  function handleStateChange(event) {
+    setData((data) => ({ ...data, state: event.target.value }));
+  }
 
   return (
     <>
@@ -247,8 +296,8 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
                   </h2>
                   <div className="h3 font-weight-300">
                     <i className="ni location_pin mr-2" />
-                    {User.Faculty}, {User.Department} 
-                    <br/> {User.Major}
+                    {User.Faculty}, {User.Department}
+                    <br /> {User.Major}
                   </div>
                   <Button
                     color="primary"
@@ -409,29 +458,7 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
                           value={Faculty}
                           onChange={(e) => setFaculty(e.target.value)}
                         >
-                          <option>College of Multidisciplinary Science</option>
-                          <option>
-                            Darunsikkhalai School of Innovation Learning
-                          </option>
-                          <option>Engineering</option>
-                          <option>Engineering Science Classroom</option>
-                          <option>
-                            Graduate School of Management and Innovation
-                          </option>
-                          <option>Industrial Education and Technology</option>
-                          <option>Institute of Field Robotics</option>
-                          <option>KOSEN KMUTT</option>
-                          <option>School of Architecture and Design</option>
-                          <option>School of Bioresources and Technology</option>
-                          <option>
-                            School of Energy, Environment and Materials
-                          </option>
-                          <option>School of Information Technology</option>
-                          <option>School of Liberal Arts</option>
                           <option>Science</option>
-                          <option>
-                            The Joint Graduate School of Energy and Environment
-                          </option>
                         </Input>
                       </InputGroup>
                     </FormGroup>
@@ -445,11 +472,14 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
                         <Input
-                          value={Department}
-                          onChange={(e) => setDepartment(e.target.value)}
                           className="darkGray"
-                          type="text"
-                        />
+                          type="select"
+                          placeholder="Department"
+                          value={country}
+                          onChange={handleCountryChange}
+                        >
+                          {countries}
+                        </Input>
                       </InputGroup>
                     </FormGroup>
 
@@ -462,11 +492,14 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
                         <Input
-                          value={Major}
-                          onChange={(e) => setMajor(e.target.value)}
                           className="darkGray"
-                          type="text"
-                        />
+                          type="select"
+                          placeholder="Major"
+                          value={state}
+                          onChange={handleStateChange}
+                        >
+                          {states}
+                        </Input>
                       </InputGroup>
                     </FormGroup>
 
