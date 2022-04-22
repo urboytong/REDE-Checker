@@ -325,6 +325,16 @@ const Profile = () => {
       allquest[i].Complete = allquest[i].Complete.filter((x) => x !== "emp");
     }
 
+    for (let i = 0; i < allquest.length; i++) {
+      allquest[i].Complete.sort((a, b) =>
+      a.StudentID > b.StudentID
+        ? 1
+        : b.StudentID > a.StudentID
+        ? -1
+        : 0
+    );
+    }
+
     console.log("allquest");
     console.log(allquest);
 
