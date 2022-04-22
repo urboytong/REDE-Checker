@@ -183,7 +183,7 @@ const Header = () => {
                   className="search-classroomCode"
                   onClick={JoinClass}
                 >
-                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <i class="fa-solid fa-right-to-bracket"></i>
                 </Button>
               </Col>
             </Row>
@@ -223,7 +223,7 @@ const Header = () => {
         <ModalFooter></ModalFooter>
       </Modal>
 
-      <Button className="mt-4 join-class-btn" color="dark" onClick={ModalOpens}>
+      <Button className="join-class-btn" color="dark" onClick={ModalOpens}>
         Join class
       </Button>
     </>

@@ -1,3 +1,14 @@
+//classroom active
+.classroom-active {
+  background-color: rgba(255, 255, 255, 0.459);
+  border-radius: 10px;
+  border-top: 10px !important;
+  padding: 10px 10px !important;
+}
+.classroom-active-text {
+  margin-bottom: 0px;
+}
+
 //modal create + edit classroom 
 .form-time {
   height: 43px;
@@ -12,10 +23,8 @@
   width: 162.79px;
 }
 
-.bg-home {
-  background-size: cover;
-  width: 100vw;
-  height: 100vh;
+.bg-home-teacher {
+  background-attachment:fixed !important;
 }
 
 //modal join classroom
@@ -56,6 +65,10 @@
   height: 2rem !important;
 }
 
+.bar-colorDay {
+  background-color: rgb(31, 221, 158);
+  margin-top: 10px;
+}
 .section {
   float: right;
 }
@@ -63,7 +76,21 @@
 .subject-card {
   padding-left: 1rem !important;
   padding-right: 1rem !important;
+  padding-bottom: 10px !important;
   cursor: pointer;
+}
+
+.old-classroom {
+  background-color: rgb(228, 228, 228);
+}
+
+.border-card-home {
+  border-bottom: 30px solid;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  margin-top: 15px;
+  margin-bottom: 15px !important;
 }
 
 .btn-uploadCoverimg {
@@ -90,19 +117,19 @@
 
 @media only screen and (max-width: 1920px) {
   .home-subjectName {
-    width:240px; 
+    width:235px; 
   }
 }
 
 @media only screen and (max-width: 1367px) {
   .home-subjectName {
-    width:200px; 
+    width:195px; 
   }
 }
 
 @media only screen and (max-width: 1280px) {
   .home-subjectName {
-    width:180px; 
+    width:175px; 
   }
 }
 

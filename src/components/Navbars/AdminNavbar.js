@@ -50,6 +50,7 @@ import "assets/scss/argon-dashboard/custom/AdminNavbar.scss";
 import Profile from "components/Headers/Profile.js";
 import ResetPassword from "components/Headers/ResetPassword.js";
 import Notification from "components/Navbars/Notification.js";
+import "assets/scss/argon-dashboard/custom/Navbarhome.scss";
 
 const AdminNavbar = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -113,7 +114,7 @@ const AdminNavbar = (props) => {
 
             {/* <Notification/> */}
             <UncontrolledDropdown nav>
-              <DropdownToggle className="pr-0" nav>
+              <DropdownToggle className="pr-0 profileBox" nav>
                 <Media className="align-items-center">
                   <span className="avatar avatar-sm rounded-circle">
                     <img
