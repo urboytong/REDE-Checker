@@ -1,3 +1,5 @@
+
+
 .shotname-teacher {
   white-space: nowrap; 
   overflow: hidden; 
@@ -10,13 +12,20 @@
   margin-top: 30px;
 }
 
+.bg-home-student {
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  // background-attachment:fixed;
+}
+
 .text-home {
   text-align: center;
   color: white;
   position: fixed;
- top: 50%;  
- left: 50%;  
- transform:translate(-50%,-50%);
+  top: 50%;  
+  left: 50%;  
+  transform:translate(-50%,-50%);
 }
 
 .btn-joinclass-home-std {
