@@ -404,18 +404,21 @@ const Header2 = () => {
         <ModalFooter></ModalFooter>
       </Modal>
 
-      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home">
+      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home-teacher">
         <Container fluid>
           <div className="header-body">
-          {!EmptyClassRoom ? (<div className="text-right">
+          {!EmptyClassRoom ? (
+          <Row>
+            <Col>
+              <h1 className="classroom-active-text text-white">Active Classroom</h1>
+            </Col>
               <Button
-                className="mt-4"
                 color="dark"
                 onClick={() => ModalOpens()}
               >
                 Create Classroom
               </Button>
-            </div>) : null}
+            </Row>) : null}
             {EmptyClassRoom ? (<Row>
               <h2 className="text-home">Let's create classroom and start to create Quest Check.</h2>
               <div className="btn-joinclass-home-std text-home">
@@ -428,13 +431,16 @@ const Header2 = () => {
                 </Button>
               </div>
             </Row>) : null}
-            <Row className="mt-4">
+            <Row className="mt-4 classroom-active">
               {Object.keys(ClassRoom).map((id) => {
                 return (
                   <Col lg="6" xl="3">
                     <Card
-                      className="card-stats mb-4 mb-xl-0"
+                      className="card-stats mb-xl-0 border-card-home"
                       onClick={() => routeChange(ClassRoom[id].key)}
+                      style={{
+                        borderColor: ClassRoom[id].daycolor,
+                      }}
                     >
                       <CardBody className="subject-card">
                         <Row>
@@ -449,18 +455,18 @@ const Header2 = () => {
                               {ClassRoom[id].SubjectCode}
                             </span>
                           </Col>
-                          <Col className="col-auto">
-                            <div
-                              className="icon icon-shape text-white rounded-circle shadow circle-day"
-                              style={{
-                                backgroundColor: ClassRoom[id].daycolor,
-                              }}
-                            >
-                              {ClassRoom[id].RequestBool ? (<i class="fa-solid fa-user-plus human-plus-icon sand-clock-icon"></i>) : null}
-                            </div>
-                          </Col>
+                          {ClassRoom[id].RequestBool ? (
+                            <Col className="col-auto">
+                              <div
+                                className="icon icon-shape text-white rounded-circle shadow circle-day"
+                                style={{
+                                  backgroundColor: ClassRoom[id].daycolor,
+                                }}
+                              ><i class="fa-solid fa-user-plus human-plus-icon sand-clock-icon"/></div>
+                            </Col>
+                          ) : null}
                         </Row>
-                        <p className="mt-3 mb-0 text-muted text-sm">
+                        <p className="mt-2 mb-0 text-muted text-sm">
                           <span className="mr-2">
                             {" "}
                             {ClassRoom[id].ClassDate} :{" "}
@@ -472,10 +478,39 @@ const Header2 = () => {
                         </p>
                       </CardBody>
                     </Card>
-                    &nbsp;
                   </Col>
                 );
               })}
+            </Row>
+
+            <h1 className="text-white mt-5">Finished Classroom</h1>
+            <Row  className="mt-4 classroom-active">
+              <Col lg="6" xl="3">
+                <Card className="card-stats mb-xl-0 border-card-home  old-classroom">
+                  <CardBody className="subject-card">
+                    <Row>
+                      <Col>
+                        <CardTitle
+                          tag="h5"
+                          className="text-uppercase text-muted mb-0 home-subjectName"
+                        >
+                          SPY X FAMILY
+                        </CardTitle>
+                        <span className="h2 font-weight-bold mb-0">
+                          SPY123
+                        </span>
+                      </Col>
+                    </Row>
+                    <p className="mt-2 mb-0 text-muted text-sm">
+                      <span className="mr-2">Monday : 21:57 - 12:12
+                      </span>
+                      <span className="mr-2 section">
+                        Sec : 1
+                      </span>{" "}
+                    </p>
+                  </CardBody>
+                </Card>
+              </Col>
             </Row>
           </div>
         </Container>

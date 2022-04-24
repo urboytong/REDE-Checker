@@ -154,10 +154,15 @@ const Header = () => {
 
   return (
     <>
-      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home">
+      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home-student">
         <Container fluid>
         {!EmptyClassRoom ? (<div className="text-right">
-            <JoinClass />
+          <Row>
+            <Col>
+              <h1 className="classroom-active-text text-white text-left">Active Classroom</h1>
+            </Col>
+              <JoinClass />
+          </Row>
           </div>) : null}
           <div className="header-body">
             {/* Card stats */}
@@ -167,13 +172,16 @@ const Header = () => {
                 <JoinClass />
               </div>
             </Row>) : null}
-            <Row className="row-student-home">
+            <Row className="row-student-home classroom-active">
               {Object.keys(ClassRoom).map((id) => {
                 return (
                   <Col lg="6" xl="3">
                     <Card
-                      className="card-stats mb-4 mb-xl-0"
+                      className="card-stats mb-4 mb-xl-0  border-card-home"
                       onClick={() => routeChange(ClassRoom[id].key)}
+                      style={{
+                        borderColor: ClassRoom[id].daycolor,
+                      }}
                     >
                       <CardBody className="subject-card">
                         <Row>
@@ -188,15 +196,17 @@ const Header = () => {
                               {ClassRoom[id].SubjectCode}
                             </span>
                           </div>
-                          <Col className="col-auto">
-                            <div
-                              className="icon icon-shape text-white rounded-circle shadow circle-day"
-                              style={{
-                                backgroundColor: ClassRoom[id].daycolor,
-                              }}
-                              
-                            >{ClassRoom[id].CurrentQuestBool ? (<i class="fa-solid fa-hourglass sand-clock-icon"/>) : null}</div>
-                          </Col>
+                          {ClassRoom[id].CurrentQuestBool ? (
+                            <Col className="col-auto">
+                              <div
+                                className="icon icon-shape text-white rounded-circle shadow circle-day"
+                                style={{
+                                  backgroundColor: ClassRoom[id].daycolor,
+                                }}
+                                
+                              ><i class="fa-solid fa-hourglass sand-clock-icon"/></div>
+                            </Col>
+                          ) : null}
                         </Row>
                         <p className="mt-3 mb-0 text-muted text-sm">
                           <span className="mr-2">
