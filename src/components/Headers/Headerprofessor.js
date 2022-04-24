@@ -64,6 +64,7 @@ import JoinClass from "components/Headers/JoinClass.js";
 const Header2 = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [copiedText, setCopiedText] = useState();
+  const [BGHeight, setBGHeight] = useState(document.documentElement.scrollHeight);
   const d = new Date();
   let Year = d.getFullYear();
   let Month = d.getMonth() + 1;
@@ -114,14 +115,26 @@ const Header2 = () => {
 
   const ModalOpens = () => {
     clearErrors();
-    setAcademicYear(Year);
+    let ayearcheck;
+    let semestercheck;
+
+    if (Month >= 1 && Month <= 6) {
+      semestercheck = 2;
+      ayearcheck = Year - 1;
+    }
+    if (Month >= 7 && Month <= 12) {
+      semestercheck = 1;
+      ayearcheck = Year;
+    }
+    
     setSubjectCode("");
     setSection("");
     setSubjectName("");
     setClassDate("Monday");
     setStartTime("");
     setEndTime("");
-    setSemester("1");
+    setSemester(semestercheck);
+    setAcademicYear(ayearcheck);
     setModalOpen(!modalOpen);
   };
 
@@ -325,9 +338,10 @@ const Header2 = () => {
 
   useEffect(() => {   
     const interval = setInterval(() => {
-    }, 1000);
+      setBGHeight(document.documentElement.scrollHeight)
+    }, );
     return () => clearInterval(interval);
-  }, [window.innerHeight]);
+  }, [document.documentElement.scrollHeight]);
 
   return (
     <>
@@ -474,6 +488,7 @@ const Header2 = () => {
                           className="form-control-alternative"
                           type="select"
                           placeholder="x"
+                          value={Semester}
                           onChange={(e) => setSemester(e.target.value)}
                         >
                           <option>1</option>
@@ -564,7 +579,7 @@ const Header2 = () => {
         <ModalFooter></ModalFooter>
       </Modal>
 
-      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home-teacher" style={{height: window.innerHeight}}>
+      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home-teacher" style={{height: BGHeight}}>
         <Container fluid>
           <div className="header-body">
             <Row>
