@@ -48,6 +48,8 @@ const UserHeader = () => {
   const [ClassDate, setClassDate] = useState("");
   const [StartTime, setStartTime] = useState("");
   const [EndTime, setEndTime] = useState("");
+  const [AcademicYear, setAcademicYear] = useState("");
+  const [Semester, setSemester] = useState("");
 
   const [SubjectCodeError, setSubjectCodeError] = useState("");
   const [SectionError, setSectionError] = useState("");
@@ -55,6 +57,8 @@ const UserHeader = () => {
   const [ClassDateError, setClassDateError] = useState("");
   const [StartTimeError, setStartTimeError] = useState("");
   const [EndTimeError, setEndTimeError] = useState("");
+  const [AcademicYearError, setAcademicYearError] = useState("");
+  const [SemesterError, setSemesterError] = useState("");
 
   const location = useLocation();
 
@@ -100,38 +104,47 @@ const UserHeader = () => {
 
   const editclassroom = () => {
     setSubjectCode(ClassRoom.SubjectCode);
-    setSection(ClassRoom.Section)
+    setSection(ClassRoom.Section);
     setSubjectName(ClassRoom.SubjectName);
     setClassDate(ClassRoom.ClassDate);
     setStartTime(ClassRoom.StartTime);
     setEndTime(ClassRoom.EndTime);
+    setAcademicYear(ClassRoom.AcademicYear);
+    setSemester(ClassRoom.Semester);
     clearErrors();
-    setModalOpen(!modalOpen)
+    setModalOpen(!modalOpen);
   };
 
   const updateclassroom = async () => {
     clearErrors();
     ErrorsCheck();
     const db = firebaseApp.firestore();
-      if (
-        SubjectCode != "" &&
-        Section != "" &&
-        SubjectName != "" &&
-        ClassDate != "" &&
-        StartTime != "" &&
-        EndTime != ""
-      ) {
-        const res = await db.collection("ClassRoom").doc(location.search.substring(1)).update({
+    if (
+      SubjectCode != "" &&
+      Section != "" &&
+      SubjectName != "" &&
+      ClassDate != "" &&
+      StartTime != "" &&
+      EndTime != "" &&
+      AcademicYear != "" &&
+      Semester != ""
+    ) {
+      const res = await db
+        .collection("ClassRoom")
+        .doc(location.search.substring(1))
+        .update({
           SubjectCode: SubjectCode,
           Section: Section,
           SubjectName: SubjectName,
           ClassDate: ClassDate,
           StartTime: StartTime,
           EndTime: EndTime,
+          AcademicYear: AcademicYear,
+          Semester: Semester,
         });
-        setModalOpen(!modalOpen)
-      }
-  }
+      setModalOpen(!modalOpen);
+    }
+  };
 
   function ErrorsCheck() {
     if (SubjectCode == "") setSubjectCodeError("Empty.");
@@ -140,6 +153,8 @@ const UserHeader = () => {
     if (ClassDate == "") setClassDateError("Empty.");
     if (StartTime == "") setStartTimeError("Empty.");
     if (EndTime == "") setEndTimeError("Empty.");
+    if (AcademicYear == "") setAcademicYearError("Empty.");
+    if (Semester == "") setSemesterError("Empty.");
   }
 
   const clearErrors = () => {
@@ -149,6 +164,8 @@ const UserHeader = () => {
     setClassDateError("");
     setStartTimeError("");
     setEndTimeError("");
+    setAcademicYearError("");
+    setSemesterError("");
   };
 
   if (Permission == false) {
@@ -253,8 +270,10 @@ const UserHeader = () => {
                                   >
                                     Subject Code
                                     <span className="text-red">*</span>
-                          &nbsp;
-                          <span className="text-red">{SubjectCodeError}</span>
+                                    &nbsp;
+                                    <span className="text-red">
+                                      {SubjectCodeError}
+                                    </span>
                                   </label>
                                   <Input
                                     className="form-control-alternative"
@@ -262,7 +281,9 @@ const UserHeader = () => {
                                     placeholder="CSSxxx"
                                     type="text"
                                     value={SubjectCode}
-                                    onChange={(e) => setSubjectCode(e.target.value)}
+                                    onChange={(e) =>
+                                      setSubjectCode(e.target.value)
+                                    }
                                   />
                                 </FormGroup>
                               </Col>
@@ -274,8 +295,10 @@ const UserHeader = () => {
                                   >
                                     Section
                                     <span className="text-red">*</span>
-                          &nbsp;
-                          <span className="text-red">{SectionError}</span>
+                                    &nbsp;
+                                    <span className="text-red">
+                                      {SectionError}
+                                    </span>
                                   </label>
 
                                   <Input
@@ -294,16 +317,79 @@ const UserHeader = () => {
                                   <label className="form-control-label">
                                     Subject Name
                                     <span className="text-red">*</span>
-                          &nbsp;
-                          <span className="text-red">{SubjectNameError}</span>
+                                    &nbsp;
+                                    <span className="text-red">
+                                      {SubjectNameError}
+                                    </span>
                                   </label>
                                   <Input
                                     className="form-control-alternative"
                                     id=""
                                     placeholder="Software Engineer"
                                     value={SubjectName}
-                                    onChange={(e) => setSubjectName(e.target.value)}
+                                    onChange={(e) =>
+                                      setSubjectName(e.target.value)
+                                    }
                                   />
+                                </FormGroup>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col lg="6">
+                                <FormGroup>
+                                  <label
+                                    className="form-control-label"
+                                    htmlFor="input-username"
+                                  >
+                                    Academic Year
+                                    <span className="text-red">*</span>
+                                    &nbsp;
+                                    <span className="text-red">
+                                      {AcademicYearError}
+                                    </span>
+                                  </label>
+
+                                  <Input
+                                    className="form-control-alternative"
+                                    id=""
+                                    placeholder="Academic Year"
+                                    type="number"
+                                    min="1900"
+                                    max="2099"
+                                    step="1"
+                                    value={AcademicYear}
+                                    onChange={(e) =>
+                                      setAcademicYear(e.target.value)
+                                    }
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col lg="6">
+                                <FormGroup>
+                                  <label
+                                    className="form-control-label"
+                                    htmlFor="input-username"
+                                  >
+                                    Semester
+                                    <span className="text-red">*</span>
+                                    &nbsp;
+                                    <span className="text-red">
+                                      {SemesterError}
+                                    </span>
+                                  </label>
+
+                                  <Input
+                                    className="form-control-alternative"
+                                    type="select"
+                                    placeholder="x"
+                                    value={Semester}
+                                    onChange={(e) =>
+                                      setSemester(e.target.value)
+                                    }
+                                  >
+                                    <option>1</option>
+                                    <option>2</option>
+                                  </Input>
                                 </FormGroup>
                               </Col>
                             </Row>
@@ -313,8 +399,10 @@ const UserHeader = () => {
                                   <label className="form-control-label">
                                     Class Date
                                     <span className="text-red">*</span>
-                          &nbsp;
-                          <span className="text-red">{ClassDateError}</span>
+                                    &nbsp;
+                                    <span className="text-red">
+                                      {ClassDateError}
+                                    </span>
                                   </label>
                                   <Input
                                     className="form-control-alternative"
@@ -323,7 +411,9 @@ const UserHeader = () => {
                                     placeholder="First name"
                                     type="select"
                                     value={ClassDate}
-                                    onChange={(e) => setClassDate(e.target.value)}
+                                    onChange={(e) =>
+                                      setClassDate(e.target.value)
+                                    }
                                   >
                                     <option>Monday</option>
                                     <option>Tuesday</option>
@@ -340,15 +430,19 @@ const UserHeader = () => {
                                   <label className="form-control-label">
                                     Start time
                                     <span className="text-red">*</span>
-                          &nbsp;
-                          <span className="text-red">{StartTimeError}</span>
+                                    &nbsp;
+                                    <span className="text-red">
+                                      {StartTimeError}
+                                    </span>
                                   </label>
                                   <input
                                     type="time"
                                     name="time"
                                     className="form-control-alternative form-time"
                                     value={StartTime}
-                                    onChange={(e) => setStartTime(e.target.value)}
+                                    onChange={(e) =>
+                                      setStartTime(e.target.value)
+                                    }
                                   />
                                 </FormGroup>
                               </Col>
@@ -360,8 +454,10 @@ const UserHeader = () => {
                                   >
                                     End time
                                     <span className="text-red">*</span>
-                          &nbsp;
-                          <span className="text-red">{EndTimeError}</span>
+                                    &nbsp;
+                                    <span className="text-red">
+                                      {EndTimeError}
+                                    </span>
                                   </label>
                                   <input
                                     type="time"
