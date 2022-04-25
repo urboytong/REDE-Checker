@@ -560,6 +560,69 @@ const Header2 = () => {
                       </FormGroup>
                     </Col>
                   </Row>
+                  
+                  <Row>
+                    <Col lg="4">
+                      <FormGroup>
+                        <label className="form-control-label">
+                          Class Date
+                        </label>
+                        <Input
+                          className="form-control-alternative"
+                          defaultValue="Lucky"
+                          id="input-first-name"
+                          placeholder="First name"
+                          type="select"
+                          onChange={(e) => setClassDate(e.target.value)}
+                        >
+                          <option selected hidden>---------</option>
+                          <option>Monday</option>
+                          <option>Tuesday</option>
+                          <option>Wednesday</option>
+                          <option>Thursday</option>
+                          <option>Friday</option>
+                          <option>Saturday</option>
+                          <option>Sunday</option>
+                        </Input>
+                      </FormGroup>
+                    </Col>
+                    <Col lg="4">
+                      <FormGroup>
+                        <label className="form-control-label">
+                          Start time
+                        </label>
+                        <input
+                          type="time"
+                          name="time"
+                          className="form-control-alternative form-time"
+                          onChange={(e) => setStartTime(e.target.value)}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col lg="4">
+                      <FormGroup>
+                        <label
+                          className="form-control-label"
+                          htmlFor="input-last-name"
+                        >
+                          End time
+                        </label>
+                        <input
+                          type="time"
+                          name="time"
+                          className="form-control-alternative form-time"
+                          onChange={(e) => setEndTime(e.target.value)}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row className="box-add-date-btn mb-5">
+                    <Button className="add-date-btn"
+                    color="dark">
+                      <i class="fa-solid fa-plus"/> &nbsp;
+                      Add class date and time
+                    </Button>
+                  </Row>
                 </div>
 
                 <div className="text-center">

@@ -171,6 +171,7 @@
 .img-profileModal {
   width: 200px;
   margin-top: -40px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.12);
 }
 
 .stdID-profileModal {
@@ -255,6 +256,24 @@
   text-align: center;
 }
 
+//red dot notification
+// .reddot-noti {
+//   width: 12px;
+//   height: 12px;
+//   background-color: #fd5757;
+//   border-radius: 100px;
+//   z-index: 1;
+//   position: absolute;
+//   // margin-top: -32px;
+//   // margin-left: 211px;
+//   // justify-content: flex-end !important;
+// }
+
+// .request-btn {
+//   margin-right: 0px !important;
+//   background-color: red;
+//   border: red solid 1px;
+// }
 @media only screen and (max-width: 1920px) {
 //member card
   .short-name {

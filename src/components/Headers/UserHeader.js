@@ -38,6 +38,8 @@ import "assets/scss/argon-dashboard/custom/UserHeader.scss";
 
 const UserHeader = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen2, setModalOpen2] = useState(false);
+  const [modalOpen3, setModalOpen3] = useState(false);
 
   const [ClassRoom, setClassRoom] = useState({});
   const [Permission, setPermission] = useState(true);
@@ -203,7 +205,7 @@ const UserHeader = () => {
               <h1 className="display-2 text-white subject-name">
                 {ClassRoom.SubjectName}
               </h1>
-              <div className="mb-5 time-sec">
+              <div className="time-sec">
                 <span className="text-white">Section {ClassRoom.Section}</span>
                 <span className="text-white mt-0 subject-date-time">
                   {ClassRoom.ClassDate} {ClassRoom.StartTime} -{" "}
@@ -211,15 +213,49 @@ const UserHeader = () => {
                 </span>
               </div>
 
-              <Button
-                color="dark"
-                size="sm"
-                className="edit-classroom"
-                onClick={() => editclassroom()}
-              >
-                Edit Classroom
-              </Button>
+              
+              <div className="time-sec">
+                <span className="text-white"></span>
+                <span className="text-white mt-0 subject-date-time">
+                  {ClassRoom.ClassDate} {ClassRoom.StartTime} -{" "}
+                  {ClassRoom.EndTime} A.M.
+                </span>
+              </div>
 
+
+              <div className="row-button mt-4">
+                  <Button
+                    color="dark"
+                    size="sm"
+                    className="edit-classroom"
+                    onClick={() => editclassroom()}
+                  >
+                    Edit Classroom
+                  </Button>
+                  
+                  <UncontrolledDropdown>
+                    <DropdownToggle
+                      className="btn-icon-only text-light threedot-classroom"
+                      role="button"
+                      size="sm"
+                      color=""
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      <i className="fas fa-ellipsis-v" />
+                    </DropdownToggle>
+                    <DropdownMenu className="dropdown-menu-arrow" right>
+                      <DropdownItem 
+                        onClick={() => setModalOpen2(!modalOpen2)}>
+                        End Classroom
+                      </DropdownItem>
+                      <DropdownItem
+                        onClick={() => setModalOpen3(!modalOpen3)}>
+                        Delete Classroom
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                
+              </div>
               {/* modal edit classroom */}
               <Modal
                 toggle={() => setModalOpen(!modalOpen)}
@@ -469,6 +505,68 @@ const UserHeader = () => {
                                 </FormGroup>
                               </Col>
                             </Row>
+                            <Row>
+                              <Col lg="4">
+                                <FormGroup>
+                                  <label className="form-control-label">
+                                    Class Date
+                                  </label>
+                                  <Input
+                                    className="form-control-alternative"
+                                    defaultValue="Lucky"
+                                    id="input-first-name"
+                                    placeholder="First name"
+                                    type="select"
+                                    onChange={(e) => setClassDate(e.target.value)}
+                                  >
+                                    <option selected hidden>---------</option>
+                                    <option>Monday</option>
+                                    <option>Tuesday</option>
+                                    <option>Wednesday</option>
+                                    <option>Thursday</option>
+                                    <option>Friday</option>
+                                    <option>Saturday</option>
+                                    <option>Sunday</option>
+                                  </Input>
+                                </FormGroup>
+                              </Col>
+                              <Col lg="4">
+                                <FormGroup>
+                                  <label className="form-control-label">
+                                    Start time
+                                  </label>
+                                  <input
+                                    type="time"
+                                    name="time"
+                                    className="form-control-alternative form-time"
+                                    onChange={(e) => setStartTime(e.target.value)}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col lg="4">
+                                <FormGroup>
+                                  <label
+                                    className="form-control-label"
+                                    htmlFor="input-last-name"
+                                  >
+                                    End time
+                                  </label>
+                                  <input
+                                    type="time"
+                                    name="time"
+                                    className="form-control-alternative form-time"
+                                    onChange={(e) => setEndTime(e.target.value)}
+                                  />
+                                </FormGroup>
+                              </Col>
+                            </Row>
+                            <Row className="box-add-date-btn mb-5">
+                              <Button className="add-date-btn"
+                              color="dark">
+                                <i class="fa-solid fa-plus"/> &nbsp;
+                                Add class date and time
+                              </Button>
+                            </Row>
                           </div>
 
                           <div className="text-center">
@@ -487,6 +585,72 @@ const UserHeader = () => {
                 </ModalBody>
                 <ModalFooter></ModalFooter>
               </Modal>
+              <Modal
+                  toggle={() => setModalOpen2(!modalOpen2)}
+                  isOpen={modalOpen2}
+                  size="sm"
+                >
+                  <div className=" modal-header"></div>
+                  <ModalBody className="question-box">
+                    {" "}
+                    <span className="font-weight-bold confirm-leaveRoom text-center ">
+                      Do you want to end this classroom ?
+                    </span>
+                    <div className="col text-center mt-4">
+                      <Button
+                        color="success"
+                        // onClick={() => leaveclassroom()}
+                        className="ml-2 mr-2 btn-confirm-leaveRoom"
+                        size="l"
+                      >
+                        Confirm
+                      </Button>
+                      <Button
+                        color="danger"
+                        size="l"
+                        aria-label="Close"
+                        onClick={() => setModalOpen2(!modalOpen2)}
+                        className="ml-2 mr-2 btn-confirm-leaveRoom"
+                      >
+                        Cancel
+                      </Button>
+                    </div>{" "}
+                  </ModalBody>
+                  <ModalFooter></ModalFooter>
+                </Modal>
+                <Modal
+                  toggle={() => setModalOpen3(!modalOpen3)}
+                  isOpen={modalOpen3}
+                  size="sm"
+                >
+                  <div className=" modal-header"></div>
+                  <ModalBody className="question-box">
+                    {" "}
+                    <span className="font-weight-bold confirm-leaveRoom text-center ">
+                      Do you want to delete this classroom ?
+                    </span>
+                    <div className="col text-center mt-4">
+                      <Button
+                        color="success"
+                        // onClick={() => leaveclassroom()}
+                        className="ml-2 mr-2 btn-confirm-leaveRoom"
+                        size="l"
+                      >
+                        Confirm
+                      </Button>
+                      <Button
+                        color="danger"
+                        size="l"
+                        aria-label="Close"
+                        onClick={() => setModalOpen3(!modalOpen3)}
+                        className="ml-2 mr-2 btn-confirm-leaveRoom"
+                      >
+                        Cancel
+                      </Button>
+                    </div>{" "}
+                  </ModalBody>
+                  <ModalFooter></ModalFooter>
+                </Modal>
             </Col>
           </Row>
         </Container>

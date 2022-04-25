@@ -86,7 +86,7 @@ const Profile = ({modalOpen2,setModalOpen2}) => {
           <FormGroup>
             <InputGroup className="input-group-alternative">
               <Input
-                className="darkGray"
+                className="darkGray width-field"
                 type="password"
                 name="password"
                 // autoComplete="new-password"

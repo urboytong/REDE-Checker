@@ -504,6 +504,9 @@ const Profile = () => {
                   })}
                 </tbody>
               </Table>
+              <div className="no-request text-red">
+                No quest recently
+              </div>
             </Card>
           </Col>
         </Row>
