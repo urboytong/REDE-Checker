@@ -64,6 +64,10 @@ import JoinClass from "components/Headers/JoinClass.js";
 const Header2 = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [copiedText, setCopiedText] = useState();
+  const [BGHeight, setBGHeight] = useState(document.documentElement.scrollHeight);
+  const d = new Date();
+  let Year = d.getFullYear();
+  let Month = d.getMonth() + 1;
 
   const [SubjectCode, setSubjectCode] = useState("");
   const [Section, setSection] = useState("");
@@ -71,6 +75,8 @@ const Header2 = () => {
   const [ClassDate, setClassDate] = useState("Monday");
   const [StartTime, setStartTime] = useState("");
   const [EndTime, setEndTime] = useState("");
+  const [AcademicYear, setAcademicYear] = useState("");
+  const [Semester, setSemester] = useState("1");
 
   const [SubjectCodeError, setSubjectCodeError] = useState("");
   const [SectionError, setSectionError] = useState("");
@@ -78,11 +84,14 @@ const Header2 = () => {
   const [ClassDateError, setClassDateError] = useState("");
   const [StartTimeError, setStartTimeError] = useState("");
   const [EndTimeError, setEndTimeError] = useState("");
+  const [AcademicYearError, setAcademicYearError] = useState("");
+  const [SemesterError, setSemesterError] = useState("");
 
   const db = firebaseApp.firestore();
   const userCollection = db.collection("ClassRoom");
 
   const [ClassRoom, setClassRoom] = useState({});
+  const [FinishedClassRoom, setFinishedClassRoom] = useState({});
   const [EmptyClassRoom, setEmptyClassRoom] = useState(false);
   const [DaysColor, setDaysColor] = useState({
     Monday: "#ffd600",
@@ -106,6 +115,26 @@ const Header2 = () => {
 
   const ModalOpens = () => {
     clearErrors();
+    let ayearcheck;
+    let semestercheck;
+
+    if (Month >= 1 && Month <= 6) {
+      semestercheck = 2;
+      ayearcheck = Year - 1;
+    }
+    if (Month >= 7 && Month <= 12) {
+      semestercheck = 1;
+      ayearcheck = Year;
+    }
+    
+    setSubjectCode("");
+    setSection("");
+    setSubjectName("");
+    setClassDate("Monday");
+    setStartTime("");
+    setEndTime("");
+    setSemester(semestercheck);
+    setAcademicYear(ayearcheck);
     setModalOpen(!modalOpen);
   };
 
@@ -121,7 +150,9 @@ const Header2 = () => {
       SubjectName != "" &&
       ClassDate != "" &&
       StartTime != "" &&
-      EndTime != ""
+      EndTime != "" &&
+      AcademicYear != "" &&
+      Semester != ""
     ) {
       const documentRef = await userCollection.add({
         SubjectCode,
@@ -133,6 +164,8 @@ const Header2 = () => {
         UId,
         Members: members,
         Request: request,
+        AcademicYear,
+        Semester,
       });
       setModalOpen(!modalOpen);
       setSubjectCode("");
@@ -141,6 +174,8 @@ const Header2 = () => {
       setClassDate("Monday");
       setStartTime("");
       setEndTime("");
+      setAcademicYear("");
+      setSemester("");
     }
 
     //console.log(`new document has been inserted as ${documentRef.id}`);
@@ -153,6 +188,8 @@ const Header2 = () => {
     if (ClassDate == "") setClassDateError("Empty.");
     if (StartTime == "") setStartTimeError("Empty.");
     if (EndTime == "") setEndTimeError("Empty.");
+    if (AcademicYear == "") setAcademicYearError("Empty.");
+    if (Semester == "") setSemesterError("Empty.");
   }
 
   const clearErrors = () => {
@@ -162,6 +199,8 @@ const Header2 = () => {
     setClassDateError("");
     setStartTimeError("");
     setEndTimeError("");
+    setAcademicYearError("");
+    setSemesterError("");
   };
 
   useEffect(() => {
@@ -177,20 +216,90 @@ const Header2 = () => {
         const unsubscribe = userCollection.onSnapshot((ss) => {
           // ตัวแปร local
           const ClassRoom = [];
+          const FinishedClassRoom = [];
           let count = 0;
+          let count2 = 0;
+          let ayearcheck;
+          let semestercheck;
+
+          if (Month >= 1 && Month <= 6) {
+            semestercheck = 2;
+            ayearcheck = Year - 1;
+          }
+          if (Month >= 7 && Month <= 12) {
+            semestercheck = 1;
+            ayearcheck = Year;
+          }
 
           ss.forEach((document) => {
             // manipulate ตัวแปร local
-            ClassRoom[count] = document.data();
-            ClassRoom[count].key = document.id;
-            ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
-            if(document.data().Request.length == 0){
-              ClassRoom[count].RequestBool = false
+            //document.data().Semester >= semestercheck && document.data().AcademicYear >= ayearcheck
+            if (document.data().AcademicYear > ayearcheck) {
+              ClassRoom[count] = document.data();
+              ClassRoom[count].key = document.id;
+              ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
+              if (document.data().Request.length == 0) {
+                ClassRoom[count].RequestBool = false;
+              }
+              if (document.data().Request.length != 0) {
+                ClassRoom[count].RequestBool = true;
+              }
+              count++;
             }
-            if(document.data().Request.length != 0){
-              ClassRoom[count].RequestBool = true
+            if (document.data().AcademicYear == ayearcheck) {
+              if (document.data().Semester > semestercheck) {
+                ClassRoom[count] = document.data();
+                ClassRoom[count].key = document.id;
+                ClassRoom[count].daycolor =
+                  DaysColor[ClassRoom[count].ClassDate];
+                if (document.data().Request.length == 0) {
+                  ClassRoom[count].RequestBool = false;
+                }
+                if (document.data().Request.length != 0) {
+                  ClassRoom[count].RequestBool = true;
+                }
+                count++;
+              }
+              if (document.data().Semester == semestercheck) {
+                ClassRoom[count] = document.data();
+                ClassRoom[count].key = document.id;
+                ClassRoom[count].daycolor =
+                  DaysColor[ClassRoom[count].ClassDate];
+                if (document.data().Request.length == 0) {
+                  ClassRoom[count].RequestBool = false;
+                }
+                if (document.data().Request.length != 0) {
+                  ClassRoom[count].RequestBool = true;
+                }
+                count++;
+              }
+              if (document.data().Semester < semestercheck) {
+                FinishedClassRoom[count2] = document.data();
+                FinishedClassRoom[count2].key = document.id;
+                FinishedClassRoom[count2].daycolor =
+                  DaysColor[FinishedClassRoom[count2].ClassDate];
+                if (document.data().Request.length == 0) {
+                  FinishedClassRoom[count2].RequestBool = false;
+                }
+                if (document.data().Request.length != 0) {
+                  FinishedClassRoom[count2].RequestBool = true;
+                }
+                count2++;
+              }
             }
-            count++;
+            if (document.data().AcademicYear < ayearcheck) {
+              FinishedClassRoom[count2] = document.data();
+              FinishedClassRoom[count2].key = document.id;
+              FinishedClassRoom[count2].daycolor =
+                DaysColor[FinishedClassRoom[count2].ClassDate];
+              if (document.data().Request.length == 0) {
+                FinishedClassRoom[count2].RequestBool = false;
+              }
+              if (document.data().Request.length != 0) {
+                FinishedClassRoom[count2].RequestBool = true;
+              }
+              count2++;
+            }
           });
 
           // เปลี่ยนค่าตัวแปร state
@@ -201,12 +310,20 @@ const Header2 = () => {
               ? -1
               : 0
           );
+          FinishedClassRoom.sort((a, b) =>
+            a.SubjectCode > b.SubjectCode
+              ? 1
+              : b.SubjectCode > a.SubjectCode
+              ? -1
+              : 0
+          );
           setClassRoom(ClassRoom);
+          setFinishedClassRoom(FinishedClassRoom);
           console.log(ClassRoom);
-          if(ClassRoom.length == 0){
+          if (ClassRoom.length == 0) {
             setEmptyClassRoom(true);
           }
-          if(ClassRoom.length != 0){
+          if (ClassRoom.length != 0) {
             setEmptyClassRoom(false);
           }
         });
@@ -218,6 +335,13 @@ const Header2 = () => {
       });
     }
   }, []);
+
+  useEffect(() => {   
+    const interval = setInterval(() => {
+      setBGHeight(document.documentElement.scrollHeight)
+    }, );
+    return () => clearInterval(interval);
+  }, [document.documentElement.scrollHeight]);
 
   return (
     <>
@@ -319,6 +443,57 @@ const Header2 = () => {
                           placeholder="Software Engineer"
                           onChange={(e) => setSubjectName(e.target.value)}
                         />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col lg="6">
+                      <FormGroup>
+                        <label
+                          className="form-control-label"
+                          htmlFor="input-username"
+                        >
+                          Academic Year
+                          <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{AcademicYearError}</span>
+                        </label>
+
+                        <Input
+                          className="form-control-alternative"
+                          id=""
+                          placeholder="Academic Year"
+                          type="number"
+                          min="1900"
+                          max="2099"
+                          step="1"
+                          value={AcademicYear}
+                          onChange={(e) => setAcademicYear(e.target.value)}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col lg="6">
+                      <FormGroup>
+                        <label
+                          className="form-control-label"
+                          htmlFor="input-username"
+                        >
+                          Semester
+                          <span className="text-red">*</span>
+                          &nbsp;
+                          <span className="text-red">{SemesterError}</span>
+                        </label>
+
+                        <Input
+                          className="form-control-alternative"
+                          type="select"
+                          placeholder="x"
+                          value={Semester}
+                          onChange={(e) => setSemester(e.target.value)}
+                        >
+                          <option>1</option>
+                          <option>2</option>
+                        </Input>
                       </FormGroup>
                     </Col>
                   </Row>
@@ -467,114 +642,158 @@ const Header2 = () => {
         <ModalFooter></ModalFooter>
       </Modal>
 
-      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home-teacher">
+      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home-teacher" style={{height: BGHeight}}>
         <Container fluid>
           <div className="header-body">
-          {!EmptyClassRoom ? (
-          <Row>
-            <Col>
-              <h1 className="classroom-active-text text-white">Active Classroom</h1>
-            </Col>
-              <Button
-                color="dark"
-                onClick={() => ModalOpens()}
-              >
-                Create Classroom
-              </Button>
-            </Row>) : null}
-            {EmptyClassRoom ? (<Row>
-              <h2 className="text-home">Let's create classroom and start to create Quest Check.</h2>
-              <div className="btn-joinclass-home-std text-home">
-                <Button
-                  className="mt-4"
-                  color="dark"
-                  onClick={() => ModalOpens()}
-                >
+            <Row>
+              {ClassRoom.length != 0 ? (
+                <Col>
+                  <h1 className="classroom-active-text text-white">
+                    Active Classroom
+                  </h1>
+                </Col>
+              ) : null}
+              {ClassRoom.length == 0 ? (
+                <Col>
+                  <h1 className="classroom-active-text text-white"></h1>
+                </Col>
+              ) : null}
+              {(ClassRoom.length != 0 && FinishedClassRoom.length != 0) ||
+              (ClassRoom.length != 0 && FinishedClassRoom.length == 0) ||
+              (ClassRoom.length == 0 && FinishedClassRoom.length != 0) ? (
+                <Button color="dark" onClick={() => ModalOpens()}>
                   Create Classroom
                 </Button>
-              </div>
-            </Row>) : null}
-            <Row className="mt-4 classroom-active">
-              {Object.keys(ClassRoom).map((id) => {
-                return (
-                  <Col lg="6" xl="3">
-                    <Card
-                      className="card-stats mb-xl-0 border-card-home"
-                      onClick={() => routeChange(ClassRoom[id].key)}
-                      style={{
-                        borderColor: ClassRoom[id].daycolor,
-                      }}
-                    >
-                      <CardBody className="subject-card">
-                        <Row>
-                          <Col>
-                            <CardTitle
-                              tag="h5"
-                              className="text-uppercase text-muted mb-0 home-subjectName"
-                            >
-                              {ClassRoom[id].SubjectName}
-                            </CardTitle>
-                            <span className="h2 font-weight-bold mb-0">
-                              {ClassRoom[id].SubjectCode}
-                            </span>
-                          </Col>
-                          {ClassRoom[id].RequestBool ? (
-                            <Col className="col-auto">
-                              <div
-                                className="icon icon-shape text-white rounded-circle shadow circle-day"
-                                style={{
-                                  backgroundColor: ClassRoom[id].daycolor,
-                                }}
-                              ><i class="fa-solid fa-user-plus human-plus-icon sand-clock-icon"/></div>
+              ) : null}
+            </Row>
+            {EmptyClassRoom && FinishedClassRoom.length == 0 ? (
+              <Row>
+                <h2 className="text-home">
+                  Let's create classroom and start to create Quest Check.
+                </h2>
+                <div className="btn-joinclass-home-std text-home">
+                  <Button
+                    className="mt-4"
+                    color="dark"
+                    onClick={() => ModalOpens()}
+                  >
+                    Create Classroom
+                  </Button>
+                </div>
+              </Row>
+            ) : null}
+            {ClassRoom.length != 0 ? (
+              <Row className="mt-4 classroom-active">
+                {Object.keys(ClassRoom).map((id) => {
+                  return (
+                    <Col lg="6" xl="3">
+                      <Card
+                        className="card-stats mb-xl-0 border-card-home"
+                        onClick={() => routeChange(ClassRoom[id].key)}
+                        style={{
+                          borderColor: ClassRoom[id].daycolor,
+                        }}
+                      >
+                        <CardBody className="subject-card">
+                          <Row>
+                            <Col>
+                              <CardTitle
+                                tag="h5"
+                                className="text-uppercase text-muted mb-0 home-subjectName"
+                              >
+                                {ClassRoom[id].SubjectName}
+                              </CardTitle>
+                              <span className="h2 font-weight-bold mb-0">
+                                {ClassRoom[id].SubjectCode}
+                              </span>
                             </Col>
-                          ) : null}
-                        </Row>
-                        <p className="mt-2 mb-0 text-muted text-sm">
-                          <span className="mr-2">
-                            {" "}
-                            {ClassRoom[id].ClassDate} :{" "}
-                            {ClassRoom[id].StartTime} - {ClassRoom[id].EndTime}
-                          </span>
-                          <span className="mr-2 section">
-                            Sec : {ClassRoom[id].Section}
-                          </span>{" "}
-                        </p>
-                      </CardBody>
-                    </Card>
-                  </Col>
-                );
-              })}
-            </Row>
+                            {ClassRoom[id].RequestBool ? (
+                              <Col className="col-auto">
+                                <div
+                                  className="icon icon-shape text-white rounded-circle shadow circle-day"
+                                  style={{
+                                    backgroundColor: ClassRoom[id].daycolor,
+                                  }}
+                                >
+                                  <i class="fa-solid fa-user-plus human-plus-icon sand-clock-icon" />
+                                </div>
+                              </Col>
+                            ) : null}
+                          </Row>
+                          <p className="mt-2 mb-0 text-muted text-sm">
+                            <span className="mr-2">
+                              {" "}
+                              {ClassRoom[id].ClassDate} :{" "}
+                              {ClassRoom[id].StartTime} -{" "}
+                              {ClassRoom[id].EndTime} &nbsp; Semester :{" "}
+                              {ClassRoom[id].Semester}/
+                              {ClassRoom[id].AcademicYear}
+                            </span>
+                            <span className="mr-2 section">
+                              Sec : {ClassRoom[id].Section}
+                            </span>{" "}
+                          </p>
+                        </CardBody>
+                      </Card>
+                    </Col>
+                  );
+                })}
+              </Row>
+            ) : null}
 
-            <h1 className="text-white mt-5">Finished Classroom</h1>
-            <Row  className="mt-4 classroom-active">
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-xl-0 border-card-home  old-classroom">
-                  <CardBody className="subject-card">
-                    <Row>
-                      <Col>
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0 home-subjectName"
-                        >
-                          SPY X FAMILY
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                          SPY123
-                        </span>
-                      </Col>
-                    </Row>
-                    <p className="mt-2 mb-0 text-muted text-sm">
-                      <span className="mr-2">Monday : 21:57 - 12:12
-                      </span>
-                      <span className="mr-2 section">
-                        Sec : 1
-                      </span>{" "}
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
+            {FinishedClassRoom.length != 0 ? (
+              <h1 className="text-white mt-5">Finished Classroom</h1>
+            ) : null}
+            {FinishedClassRoom.length != 0 ? (
+              <Row className="mt-4 classroom-active">
+                {Object.keys(FinishedClassRoom).map((id) => {
+                  return (
+                    <Col lg="6" xl="3">
+                      <Card
+                        className="card-stats mb-xl-0 border-card-home  old-classroom"
+                        onClick={() => routeChange(FinishedClassRoom[id].key)}
+                      >
+                        <CardBody className="subject-card">
+                          <Row>
+                            <Col>
+                              <CardTitle
+                                tag="h5"
+                                className="text-uppercase text-muted mb-0 home-subjectName"
+                              >
+                                {FinishedClassRoom[id].SubjectName}
+                              </CardTitle>
+                              <span className="h2 font-weight-bold mb-0">
+                                {FinishedClassRoom[id].SubjectCode}
+                              </span>
+                            </Col>
+                            {FinishedClassRoom[id].RequestBool ? (
+                              <Col className="col-auto">
+                                <div className="icon icon-shape text-white rounded-circle shadow circle-day">
+                                  <i class="fa-solid fa-user-plus human-plus-icon sand-clock-icon" />
+                                </div>
+                              </Col>
+                            ) : null}
+                          </Row>
+                          <p className="mt-2 mb-0 text-muted text-sm">
+                            <span className="mr-2">
+                              {" "}
+                              {FinishedClassRoom[id].ClassDate} :{" "}
+                              {FinishedClassRoom[id].StartTime} -{" "}
+                              {FinishedClassRoom[id].EndTime} &nbsp; Semester :{" "}
+                              {FinishedClassRoom[id].Semester}/
+                              {FinishedClassRoom[id].AcademicYear}
+                            </span>
+                            <span className="mr-2 section">
+                              Sec : {FinishedClassRoom[id].Section}
+                            </span>{" "}
+                          </p>
+                        </CardBody>
+                      </Card>
+                    </Col>
+                  );
+                })}
+              </Row>
+            ) : null}
           </div>
         </Container>
       </div>
