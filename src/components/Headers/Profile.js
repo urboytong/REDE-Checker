@@ -399,7 +399,7 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
                         <Input
                           value={FirstName}
                           onChange={(e) => setFirstName(e.target.value)}
-                          className="darkGray"
+                          className="darkGray width-field"
                           type="text"
                         />
                       </InputGroup>
