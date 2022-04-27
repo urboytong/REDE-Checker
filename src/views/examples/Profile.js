@@ -86,6 +86,7 @@ const Profile = () => {
   const [modalOpen13, setModalOpen13] = useState(false);
   const [modalOpen14, setModalOpen14] = useState(false);
   const [modalOpen15, setModalOpen15] = useState(false);
+  const [modalOpen16, setModalOpen16] = useState(false);
   const [copiedText, setCopiedText] = useState();
 
   const [uploadFile, setUploadFile] = React.useState();
@@ -1764,527 +1765,11 @@ const Profile = () => {
                                   </tr>
                                 );
                               })}
-
-                              {/*<tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge
-                                    color=""
-                                    className="badge-dot mr-4 short-name2"
-                                  >
-                                    <i className="bg-danger" />
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="height-statusReport">
-                                  <Badge color="" className="badge-dot mr-4">
-                                    Absent
-                                  </Badge>
-                                </td>
-
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen12(!modalOpen12)
-                                        }
-                                      >
-                                        Leave
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge
-                                    color=""
-                                    className="badge-dot mr-4 short-name2"
-                                  >
-                                    <i className="bg-danger" />
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="height-statusReport">
-                                  <Badge color="" className="badge-dot mr-4">
-                                    Leave
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen13(!modalOpen13)
-                                        }
-                                      >
-                                        See Leave Form
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge
-                                    color=""
-                                    className="badge-dot mr-4 short-name2"
-                                  >
-                                    <i className="bg-danger" />
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="height-statusReport">
-                                  <Badge color="" className="badge-dot mr-4">
-                                    Leave
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen13(!modalOpen13)
-                                        }
-                                      >
-                                        See Leave Form
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge
-                                    color=""
-                                    className="badge-dot mr-4 short-name2"
-                                  >
-                                    <i className="bg-danger" />
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="height-statusReport">
-                                  <Badge color="" className="badge-dot mr-4">
-                                    Leave
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen13(!modalOpen13)
-                                        }
-                                      >
-                                        See Leave Form
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge
-                                    color=""
-                                    className="badge-dot mr-4 short-name2"
-                                  >
-                                    <i className="bg-danger" />
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="height-statusReport">
-                                  <Badge color="" className="badge-dot mr-4">
-                                    Absent
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen12(!modalOpen12)
-                                        }
-                                      >
-                                        Leave
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>*/}
                             </tbody>
                           </Table>
                         </Card>
                       </UncontrolledCollapse>
                       <row>
-                        {/*<Card className="bg-secondary shadow margintop-card">
-                          <CardHeader className="border-0">
-                            <Row>
-                              <div className="col summary-history">
-                                <h3 className="mb-0">Summary</h3>
-                              </div>
-                            </Row>
-                          </CardHeader>
-                          <Table
-                            className="align-items-center table-flush"
-                            responsive
-                          >
-                            <thead className="thead-light">
-                              <tr>
-                                <th scope="col">id</th>
-                                <th scope="col">name</th>
-                                <th scope="col">status</th>
-                                <th scope="col" className="col text-right"></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500411
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge
-                                    color=""
-                                    className="badge-dot mr-4 short-name2"
-                                  >
-                                    <i className="bg-success" />
-                                    Natthaphat Wannawat
-                                  </Badge>
-                                </td>
-
-                                <td className="height-statusReport">
-                                  <Badge color="" className="badge-dot mr-4">
-                                    Complete
-                                  </Badge>
-                                </td>
-
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen9(!modalOpen9)
-                                        }
-                                      >
-                                        See More
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge
-                                    color=""
-                                    className="badge-dot mr-4 short-name2"
-                                  >
-                                    <i className="bg-danger" />
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="height-statusReport">
-                                  <Badge color="" className="badge-dot mr-4">
-                                    Absent
-                                  </Badge>
-                                </td>
-
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen12(!modalOpen12)
-                                        }
-                                      >
-                                        Leave
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge
-                                    color=""
-                                    className="badge-dot mr-4 short-name2"
-                                  >
-                                    <i className="bg-danger" />
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="height-statusReport">
-                                  <Badge color="" className="badge-dot mr-4">
-                                    Leave
-                                  </Badge>
-                                </td>
-
-                                <td className="text-right threedot"></td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-danger" />
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="height-statusReport">
-                                  <Badge color="" className="badge-dot mr-4">
-                                    Leave
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen13(!modalOpen13)
-                                        }
-                                      >
-                                        See Leave Form
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-success" />
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td className="height-statusReport">
-                                  <Badge color="" className="badge-dot mr-4">
-                                    Complete
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen2(!modalOpen2)
-                                        }
-                                      >
-                                        See More
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                        </Card>*/}
                       </row>
                     </Col>
                   </ModalBody>
@@ -2617,6 +2102,38 @@ const Profile = () => {
                   </ModalBody>
                   <ModalFooter></ModalFooter>
                 </Modal>
+                <Modal
+                  toggle={() => setModalOpen16(!modalOpen16)}
+                  isOpen={modalOpen16}
+                  size="sm"
+                >
+                  <div className=" modal-header"></div>
+                  <ModalBody className="question-box">
+                    {" "}
+                    <span className="font-weight-bold confirm-leaveRoom text-center ">
+                      Do you want to end this quest ?
+                    </span>
+                    <div className="col text-center mt-4">
+                      <Button
+                        color="success"
+                        className="ml-2 mr-2 btn-confirm-leaveRoom"
+                        size="l"
+                      >
+                        Confirm
+                      </Button>
+                      <Button
+                        color="danger"
+                        size="l"
+                        aria-label="Close"
+                        onClick={() => setModalOpen16(!modalOpen16)}
+                        className="ml-2 mr-2 btn-confirm-leaveRoom"
+                      >
+                        Cancel
+                      </Button>
+                    </div>{" "}
+                  </ModalBody>
+                  <ModalFooter></ModalFooter>
+                </Modal>
               </Row>
 
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4 header-createQuest">
@@ -2660,10 +2177,19 @@ const Profile = () => {
                           className="mt-3"
                           color="dark"
                           type="button"
+                          onClick={() => setModalOpen16(!modalOpen16)}
+                        >
+                          END QUEST
+                        </Button>
+                        <Button
+                          className="mt-3"
+                          color="dark"
+                          type="button"
                           onClick={() => setModalOpen15(!modalOpen15)}
                         >
                           CANCEL QUEST
                         </Button>
+                        
                       </div>
                     ) : null}
                   </div>
@@ -2690,10 +2216,12 @@ const Profile = () => {
                       color="dark"
                       onClick={() => setModalOpen1(!modalOpen1)}
                       size="sm"
+                      className="request-btn"
                     >
                       Request
                     </Button>
                   </div>
+                    
                 </Row>
               </CardHeader>
 
@@ -2764,6 +2292,9 @@ const Profile = () => {
                   })}
                 </tbody>
               </Table>
+              {Members.length == 0 ? (<div className="no-request text-red">
+                No member recently
+              </div>) : null}
             </Card>
           </Col>
           <Col className="order-xl-1" xl="5">
@@ -2863,6 +2394,9 @@ const Profile = () => {
                   })}
                 </tbody>
               </Table>
+              {AllQuestAndMember.length == 0 ? (<div className="no-request text-red">
+                No quest recently
+              </div>) : null}
             </Card>
           </Col>
         </Row>

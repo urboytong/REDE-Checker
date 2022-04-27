@@ -427,7 +427,7 @@ const Profile = () => {
                   <div className="col">
                     <h3 className="mb-0 ">Attendance</h3>
                   </div>
-                  <div className="col text-right">Quest Completed {QuestCompleted.toFixed(0)} %</div>
+                  {AllQuest.length != 0 ? (<div className="col text-right">Quest Completed {QuestCompleted.toFixed(0)} %</div>) : null}
                 </Row>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
@@ -504,6 +504,9 @@ const Profile = () => {
                   })}
                 </tbody>
               </Table>
+              {AllQuest.length == 0 ? (<div className="no-request text-red">
+                No quest recently
+              </div>) : null}
             </Card>
           </Col>
         </Row>
