@@ -64,7 +64,9 @@ import JoinClass from "components/Headers/JoinClass.js";
 const Header2 = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [copiedText, setCopiedText] = useState();
-  const [BGHeight, setBGHeight] = useState(document.documentElement.scrollHeight);
+  const [BGHeight, setBGHeight] = useState(
+    document.documentElement.scrollHeight
+  );
   const d = new Date();
   let Year = d.getFullYear();
   let Month = d.getMonth() + 1;
@@ -77,6 +79,10 @@ const Header2 = () => {
   const [EndTime, setEndTime] = useState("");
   const [AcademicYear, setAcademicYear] = useState("");
   const [Semester, setSemester] = useState("1");
+  const [DateTime, setDateTime] = useState([
+    { Date: "Monday", StartTime: "", EndTime: "" },
+  ]);
+  //let DateTime = [{Date:"", StartTime:"", EndTime:""}];
 
   const [SubjectCodeError, setSubjectCodeError] = useState("");
   const [SectionError, setSectionError] = useState("");
@@ -86,6 +92,7 @@ const Header2 = () => {
   const [EndTimeError, setEndTimeError] = useState("");
   const [AcademicYearError, setAcademicYearError] = useState("");
   const [SemesterError, setSemesterError] = useState("");
+  const [DateTimeError, setDateTimeError] = useState("");
 
   const db = firebaseApp.firestore();
   const userCollection = db.collection("ClassRoom");
@@ -126,7 +133,7 @@ const Header2 = () => {
       semestercheck = 1;
       ayearcheck = Year;
     }
-    
+    setDateTime([{ Date: "Monday", StartTime: "", EndTime: "" }]);
     setSubjectCode("");
     setSection("");
     setSubjectName("");
@@ -140,27 +147,36 @@ const Header2 = () => {
 
   async function CreateClass() {
     clearErrors();
-    ErrorsCheck();
     let UId = firebaseApp.auth().currentUser.uid;
     let members = [];
     let request = [];
+    let dt = DateTime;
+    let count = 0;
+    for (let i = 0; i < dt.length; i++) {
+      if (dt[i].Date == "") {
+        count++;
+      }
+      if (dt[i].StartTime == "") {
+        count++;
+      }
+      if (dt[i].EndTime == "") {
+        count++;
+      }
+    }
+    ErrorsCheck(count);
     if (
       SubjectCode != "" &&
       Section != "" &&
       SubjectName != "" &&
-      ClassDate != "" &&
-      StartTime != "" &&
-      EndTime != "" &&
       AcademicYear != "" &&
+      count == 0 &&
       Semester != ""
     ) {
       const documentRef = await userCollection.add({
         SubjectCode,
         Section,
         SubjectName,
-        ClassDate,
-        StartTime,
-        EndTime,
+        DateTime,
         UId,
         Members: members,
         Request: request,
@@ -181,27 +197,59 @@ const Header2 = () => {
     //console.log(`new document has been inserted as ${documentRef.id}`);
   }
 
-  function ErrorsCheck() {
+  function ErrorsCheck(count) {
     if (SubjectCode == "") setSubjectCodeError("Empty.");
     if (Section == "") setSectionError("Empty.");
     if (SubjectName == "") setSubjectNameError("Empty.");
-    if (ClassDate == "") setClassDateError("Empty.");
-    if (StartTime == "") setStartTimeError("Empty.");
-    if (EndTime == "") setEndTimeError("Empty.");
     if (AcademicYear == "") setAcademicYearError("Empty.");
     if (Semester == "") setSemesterError("Empty.");
+    if (count != 0) setDateTimeError("All dates and times must not be empty.");
   }
 
   const clearErrors = () => {
     setSubjectCodeError("");
     setSectionError("");
     setSubjectNameError("");
-    setClassDateError("");
-    setStartTimeError("");
-    setEndTimeError("");
     setAcademicYearError("");
     setSemesterError("");
+    setDateTimeError("");
   };
+
+  const adddatetime = () => {
+    setDateTime((DateTime) => [
+      ...DateTime,
+      { Date: "Monday", StartTime: "", EndTime: "" },
+    ]);
+  };
+
+  const deletedatetime = (index) => {
+    let test = DateTime;
+    test.splice(index, 1);
+    console.log(test);
+    setDateTime((DateTime) => [...test]);
+  };
+
+  const dateupdate = (val, id) => {
+    let test = DateTime;
+    test[id].Date = val;
+    setDateTime((DateTime) => [...test]);
+  };
+
+  const starttimeupdate = (val, id) => {
+    let test = DateTime;
+    test[id].StartTime = val;
+    setDateTime((DateTime) => [...test]);
+  };
+
+  const endtimeupdate = (val, id) => {
+    let test = DateTime;
+    test[id].EndTime = val;
+    setDateTime((DateTime) => [...test]);
+  };
+
+  useEffect(() => {
+    console.log(DateTime);
+  }, [DateTime]);
 
   useEffect(() => {
     //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
@@ -237,7 +285,10 @@ const Header2 = () => {
             if (document.data().AcademicYear > ayearcheck) {
               ClassRoom[count] = document.data();
               ClassRoom[count].key = document.id;
-              ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
+              if (ClassRoom[count].DateTime) {
+                ClassRoom[count].daycolor =
+                  DaysColor[ClassRoom[count].DateTime[0].Date];
+              }
               if (document.data().Request.length == 0) {
                 ClassRoom[count].RequestBool = false;
               }
@@ -250,8 +301,10 @@ const Header2 = () => {
               if (document.data().Semester > semestercheck) {
                 ClassRoom[count] = document.data();
                 ClassRoom[count].key = document.id;
-                ClassRoom[count].daycolor =
-                  DaysColor[ClassRoom[count].ClassDate];
+                if (ClassRoom[count].DateTime) {
+                  ClassRoom[count].daycolor =
+                    DaysColor[ClassRoom[count].DateTime[0].Date];
+                }
                 if (document.data().Request.length == 0) {
                   ClassRoom[count].RequestBool = false;
                 }
@@ -263,8 +316,10 @@ const Header2 = () => {
               if (document.data().Semester == semestercheck) {
                 ClassRoom[count] = document.data();
                 ClassRoom[count].key = document.id;
-                ClassRoom[count].daycolor =
-                  DaysColor[ClassRoom[count].ClassDate];
+                if (ClassRoom[count].DateTime) {
+                  ClassRoom[count].daycolor =
+                    DaysColor[ClassRoom[count].DateTime[0].Date];
+                }
                 if (document.data().Request.length == 0) {
                   ClassRoom[count].RequestBool = false;
                 }
@@ -276,8 +331,10 @@ const Header2 = () => {
               if (document.data().Semester < semestercheck) {
                 FinishedClassRoom[count2] = document.data();
                 FinishedClassRoom[count2].key = document.id;
-                FinishedClassRoom[count2].daycolor =
-                  DaysColor[FinishedClassRoom[count2].ClassDate];
+                if (FinishedClassRoom[count].DateTime) {
+                  FinishedClassRoom[count].daycolor =
+                    DaysColor[FinishedClassRoom[count].DateTime[0].Date];
+                }
                 if (document.data().Request.length == 0) {
                   FinishedClassRoom[count2].RequestBool = false;
                 }
@@ -290,8 +347,10 @@ const Header2 = () => {
             if (document.data().AcademicYear < ayearcheck) {
               FinishedClassRoom[count2] = document.data();
               FinishedClassRoom[count2].key = document.id;
-              FinishedClassRoom[count2].daycolor =
-                DaysColor[FinishedClassRoom[count2].ClassDate];
+              if (FinishedClassRoom[count].DateTime) {
+                FinishedClassRoom[count].daycolor =
+                  DaysColor[FinishedClassRoom[count].DateTime[0].Date];
+              }
               if (document.data().Request.length == 0) {
                 FinishedClassRoom[count2].RequestBool = false;
               }
@@ -336,10 +395,10 @@ const Header2 = () => {
     }
   }, []);
 
-  useEffect(() => {   
+  useEffect(() => {
     const interval = setInterval(() => {
-      setBGHeight(document.documentElement.scrollHeight)
-    }, );
+      setBGHeight(document.documentElement.scrollHeight);
+    });
     return () => clearInterval(interval);
   }, [document.documentElement.scrollHeight]);
 
@@ -497,131 +556,95 @@ const Header2 = () => {
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col lg="4">
-                      <FormGroup>
-                        <label className="form-control-label">
-                          Class Date
-                          <span className="text-red">*</span>
-                          &nbsp;
-                          <span className="text-red">{ClassDateError}</span>
-                        </label>
-                        <Input
-                          className="form-control-alternative"
-                          defaultValue="Lucky"
-                          id="input-first-name"
-                          placeholder="First name"
-                          type="select"
-                          onChange={(e) => setClassDate(e.target.value)}
-                        >
-                          <option>Monday</option>
-                          <option>Tuesday</option>
-                          <option>Wednesday</option>
-                          <option>Thursday</option>
-                          <option>Friday</option>
-                          <option>Saturday</option>
-                          <option>Sunday</option>
-                        </Input>
-                      </FormGroup>
-                    </Col>
-                    <Col lg="4">
-                      <FormGroup>
-                        <label className="form-control-label">
-                          Start time
-                          <span className="text-red">*</span>
-                          &nbsp;
-                          <span className="text-red">{StartTimeError}</span>
-                        </label>
-                        <input
-                          type="time"
-                          name="time"
-                          className="form-control-alternative form-time"
-                          onChange={(e) => setStartTime(e.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col lg="4">
-                      <FormGroup>
-                        <label
-                          className="form-control-label"
-                          htmlFor="input-last-name"
-                        >
-                          End time
-                          <span className="text-red">*</span>
-                          &nbsp;
-                          <span className="text-red">{EndTimeError}</span>
-                        </label>
-                        <input
-                          type="time"
-                          name="time"
-                          className="form-control-alternative form-time"
-                          onChange={(e) => setEndTime(e.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  
-                  <Row>
-                    <Col lg="4">
-                      <FormGroup>
-                        <label className="form-control-label">
-                          Class Date
-                        </label>
-                        <Input
-                          className="form-control-alternative"
-                          defaultValue="Lucky"
-                          id="input-first-name"
-                          placeholder="First name"
-                          type="select"
-                          onChange={(e) => setClassDate(e.target.value)}
-                        >
-                          <option selected hidden>---------</option>
-                          <option>Monday</option>
-                          <option>Tuesday</option>
-                          <option>Wednesday</option>
-                          <option>Thursday</option>
-                          <option>Friday</option>
-                          <option>Saturday</option>
-                          <option>Sunday</option>
-                        </Input>
-                      </FormGroup>
-                    </Col>
-                    <Col lg="4">
-                      <FormGroup>
-                        <label className="form-control-label">
-                          Start time
-                        </label>
-                        <input
-                          type="time"
-                          name="time"
-                          className="form-control-alternative form-time"
-                          onChange={(e) => setStartTime(e.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col lg="4">
-                      <FormGroup>
-                        <label
-                          className="form-control-label"
-                          htmlFor="input-last-name"
-                        >
-                          End time
-                        </label>
-                        <input
-                          type="time"
-                          name="time"
-                          className="form-control-alternative form-time"
-                          onChange={(e) => setEndTime(e.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
+
+                  {Object.keys(DateTime).map((id) => {
+                    return (
+                      <Row>
+                        <Col lg="4">
+                          <FormGroup>
+                            <label className="form-control-label">
+                              Class Date
+                              <span className="text-red">*</span>
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              defaultValue="Lucky"
+                              id="input-first-name"
+                              placeholder="First name"
+                              type="select"
+                              value={DateTime[id].Date}
+                              onChange={(e) => dateupdate(e.target.value, id)}
+                            >
+                              <option>Monday</option>
+                              <option>Tuesday</option>
+                              <option>Wednesday</option>
+                              <option>Thursday</option>
+                              <option>Friday</option>
+                              <option>Saturday</option>
+                              <option>Sunday</option>
+                            </Input>
+                          </FormGroup>
+                        </Col>
+                        <Col lg="3">
+                          <FormGroup>
+                            <label className="form-control-label">
+                              Start time
+                              <span className="text-red">*</span>
+                            </label>
+                            <input
+                              type="time"
+                              name="time"
+                              className="form-control-alternative form-time"
+                              value={DateTime[id].StartTime}
+                              onChange={(e) =>
+                                starttimeupdate(e.target.value, id)
+                              }
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="3">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-last-name"
+                            >
+                              End time
+                              <span className="text-red">*</span>
+                            </label>
+                            <input
+                              type="time"
+                              name="time"
+                              className="form-control-alternative form-time"
+                              value={DateTime[id].EndTime}
+                              onChange={(e) =>
+                                endtimeupdate(e.target.value, id)
+                              }
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="1">
+                          <label>&nbsp;&nbsp;&nbsp;</label>
+                          {DateTime.length > 1 ? (
+                            <Button onClick={(e) => deletedatetime(id)}>
+                              <i class="fa-solid fa-minus" />
+                            </Button>
+                          ) : null}
+                        </Col>
+                      </Row>
+                    );
+                  })}
+                  <h4 className="text-red text-center">{DateTimeError}</h4>
                   <Row className="box-add-date-btn mb-5">
-                    <Button className="add-date-btn"
-                    color="dark">
-                      <i class="fa-solid fa-plus"/> &nbsp;
-                      Add class date and time
-                    </Button>
+                    {DateTime.length < 5 ? (
+                      <Button
+                        className="add-date-btn"
+                        color="dark"
+                        onClick={(e) => adddatetime()}
+                      >
+                        <i class="fa-solid fa-plus" /> &nbsp; Add class date and
+                        time
+                      </Button>
+                    ) : null}
                   </Row>
                 </div>
 
@@ -642,7 +665,10 @@ const Header2 = () => {
         <ModalFooter></ModalFooter>
       </Modal>
 
-      <div className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home-teacher" style={{height: BGHeight}}>
+      <div
+        className="header bg-gradient-info pb-8 pt-5 pt-md-8 bg-home-teacher"
+        style={{ height: BGHeight }}
+      >
         <Container fluid>
           <div className="header-body">
             <Row>
@@ -723,10 +749,10 @@ const Header2 = () => {
                           <p className="mt-2 mb-0 text-muted text-sm">
                             <span className="mr-2">
                               {" "}
-                              {ClassRoom[id].ClassDate} :{" "}
+                              {/*{ClassRoom[id].ClassDate} :{" "}
                               {ClassRoom[id].StartTime} -{" "}
-                              {ClassRoom[id].EndTime} &nbsp; Semester :{" "}
-                              {ClassRoom[id].Semester}/
+                              {ClassRoom[id].EndTime} &nbsp; */}{" "}
+                              Semester : {ClassRoom[id].Semester}/
                               {ClassRoom[id].AcademicYear}
                             </span>
                             <span className="mr-2 section">

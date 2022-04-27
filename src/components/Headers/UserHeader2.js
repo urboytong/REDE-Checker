@@ -41,6 +41,7 @@ const UserHeader = () => {
 
   const [ClassRoom, setClassRoom] = useState({});
   const [Permission, setPermission] = useState(true);
+  const [Date, setDate] = useState([]);
 
   const location = useLocation();
 
@@ -65,6 +66,9 @@ const UserHeader = () => {
             ClassRoom = document.data();
           });
           // เปลี่ยนค่าตัวแปร state
+          if (ClassRoom.DateTime) {
+            setDate(ClassRoom.DateTime);
+          }
           if (ClassRoom) {
             ClassRoom.ClassDate = ClassRoom.ClassDate.toUpperCase();
             setClassRoom(ClassRoom);
@@ -93,9 +97,12 @@ const UserHeader = () => {
     if (myIndex !== -1) {
       MemberList.splice(myIndex, 1);
     }
-    const res = await db.collection("ClassRoom").doc(location.search.substring(1)).update({
-      Members: MemberList,
-    });
+    const res = await db
+      .collection("ClassRoom")
+      .doc(location.search.substring(1))
+      .update({
+        Members: MemberList,
+      });
   };
 
   if (Permission == false) {
@@ -140,13 +147,19 @@ const UserHeader = () => {
               <h1 className="display-2 text-white subject-name">
                 {ClassRoom.SubjectName}
               </h1>
-              <div className="mb-5 time-sec">
+              <div className="time-sec">
                 <span className="text-white">Section {ClassRoom.Section}</span>
-                <span className="text-white mt-0 subject-date-time">
-                  {ClassRoom.ClassDate} {ClassRoom.StartTime} -{" "}
-                  {ClassRoom.EndTime} A.M.
-                </span>
               </div>
+              {Object.keys(Date).map((id) => {
+                return (
+                  <div className="time-sec">
+                    <span className="text-white mt-0 subject-date-time">
+                      {Date[id].Date} {Date[id].StartTime} - {Date[id].EndTime}{" "}
+                      A.M.
+                    </span>
+                  </div>
+                );
+              })}
               <Button
                 color="dark"
                 size="sm"
@@ -171,11 +184,10 @@ const UserHeader = () => {
           <span className="font-weight-light confirm-leaveRoom text-center">
             Do you want to leave &nbsp;
             <span className="font-weight-bold">{ClassRoom.SubjectCode}</span>
-            <br/>
+            <br />
           </span>
           <span className="font-weight-bold">{ClassRoom.SubjectName}</span>
           <span className="question">&nbsp;?</span>
-          
           <div className="col text-center mt-4">
             <Button
               color="success"
