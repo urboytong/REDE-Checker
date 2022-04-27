@@ -170,6 +170,20 @@ const UserHeader = () => {
     setSemesterError("");
   };
 
+  const deleteclassroom = () => {
+    setPermission(false);
+    const db = firebaseApp.firestore();
+    const userCollection = db.collection("ClassRoom");
+
+    const documentRef = userCollection.doc(location.search.substring(1));
+
+    documentRef.delete();
+    
+    setInterval(() => {     
+      window.location.reload();
+    }, 500);
+  };
+
   if (Permission == false) {
     return <Redirect to="/professor/profile-home" />;
   }
@@ -244,10 +258,10 @@ const UserHeader = () => {
                       <i className="fas fa-ellipsis-v" />
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-arrow" right>
-                      <DropdownItem 
+                      {/*<DropdownItem 
                         onClick={() => setModalOpen2(!modalOpen2)}>
                         End Classroom
-                      </DropdownItem>
+                      </DropdownItem>*/}
                       <DropdownItem
                         onClick={() => setModalOpen3(!modalOpen3)}>
                         Delete Classroom
@@ -632,7 +646,7 @@ const UserHeader = () => {
                     <div className="col text-center mt-4">
                       <Button
                         color="success"
-                        // onClick={() => leaveclassroom()}
+                        onClick={() => deleteclassroom()}
                         className="ml-2 mr-2 btn-confirm-leaveRoom"
                         size="l"
                       >
