@@ -43,24 +43,21 @@ const UserHeader = () => {
 
   const [ClassRoom, setClassRoom] = useState({});
   const [Permission, setPermission] = useState(true);
+  const [Date, setDate] = useState([]);
 
   const [SubjectCode, setSubjectCode] = useState("");
   const [Section, setSection] = useState("");
   const [SubjectName, setSubjectName] = useState("");
-  const [ClassDate, setClassDate] = useState("");
-  const [StartTime, setStartTime] = useState("");
-  const [EndTime, setEndTime] = useState("");
   const [AcademicYear, setAcademicYear] = useState("");
   const [Semester, setSemester] = useState("");
+  const [DateTime, setDateTime] = useState([]);
 
   const [SubjectCodeError, setSubjectCodeError] = useState("");
   const [SectionError, setSectionError] = useState("");
   const [SubjectNameError, setSubjectNameError] = useState("");
-  const [ClassDateError, setClassDateError] = useState("");
-  const [StartTimeError, setStartTimeError] = useState("");
-  const [EndTimeError, setEndTimeError] = useState("");
   const [AcademicYearError, setAcademicYearError] = useState("");
   const [SemesterError, setSemesterError] = useState("");
+  const [DateTimeError, setDateTimeError] = useState("");
 
   const location = useLocation();
 
@@ -84,12 +81,14 @@ const UserHeader = () => {
             // manipulate ตัวแปร local
             ClassRoom = document.data();
           });
-
           // เปลี่ยนค่าตัวแปร state
+          if (ClassRoom.DateTime) {
+            setDate(ClassRoom.DateTime);
+          }
           if (ClassRoom) {
             setClassRoom(ClassRoom);
             setPermission(ClassRoom.UId.includes(currentUser._delegate.uid));
-            console.log(ClassRoom.UId.includes(currentUser._delegate.uid));
+            //console.log(ClassRoom.UId.includes(currentUser._delegate.uid));
           }
           if (!ClassRoom) {
             setPermission(false);
@@ -102,32 +101,41 @@ const UserHeader = () => {
         };
       });
     }
-  }, []);
+  }, [DateTime]);
 
   const editclassroom = () => {
     setSubjectCode(ClassRoom.SubjectCode);
     setSection(ClassRoom.Section);
     setSubjectName(ClassRoom.SubjectName);
-    setClassDate(ClassRoom.ClassDate);
-    setStartTime(ClassRoom.StartTime);
-    setEndTime(ClassRoom.EndTime);
     setAcademicYear(ClassRoom.AcademicYear);
     setSemester(ClassRoom.Semester);
+    setDateTime(ClassRoom.DateTime);
     clearErrors();
     setModalOpen(!modalOpen);
   };
 
   const updateclassroom = async () => {
     clearErrors();
-    ErrorsCheck();
+    let dt = DateTime;
+    let count = 0;
+    for (let i = 0; i < dt.length; i++) {
+      if (dt[i].Date == "") {
+        count++;
+      }
+      if (dt[i].StartTime == "") {
+        count++;
+      }
+      if (dt[i].EndTime == "") {
+        count++;
+      }
+    }
+    ErrorsCheck(count);
     const db = firebaseApp.firestore();
     if (
       SubjectCode != "" &&
       Section != "" &&
       SubjectName != "" &&
-      ClassDate != "" &&
-      StartTime != "" &&
-      EndTime != "" &&
+      count == 0 &&
       AcademicYear != "" &&
       Semester != ""
     ) {
@@ -138,9 +146,7 @@ const UserHeader = () => {
           SubjectCode: SubjectCode,
           Section: Section,
           SubjectName: SubjectName,
-          ClassDate: ClassDate,
-          StartTime: StartTime,
-          EndTime: EndTime,
+          DateTime: DateTime,
           AcademicYear: AcademicYear,
           Semester: Semester,
         });
@@ -148,26 +154,54 @@ const UserHeader = () => {
     }
   };
 
-  function ErrorsCheck() {
+  function ErrorsCheck(count) {
     if (SubjectCode == "") setSubjectCodeError("Empty.");
     if (Section == "") setSectionError("Empty.");
     if (SubjectName == "") setSubjectNameError("Empty.");
-    if (ClassDate == "") setClassDateError("Empty.");
-    if (StartTime == "") setStartTimeError("Empty.");
-    if (EndTime == "") setEndTimeError("Empty.");
     if (AcademicYear == "") setAcademicYearError("Empty.");
     if (Semester == "") setSemesterError("Empty.");
+    if (count != 0) setDateTimeError("All dates and times must not be empty.");
   }
 
   const clearErrors = () => {
     setSubjectCodeError("");
     setSectionError("");
     setSubjectNameError("");
-    setClassDateError("");
-    setStartTimeError("");
-    setEndTimeError("");
     setAcademicYearError("");
     setSemesterError("");
+    setDateTimeError("");
+  };
+
+  const adddatetime = () => {
+    setDateTime((DateTime) => [
+      ...DateTime,
+      { Date: "Monday", StartTime: "", EndTime: "" },
+    ]);
+  };
+
+  const deletedatetime = (index) => {
+    let test = DateTime;
+    test.splice(index, 1);
+    //console.log(test)
+    setDateTime((DateTime) => [...test]);
+  };
+
+  const dateupdate = (val, id) => {
+    let test = [...DateTime];
+    test[id].Date = val;
+    setDateTime(test);
+  };
+
+  const starttimeupdate = (val, id) => {
+    let test = DateTime;
+    test[id].StartTime = val;
+    setDateTime((DateTime) => [...test]);
+  };
+
+  const endtimeupdate = (val, id) => {
+    let test = DateTime;
+    test[id].EndTime = val;
+    setDateTime((DateTime) => [...test]);
   };
 
   const deleteclassroom = () => {
@@ -178,8 +212,8 @@ const UserHeader = () => {
     const documentRef = userCollection.doc(location.search.substring(1));
 
     documentRef.delete();
-    
-    setInterval(() => {     
+
+    setInterval(() => {
       window.location.reload();
     }, 500);
   };
@@ -221,54 +255,48 @@ const UserHeader = () => {
               </h1>
               <div className="time-sec">
                 <span className="text-white">Section {ClassRoom.Section}</span>
-                <span className="text-white mt-0 subject-date-time">
-                  {ClassRoom.ClassDate} {ClassRoom.StartTime} -{" "}
-                  {ClassRoom.EndTime} A.M.
-                </span>
               </div>
-
-              
-              <div className="time-sec">
-                <span className="text-white"></span>
-                <span className="text-white mt-0 subject-date-time">
-                  {ClassRoom.ClassDate} {ClassRoom.StartTime} -{" "}
-                  {ClassRoom.EndTime} A.M.
-                </span>
-              </div>
-
+              {Object.keys(Date).map((id) => {
+                return (
+                  <div className="time-sec">
+                    <span className="text-white mt-0 subject-date-time">
+                      {Date[id].Date} {Date[id].StartTime} - {Date[id].EndTime}{" "}
+                      A.M.
+                    </span>
+                  </div>
+                );
+              })}
 
               <div className="row-button mt-4">
-                  <Button
-                    color="dark"
+                <Button
+                  color="dark"
+                  size="sm"
+                  className="edit-classroom"
+                  onClick={() => editclassroom()}
+                >
+                  Edit Classroom
+                </Button>
+
+                <UncontrolledDropdown>
+                  <DropdownToggle
+                    className="btn-icon-only text-light threedot-classroom"
+                    role="button"
                     size="sm"
-                    className="edit-classroom"
-                    onClick={() => editclassroom()}
+                    color=""
+                    onClick={(e) => e.preventDefault()}
                   >
-                    Edit Classroom
-                  </Button>
-                  
-                  <UncontrolledDropdown>
-                    <DropdownToggle
-                      className="btn-icon-only text-light threedot-classroom"
-                      role="button"
-                      size="sm"
-                      color=""
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <i className="fas fa-ellipsis-v" />
-                    </DropdownToggle>
-                    <DropdownMenu className="dropdown-menu-arrow" right>
-                      {/*<DropdownItem 
+                    <i className="fas fa-ellipsis-v" />
+                  </DropdownToggle>
+                  <DropdownMenu className="dropdown-menu-arrow" right>
+                    {/*<DropdownItem 
                         onClick={() => setModalOpen2(!modalOpen2)}>
                         End Classroom
                       </DropdownItem>*/}
-                      <DropdownItem
-                        onClick={() => setModalOpen3(!modalOpen3)}>
-                        Delete Classroom
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                
+                    <DropdownItem onClick={() => setModalOpen3(!modalOpen3)}>
+                      Delete Classroom
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </div>
               {/* modal edit classroom */}
               <Modal
@@ -443,143 +471,100 @@ const UserHeader = () => {
                                 </FormGroup>
                               </Col>
                             </Row>
-                            <Row>
-                              <Col lg="4">
-                                <FormGroup>
-                                  <label className="form-control-label">
-                                    Class Date
-                                    <span className="text-red">*</span>
-                                    &nbsp;
-                                    <span className="text-red">
-                                      {ClassDateError}
-                                    </span>
-                                  </label>
-                                  <Input
-                                    className="form-control-alternative"
-                                    defaultValue="Lucky"
-                                    id="input-first-name"
-                                    placeholder="First name"
-                                    type="select"
-                                    value={ClassDate}
-                                    onChange={(e) =>
-                                      setClassDate(e.target.value)
-                                    }
-                                  >
-                                    <option>Monday</option>
-                                    <option>Tuesday</option>
-                                    <option>Wednesday</option>
-                                    <option>Thursday</option>
-                                    <option>Friday</option>
-                                    <option>Saturday</option>
-                                    <option>Sunday</option>
-                                  </Input>
-                                </FormGroup>
-                              </Col>
-                              <Col lg="4">
-                                <FormGroup>
-                                  <label className="form-control-label">
-                                    Start time
-                                    <span className="text-red">*</span>
-                                    &nbsp;
-                                    <span className="text-red">
-                                      {StartTimeError}
-                                    </span>
-                                  </label>
-                                  <input
-                                    type="time"
-                                    name="time"
-                                    className="form-control-alternative form-time"
-                                    value={StartTime}
-                                    onChange={(e) =>
-                                      setStartTime(e.target.value)
-                                    }
-                                  />
-                                </FormGroup>
-                              </Col>
-                              <Col lg="4">
-                                <FormGroup>
-                                  <label
-                                    className="form-control-label"
-                                    htmlFor="input-last-name"
-                                  >
-                                    End time
-                                    <span className="text-red">*</span>
-                                    &nbsp;
-                                    <span className="text-red">
-                                      {EndTimeError}
-                                    </span>
-                                  </label>
-                                  <input
-                                    type="time"
-                                    name="time"
-                                    className="form-control-alternative form-time"
-                                    value={EndTime}
-                                    onChange={(e) => setEndTime(e.target.value)}
-                                  />
-                                </FormGroup>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col lg="4">
-                                <FormGroup>
-                                  <label className="form-control-label">
-                                    Class Date
-                                  </label>
-                                  <Input
-                                    className="form-control-alternative"
-                                    defaultValue="Lucky"
-                                    id="input-first-name"
-                                    placeholder="First name"
-                                    type="select"
-                                    onChange={(e) => setClassDate(e.target.value)}
-                                  >
-                                    <option selected hidden>---------</option>
-                                    <option>Monday</option>
-                                    <option>Tuesday</option>
-                                    <option>Wednesday</option>
-                                    <option>Thursday</option>
-                                    <option>Friday</option>
-                                    <option>Saturday</option>
-                                    <option>Sunday</option>
-                                  </Input>
-                                </FormGroup>
-                              </Col>
-                              <Col lg="4">
-                                <FormGroup>
-                                  <label className="form-control-label">
-                                    Start time
-                                  </label>
-                                  <input
-                                    type="time"
-                                    name="time"
-                                    className="form-control-alternative form-time"
-                                    onChange={(e) => setStartTime(e.target.value)}
-                                  />
-                                </FormGroup>
-                              </Col>
-                              <Col lg="4">
-                                <FormGroup>
-                                  <label
-                                    className="form-control-label"
-                                    htmlFor="input-last-name"
-                                  >
-                                    End time
-                                  </label>
-                                  <input
-                                    type="time"
-                                    name="time"
-                                    className="form-control-alternative form-time"
-                                    onChange={(e) => setEndTime(e.target.value)}
-                                  />
-                                </FormGroup>
-                              </Col>
-                            </Row>
+                            {Object.keys(DateTime).map((id) => {
+                              return (
+                                <Row>
+                                  <Col lg="4">
+                                    <FormGroup>
+                                      <label className="form-control-label">
+                                        Class Date
+                                        <span className="text-red">*</span>
+                                      </label>
+                                      <Input
+                                        className="form-control-alternative"
+                                        defaultValue="Lucky"
+                                        id="input-first-name"
+                                        placeholder="First name"
+                                        type="select"
+                                        value={DateTime[id].Date}
+                                        onChange={(e) =>
+                                          dateupdate(e.target.value, id)
+                                        }
+                                      >
+                                        <option>Monday</option>
+                                        <option>Tuesday</option>
+                                        <option>Wednesday</option>
+                                        <option>Thursday</option>
+                                        <option>Friday</option>
+                                        <option>Saturday</option>
+                                        <option>Sunday</option>
+                                      </Input>
+                                    </FormGroup>
+                                  </Col>
+                                  <Col lg="3">
+                                    <FormGroup>
+                                      <label className="form-control-label">
+                                        Start time
+                                        <span className="text-red">*</span>
+                                      </label>
+                                      <input
+                                        type="time"
+                                        name="time"
+                                        className="form-control-alternative form-time"
+                                        value={DateTime[id].StartTime}
+                                        onChange={(e) =>
+                                          starttimeupdate(e.target.value, id)
+                                        }
+                                      />
+                                    </FormGroup>
+                                  </Col>
+                                  <Col lg="3">
+                                    <FormGroup>
+                                      <label
+                                        className="form-control-label"
+                                        htmlFor="input-last-name"
+                                      >
+                                        End time
+                                        <span className="text-red">*</span>
+                                      </label>
+                                      <input
+                                        type="time"
+                                        name="time"
+                                        className="form-control-alternative form-time"
+                                        value={DateTime[id].EndTime}
+                                        onChange={(e) =>
+                                          endtimeupdate(e.target.value, id)
+                                        }
+                                      />
+                                    </FormGroup>
+                                  </Col>
+                                  <Col lg="1">
+                                    <label>&nbsp;&nbsp;&nbsp;</label>
+                                    {DateTime.length > 1 ? (
+                                      <Button
+                                        onClick={(e) => deletedatetime(id)}
+                                      >
+                                        <i class="fa-solid fa-minus" />
+                                      </Button>
+                                    ) : null}
+                                  </Col>
+                                </Row>
+                              );
+                            })}
+                            <h4 className="text-red text-center">
+                              {DateTimeError}
+                            </h4>
                             <Row className="box-add-date-btn mb-5">
-                              <Button className="add-date-btn"
-                              color="dark">
-                                <i class="fa-solid fa-plus"/> &nbsp;
-                                Add class date and time
-                              </Button>
+                              {DateTime.length < 5 ? (
+                                <Button
+                                  className="add-date-btn"
+                                  color="dark"
+                                  onClick={(e) => adddatetime()}
+                                >
+                                  <i class="fa-solid fa-plus" /> &nbsp; Add
+                                  class date and time
+                                </Button>
+                              ) : null}
                             </Row>
                           </div>
 
@@ -600,71 +585,71 @@ const UserHeader = () => {
                 <ModalFooter></ModalFooter>
               </Modal>
               <Modal
-                  toggle={() => setModalOpen2(!modalOpen2)}
-                  isOpen={modalOpen2}
-                  size="sm"
-                >
-                  <div className=" modal-header"></div>
-                  <ModalBody className="question-box">
-                    {" "}
-                    <span className="font-weight-bold confirm-leaveRoom text-center ">
-                      Do you want to end this classroom ?
-                    </span>
-                    <div className="col text-center mt-4">
-                      <Button
-                        color="success"
-                        // onClick={() => leaveclassroom()}
-                        className="ml-2 mr-2 btn-confirm-leaveRoom"
-                        size="l"
-                      >
-                        Confirm
-                      </Button>
-                      <Button
-                        color="danger"
-                        size="l"
-                        aria-label="Close"
-                        onClick={() => setModalOpen2(!modalOpen2)}
-                        className="ml-2 mr-2 btn-confirm-leaveRoom"
-                      >
-                        Cancel
-                      </Button>
-                    </div>{" "}
-                  </ModalBody>
-                  <ModalFooter></ModalFooter>
-                </Modal>
-                <Modal
-                  toggle={() => setModalOpen3(!modalOpen3)}
-                  isOpen={modalOpen3}
-                  size="sm"
-                >
-                  <div className=" modal-header"></div>
-                  <ModalBody className="question-box">
-                    {" "}
-                    <span className="font-weight-bold confirm-leaveRoom text-center ">
-                      Do you want to delete this classroom ?
-                    </span>
-                    <div className="col text-center mt-4">
-                      <Button
-                        color="success"
-                        onClick={() => deleteclassroom()}
-                        className="ml-2 mr-2 btn-confirm-leaveRoom"
-                        size="l"
-                      >
-                        Confirm
-                      </Button>
-                      <Button
-                        color="danger"
-                        size="l"
-                        aria-label="Close"
-                        onClick={() => setModalOpen3(!modalOpen3)}
-                        className="ml-2 mr-2 btn-confirm-leaveRoom"
-                      >
-                        Cancel
-                      </Button>
-                    </div>{" "}
-                  </ModalBody>
-                  <ModalFooter></ModalFooter>
-                </Modal>
+                toggle={() => setModalOpen2(!modalOpen2)}
+                isOpen={modalOpen2}
+                size="sm"
+              >
+                <div className=" modal-header"></div>
+                <ModalBody className="question-box">
+                  {" "}
+                  <span className="font-weight-bold confirm-leaveRoom text-center ">
+                    Do you want to end this classroom ?
+                  </span>
+                  <div className="col text-center mt-4">
+                    <Button
+                      color="success"
+                      // onClick={() => leaveclassroom()}
+                      className="ml-2 mr-2 btn-confirm-leaveRoom"
+                      size="l"
+                    >
+                      Confirm
+                    </Button>
+                    <Button
+                      color="danger"
+                      size="l"
+                      aria-label="Close"
+                      onClick={() => setModalOpen2(!modalOpen2)}
+                      className="ml-2 mr-2 btn-confirm-leaveRoom"
+                    >
+                      Cancel
+                    </Button>
+                  </div>{" "}
+                </ModalBody>
+                <ModalFooter></ModalFooter>
+              </Modal>
+              <Modal
+                toggle={() => setModalOpen3(!modalOpen3)}
+                isOpen={modalOpen3}
+                size="sm"
+              >
+                <div className=" modal-header"></div>
+                <ModalBody className="question-box">
+                  {" "}
+                  <span className="font-weight-bold confirm-leaveRoom text-center ">
+                    Do you want to delete this classroom ?
+                  </span>
+                  <div className="col text-center mt-4">
+                    <Button
+                      color="success"
+                      onClick={() => deleteclassroom()}
+                      className="ml-2 mr-2 btn-confirm-leaveRoom"
+                      size="l"
+                    >
+                      Confirm
+                    </Button>
+                    <Button
+                      color="danger"
+                      size="l"
+                      aria-label="Close"
+                      onClick={() => setModalOpen3(!modalOpen3)}
+                      className="ml-2 mr-2 btn-confirm-leaveRoom"
+                    >
+                      Cancel
+                    </Button>
+                  </div>{" "}
+                </ModalBody>
+                <ModalFooter></ModalFooter>
+              </Modal>
             </Col>
           </Row>
         </Container>
