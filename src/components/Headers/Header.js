@@ -257,10 +257,10 @@ const Header = () => {
                           <p className="mt-3 mb-0 text-muted text-sm">
                             <span className="mr-2">
                               {" "}
-                              {ClassRoom[id].ClassDate} :{" "}
+                              {/*{ClassRoom[id].ClassDate} :{" "}
                               {ClassRoom[id].StartTime} -{" "}
-                              {ClassRoom[id].EndTime} &nbsp; Semester :{" "}
-                              {ClassRoom[id].Semester}/
+                              {ClassRoom[id].EndTime} &nbsp; */}{" "}
+                              Semester : {ClassRoom[id].Semester}/
                               {ClassRoom[id].AcademicYear}
                             </span>
                             <span className="mr-2 section">

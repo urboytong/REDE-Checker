@@ -2292,9 +2292,9 @@ const Profile = () => {
                   })}
                 </tbody>
               </Table>
-              <div className="no-request text-red">
+              {Members.length == 0 ? (<div className="no-request text-red">
                 No member recently
-              </div>
+              </div>) : null}
             </Card>
           </Col>
           <Col className="order-xl-1" xl="5">
@@ -2394,9 +2394,9 @@ const Profile = () => {
                   })}
                 </tbody>
               </Table>
-              <div className="no-request text-red">
+              {AllQuestAndMember.length == 0 ? (<div className="no-request text-red">
                 No quest recently
-              </div>
+              </div>) : null}
             </Card>
           </Col>
         </Row>
