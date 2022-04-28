@@ -127,11 +127,9 @@ const Header = () => {
             ClassRoom[count] = document.data();
             ClassRoom[count].key = document.id;
             ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
-            if (document.data().Request.length == 0) {
-              ClassRoom[count].RequestBool = false;
-            }
-            if (document.data().Request.length != 0) {
-              ClassRoom[count].RequestBool = true;
+            ClassRoom[count].CurrentQuestBool = false;
+            if (CurrentQuest.includes(document.id)) {
+              ClassRoom[count].CurrentQuestBool = true;
             }
             count++;
           }
@@ -140,11 +138,9 @@ const Header = () => {
               ClassRoom[count] = document.data();
               ClassRoom[count].key = document.id;
               ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
-              if (document.data().Request.length == 0) {
-                ClassRoom[count].RequestBool = false;
-              }
-              if (document.data().Request.length != 0) {
-                ClassRoom[count].RequestBool = true;
+              ClassRoom[count].CurrentQuestBool = false;
+              if (CurrentQuest.includes(document.id)) {
+                ClassRoom[count].CurrentQuestBool = true;
               }
               count++;
             }
@@ -152,11 +148,9 @@ const Header = () => {
               ClassRoom[count] = document.data();
               ClassRoom[count].key = document.id;
               ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
-              if (document.data().Request.length == 0) {
-                ClassRoom[count].RequestBool = false;
-              }
-              if (document.data().Request.length != 0) {
-                ClassRoom[count].RequestBool = true;
+              ClassRoom[count].CurrentQuestBool = false;
+              if (CurrentQuest.includes(document.id)) {
+                ClassRoom[count].CurrentQuestBool = true;
               }
               count++;
             }
