@@ -133,13 +133,13 @@ const UserHeader = () => {
         <Container className="d-flex align-items-center  subject-detail" fluid>
           <Row>
             <Col lg="7" md="10">
-              <div className="mb-5 time-sec2">
+              {/* <div className="mb-5 time-sec2">
                 <span className="text-white">Section 2</span>
                 <span className="text-white mt-0 subject-date-time">
                   {ClassRoom.ClassDate} {ClassRoom.StartTime} -{" "}
                   {ClassRoom.EndTime} A.M.
                 </span>
-              </div>
+              </div> */}
               <h1 className=" text-white subjectCode-userHeader">
                 {ClassRoom.SubjectCode}
                 <br />
@@ -147,27 +147,33 @@ const UserHeader = () => {
               <h1 className="display-2 text-white subject-name">
                 {ClassRoom.SubjectName}
               </h1>
-              <div className="time-sec">
-                <span className="text-white">Section {ClassRoom.Section}</span>
+
+              <Row className="time-sec3">
+                <Col className="text-white">Section {ClassRoom.Section}</Col>
+                <Col className="text-white mt-0 subject-date-time">
+                  <Row className="subject-date-time">
+                    {Object.keys(Date).map((id) => {
+                      return (
+                          <div>
+                            {Date[id].Date} {Date[id].StartTime} - {Date[id].EndTime}{" "}
+                          </div>
+                      );
+                    })}
+                  </Row>
+                </Col>
+              </Row>
+
+              <div  className="row-button mt-4">
+                <Button
+                  color="dark"
+                  size="sm"
+                  className="edit-classroom"
+                  onClick={() => setModalOpen(!modalOpen)}
+                >
+                  Leave Classroom
+                </Button>
               </div>
-              {Object.keys(Date).map((id) => {
-                return (
-                  <div className="time-sec">
-                    <span className="text-white mt-0 subject-date-time">
-                      {Date[id].Date} {Date[id].StartTime} - {Date[id].EndTime}{" "}
-                      A.M.
-                    </span>
-                  </div>
-                );
-              })}
-              <Button
-                color="dark"
-                size="sm"
-                className="edit-classroom"
-                onClick={() => setModalOpen(!modalOpen)}
-              >
-                Leave Classroom
-              </Button>
+              
             </Col>
           </Row>
         </Container>

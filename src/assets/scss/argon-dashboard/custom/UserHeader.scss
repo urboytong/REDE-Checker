@@ -17,7 +17,7 @@
 .time-sec {
   display: flex;
   flex-direction: row;
-  width: 365px;
+  width: 385px;
   justify-content: space-between;
 }
 
@@ -32,6 +32,10 @@
 
 .subject-name {
   width: 800px;
+}
+
+.subject-date-time {
+  justify-content: flex-end;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -63,10 +67,6 @@
   .subject-detail {
     display: block !important;
   }
-
-  // .subject-date-time {
-  //   text-align: center;
-  // }
 
   .edit-classroom ,.edit-classroom:hover {
     width: 60%;

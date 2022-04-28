@@ -256,24 +256,28 @@
   text-align: center;
 }
 
-//red dot notification
-// .reddot-noti {
-//   width: 12px;
-//   height: 12px;
-//   background-color: #fd5757;
-//   border-radius: 100px;
-//   z-index: 1;
-//   position: absolute;
-//   // margin-top: -32px;
-//   // margin-left: 211px;
-//   // justify-content: flex-end !important;
+// .box-request {
+//   background-color: #00b7ff;
 // }
 
-// .request-btn {
-//   margin-right: 0px !important;
-//   background-color: red;
-//   border: red solid 1px;
-// }
+.circle-noti {
+  width: 13px;
+  height: 13px;
+  background-color: #fd5757;
+  border-radius: 100px;
+  position: relative;
+  top: -33px;
+  float: right;
+}
+
+.request-btn {
+  position: static;
+}
+
+.padding0 {
+  padding: 0px !important;
+}
+
 @media only screen and (max-width: 1920px) {
 //member card
   .short-name {

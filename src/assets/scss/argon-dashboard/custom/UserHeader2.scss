@@ -1,5 +1,12 @@
-.time-sec2 {
-  display: none;
+// .time-sec2 {
+//   display: none;
+// }
+
+.time-sec3 {
+  display: flex;
+  flex-direction: row;
+  width: 340px;
+  justify-content: space-between;
 }
 
 .question-box {
