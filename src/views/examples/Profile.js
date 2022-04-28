@@ -2204,23 +2204,45 @@ const Profile = () => {
                   <div className="col">
                     <h3 className="mb-0">Member</h3>
                   </div>
-                  <div className="col text-right">
-                    <Button
+                  <Row className="col text-right">
+                    {/* <Button
                       color="dark"
                       onClick={() => setModalOpen(!modalOpen)}
                       size="sm"
                     >
                       Invite
                     </Button>
-                    <Button
-                      color="dark"
-                      onClick={() => setModalOpen1(!modalOpen1)}
-                      size="sm"
-                      className="request-btn"
-                    >
-                      Request
-                    </Button>
-                  </div>
+                    <div className="col">
+                      <Button
+                        color="dark"
+                        onClick={() => setModalOpen1(!modalOpen1)}
+                        size="sm"
+                        className="request-btn"
+                      >
+                        Request
+                      </Button>
+                    </div> */}
+                    <Col lg="6" className="padding0">
+                      <Button
+                        color="dark"
+                        onClick={() => setModalOpen(!modalOpen)}
+                        size="sm"
+                      >
+                        Invite
+                      </Button>
+                    </Col>
+                    <Col className="box-request" lg="6">
+                      <Button
+                        color="dark"
+                        onClick={() => setModalOpen1(!modalOpen1)}
+                        size="sm"
+                        className="request-btn"
+                      >
+                        Request
+                      </Button>
+                      <div className="circle-noti"></div>
+                    </Col>
+                  </Row>
                     
                 </Row>
               </CardHeader>

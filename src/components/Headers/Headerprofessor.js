@@ -448,7 +448,7 @@ const Header2 = () => {
                     <Col lg="6">
                       <FormGroup>
                         <label
-                          className="form-control-label"
+                          className="form-control-label subject-name-box"
                           htmlFor="input-username"
                         >
                           Subject Code
@@ -622,11 +622,12 @@ const Header2 = () => {
                             />
                           </FormGroup>
                         </Col>
-                        <Col lg="1">
-                          <label>&nbsp;&nbsp;&nbsp;</label>
+                        <Col lg="2" className="col-bin">
+                          <div className="box-bin"></div>
                           {DateTime.length > 1 ? (
-                            <Button onClick={(e) => deletedatetime(id)}>
-                              <i class="fa-solid fa-minus" />
+                            <Button onClick={(e) => deletedatetime(id)}
+                              className="btn-bin">
+                              <i class="fa-solid fa-trash"/>
                             </Button>
                           ) : null}
                         </Col>
