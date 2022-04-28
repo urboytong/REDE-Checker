@@ -253,19 +253,20 @@ const UserHeader = () => {
               <h1 className="display-2 text-white subject-name">
                 {ClassRoom.SubjectName}
               </h1>
-              <div className="time-sec">
-                <span className="text-white">Section {ClassRoom.Section}</span>
-              </div>
-              {Object.keys(Date).map((id) => {
-                return (
-                  <div className="time-sec">
-                    <span className="text-white mt-0 subject-date-time">
-                      {Date[id].Date} {Date[id].StartTime} - {Date[id].EndTime}{" "}
-                      A.M.
-                    </span>
-                  </div>
-                );
-              })}
+              <Row className="time-sec">
+                <Col className="text-white">Section {ClassRoom.Section}</Col>
+                <Col className="text-white mt-0 subject-date-time">
+                  <Row className="subject-date-time">
+                    {Object.keys(Date).map((id) => {
+                      return (
+                          <div>
+                            {Date[id].Date} {Date[id].StartTime} - {Date[id].EndTime}{" "}
+                          </div>
+                      );
+                    })}
+                  </Row>
+                </Col>
+              </Row>
 
               <div className="row-button mt-4">
                 <Button
@@ -343,7 +344,7 @@ const UserHeader = () => {
                               <Col lg="6">
                                 <FormGroup>
                                   <label
-                                    className="form-control-label"
+                                    className="form-control-label subject-name-box"
                                     htmlFor="input-username"
                                   >
                                     Subject Code
@@ -538,13 +539,14 @@ const UserHeader = () => {
                                       />
                                     </FormGroup>
                                   </Col>
-                                  <Col lg="1">
+                                  <Col lg="2" className="col-bin">
                                     <label>&nbsp;&nbsp;&nbsp;</label>
                                     {DateTime.length > 1 ? (
                                       <Button
                                         onClick={(e) => deletedatetime(id)}
+                                        className="btn-bin"
                                       >
-                                        <i class="fa-solid fa-minus" />
+                                        <i class="fa-solid fa-trash"/>
                                       </Button>
                                     ) : null}
                                   </Col>
