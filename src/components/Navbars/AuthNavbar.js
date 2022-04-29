@@ -39,7 +39,7 @@ const AdminNavbar = () => {
             <img
               alt="..."
               src={
-                require("../../assets/img/theme/rede-checker-white.png").default
+                require("../../assets/img/theme/rede-checker-png.png").default
               }
               className="logo-navbar-login"
             />
