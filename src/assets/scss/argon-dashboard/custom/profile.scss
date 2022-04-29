@@ -256,9 +256,11 @@
   text-align: center;
 }
 
-// .box-request {
-//   background-color: #00b7ff;
-// }
+.box-request {
+  display: grid;
+  grid-template-columns: 90% 10%;
+  width: 120px !important;
+}
 
 .circle-noti {
   width: 13px;
@@ -266,12 +268,12 @@
   background-color: #fd5757;
   border-radius: 100px;
   position: relative;
-  top: -33px;
-  float: right;
+  margin-left: -10px;
+  margin-top: -5px;
 }
 
 .request-btn {
-  position: static;
+  width: 70px;
 }
 
 .padding0 {
