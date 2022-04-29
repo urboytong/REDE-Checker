@@ -721,8 +721,11 @@ const Register = () => {
                         className="darkGray"
                         type="text"
                         value={FirstName}
-                        pattern="[A-Za-z]"
+                        // pattern="[A-Za-z]"
                         onChange={(e) => setFirstName(e.target.value)}
+                        pattern="[A-Za-z\d\.]{6,12}"
+                        title="กรอกตัวหนังสือเท่านั้น"
+                        required
                       />
                     </InputGroup>
                   </FormGroup>

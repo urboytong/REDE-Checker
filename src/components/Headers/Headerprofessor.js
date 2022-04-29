@@ -739,7 +739,7 @@ const Header2 = () => {
                                 <div
                                   className="icon icon-shape text-white rounded-circle shadow circle-day"
                                   style={{
-                                    backgroundColor: ClassRoom[id].daycolor,
+                                    backgroundImage: ClassRoom[id].daycolor,
                                   }}
                                 >
                                   <i class="fa-solid fa-user-plus human-plus-icon sand-clock-icon" />
