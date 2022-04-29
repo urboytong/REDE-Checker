@@ -331,9 +331,9 @@ const Header2 = () => {
               if (document.data().Semester < semestercheck) {
                 FinishedClassRoom[count2] = document.data();
                 FinishedClassRoom[count2].key = document.id;
-                if (FinishedClassRoom[count].DateTime) {
-                  FinishedClassRoom[count].daycolor =
-                    DaysColor[FinishedClassRoom[count].DateTime[0].Date];
+                if (FinishedClassRoom[count2].DateTime) {
+                  FinishedClassRoom[count2].daycolor =
+                    DaysColor[FinishedClassRoom[count2].DateTime[0].Date];
                 }
                 if (document.data().Request.length == 0) {
                   FinishedClassRoom[count2].RequestBool = false;
@@ -347,9 +347,9 @@ const Header2 = () => {
             if (document.data().AcademicYear < ayearcheck) {
               FinishedClassRoom[count2] = document.data();
               FinishedClassRoom[count2].key = document.id;
-              if (FinishedClassRoom[count].DateTime) {
-                FinishedClassRoom[count].daycolor =
-                  DaysColor[FinishedClassRoom[count].DateTime[0].Date];
+              if (FinishedClassRoom[count2].DateTime) {
+                FinishedClassRoom[count2].daycolor =
+                  DaysColor[FinishedClassRoom[count2].DateTime[0].Date];
               }
               if (document.data().Request.length == 0) {
                 FinishedClassRoom[count2].RequestBool = false;
