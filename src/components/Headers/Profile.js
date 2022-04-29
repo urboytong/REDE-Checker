@@ -397,6 +397,16 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
                         <Input
+                          onKeyPress={(e) => {
+                            if (
+                              (e.key.toLowerCase() >= " " &&
+                                e.key.toLowerCase() <= "`") ||
+                              (e.key.toLowerCase() >= "{" &&
+                                e.key.toLowerCase() <= "~")
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
                           value={FirstName}
                           onChange={(e) => setFirstName(e.target.value)}
                           className="darkGray width-field"
@@ -414,6 +424,16 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
                     <FormGroup>
                       <InputGroup className="input-group-alternative mb-3">
                         <Input
+                          onKeyPress={(e) => {
+                            if (
+                              (e.key.toLowerCase() >= " " &&
+                                e.key.toLowerCase() <= "`") ||
+                              (e.key.toLowerCase() >= "{" &&
+                                e.key.toLowerCase() <= "~")
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
                           value={LastName}
                           onChange={(e) => setLastName(e.target.value)}
                           className="darkGray"
@@ -434,6 +454,16 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
                       <FormGroup>
                         <InputGroup className="input-group-alternative mb-3">
                           <Input
+                            onKeyPress={(e) => {
+                              if (
+                                (e.key.toLowerCase() >= " " &&
+                                  e.key.toLowerCase() <= "/") ||
+                                (e.key.toLowerCase() >= ":" &&
+                                  e.key.toLowerCase() <= "~")
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
                             value={StudentID}
                             onChange={(e) => setStudentID(e.target.value)}
                             className="darkGray"
