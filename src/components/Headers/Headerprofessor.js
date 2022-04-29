@@ -625,9 +625,11 @@ const Header2 = () => {
                         <Col lg="2" className="col-bin">
                           <div className="box-bin"></div>
                           {DateTime.length > 1 ? (
-                            <Button onClick={(e) => deletedatetime(id)}
-                              className="btn-bin">
-                              <i class="fa-solid fa-trash"/>
+                            <Button
+                              onClick={(e) => deletedatetime(id)}
+                              className="btn-bin"
+                            >
+                              <i class="fa-solid fa-trash" />
                             </Button>
                           ) : null}
                         </Col>
@@ -739,7 +741,7 @@ const Header2 = () => {
                                 <div
                                   className="icon icon-shape text-white rounded-circle shadow circle-day"
                                   style={{
-                                    backgroundImage: ClassRoom[id].daycolor,
+                                    backgroundColor: ClassRoom[id].daycolor,
                                   }}
                                 >
                                   <i class="fa-solid fa-user-plus human-plus-icon sand-clock-icon" />
@@ -804,10 +806,7 @@ const Header2 = () => {
                           <p className="mt-2 mb-0 text-muted text-sm">
                             <span className="mr-2">
                               {" "}
-                              {FinishedClassRoom[id].ClassDate} :{" "}
-                              {FinishedClassRoom[id].StartTime} -{" "}
-                              {FinishedClassRoom[id].EndTime} &nbsp; Semester :{" "}
-                              {FinishedClassRoom[id].Semester}/
+                              Semester : {FinishedClassRoom[id].Semester}/
                               {FinishedClassRoom[id].AcademicYear}
                             </span>
                             <span className="mr-2 section">
