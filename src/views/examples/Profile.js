@@ -94,6 +94,7 @@ const Profile = () => {
 
   const [ClassRoom, setClassRoom] = useState({});
   const [Request, setRequest] = useState({});
+  const [RequestNoti, setRequestNoti] = useState(false);
   const [EmptyRequest, setEmptyRequest] = useState(false);
   const [Members, setMembers] = useState([]);
   const [CurrentRequestProfile, setCurrentRequestProfile] = useState({});
@@ -149,6 +150,12 @@ const Profile = () => {
 
         // เปลี่ยนค่าตัวแปร state
         setClassRoom(ClassRoom);
+        if (ClassRoom.Request.length == 0) {
+          setRequestNoti(false);
+        }
+        if (ClassRoom.Request.length != 0) {
+          setRequestNoti(true);
+        }
 
         const userCollection = db.collection("User");
 
@@ -328,12 +335,8 @@ const Profile = () => {
 
     for (let i = 0; i < allquest.length; i++) {
       allquest[i].Complete.sort((a, b) =>
-      a.StudentID > b.StudentID
-        ? 1
-        : b.StudentID > a.StudentID
-        ? -1
-        : 0
-    );
+        a.StudentID > b.StudentID ? 1 : b.StudentID > a.StudentID ? -1 : 0
+      );
     }
 
     console.log("allquest");
@@ -1769,8 +1772,7 @@ const Profile = () => {
                           </Table>
                         </Card>
                       </UncontrolledCollapse>
-                      <row>
-                      </row>
+                      <row></row>
                     </Col>
                   </ModalBody>
                   <ModalFooter></ModalFooter>
@@ -2189,7 +2191,6 @@ const Profile = () => {
                         >
                           CANCEL QUEST
                         </Button>
-                        
                       </div>
                     ) : null}
                   </div>
@@ -2205,7 +2206,7 @@ const Profile = () => {
                     <h3 className="mb-0">Member</h3>
                   </div>
                   <Row className="text-right">
-                  {/* <Row className="col text-right"> */}
+                    {/* <Row className="col text-right"> */}
                     {/* <Button
                       color="dark"
                       onClick={() => setModalOpen(!modalOpen)}
@@ -2233,7 +2234,7 @@ const Profile = () => {
                       </Button>
                     </Col>
                     <Col className="box-request">
-                    {/* <Col className="box-request" lg="6"> */}
+                      {/* <Col className="box-request" lg="6"> */}
                       <Button
                         color="dark"
                         onClick={() => setModalOpen1(!modalOpen1)}
@@ -2242,10 +2243,9 @@ const Profile = () => {
                       >
                         Request
                       </Button>
-                      <div className="circle-noti"></div>
+                      {RequestNoti ? <div className="circle-noti"></div> : null}
                     </Col>
                   </Row>
-                    
                 </Row>
               </CardHeader>
 
@@ -2316,9 +2316,9 @@ const Profile = () => {
                   })}
                 </tbody>
               </Table>
-              {Members.length == 0 ? (<div className="no-request text-red">
-                No member recently
-              </div>) : null}
+              {Members.length == 0 ? (
+                <div className="no-request text-red">No member recently</div>
+              ) : null}
             </Card>
           </Col>
           <Col className="order-xl-1" xl="5">
@@ -2418,9 +2418,9 @@ const Profile = () => {
                   })}
                 </tbody>
               </Table>
-              {AllQuestAndMember.length == 0 ? (<div className="no-request text-red">
-                No quest recently
-              </div>) : null}
+              {AllQuestAndMember.length == 0 ? (
+                <div className="no-request text-red">No quest recently</div>
+              ) : null}
             </Card>
           </Col>
         </Row>

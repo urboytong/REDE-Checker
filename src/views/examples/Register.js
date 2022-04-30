@@ -53,9 +53,7 @@ const Register = () => {
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const [AcademicRanks, setAcademicRanks] = useState("Assoc. Prof.");
-  const [Faculty, setFaculty] = useState(
-    "Science"
-  );
+  const [Faculty, setFaculty] = useState("Science");
   const [Department, setDepartment] = useState("");
   const [Major, setMajor] = useState("");
   const [FaceDescriptor, setFaceDescriptor] = useState(null);
@@ -104,25 +102,25 @@ const Register = () => {
   );
   const [{ country, state }, setData] = useState({
     country: "Chemistry",
-    state: "Chemistry"
+    state: "Chemistry",
   });
   const countriesData = [
     {
       name: "Chemistry",
-      states: ["Chemistry"]
+      states: ["Chemistry"],
     },
     {
       name: "Mathematics",
-      states: ["Applied Computer Science", "Mathematics", "Statistics"]
+      states: ["Applied Computer Science", "Mathematics", "Statistics"],
     },
     {
       name: "Microbiology",
-      states: ["Food Science and Technology", "Microbiology"]
+      states: ["Food Science and Technology", "Microbiology"],
     },
     {
       name: "Physics",
-      states: ["Physics"]
-    }
+      states: ["Physics"],
+    },
   ];
 
   ////////////// Register //////////////
@@ -273,18 +271,24 @@ const Register = () => {
     </option>
   ));
 
-  const states = countriesData.find(item => item.name === country)?.states.map((state) => (
-    <option key={state} value={state}>
-      {state}
-    </option>
-  ));
+  const states = countriesData
+    .find((item) => item.name === country)
+    ?.states.map((state) => (
+      <option key={state} value={state}>
+        {state}
+      </option>
+    ));
 
   function handleCountryChange(event) {
-    setData(data => ({ ...data, state: event.target.value, country: event.target.value }));
+    setData((data) => ({
+      ...data,
+      state: event.target.value,
+      country: event.target.value,
+    }));
   }
 
   function handleStateChange(event) {
-    setData(data => ({ ...data, state: event.target.value }));
+    setData((data) => ({ ...data, state: event.target.value }));
   }
 
   function ErrorsCheck() {
@@ -620,41 +624,42 @@ const Register = () => {
                   {StudentRoleForm ? (
                     <div>
                       {FaceDesFillState ? (
-                          <img
-                            className="faceIcon verified-status"
-                            alt="..."
-                            src={
-                              require("../../assets/img/image/Verified2.gif")
-                                .default
-                            }
-                          />
-                        ) : null}
+                        <img
+                          className="faceIcon verified-status"
+                          alt="..."
+                          src={
+                            require("../../assets/img/image/Verified2.gif")
+                              .default
+                          }
+                        />
+                      ) : null}
 
-                        {FaceDesEmptyState ? (
-                          <div className="text-center lightGray mb-4 scan-face-regis">
-                            <div className="uploadImage">
-                              <div className="image2">
-                                <img
-                                  className="faceIcon"
-                                  alt="..."
-                                  src={require("../../assets/img/image/face.png").default}
-                                />
-                              </div>
-                              <div className="boxButton">
-                                <div class="upload-btn-wrapper text-center">
-                                  <button 
-                                    class="btn-uploadFile-imgProfile" 
-                                    onClick={ShowFaceRegisForm}
-                                  >
-                                    <i class="fa-solid fa-camera text-white"></i>
-                                  </button>
-                                </div>
+                      {FaceDesEmptyState ? (
+                        <div className="text-center lightGray mb-4 scan-face-regis">
+                          <div className="uploadImage">
+                            <div className="image2">
+                              <img
+                                className="faceIcon"
+                                alt="..."
+                                src={
+                                  require("../../assets/img/image/face.png")
+                                    .default
+                                }
+                              />
+                            </div>
+                            <div className="boxButton">
+                              <div class="upload-btn-wrapper text-center">
+                                <button
+                                  class="btn-uploadFile-imgProfile"
+                                  onClick={ShowFaceRegisForm}
+                                >
+                                  <i class="fa-solid fa-camera text-white"></i>
+                                </button>
                               </div>
                             </div>
                           </div>
-                        ) : null}
-
-
+                        </div>
+                      ) : null}
 
                       {/* <div className="text-center lightGray mb-4">
                       <div className="uploadImage">
@@ -674,8 +679,7 @@ const Register = () => {
                         </div>
                       </div>
                     </div> */}
-                    
-                      
+
                       {/* <Button
                         style={{ backgroundColor: "white" }}
                         onClick={ShowFaceRegisForm}
@@ -720,6 +724,16 @@ const Register = () => {
                       <Input
                         className="darkGray"
                         type="text"
+                        onKeyPress={(e) => {
+                          if (
+                            (e.key.toLowerCase() >= " " &&
+                              e.key.toLowerCase() <= "`") ||
+                            (e.key.toLowerCase() >= "{" &&
+                              e.key.toLowerCase() <= "~")
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
                         value={FirstName}
                         // pattern="[A-Za-z]"
                         onChange={(e) => setFirstName(e.target.value)}
@@ -741,6 +755,16 @@ const Register = () => {
                       <Input
                         className="darkGray"
                         type="text"
+                        onKeyPress={(e) => {
+                          if (
+                            (e.key.toLowerCase() >= " " &&
+                              e.key.toLowerCase() <= "`") ||
+                            (e.key.toLowerCase() >= "{" &&
+                              e.key.toLowerCase() <= "~")
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
                         value={LastName}
                         onChange={(e) => setLastName(e.target.value)}
                       />
@@ -761,6 +785,16 @@ const Register = () => {
                         <Input
                           className="darkGray"
                           type="text"
+                          onKeyPress={(e) => {
+                            if (
+                              (e.key.toLowerCase() >= " " &&
+                                e.key.toLowerCase() <= "/") ||
+                              (e.key.toLowerCase() >= ":" &&
+                                e.key.toLowerCase() <= "~")
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
                           value={StudentID}
                           onChange={(e) => setStudentID(e.target.value)}
                         />
@@ -809,8 +843,10 @@ const Register = () => {
                         className="darkGray"
                         type="select"
                         placeholder="Department"
-                        value={country} onChange={handleCountryChange}>
-                          {countries}
+                        value={country}
+                        onChange={handleCountryChange}
+                      >
+                        {countries}
                       </Input>
                     </InputGroup>
                   </FormGroup>
@@ -827,8 +863,10 @@ const Register = () => {
                         className="darkGray"
                         type="select"
                         placeholder="Major"
-                        value={state} onChange={handleStateChange}>
-                          {states}
+                        value={state}
+                        onChange={handleStateChange}
+                      >
+                        {states}
                       </Input>
                     </InputGroup>
                   </FormGroup>
