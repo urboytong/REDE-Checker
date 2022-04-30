@@ -128,6 +128,9 @@ const Header = () => {
             });
             setJoinClassForm(false);
             setSentSuccess(true);
+            setTimeout(function () {
+              setModalOpen1(!modalOpen1);
+            }, 1500);
           }
           if (ClassRoom.Request) {
             const request = ClassRoom.Request;
@@ -138,6 +141,9 @@ const Header = () => {
             });
             setJoinClassForm(false);
             setSentSuccess(true);
+            setTimeout(function () {
+              setModalOpen1(!modalOpen1);
+            }, 1500);
           }
         }
       }
@@ -155,14 +161,14 @@ const Header = () => {
         size="md"
       >
         <div className=" modal-header">
-          <button
+          {/*<button
             aria-label="Close"
             className=" close"
             type="button"
             onClick={() => setModalOpen1(!modalOpen1)}
           >
             <span aria-hidden={true}>×</span>
-          </button>
+          </button>*/}
         </div>
         {JoinClassForm ? (
           <ModalBody>
