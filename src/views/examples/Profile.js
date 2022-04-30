@@ -2206,24 +2206,6 @@ const Profile = () => {
                     <h3 className="mb-0">Member</h3>
                   </div>
                   <Row className="text-right">
-                    {/* <Row className="col text-right"> */}
-                    {/* <Button
-                      color="dark"
-                      onClick={() => setModalOpen(!modalOpen)}
-                      size="sm"
-                    >
-                      Invite
-                    </Button>
-                    <div className="col">
-                      <Button
-                        color="dark"
-                        onClick={() => setModalOpen1(!modalOpen1)}
-                        size="sm"
-                        className="request-btn"
-                      >
-                        Request
-                      </Button>
-                    </div> */}
                     <Col className="padding0">
                       <Button
                         color="dark"
@@ -2234,7 +2216,6 @@ const Profile = () => {
                       </Button>
                     </Col>
                     <Col className="box-request">
-                      {/* <Col className="box-request" lg="6"> */}
                       <Button
                         color="dark"
                         onClick={() => setModalOpen1(!modalOpen1)}
@@ -2243,7 +2224,9 @@ const Profile = () => {
                       >
                         Request
                       </Button>
-                      {RequestNoti ? <div className="circle-noti"></div> : null}
+                      <div className="box-redNoti">
+                        {RequestNoti ? <div className="circle-noti"></div> : null}
+                      </div>
                     </Col>
                   </Row>
                 </Row>
