@@ -84,6 +84,8 @@ const Icons = () => {
   const [SendQuestForm, setSendQuestForm] = useState(false);
   const [SendQuestComplete, setSendQuestComplete] = useState(false);
 
+  const [Onloading, setOnloading] = useState(true);
+
   const location = useLocation();
 
   useEffect(() => {
@@ -202,7 +204,7 @@ const Icons = () => {
           faceapi.LabeledFaceDescriptors.fromJSON(x)
         );
 
-        const threshold = 0.6;
+        const threshold = 0.55;
         const faceMatcher = new faceapi.FaceMatcher(
           labeledFaceDescriptors,
           threshold
@@ -257,6 +259,7 @@ const Icons = () => {
         maxBoxes: 5, // defaults to 20
       });
       setObjectArr(obj);
+      setOnloading(false);
       let text = "";
       if (obj.length >= 1) {
         for (let i = 0; i < obj.length; i++) {
@@ -349,7 +352,7 @@ const Icons = () => {
             console.log(error);
           }
         }
-      }, 2000);
+      }, 1000);
       return () => clearInterval(interval);
     }
   }, [FaceBorderBoxColor, ObjectBorderBoxColor]);
@@ -363,7 +366,7 @@ const Icons = () => {
   }, [QuestSuccess]);
 
   const SendQuest = async () => {
-    if(!SendQuestComplete){
+    if (!SendQuestComplete) {
       setSendQuestComplete(true);
       const files = ScreenShot;
       const data = new FormData();
@@ -380,7 +383,7 @@ const Icons = () => {
       //เปลี่ยน setIimage เป็น setImage เพื่อเก็บ url โดยตรง
       setimage(file.secure_url);
       console.log(file.secure_url);
-  
+
       let myquest = {
         Uid: firebaseApp.auth().currentUser.uid,
         Image: file.secure_url,
@@ -393,7 +396,6 @@ const Icons = () => {
       });
       window.location.reload();
     }
-
   };
 
   const Retake = async () => {
@@ -456,7 +458,7 @@ const Icons = () => {
                   }}
                 />
 
-                <div
+                {!Onloading ? (<div
                   style={{
                     position: "absolute",
                     width: 640,
@@ -532,7 +534,21 @@ const Icons = () => {
                       </Draggable>
                     </div>
                   </div>
-                </div>
+                </div>) : null}
+                {Onloading ? (<div
+                  style={{
+                    position: "absolute",
+                    width: 640,
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                    textAlign: "center",
+                    padding: "240px 0"
+                  }}
+                >
+                    <h1 className="mb-3">LOADING...</h1>
+                </div>) : null}
               </div>
             </Col>
             <Col>
