@@ -498,7 +498,14 @@ const Profile = () => {
 
   const completeseemore = (data) => {
     setModalOpen9(!modalOpen9);
-    setCompleteSeeMore(data);
+    const ndata = data;
+    const menmbers = Members;
+    const index = menmbers.findIndex(object => {
+      return object.Uid === ndata.Uid;
+    });
+    ndata.Faculty = menmbers[index].Faculty;
+    ndata.Department = menmbers[index].Department;
+    setCompleteSeeMore(ndata);
   };
 
   const reportimage = (image) => {
@@ -1161,7 +1168,47 @@ const Profile = () => {
                   <ModalBody>
                     <Col className="order-xl-2 mb-5 mb-xl-0" xl="12">
                       <Card className="card-profile shadow profileModal">
+                      <Row className="justify-content-center">
+                          <Col className="order-lg-2" lg="3">
+                            <div className="card-profile-image">
+                              <a onClick={(e) => e.preventDefault()}>
+                                <img
+                                  alt="..."
+                                  className="rounded-circle img-profileModal"
+                                  src={
+                                    require("../../assets/img/theme/team-4-800x800.jpg")
+                                      .default
+                                  }
+                                />
+                              </a>
+                            </div>
+                          </Col>
+                        </Row>
+                        <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"></CardHeader>
                         <CardBody className="pt-0 pt-md-4">
+                        <Row>
+                            <div className="col">
+                              <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
+                                <div>
+                                  <h2 className="heading">
+                                  {CompleteSeeMore.StudentID}
+                                  </h2>
+                                </div>
+                              </div>
+                            </div>
+                          </Row>
+                          <div className="text-center">
+                            <h2>
+                            {CompleteSeeMore.FirstName}{" "}
+                            {CompleteSeeMore.LastName}
+                            </h2>
+                            <div className="h3 font-weight-300">
+                              <i className="ni location_pin mr-2" />
+                              {CompleteSeeMore.Faculty},{" "}
+                              {CompleteSeeMore.Department}
+                            </div>
+                            <hr className="my-4" />
+                          </div>
                           <div className="text-center">
                             <h2 className="text-success">Completed</h2>
                             <div>
