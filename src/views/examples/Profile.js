@@ -1565,7 +1565,7 @@ const Profile = () => {
                     <Col className="order-xl-1" xl="12">
                       <row>
                         <Card className="bg-secondary shadow">
-                          <CardHeader className="border-0">
+                          <CardHeader className="border-0 width-card">
                             <Row className="align-items-center">
                               <div className="col">
                                 <h3 className="mb-0">Quest Check</h3>
@@ -1641,7 +1641,7 @@ const Profile = () => {
                       </row>
                       <UncontrolledCollapse toggler="#toggler1">
                         <Card className="bg-secondary shadow margintop-card">
-                          <CardHeader className="border-0">
+                          <CardHeader className="border-0 width-card">
                             <Row className="align-items-center">
                               <div className="col">
                                 <h3 className="mb-0">
