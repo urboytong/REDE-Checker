@@ -820,6 +820,9 @@ const Header2 = () => {
                 })}
               </Row>
             ) : null}
+            {FinishedClassRoom.length != 0 ? (
+              <div className="width-home-professor"></div>
+            ) : null}
           </div>
         </Container>
       </div>

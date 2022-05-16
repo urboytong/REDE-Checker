@@ -930,7 +930,7 @@ const Register = () => {
                       type="submit"
                       onClick={handleSubmit}
                     >
-                      SIGNUP
+                      SIGN UP
                     </Button>
                   </div>
                 </Form>
