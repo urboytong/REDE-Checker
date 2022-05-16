@@ -139,7 +139,7 @@ const AdminNavbar = (props) => {
                   onClick={() => setModalOpen(!modalOpen)}
                 >
                   <i className="ni ni-single-02" />
-                  <span>My profile</span>
+                  <span>My Profile</span>
                 </DropdownItem>
                 <DropdownItem
                   onClick={() => setModalOpen2(!modalOpen2)}
