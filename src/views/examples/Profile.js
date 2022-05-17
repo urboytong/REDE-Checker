@@ -65,6 +65,18 @@ import {
 } from "variables/charts.js";
 import { async } from "@firebase/util";
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+
 const current = new Date();
 const date = `${current.getDate()}/${
   current.getMonth() + 1
@@ -121,6 +133,7 @@ const Profile = () => {
   const [CompleteSeeMore, setCompleteSeeMore] = useState({});
   const [Report, setReport] = useState({ Complete: [], Absent: [] });
   const [ReportImage, setReportImage] = useState("");
+  const [Summary, setSummary] = useState([]);
 
   const [ObjectSelectError, setObjectSelectError] = useState("");
   const [CountdownTimeError, setCountdownTimeError] = useState("");
@@ -129,6 +142,32 @@ const Profile = () => {
   const [OnQuest, setOnQuest] = useState(false);
 
   const location = useLocation();
+
+  const [data, setdata] = useState({
+    labels: [
+      "17/04/2022",
+      "17/04/2022",
+      "17/04/2022",
+      "17/04/2022",
+      "17/04/2022",
+      "18/04/2022",
+      "12/05/2022",
+    ],
+    datasets: [
+      {
+        label: "COMPLETED",
+        data: [50, 45, 49, 40, 35, 42, 45],
+        radius: 3,
+        borderColor: "rgb(53, 162, 235)",
+      },
+      {
+        label: "ABSENT",
+        data: [0, 5, 1, 10, 15, 8, 5],
+        radius: 3,
+        borderColor: "rgb(255, 99, 132)",
+      },
+    ],
+  });
 
   useEffect(() => {
     //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
@@ -342,7 +381,50 @@ const Profile = () => {
     console.log("allquest");
     console.log(allquest);
 
+    //Chart
+
     setAllQuestAndMember(allquest);
+
+    let chartdata = data;
+    let chartlabel = [];
+    let chartcompleteddata = [];
+    let chartabsentdata = [];
+
+    for (let i = 0; i < allquest.length; i++) {
+      chartlabel.push(allquest[allquest.length - 1 - i].Date);
+      chartcompleteddata.push(
+        allquest[allquest.length - 1 - i].Complete.length
+      );
+      chartabsentdata.push(allquest[allquest.length - 1 - i].Absent.length);
+    }
+
+    chartdata.labels = chartlabel;
+    chartdata.datasets[0].data = chartcompleteddata;
+    chartdata.datasets[1].data = chartabsentdata;
+
+    setdata(data);
+
+    //Summary
+
+    for (let i = 0; i < members.length; i++) {
+      let completedcount = 0;
+      let absentcount = 0;
+      for (let j = 0; j < allquest.length; j++) {
+        for (let k = 0; k < allquest[j].Complete.length; k++) {
+          if (allquest[j].Complete[k].Uid == members[i].Uid) {
+            completedcount++;
+          }
+        }
+        for (let l = 0; l < allquest[j].Absent.length; l++) {
+          if (allquest[j].Absent[l].Uid == members[i].Uid) {
+            absentcount++;
+          }
+        }
+      }
+      members[i].CompletedCount = completedcount;
+      members[i].AbsentCount = absentcount;
+    }
+    setSummary(members);
   }, [AllQuest, Members]);
 
   useEffect(() => {
@@ -500,7 +582,7 @@ const Profile = () => {
     setModalOpen9(!modalOpen9);
     const ndata = data;
     const menmbers = Members;
-    const index = menmbers.findIndex(object => {
+    const index = menmbers.findIndex((object) => {
       return object.Uid === ndata.Uid;
     });
     ndata.Faculty = menmbers[index].Faculty;
@@ -1168,7 +1250,7 @@ const Profile = () => {
                   <ModalBody>
                     <Col className="order-xl-2 mb-5 mb-xl-0" xl="12">
                       <Card className="card-profile shadow profileModal">
-                      <Row className="justify-content-center">
+                        <Row className="justify-content-center">
                           <Col className="order-lg-2" lg="3">
                             <div className="card-profile-image">
                               <a onClick={(e) => e.preventDefault()}>
@@ -1186,12 +1268,12 @@ const Profile = () => {
                         </Row>
                         <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"></CardHeader>
                         <CardBody className="pt-0 pt-md-4">
-                        <Row>
+                          <Row>
                             <div className="col">
                               <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
                                 <div>
                                   <h2 className="heading">
-                                  {CompleteSeeMore.StudentID}
+                                    {CompleteSeeMore.StudentID}
                                   </h2>
                                 </div>
                               </div>
@@ -1199,8 +1281,8 @@ const Profile = () => {
                           </Row>
                           <div className="text-center">
                             <h2>
-                            {CompleteSeeMore.FirstName}{" "}
-                            {CompleteSeeMore.LastName}
+                              {CompleteSeeMore.FirstName}{" "}
+                              {CompleteSeeMore.LastName}
                             </h2>
                             <div className="h3 font-weight-300">
                               <i className="ni location_pin mr-2" />
@@ -1315,208 +1397,93 @@ const Profile = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500411
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
+                              {Object.keys(Summary).map((id) => {
+                                return (
+                                  <tr>
+                                    <th scope="row">
+                                      <Media className="align-items-center">
+                                        <Media>
+                                          <span className="mb-0 text-sm">
+                                            {Summary[id].StudentID}
+                                          </span>
+                                        </Media>
+                                      </Media>
+                                    </th>
 
-                                <td className="td-nonePadding">
-                                  <Badge
-                                    color=""
-                                    className="badge-dot mr-4 short-name"
-                                  >
-                                    Natthaphat Wannawat
-                                  </Badge>
-                                </td>
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    90 %
-                                  </Badge>
-                                </td>
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-success" />4
-                                  </Badge>
-                                </td>
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-danger" />1
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen2(!modalOpen2)
-                                        }
+                                    <td className="td-nonePadding">
+                                      <Badge
+                                        color=""
+                                        className="badge-dot mr-4 short-name"
                                       >
-                                        Profile
-                                      </DropdownItem>
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen3(!modalOpen3)
-                                        }
+                                        {Summary[id].FirstName}{" "}
+                                        {Summary[id].LastName}
+                                      </Badge>
+                                    </td>
+                                    <td>
+                                      <Badge
+                                        color=""
+                                        className="badge-dot mr-4"
                                       >
-                                        Report
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500437
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td className="td-nonePadding">
-                                  <Badge
-                                    color=""
-                                    className="badge-dot mr-4 short-name"
-                                  >
-                                    Natthamon Wannawat
-                                  </Badge>
-                                </td>
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    90 %
-                                  </Badge>
-                                </td>
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-success" />5
-                                  </Badge>
-                                </td>
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-danger" />0
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen2(!modalOpen2)
-                                        }
+                                        {(
+                                          (Summary[id].CompletedCount * 100) /
+                                          AllQuest.length
+                                        ).toFixed(0)}{" "}
+                                        %
+                                      </Badge>
+                                    </td>
+                                    <td>
+                                      <Badge
+                                        color=""
+                                        className="badge-dot mr-4"
                                       >
-                                        Profile
-                                      </DropdownItem>
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen3(!modalOpen3)
-                                        }
+                                        <i className="bg-success" />
+                                        {Summary[id].CompletedCount}
+                                      </Badge>
+                                    </td>
+                                    <td>
+                                      <Badge
+                                        color=""
+                                        className="badge-dot mr-4"
                                       >
-                                        Report
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">
-                                  <Media className="align-items-center">
-                                    <Media>
-                                      <span className="mb-0 text-sm">
-                                        61090500427
-                                      </span>
-                                    </Media>
-                                  </Media>
-                                </th>
-
-                                <td className="td-nonePadding">
-                                  <Badge
-                                    color=""
-                                    className="badge-dot mr-4 short-name"
-                                  >
-                                    Suriyasak Najaeiei
-                                  </Badge>
-                                </td>
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    90 %
-                                  </Badge>
-                                </td>
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-success" />0
-                                  </Badge>
-                                </td>
-                                <td>
-                                  <Badge color="" className="badge-dot mr-4">
-                                    <i className="bg-danger" />5
-                                  </Badge>
-                                </td>
-                                <td className="text-right threedot">
-                                  <UncontrolledDropdown>
-                                    <DropdownToggle
-                                      className="btn-icon-only text-light"
-                                      role="button"
-                                      size="sm"
-                                      color=""
-                                      onClick={(e) => e.preventDefault()}
-                                    >
-                                      <i className="fas fa-ellipsis-v" />
-                                    </DropdownToggle>
-                                    <DropdownMenu
-                                      className="dropdown-menu-arrow"
-                                      right
-                                    >
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen2(!modalOpen2)
-                                        }
-                                      >
-                                        Profile
-                                      </DropdownItem>
-                                      <DropdownItem
-                                        onClick={() =>
-                                          setModalOpen3(!modalOpen3)
-                                        }
-                                      >
-                                        Report
-                                      </DropdownItem>
-                                    </DropdownMenu>
-                                  </UncontrolledDropdown>
-                                </td>
-                              </tr>
+                                        <i className="bg-danger" />
+                                        {Summary[id].AbsentCount}
+                                      </Badge>
+                                    </td>
+                                    <td className="text-right threedot">
+                                      <UncontrolledDropdown>
+                                        <DropdownToggle
+                                          className="btn-icon-only text-light"
+                                          role="button"
+                                          size="sm"
+                                          color=""
+                                          onClick={(e) => e.preventDefault()}
+                                        >
+                                          <i className="fas fa-ellipsis-v" />
+                                        </DropdownToggle>
+                                        <DropdownMenu
+                                          className="dropdown-menu-arrow"
+                                          right
+                                        >
+                                          <DropdownItem
+                                            onClick={() =>
+                                              ProfileModalOpens(Summary[id])
+                                            }
+                                          >
+                                            Profile
+                                          </DropdownItem>
+                                          <DropdownItem
+                                            onClick={() =>
+                                              ReportModalOpens(Summary[id])
+                                            }
+                                          >
+                                            Report
+                                          </DropdownItem>
+                                        </DropdownMenu>
+                                      </UncontrolledDropdown>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
                             </tbody>
                           </Table>
                         </Card>
@@ -1531,13 +1498,8 @@ const Profile = () => {
                             </Row>
                           </CardHeader>
                           <CardBody>
-                            {/* Chart */}
                             <div className="chart">
-                              <img
-                                src="https://www.img.in.th/images/f3266bbdac74a856947d039473720428.jpg"
-                                className="img-fluid shadow-4"
-                                alt="..."
-                              />
+                              <Line data={data} />
                             </div>
                           </CardBody>
                         </Card>
@@ -2272,7 +2234,9 @@ const Profile = () => {
                         Request
                       </Button>
                       <div className="box-redNoti">
-                        {RequestNoti ? <div className="circle-noti"></div> : null}
+                        {RequestNoti ? (
+                          <div className="circle-noti"></div>
+                        ) : null}
                       </div>
                     </Col>
                   </Row>
