@@ -39,7 +39,7 @@ const AdminNavbar = () => {
             <img
               alt="..."
               src={
-                require("../../assets/img/theme/rede-checker-white.png").default
+                require("../../assets/img/theme/rede-checker-png.png").default
               }
               className="logo-navbar-login"
             />
@@ -70,7 +70,7 @@ const AdminNavbar = () => {
               </Row>
             </div>
             <Nav className="ml-auto" navbar>
-              <NavItem>
+              {/* <NavItem>
                 <NavLink
                   className="nav-link-icon"
                   to="/auth/tutorial"
@@ -79,7 +79,7 @@ const AdminNavbar = () => {
                   <i class="fa-solid fa-book-open-reader"></i>
                   <span className="nav-link-inner--text">Tutorial</span>
                 </NavLink>
-              </NavItem>
+              </NavItem> */}
               <NavItem>
                 <NavLink
                   className="nav-link-icon"
