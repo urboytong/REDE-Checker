@@ -790,11 +790,12 @@ const Register = () => {
                               (e.key.toLowerCase() >= " " &&
                                 e.key.toLowerCase() <= "/") ||
                               (e.key.toLowerCase() >= ":" &&
-                                e.key.toLowerCase() <= "~")
+                                e.key.toLowerCase() <= "๛")
                             ) {
                               e.preventDefault();
                             }
                           }}
+                          maxlength="11"
                           value={StudentID}
                           onChange={(e) => setStudentID(e.target.value)}
                         />

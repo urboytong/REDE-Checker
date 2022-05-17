@@ -459,11 +459,12 @@ const Profile = ({ modalOpen, setModalOpen, modalOpen1, setModalOpen1 }) => {
                                 (e.key.toLowerCase() >= " " &&
                                   e.key.toLowerCase() <= "/") ||
                                 (e.key.toLowerCase() >= ":" &&
-                                  e.key.toLowerCase() <= "~")
+                                  e.key.toLowerCase() <= "๛")
                               ) {
                                 e.preventDefault();
                               }
                             }}
+                            maxlength="11"
                             value={StudentID}
                             onChange={(e) => setStudentID(e.target.value)}
                             className="darkGray"

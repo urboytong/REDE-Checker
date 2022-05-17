@@ -543,6 +543,17 @@ const Profile = () => {
       });
   };
 
+  const endquest = async () => {
+    const db = firebaseApp.firestore();
+    const res = await db
+      .collection("Quest")
+      .doc(CurrentQuest.DocId)
+      .update({
+        EndTimeStamp: Date.now(),
+      });
+    setModalOpen16(!modalOpen16);
+  };
+
   const cancelquest = () => {
     const db = firebaseApp.firestore();
     const userCollection = db.collection("Quest");
@@ -2129,6 +2140,7 @@ const Profile = () => {
                         color="success"
                         className="ml-2 mr-2 btn-confirm-leaveRoom"
                         size="l"
+                        onClick={() => endquest()}
                       >
                         Confirm
                       </Button>
