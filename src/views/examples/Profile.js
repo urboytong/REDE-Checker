@@ -545,12 +545,9 @@ const Profile = () => {
 
   const endquest = async () => {
     const db = firebaseApp.firestore();
-    const res = await db
-      .collection("Quest")
-      .doc(CurrentQuest.DocId)
-      .update({
-        EndTimeStamp: Date.now(),
-      });
+    const res = await db.collection("Quest").doc(CurrentQuest.DocId).update({
+      EndTimeStamp: Date.now(),
+    });
     setModalOpen16(!modalOpen16);
   };
 
@@ -1142,6 +1139,11 @@ const Profile = () => {
                                   })}
                                 </tbody>
                               </Table>
+                              {Report.Complete.length == 0 ? (
+                                <div className="no-request text-red">
+                                  There is no quest completed currently.
+                                </div>
+                              ) : null}
                             </Card>
                           </UncontrolledCollapse>
 
@@ -1194,6 +1196,11 @@ const Profile = () => {
                                   })}
                                 </tbody>
                               </Table>
+                              {Report.Absent.length == 0 ? (
+                                <div className="no-request text-red">
+                                  There is no quest missed currently.
+                                </div>
+                              ) : null}
                             </Card>
                           </UncontrolledCollapse>
                         </Col>
@@ -1699,6 +1706,11 @@ const Profile = () => {
                               })}
                             </tbody>
                           </Table>
+                          {SeeMoreComplete.length == 0 ? (
+                            <div className="no-request text-red">
+                              There is no quest completed currently.
+                            </div>
+                          ) : null}
                         </Card>
                       </UncontrolledCollapse>
 
@@ -1794,6 +1806,11 @@ const Profile = () => {
                               })}
                             </tbody>
                           </Table>
+                          {SeeMoreAbsent.length == 0 ? (
+                            <div className="no-request text-red">
+                              There is no quest missed currently.
+                            </div>
+                          ) : null}
                         </Card>
                       </UncontrolledCollapse>
                       <row></row>
