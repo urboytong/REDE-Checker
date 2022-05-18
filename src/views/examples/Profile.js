@@ -927,6 +927,7 @@ const Profile = () => {
                               <i className="ni location_pin mr-2" />
                               {CurrentRequestProfile.Faculty},{" "}
                               {CurrentRequestProfile.Department}
+                              <br /> {CurrentRequestProfile.Major}
                             </div>
                             <hr className="my-4" />
                             <div className="h5 mt-4">
@@ -959,7 +960,7 @@ const Profile = () => {
                   <ModalBody>
                     <Row>
                       {" "}
-                      <Col xl="4">
+                      <Col>
                         <Card className="card-profile shadow profileModal">
                           <Row className="justify-content-center">
                             <Col className="order-lg-2" lg="3">
@@ -977,8 +978,8 @@ const Profile = () => {
                               </div>
                             </Col>
                           </Row>
-                          <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"></CardHeader>
-                          <CardBody className="pt-0 pt-md-4">
+                          <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4 width-profilecard"></CardHeader>
+                          <CardBody className="pt-0 pt-md-4 width-profilecard">
                             <Row>
                               <div className="col">
                                 <div className="card-profile-stats d-flex justify-content-center stdID-profileModal">
@@ -999,6 +1000,7 @@ const Profile = () => {
                                 <i className="ni location_pin mr-2" />
                                 {CurrentRequestProfile.Faculty},{" "}
                                 {CurrentRequestProfile.Department}
+                                <br /> {CurrentRequestProfile.Major}
                               </div>
                               <hr className="my-4" />
                               <div className="h5 mt-4">
@@ -1009,7 +1011,7 @@ const Profile = () => {
                           </CardBody>
                         </Card>
                       </Col>
-                      <ModalBody>
+                      <ModalBody className="none-padding-profilecard">
                         <Col className="order-xl-1" xl="12">
                           <row>
                             <Card className="bg-secondary shadow">
@@ -1075,7 +1077,7 @@ const Profile = () => {
                             </Card>
                           </row>
                           <UncontrolledCollapse toggler="#toggler1">
-                            <Card className="bg-secondary shadow">
+                            <Card className="bg-secondary shadow mt-3">
                               <CardHeader className="border-0">
                                 <Row className="align-items-center">
                                   <div className="col">
@@ -1144,7 +1146,7 @@ const Profile = () => {
                           </UncontrolledCollapse>
 
                           <UncontrolledCollapse toggler="#toggler">
-                            <Card className="bg-secondary shadow ">
+                            <Card className="bg-secondary shadow mt-3">
                               <CardHeader className="border-0">
                                 <Row>
                                   <div className="col">
