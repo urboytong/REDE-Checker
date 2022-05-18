@@ -1011,7 +1011,7 @@ const Profile = () => {
                           </CardBody>
                         </Card>
                       </Col>
-                      <ModalBody className="none-padding-profilecard">
+                      <ModalBody className="none-padding-profilecard width-reportcard">
                         <Col className="order-xl-1" xl="12">
                           <row>
                             <Card className="bg-secondary shadow">
@@ -1134,7 +1134,7 @@ const Profile = () => {
                                               )
                                             }
                                           >
-                                            <i className="ni ni-image" />
+                                            <i class="fa-solid fa-image"/>
                                           </Button>
                                         </td>
                                       </tr>
@@ -1223,21 +1223,23 @@ const Profile = () => {
                       <Card className="card-profile shadow">
                         <CardBody className="pt-0 pt-md-4">
                           <div className="text-center">
+                            <h2 className="text-success text-complete">Completed</h2>
+                            {/* <h2 className="text-success">
+                              " Selfie with a {SeeDetail.ObjectSelect}"
+                            </h2> */}
+                            <div>
+                              {/* <h4>{SeeDetail.Date}</h4> */}
+                            </div>
                             <img
                               src={ReportImage}
                               width="640"
                               height="480"
                               className="img-fluid shadow-4"
                               alt="..."
+                              style={{
+                                transform: "rotateY(180deg)",
+                              }}
                             />
-                            <div>
-                              <i className="ni education_hat mr-2" />
-                            </div>
-                            <div className="h3 font-weight-300">
-                              <i className="ni location_pin mr-2" />
-                              Completed
-                            </div>
-                            <hr className="my-4" />
                           </div>
                         </CardBody>
                       </Card>
