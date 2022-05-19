@@ -132,7 +132,7 @@ const Profile = () => {
   const [SeeMoreCompleteObject, setSeeMoreCompleteObject] = useState([]);
   const [CompleteSeeMore, setCompleteSeeMore] = useState({});
   const [Report, setReport] = useState({ Complete: [], Absent: [] });
-  const [ReportImage, setReportImage] = useState("");
+  const [ReportData, setReportData] = useState({});
   const [Summary, setSummary] = useState([]);
 
   const [ObjectSelectError, setObjectSelectError] = useState("");
@@ -545,12 +545,9 @@ const Profile = () => {
 
   const endquest = async () => {
     const db = firebaseApp.firestore();
-    const res = await db
-      .collection("Quest")
-      .doc(CurrentQuest.DocId)
-      .update({
-        EndTimeStamp: Date.now(),
-      });
+    const res = await db.collection("Quest").doc(CurrentQuest.DocId).update({
+      EndTimeStamp: Date.now(),
+    });
     setModalOpen16(!modalOpen16);
   };
 
@@ -601,9 +598,9 @@ const Profile = () => {
     setCompleteSeeMore(ndata);
   };
 
-  const reportimage = (image) => {
+  const report = (data) => {
     setModalOpen11(!modalOpen11);
-    setReportImage(image);
+    setReportData(data);
   };
 
   const FacetrackPos = (data) => {
@@ -1129,12 +1126,12 @@ const Profile = () => {
                                             type="button"
                                             size="sm"
                                             onClick={() =>
-                                              reportimage(
-                                                Report.Complete[id].Image
+                                              report(
+                                                Report.Complete[id]
                                               )
                                             }
                                           >
-                                            <i class="fa-solid fa-image"/>
+                                            <i class="fa-solid fa-image" />
                                           </Button>
                                         </td>
                                       </tr>
@@ -1142,6 +1139,11 @@ const Profile = () => {
                                   })}
                                 </tbody>
                               </Table>
+                              {Report.Complete.length == 0 ? (
+                                <div className="no-request text-red">
+                                  There is no quest completed currently.
+                                </div>
+                              ) : null}
                             </Card>
                           </UncontrolledCollapse>
 
@@ -1194,6 +1196,11 @@ const Profile = () => {
                                   })}
                                 </tbody>
                               </Table>
+                              {Report.Absent.length == 0 ? (
+                                <div className="no-request text-red">
+                                  There is no quest missed currently.
+                                </div>
+                              ) : null}
                             </Card>
                           </UncontrolledCollapse>
                         </Col>
@@ -1223,15 +1230,17 @@ const Profile = () => {
                       <Card className="card-profile shadow">
                         <CardBody className="pt-0 pt-md-4">
                           <div className="text-center">
-                            <h2 className="text-success text-complete">Completed</h2>
-                            {/* <h2 className="text-success">
-                              " Selfie with a {SeeDetail.ObjectSelect}"
-                            </h2> */}
+                            <h2 className="text-success text-complete">
+                              Completed
+                            </h2>
+                            <h2 className="text-success">
+                              " Selfie with a {ReportData.ObjectSelect}"
+                            </h2>
                             <div>
-                              {/* <h4>{SeeDetail.Date}</h4> */}
+                              <h4>{ReportData.Date}</h4>
                             </div>
                             <img
-                              src={ReportImage}
+                              src={ReportData.Image}
                               width="640"
                               height="480"
                               className="img-fluid shadow-4"
@@ -1699,6 +1708,11 @@ const Profile = () => {
                               })}
                             </tbody>
                           </Table>
+                          {SeeMoreComplete.length == 0 ? (
+                            <div className="no-request text-red">
+                              There is no quest completed currently.
+                            </div>
+                          ) : null}
                         </Card>
                       </UncontrolledCollapse>
 
@@ -1794,6 +1808,11 @@ const Profile = () => {
                               })}
                             </tbody>
                           </Table>
+                          {SeeMoreAbsent.length == 0 ? (
+                            <div className="no-request text-red">
+                              There is no quest missed currently.
+                            </div>
+                          ) : null}
                         </Card>
                       </UncontrolledCollapse>
                       <row></row>
