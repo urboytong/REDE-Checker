@@ -158,7 +158,7 @@ const Profile = () => {
         label: "COMPLETED",
         data: [50, 45, 49, 40, 35, 42, 45],
         radius: 3,
-        borderColor: "rgb(53, 162, 235)",
+        borderColor: "rgb(50, 168, 82)",
       },
       {
         label: "ABSENT",
@@ -168,6 +168,26 @@ const Profile = () => {
       },
     ],
   });
+
+  const options = {
+    scales: {
+      xAxes: [{
+          ticks: {
+              beginAtZero: true,
+              max: 10,
+              min: 0,
+          }
+      }],
+      yAxes: [{
+          ticks: {
+              beginAtZero: true,
+              max: 10,
+              min: 0,
+              stepSize: 1,
+          }
+      }]
+  }
+  };
 
   useEffect(() => {
     //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
@@ -586,7 +606,7 @@ const Profile = () => {
     setSeeMoreCompleteObject(data.ObjectSelect);
   };
 
-  const completeseemore = (data) => {
+  const completeseemore = (data, obj) => {
     setModalOpen9(!modalOpen9);
     const ndata = data;
     const menmbers = Members;
@@ -595,6 +615,8 @@ const Profile = () => {
     });
     ndata.Faculty = menmbers[index].Faculty;
     ndata.Department = menmbers[index].Department;
+    ndata.Major = menmbers[index].Major;
+    ndata.ObjectSelect = obj;
     setCompleteSeeMore(ndata);
   };
 
@@ -1312,12 +1334,15 @@ const Profile = () => {
                               <i className="ni location_pin mr-2" />
                               {CompleteSeeMore.Faculty},{" "}
                               {CompleteSeeMore.Department}
-                              {/* <br/>{CompleteSeeMore.Major} */}
+                              <br/>{CompleteSeeMore.Major}
                             </div>
                             <hr className="my-4" />
                           </div>
                           <div className="text-center">
                             <h2 className="text-success">Completed</h2>
+                            <h2 className="text-success">
+                              " Selfie with a {CompleteSeeMore.ObjectSelect}"
+                            </h2>
                             <div>
                               <h4>{SeeMoreDate}</h4>
                             </div>
@@ -1523,7 +1548,7 @@ const Profile = () => {
                           </CardHeader>
                           <CardBody>
                             <div className="chart">
-                              <Line data={data} />
+                              <Line data={data} options={options} />
                             </div>
                           </CardBody>
                         </Card>
@@ -1694,7 +1719,7 @@ const Profile = () => {
                                           <DropdownItem
                                             onClick={() =>
                                               completeseemore(
-                                                SeeMoreComplete[id]
+                                                SeeMoreComplete[id], SeeMoreCompleteObject
                                               )
                                             }
                                           >
