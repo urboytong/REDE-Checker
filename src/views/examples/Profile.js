@@ -169,25 +169,21 @@ const Profile = () => {
     ],
   });
 
-  const options = {
+  const [options, setoptions] = useState({
     scales: {
-      xAxes: [{
-          ticks: {
-              beginAtZero: true,
-              max: 10,
-              min: 0,
-          }
-      }],
       yAxes: [{
           ticks: {
-              beginAtZero: true,
-              max: 10,
-              min: 0,
-              stepSize: 1,
+            min: 0, // it is for ignoring negative step.
+            beginAtZero: true,
+            callback: function(value, index, values) {
+                if (Math.floor(value) === value) {
+                    return value;
+                }
+            },
           }
       }]
   }
-  };
+  });
 
   useEffect(() => {
     //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
@@ -409,6 +405,8 @@ const Profile = () => {
     let chartlabel = [];
     let chartcompleteddata = [];
     let chartabsentdata = [];
+    let max = 0;
+    let option = options;
 
     for (let i = 0; i < allquest.length; i++) {
       chartlabel.push(allquest[allquest.length - 1 - i].Date);
@@ -422,7 +420,20 @@ const Profile = () => {
     chartdata.datasets[0].data = chartcompleteddata;
     chartdata.datasets[1].data = chartabsentdata;
 
+    max = Math.max.apply(Math, chartcompleteddata)
+    if(Math.max.apply(Math, chartabsentdata) > Math.max.apply(Math, chartcompleteddata)){
+      max = Math.max.apply(Math, chartabsentdata)
+    }
+
+    if(max < 10){
+      option.scales.yAxes[0].ticks.max = 10
+    }
+    if(max >= 10){
+      option.scales.yAxes[0].ticks.max = max
+    }
+    
     setdata(data);
+    setoptions(option);
 
     //Summary
 
