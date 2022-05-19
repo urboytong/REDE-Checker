@@ -230,7 +230,7 @@ const Header = () => {
       </Modal>
 
       <Button className="join-class-btn" color="dark" onClick={ModalOpens}>
-        Join class
+        Join Classroom
       </Button>
     </>
   );

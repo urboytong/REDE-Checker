@@ -1729,7 +1729,7 @@ const Profile = () => {
                     </button>
                   </div>
                   <ModalBody>
-                    <Col className="order-xl-1" xl="12">
+                    <Col className="order-xl-1">
                       <row>
                         <Card className="bg-secondary shadow">
                           <CardHeader className="border-0 width-card">
@@ -2102,7 +2102,7 @@ const Profile = () => {
                         alt="..."
                       />) : null}
                       <br/>
-                      <img src={UploadLeaveFormImageURL} style={{width: "100%"}}/>
+                      <img src={UploadLeaveFormImageURL} style={{width: "100%"}} className="shadow-imgLeave"/>
                     </div>
                     <div class="upload-btn-wrapper text-center">
                       <button class="btn-uploadFile">Upload File</button>
@@ -2142,7 +2142,7 @@ const Profile = () => {
                       <h2 className="heading-leaveForm">Leave form</h2>
                       <img
                         src={LeaveFormImage}
-                        className="img-fluid shadow-4 img-leaveForm"
+                        className="img-fluid shadow-4 img-leaveForm shadow-imgLeave"
                         alt="..."
                       />
                     </div>
@@ -2183,7 +2183,7 @@ const Profile = () => {
                                   className="form-control-label"
                                   htmlFor="input-username"
                                 >
-                                  Select Quest
+                                  Object
                                   <span className="text-red">*</span>
                                   &nbsp;
                                   <span className="text-red">
@@ -2203,7 +2203,7 @@ const Profile = () => {
                                   }
                                 >
                                   <option value="" disabled selected hidden>
-                                    Select Quest
+                                    Select Object
                                   </option>
                                   <option value="cup">cup</option>
                                   <option value="bottle">bottle</option>
@@ -2282,8 +2282,9 @@ const Profile = () => {
                                         userSelect: "none",
                                         background: "white",
                                       }}
+                                      className="box-position"
                                     >
-                                      Face x: {FaceBoxposition.x.toFixed(0)}, y:{" "}
+                                      Face x : {FaceBoxposition.x.toFixed(0)}, y :{" "}
                                       {FaceBoxposition.y.toFixed(0)}
                                     </div>
                                   </Draggable>
@@ -2304,9 +2305,10 @@ const Profile = () => {
                                         userSelect: "none",
                                         background: "white",
                                       }}
+                                      className="box-position"
                                     >
-                                      Object x: {ObjectBoxposition.x.toFixed(0)}
-                                      , y: {ObjectBoxposition.y.toFixed(0)}
+                                      Object x : {ObjectBoxposition.x.toFixed(0)}
+                                      , y : {ObjectBoxposition.y.toFixed(0)}
                                     </div>
                                   </Draggable>
                                 </div>
@@ -2425,14 +2427,14 @@ const Profile = () => {
                     ) : null}
                     {OnQuest ? (
                       <div>
-                        <p>ObjectSelect: {CurrentQuest.ObjectSelect}</p>
+                        <p>Object : {CurrentQuest.ObjectSelect}</p>
                         <p>
-                          CountdownTime: {CurrentQuest.CountdownTime} Minute
+                          Countdown Time: {CurrentQuest.CountdownTime} Minute
                         </p>
                         {/* <p className="mt-5">Start: {StartTime}</p> */}
                         {/* <p>End: {EndTime}</p> */}
                         <h3 className="text-red mt-5">
-                          Remaining time: {Countdown} Minute
+                          Remaining Time: {Countdown} Minute
                         </h3>
                         <p className="text-red">End: {EndTime}</p>
                         <Button
