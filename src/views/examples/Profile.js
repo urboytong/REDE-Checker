@@ -2102,7 +2102,7 @@ const Profile = () => {
                         alt="..."
                       />) : null}
                       <br/>
-                      <img src={UploadLeaveFormImageURL} style={{width: "100%"}}/>
+                      <img src={UploadLeaveFormImageURL} style={{width: "100%"}} className="shadow-imgLeave"/>
                     </div>
                     <div class="upload-btn-wrapper text-center">
                       <button class="btn-uploadFile">Upload File</button>
@@ -2142,7 +2142,7 @@ const Profile = () => {
                       <h2 className="heading-leaveForm">Leave form</h2>
                       <img
                         src={LeaveFormImage}
-                        className="img-fluid shadow-4 img-leaveForm"
+                        className="img-fluid shadow-4 img-leaveForm shadow-imgLeave"
                         alt="..."
                       />
                     </div>
@@ -2215,7 +2215,7 @@ const Profile = () => {
                                   className="form-control-label"
                                   htmlFor="input-username"
                                 >
-                                  Select Countdown Time
+                                  Countdown Time
                                   <span className="text-red">*</span>
                                   &nbsp;
                                   <span className="text-red">
@@ -2434,7 +2434,7 @@ const Profile = () => {
                         {/* <p className="mt-5">Start: {StartTime}</p> */}
                         {/* <p>End: {EndTime}</p> */}
                         <h3 className="text-red mt-5">
-                          Remaining time: {Countdown} Minute
+                          Remaining Time: {Countdown} Minute
                         </h3>
                         <p className="text-red">End: {EndTime}</p>
                         <Button

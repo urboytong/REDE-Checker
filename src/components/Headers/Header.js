@@ -52,7 +52,7 @@ const Header = () => {
     Tuesday: "#f3a4b5",
     Wednesday: "#2dce89",
     Thursday: "#fb6340",
-    Friday: "#28b8ed",
+    Friday: "#5e72e4",
     Saturday: "#8965e0",
     Sunday: "#f5365c",
   });

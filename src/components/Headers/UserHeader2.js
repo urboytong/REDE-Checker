@@ -167,7 +167,7 @@ const UserHeader = () => {
                 <Button
                   color="dark"
                   size="sm"
-                  className="edit-classroom"
+                  className="leave-classroom"
                   onClick={() => setModalOpen(!modalOpen)}
                 >
                   Leave Classroom
