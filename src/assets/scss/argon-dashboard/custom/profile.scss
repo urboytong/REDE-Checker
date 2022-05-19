@@ -213,7 +213,7 @@
 }
 
 .width-card {
-  width: 565.41px;
+  width: 585px;
 }
 
 //upload leave form modal
@@ -301,7 +301,12 @@
   width: 470px;
 }
 
-//delete student modal
+//modal create card
+.box-position {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
 
 
 @media only screen and (max-width: 1920px) {

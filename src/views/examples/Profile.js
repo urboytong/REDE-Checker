@@ -1573,7 +1573,7 @@ const Profile = () => {
                     </button>
                   </div>
                   <ModalBody>
-                    <Col className="order-xl-1" xl="12">
+                    <Col className="order-xl-1">
                       <row>
                         <Card className="bg-secondary shadow">
                           <CardHeader className="border-0 width-card">
@@ -1992,7 +1992,7 @@ const Profile = () => {
                                   className="form-control-label"
                                   htmlFor="input-username"
                                 >
-                                  Select Quest
+                                  Object
                                   <span className="text-red">*</span>
                                   &nbsp;
                                   <span className="text-red">
@@ -2012,7 +2012,7 @@ const Profile = () => {
                                   }
                                 >
                                   <option value="" disabled selected hidden>
-                                    Select Quest
+                                    Select Object
                                   </option>
                                   <option value="cup">cup</option>
                                   <option value="bottle">bottle</option>
@@ -2024,7 +2024,7 @@ const Profile = () => {
                                   className="form-control-label"
                                   htmlFor="input-username"
                                 >
-                                  Countdown Time
+                                  Select Countdown Time
                                   <span className="text-red">*</span>
                                   &nbsp;
                                   <span className="text-red">
@@ -2091,8 +2091,9 @@ const Profile = () => {
                                         userSelect: "none",
                                         background: "white",
                                       }}
+                                      className="box-position"
                                     >
-                                      Face x: {FaceBoxposition.x.toFixed(0)}, y:{" "}
+                                      Face x : {FaceBoxposition.x.toFixed(0)}, y :{" "}
                                       {FaceBoxposition.y.toFixed(0)}
                                     </div>
                                   </Draggable>
@@ -2113,9 +2114,10 @@ const Profile = () => {
                                         userSelect: "none",
                                         background: "white",
                                       }}
+                                      className="box-position"
                                     >
-                                      Object x: {ObjectBoxposition.x.toFixed(0)}
-                                      , y: {ObjectBoxposition.y.toFixed(0)}
+                                      Object x : {ObjectBoxposition.x.toFixed(0)}
+                                      , y : {ObjectBoxposition.y.toFixed(0)}
                                     </div>
                                   </Draggable>
                                 </div>
@@ -2234,9 +2236,9 @@ const Profile = () => {
                     ) : null}
                     {OnQuest ? (
                       <div>
-                        <p>ObjectSelect: {CurrentQuest.ObjectSelect}</p>
+                        <p>Object : {CurrentQuest.ObjectSelect}</p>
                         <p>
-                          CountdownTime: {CurrentQuest.CountdownTime} Minute
+                          Countdown Time: {CurrentQuest.CountdownTime} Minute
                         </p>
                         {/* <p className="mt-5">Start: {StartTime}</p> */}
                         {/* <p>End: {EndTime}</p> */}
