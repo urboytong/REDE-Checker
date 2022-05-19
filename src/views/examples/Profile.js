@@ -132,7 +132,7 @@ const Profile = () => {
   const [SeeMoreCompleteObject, setSeeMoreCompleteObject] = useState([]);
   const [CompleteSeeMore, setCompleteSeeMore] = useState({});
   const [Report, setReport] = useState({ Complete: [], Absent: [] });
-  const [ReportImage, setReportImage] = useState("");
+  const [ReportData, setReportData] = useState({});
   const [Summary, setSummary] = useState([]);
 
   const [ObjectSelectError, setObjectSelectError] = useState("");
@@ -598,9 +598,9 @@ const Profile = () => {
     setCompleteSeeMore(ndata);
   };
 
-  const reportimage = (image) => {
+  const report = (data) => {
     setModalOpen11(!modalOpen11);
-    setReportImage(image);
+    setReportData(data);
   };
 
   const FacetrackPos = (data) => {
@@ -1126,12 +1126,12 @@ const Profile = () => {
                                             type="button"
                                             size="sm"
                                             onClick={() =>
-                                              reportimage(
-                                                Report.Complete[id].Image
+                                              report(
+                                                Report.Complete[id]
                                               )
                                             }
                                           >
-                                            <i class="fa-solid fa-image"/>
+                                            <i class="fa-solid fa-image" />
                                           </Button>
                                         </td>
                                       </tr>
@@ -1230,15 +1230,17 @@ const Profile = () => {
                       <Card className="card-profile shadow">
                         <CardBody className="pt-0 pt-md-4">
                           <div className="text-center">
-                            <h2 className="text-success text-complete">Completed</h2>
-                            {/* <h2 className="text-success">
-                              " Selfie with a {SeeDetail.ObjectSelect}"
-                            </h2> */}
+                            <h2 className="text-success text-complete">
+                              Completed
+                            </h2>
+                            <h2 className="text-success">
+                              " Selfie with a {ReportData.ObjectSelect}"
+                            </h2>
                             <div>
-                              {/* <h4>{SeeDetail.Date}</h4> */}
+                              <h4>{ReportData.Date}</h4>
                             </div>
                             <img
-                              src={ReportImage}
+                              src={ReportData.Image}
                               width="640"
                               height="480"
                               className="img-fluid shadow-4"
