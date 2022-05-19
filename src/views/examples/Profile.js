@@ -134,6 +134,12 @@ const Profile = () => {
   const [Report, setReport] = useState({ Complete: [], Absent: [] });
   const [ReportData, setReportData] = useState({});
   const [Summary, setSummary] = useState([]);
+  const [UploadLeaveFormImage, setUploadLeaveFormImage] = useState();
+  const [UploadLeaveFormImageURL, setUploadLeaveFormImageURL] = useState("");
+  const [LeaveFormSubmited, setLeaveFormSubmited] = useState(false);
+  const [TargetQuestDocId, setTargetQuestDocId] = useState("");
+  const [TargetLeaveFormStudentData, setTargetLeaveFormStudentData] = useState({});
+  const [LeaveFormImage, setLeaveFormImage] = useState("");
 
   const [ObjectSelectError, setObjectSelectError] = useState("");
   const [CountdownTimeError, setCountdownTimeError] = useState("");
@@ -169,25 +175,21 @@ const Profile = () => {
     ],
   });
 
-  const options = {
+  const [options, setoptions] = useState({
     scales: {
-      xAxes: [{
-          ticks: {
-              beginAtZero: true,
-              max: 10,
-              min: 0,
-          }
-      }],
       yAxes: [{
           ticks: {
-              beginAtZero: true,
-              max: 10,
-              min: 0,
-              stepSize: 1,
+            min: 0, // it is for ignoring negative step.
+            beginAtZero: true,
+            callback: function(value, index, values) {
+                if (Math.floor(value) === value) {
+                    return value;
+                }
+            },
           }
       }]
   }
-  };
+  });
 
   useEffect(() => {
     //ใช้ firebaseApp.auth().onAuthStateChanged เพื่อใช้ firebaseApp.auth().currentUser โดยไม่ติด error เมื่อทำการ signout
@@ -269,6 +271,7 @@ const Profile = () => {
               }
 
               AllQuest[countall] = document.data();
+              AllQuest[countall].DocId = document.id;
               countall++;
             });
 
@@ -409,20 +412,35 @@ const Profile = () => {
     let chartlabel = [];
     let chartcompleteddata = [];
     let chartabsentdata = [];
+    let max = 0;
+    let option = options;
 
     for (let i = 0; i < allquest.length; i++) {
       chartlabel.push(allquest[allquest.length - 1 - i].Date);
       chartcompleteddata.push(
         allquest[allquest.length - 1 - i].Complete.length
       );
-      chartabsentdata.push(allquest[allquest.length - 1 - i].Absent.length);
+      chartabsentdata.push(allquest[allquest.length - 1 - i].Absent.length - allquest[allquest.length - 1 - i].Leave.length);
     }
 
     chartdata.labels = chartlabel;
     chartdata.datasets[0].data = chartcompleteddata;
     chartdata.datasets[1].data = chartabsentdata;
 
-    setdata(data);
+    max = Math.max.apply(Math, chartcompleteddata)
+    if(Math.max.apply(Math, chartabsentdata) > Math.max.apply(Math, chartcompleteddata)){
+      max = Math.max.apply(Math, chartabsentdata)
+    }
+
+    if(max < 10){
+      option.scales.yAxes[0].ticks.max = 10
+    }
+    if(max >= 10){
+      option.scales.yAxes[0].ticks.max = max
+    }
+    
+    setdata(chartdata);
+    setoptions(option);
 
     //Summary
 
@@ -437,7 +455,14 @@ const Profile = () => {
         }
         for (let l = 0; l < allquest[j].Absent.length; l++) {
           if (allquest[j].Absent[l].Uid == members[i].Uid) {
-            absentcount++;
+            let c = 0;
+            for (let k = 0; k < allquest[j].Leave.length; k++) {
+              if(allquest[j].Leave[k].Uid == members[i].Uid)
+                c++;
+            }
+            if(c == 0){
+              absentcount++;
+            }        
           }
         }
       }
@@ -493,10 +518,18 @@ const Profile = () => {
         });
       }
       if (count == 0) {
-        absent.push({
-          Date: AllQuestAndMember[i].Date,
-          ObjectSelect: AllQuestAndMember[i].ObjectSelect,
-        });
+        let c = 0;
+        for (let j = 0; j < AllQuestAndMember[i].Leave.length; j++) {
+          if(AllQuestAndMember[i].Leave[j].Uid == requestinfo.Uid){
+            c++
+          }
+        }
+        if(c == 0){
+          absent.push({
+            Date: AllQuestAndMember[i].Date,
+            ObjectSelect: AllQuestAndMember[i].ObjectSelect,
+          });
+        }
       }
       count = 0;
     }
@@ -601,8 +634,19 @@ const Profile = () => {
   };
 
   const seemoreabsent = (data) => {
-    setSeeMoreAbsent(data.Absent);
-    console.log(data.Absent);
+    let absent = data.Absent
+    let leave = data.Leave
+    for (let i = 0; i < absent.length; i++) {
+      absent[i].Leave = false;
+      for (let j = 0; j < leave.length; j++) {
+        if(absent[i].Uid == leave[j].Uid){
+          absent[i].Leave = true;
+          absent[i].Image = leave[j].Image;
+        }
+      }
+    }
+    setTargetQuestDocId(data.DocId)
+    setSeeMoreAbsent(absent);
     setSeeMoreCompleteObject(data.ObjectSelect);
   };
 
@@ -624,6 +668,118 @@ const Profile = () => {
     setModalOpen11(!modalOpen11);
     setReportData(data);
   };
+
+  const leaveform = (SeeMoreAbsent) => {
+    setModalOpen12(!modalOpen12);
+    setUploadLeaveFormImageURL("");
+    setUploadLeaveFormImage();
+    setLeaveFormSubmited(false);
+    setTargetLeaveFormStudentData(SeeMoreAbsent)
+  };
+  
+  const leaveformuploadfile = (value, file) => {
+    setUploadLeaveFormImage(file);
+    setUploadLeaveFormImageURL(URL.createObjectURL(file))
+  };
+
+  const seeleaveform = (image) => {
+    setModalOpen13(!modalOpen13)
+    setLeaveFormImage(image);
+  };
+
+  const submitleaveform = async (con) => {
+    if(LeaveFormSubmited == false){
+      if(con == "withfile"){
+        const files = UploadLeaveFormImage;
+        const data = new FormData();
+        data.append("file", files);
+        data.append("upload_preset", "LeaveFile_images");
+        const res = await fetch(
+          "	https://api.cloudinary.com/v1_1/daxwfdlwj/image/upload",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+        const file = await res.json();
+        //เปลี่ยน setIimage เป็น setImage เพื่อเก็บ url โดยตรง
+        console.log(file.secure_url);
+
+        let quest = AllQuestAndMember;
+        let tid = TargetQuestDocId;
+        const index = quest.findIndex((object) => {
+          return object.DocId === tid;
+        });
+        let leavesubmit = {};
+        leavesubmit.FirstName = TargetLeaveFormStudentData.FirstName
+        leavesubmit.LastName = TargetLeaveFormStudentData.LastName
+        leavesubmit.StudentID = TargetLeaveFormStudentData.StudentID
+        leavesubmit.Uid = TargetLeaveFormStudentData.Uid
+        leavesubmit.Image = file.secure_url
+
+        let questleave = quest[index].Leave
+        questleave.push(leavesubmit)
+    
+        const db = firebaseApp.firestore();
+        const res2 = await db
+          .collection("Quest")
+          .doc(TargetQuestDocId)
+          .update({
+            Leave: questleave,
+          });
+
+          let absent = SeeMoreAbsent
+          for (let i = 0; i < absent.length; i++) {
+            if(absent[i].Uid == TargetLeaveFormStudentData.Uid){
+              absent[i].Leave = true;
+              absent[i].Image = file.secure_url;
+            }
+          }
+          setSeeMoreAbsent(absent);
+    
+          setModalOpen12(!modalOpen12);
+          setLeaveFormSubmited(true);
+      }
+      if(con == "withoutfile"){
+        let quest = AllQuestAndMember;
+        let tid = TargetQuestDocId;
+        const index = quest.findIndex((object) => {
+          return object.DocId === tid;
+        });
+        let leavesubmit = {};
+        leavesubmit.FirstName = TargetLeaveFormStudentData.FirstName
+        leavesubmit.LastName = TargetLeaveFormStudentData.LastName
+        leavesubmit.StudentID = TargetLeaveFormStudentData.StudentID
+        leavesubmit.Uid = TargetLeaveFormStudentData.Uid
+        leavesubmit.Image = ""
+
+        let questleave = quest[index].Leave
+        questleave.push(leavesubmit)
+    
+        const db = firebaseApp.firestore();
+        const res2 = await db
+          .collection("Quest")
+          .doc(TargetQuestDocId)
+          .update({
+            Leave: questleave,
+          });
+
+          let absent = SeeMoreAbsent
+          for (let i = 0; i < absent.length; i++) {
+            if(absent[i].Uid == TargetLeaveFormStudentData.Uid){
+              absent[i].Leave = true;
+              absent[i].Image = "";
+            }
+          }
+          setSeeMoreAbsent(absent);
+    
+          setModalOpen12(!modalOpen12);
+          setLeaveFormSubmited(true);
+      }
+    }
+
+  };
+  
 
   const FacetrackPos = (data) => {
     setFaceBoxposition({ x: data.x + 110, y: data.y + 110 });
@@ -1475,7 +1631,7 @@ const Profile = () => {
                                       >
                                         {(
                                           (Summary[id].CompletedCount * 100) /
-                                          AllQuest.length
+                                          (Summary[id].CompletedCount+Summary[id].AbsentCount)
                                         ).toFixed(0)}{" "}
                                         %
                                       </Badge>
@@ -1594,7 +1750,7 @@ const Profile = () => {
                               <tr>
                                 <th scope="col">Quest</th>
                                 <th scope="col">completed</th>
-                                <th scope="col">absent</th>
+                                <th scope="col">absent/leave</th>
                                 <th scope="col"></th>
                               </tr>
                             </thead>
@@ -1794,16 +1950,16 @@ const Profile = () => {
                                       </Badge>
                                     </td>
 
-                                    <td className="height-statusReport">
+                                    {SeeMoreAbsent[id].Leave == false ? (<td className="height-statusReport">
                                       <Badge
                                         color=""
                                         className="badge-dot mr-4"
                                       >
                                         Absent
                                       </Badge>
-                                    </td>
+                                    </td>) : null}
 
-                                    <td className="text-right threedot">
+                                    {SeeMoreAbsent[id].Leave == false ? (<td className="text-right threedot">
                                       <UncontrolledDropdown>
                                         <DropdownToggle
                                           className="btn-icon-only text-light"
@@ -1819,15 +1975,50 @@ const Profile = () => {
                                           right
                                         >
                                           <DropdownItem
-                                            onClick={() =>
-                                              setModalOpen12(!modalOpen12)
+                                            onClick={() => 
+                                              leaveform(SeeMoreAbsent[id])
                                             }
                                           >
                                             Leave
                                           </DropdownItem>
                                         </DropdownMenu>
                                       </UncontrolledDropdown>
-                                    </td>
+                                    </td>) : null}
+
+                                    {SeeMoreAbsent[id].Leave == true ? (<td className="height-statusReport">
+                                      <Badge
+                                        color=""
+                                        className="badge-dot mr-4"
+                                      >
+                                        Leave
+                                      </Badge>
+                                    </td>) : null}
+
+                                    {SeeMoreAbsent[id].Leave == true && SeeMoreAbsent[id].Image != "" ? (<td className="text-right threedot">
+                                      <UncontrolledDropdown>
+                                        <DropdownToggle
+                                          className="btn-icon-only text-light"
+                                          role="button"
+                                          size="sm"
+                                          color=""
+                                          onClick={(e) => e.preventDefault()}
+                                        >
+                                          <i className="fas fa-ellipsis-v" />
+                                        </DropdownToggle>
+                                        <DropdownMenu
+                                          className="dropdown-menu-arrow"
+                                          right
+                                        >
+                                          <DropdownItem
+                                            onClick={() => 
+                                              seeleaveform(SeeMoreAbsent[id].Image)
+                                            }
+                                          >
+                                            See Leave form
+                                          </DropdownItem>
+                                        </DropdownMenu>
+                                      </UncontrolledDropdown>
+                                    </td>) : null}
                                   </tr>
                                 );
                               })}
@@ -1902,26 +2093,29 @@ const Profile = () => {
                       <h2 className="upload-leave-form">
                         Please upload leave form
                       </h2>
-                      <img
+                      {UploadLeaveFormImageURL == "" ? (<img
                         src={
                           require("../../assets/img/theme/img-upload.png")
                             .default
                         }
                         className="img-fluid shadow-4 img-upload"
                         alt="..."
-                      />
+                      />) : null}
+                      <br/>
+                      <img src={UploadLeaveFormImageURL} style={{width: "100%"}}/>
                     </div>
                     <div class="upload-btn-wrapper text-center">
                       <button class="btn-uploadFile">Upload File</button>
-                      <input type="file" name="myfile" />
+                      <input type="file" name="myfile" onChange={(e) => leaveformuploadfile(e.target.value, e.target.files[0])}/>
                     </div>
+                    {!UploadLeaveFormImageURL == "" ? (<button class="btn-uploadFile" onClick={() => submitleaveform("withfile")}>Submit with file</button>) : null}
                     <div className="box mt-3">
                       <div className="line"></div>
                       <div className="lightGray-textSize or">OR</div>
                       <div className="line"></div>
                     </div>
                     <div>
-                      <button class="btn-uploadFile2">Not Upload File</button>
+                      <button class="btn-uploadFile2" onClick={() => submitleaveform("withoutfile")}>Submit without file</button>
                     </div>
                   </ModalBody>
                   <ModalFooter></ModalFooter>
@@ -1947,10 +2141,7 @@ const Profile = () => {
                       {" "}
                       <h2 className="heading-leaveForm">Leave form</h2>
                       <img
-                        src={
-                          require("../../assets/img/theme/leave_form.jpg")
-                            .default
-                        }
+                        src={LeaveFormImage}
                         className="img-fluid shadow-4 img-leaveForm"
                         alt="..."
                       />
@@ -2403,7 +2594,7 @@ const Profile = () => {
                       completed
                     </th>
                     <th scope="col" className="td-nonePadding3">
-                      absent
+                      absent/leave
                     </th>
                     <th scope="col" className="td-nonePadding5" />
                   </tr>
