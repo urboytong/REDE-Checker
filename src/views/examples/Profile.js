@@ -1312,6 +1312,7 @@ const Profile = () => {
                               <i className="ni location_pin mr-2" />
                               {CompleteSeeMore.Faculty},{" "}
                               {CompleteSeeMore.Department}
+                              {/* <br/>{CompleteSeeMore.Major} */}
                             </div>
                             <hr className="my-4" />
                           </div>
@@ -1341,14 +1342,13 @@ const Profile = () => {
                 <Modal
                   toggle={() => setModalOpen4(!modalOpen4)}
                   isOpen={modalOpen4}
-                  size="sm"
                   className="confirm-modal"
                 >
                   <div className=" modal-header"></div>
                   <ModalBody>
                     {" "}
                     <span className="font-weight-light">
-                      You want to Delete &nbsp;
+                      You want to delete &nbsp;
                       <span className="font-weight-bold">
                         {CurrentRequestProfile.FirstName}{" "}
                         {CurrentRequestProfile.LastName}
