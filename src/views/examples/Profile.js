@@ -401,6 +401,24 @@ const Profile = () => {
       );
     }
 
+    let allmemberid = [];
+
+    for (let i = 0; i < members.length; i++) {
+      allmemberid.push(members[i].Uid)
+    }
+    
+    for (let i = 0; i < allquest.length; i++) {
+      let leave = []
+      for (let j = 0; j < allquest[i].Leave.length; j++) {
+        if(allmemberid.includes(allquest[i].Leave[j].Uid)){
+          leave.push(allquest[i].Leave[j])
+        }
+      }
+      allquest[i].Leave = leave;
+    }
+
+
+
     console.log("allquest");
     console.log(allquest);
 
@@ -447,6 +465,7 @@ const Profile = () => {
     for (let i = 0; i < members.length; i++) {
       let completedcount = 0;
       let absentcount = 0;
+      let leavecount = 0;
       for (let j = 0; j < allquest.length; j++) {
         for (let k = 0; k < allquest[j].Complete.length; k++) {
           if (allquest[j].Complete[k].Uid == members[i].Uid) {
@@ -462,12 +481,17 @@ const Profile = () => {
             }
             if(c == 0){
               absentcount++;
-            }        
+            }      
+            if(c != 0){
+              leavecount++;
+            }  
           }
         }
       }
       members[i].CompletedCount = completedcount;
       members[i].AbsentCount = absentcount;
+      members[i].LeaveCount = leavecount;
+      members[i].AllQuestCount = allquest.length;
     }
     setSummary(members);
   }, [AllQuest, Members]);
@@ -1630,8 +1654,8 @@ const Profile = () => {
                                         className="badge-dot mr-4"
                                       >
                                         {(
-                                          (Summary[id].CompletedCount * 100) /
-                                          (Summary[id].CompletedCount+Summary[id].AbsentCount)
+                                          ((Summary[id].CompletedCount + Summary[id].LeaveCount) * 100) /
+                                          Summary[id].AllQuestCount
                                         ).toFixed(0)}{" "}
                                         %
                                       </Badge>
