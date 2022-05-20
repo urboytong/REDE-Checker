@@ -17,7 +17,9 @@
 */
 
 // reactstrap components
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import firebaseApp from "../../firebase";
+import { AuthContext } from "components/Auth/Auth.js";
 import {
   Button,
   Badge,
@@ -52,6 +54,38 @@ import {
 import "assets/scss/argon-dashboard/custom/AdminNavbar.scss";
 
 const Profile = ({modalOpen2,setModalOpen2}) => {
+
+  const [ForgotPassForm, setForgotPassForm] = useState(true);
+  const [ForgotPassForm2, setForgotPassForm2] = useState(false);
+
+  const { currentUser } = useContext(AuthContext);
+
+  const forgotPassword = (Email) => {
+    if (Email != "") {
+      firebaseApp
+        .auth()
+        .sendPasswordResetEmail(Email)
+        .then(function (user) {
+          setForgotPassForm(false);
+          setForgotPassForm2(true);
+        })
+        .catch(function (e) {
+          console.log(e);
+        });
+        setTimeout(function () {
+          setModalOpen2(!modalOpen2);
+          setTimeout(function () {
+            setForgotPassForm(true);
+            setForgotPassForm2(false);
+          }, 1000);
+        }, 4000);
+    }
+    if (Email == "") {
+      //Code
+    }
+  };
+
+
   return (
     <>
 <Modal
@@ -60,20 +94,12 @@ const Profile = ({modalOpen2,setModalOpen2}) => {
         size="lg"
       >
         <div className=" modal-header">
-          <button
-            aria-label="Close"
-            className=" close"
-            type="button"
-            onClick={() => setModalOpen2(!modalOpen2)}
-          >
-            <span aria-hidden={true}>×</span>
-          </button>
         </div>
         <ModalBody>
           <Row>
             {" "}
             <Col>
-              <Card className="shadow">
+              {ForgotPassForm ? (<Card className="shadow">
                 <CardHeader className="bg-transparent">
                   <Row className="align-items-center">
                     <div className="col">
@@ -82,8 +108,9 @@ const Profile = ({modalOpen2,setModalOpen2}) => {
                   </Row>
                 </CardHeader>
                 <CardBody className="resetPass">
-                <div className="topicForm">Old Password</div>
-          <FormGroup>
+                <div>Will send reset password email to</div>
+                <h2 className="text-center mb-0">{currentUser.email}</h2>
+          {/*<FormGroup>
             <InputGroup className="input-group-alternative">
               <Input
                 className="darkGray width-field"
@@ -117,19 +144,40 @@ const Profile = ({modalOpen2,setModalOpen2}) => {
                 // onChange={(e) => setPassword(e.target.value)}
               />
             </InputGroup>
-          </FormGroup>
+          </FormGroup>*/}
           <div className="text-center mt-2">
             <Button
               className="my-4 buttonStyle"
               color="primary"
               type="button"
-              // onClick={handleSubmit}
+              onClick={() => forgotPassword(currentUser.email)}
             >
-              SAVE
+              SEND
             </Button>
           </div>            
                 </CardBody>
-              </Card>
+              </Card>) : null}
+
+              {ForgotPassForm2 ? (<Card className="shadow">
+                <CardHeader className="bg-transparent">
+                  <Row className="align-items-center">
+                    <div className="col">
+                      <h1 className="text-center">Please check your email</h1>
+                    </div>
+                  </Row>
+                </CardHeader>
+                <CardBody className="resetPass">
+                <img
+                  src={require("../../assets/img/image/mail-sending.gif").default}
+                  style={{
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
+                  className="webcam-style"
+                />
+                </CardBody>
+              </Card>) : null}
+
             </Col>
           </Row>
         </ModalBody>
