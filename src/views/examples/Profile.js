@@ -690,6 +690,7 @@ const Profile = () => {
   const submitleaveform = async (con) => {
     if(LeaveFormSubmited == false){
       if(con == "withfile"){
+        setLeaveFormSubmited(true);
         const files = UploadLeaveFormImage;
         const data = new FormData();
         data.append("file", files);
@@ -738,9 +739,9 @@ const Profile = () => {
           setSeeMoreAbsent(absent);
     
           setModalOpen12(!modalOpen12);
-          setLeaveFormSubmited(true);
       }
       if(con == "withoutfile"){
+        setLeaveFormSubmited(true);
         let quest = AllQuestAndMember;
         let tid = TargetQuestDocId;
         const index = quest.findIndex((object) => {
@@ -774,7 +775,6 @@ const Profile = () => {
           setSeeMoreAbsent(absent);
     
           setModalOpen12(!modalOpen12);
-          setLeaveFormSubmited(true);
       }
     }
 

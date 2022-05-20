@@ -126,7 +126,7 @@ const Header = () => {
           if (document.data().AcademicYear > ayearcheck) {
             ClassRoom[count] = document.data();
             ClassRoom[count].key = document.id;
-            ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
+            ClassRoom[count].daycolor = DaysColor[ClassRoom[count].DateTime[0].Date];
             ClassRoom[count].CurrentQuestBool = false;
             if (CurrentQuest.includes(document.id)) {
               ClassRoom[count].CurrentQuestBool = true;
@@ -137,7 +137,7 @@ const Header = () => {
             if (document.data().Semester > semestercheck) {
               ClassRoom[count] = document.data();
               ClassRoom[count].key = document.id;
-              ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
+              ClassRoom[count].daycolor = DaysColor[ClassRoom[count].DateTime[0].Date];
               ClassRoom[count].CurrentQuestBool = false;
               if (CurrentQuest.includes(document.id)) {
                 ClassRoom[count].CurrentQuestBool = true;
@@ -147,7 +147,7 @@ const Header = () => {
             if (document.data().Semester == semestercheck) {
               ClassRoom[count] = document.data();
               ClassRoom[count].key = document.id;
-              ClassRoom[count].daycolor = DaysColor[ClassRoom[count].ClassDate];
+              ClassRoom[count].daycolor = DaysColor[ClassRoom[count].DateTime[0].Date];
               ClassRoom[count].CurrentQuestBool = false;
               if (CurrentQuest.includes(document.id)) {
                 ClassRoom[count].CurrentQuestBool = true;
