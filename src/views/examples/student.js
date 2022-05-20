@@ -392,25 +392,15 @@ const Profile = () => {
         </div>
         <ModalBody>
           {" "}
-          <Col className="order-xl-2 mb-5 mb-xl-0" xl="12">
-            <Card className="card-profile shadow">
-              <CardBody className="pt-0 pt-md-4">
-                <div className="text-center">
-                  <h2 className="text-complete">Leave Form</h2>
-                  <img
-                    src={SeeDetail.LeaveImage}
-                    width="640"
-                    height="480"
-                    className="img-fluid shadow-4"
-                    alt="..."
-                    style={{
-                      transform: "rotateY(180deg)",
-                    }}
-                  />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
+          <div className="text-center">
+            {" "}
+            <h2 className="heading-leaveForm">Leave Form</h2>
+            <img
+              src={SeeDetail.LeaveImage}
+              className="img-fluid shadow-4 img-leaveForm shadow-imgLeave"
+              alt="..."
+            />
+          </div>
         </ModalBody>
         <ModalFooter className="footer-none"></ModalFooter>
       </Modal>
