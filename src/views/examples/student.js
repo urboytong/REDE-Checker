@@ -163,7 +163,7 @@ const Profile = () => {
             }
           }
           setQuestCompleted(
-            (100 * completecount) / (completecount + absentcount - leavecount)
+            (100 * (completecount + leavecount)) / AllQuest.length
           );
           completecount = 0;
           console.log(AllQuest);
