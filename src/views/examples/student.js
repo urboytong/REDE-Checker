@@ -71,6 +71,7 @@ const Profile = () => {
   const [modalOpen1, setModalOpen1] = useState(false);
   const [modalOpen2, setModalOpen2] = useState(false);
   const [modalOpen3, setModalOpen3] = useState(false);
+  const [modalOpen4, setModalOpen4] = useState(false);
 
   const [CurrentQuest, setCurrentQuest] = useState({});
   const [AllQuest, setAllQuest] = useState([]);
@@ -120,6 +121,7 @@ const Profile = () => {
             }
             AllQuest[countall] = document.data();
             AllQuest[countall].Complete = false;
+            AllQuest[countall].Leave = false;
             for (let i = 0; i < document.data().Complete.length; i++) {
               if (
                 document.data().Complete[i].Uid == currentUser._delegate.uid
@@ -128,6 +130,13 @@ const Profile = () => {
                 AllQuest[countall].Image = document.data().Complete[i].Image;
               }
             }
+            for (let i = 0; i < document.data().Leave.length; i++) {
+              if (document.data().Leave[i].Uid == currentUser._delegate.uid) {
+                AllQuest[countall].Leave = true;
+                AllQuest[countall].LeaveImage = document.data().Leave[i].Image;
+              }
+            }
+
             countall++;
           });
 
@@ -140,12 +149,22 @@ const Profile = () => {
               : 0
           );
           let completecount = 0;
-          for(let i = 0; i < AllQuest.length; i++){
-            if(AllQuest[i].Complete){
+          let absentcount = 0;
+          let leavecount = 0;
+          for (let i = 0; i < AllQuest.length; i++) {
+            if (AllQuest[i].Complete) {
               completecount++;
             }
+            if (!AllQuest[i].Complete) {
+              absentcount++;
+            }
+            if (AllQuest[i].Leave) {
+              leavecount++;
+            }
           }
-          setQuestCompleted(100*completecount/AllQuest.length);
+          setQuestCompleted(
+            (100 * completecount) / (completecount + absentcount - leavecount)
+          );
           completecount = 0;
           console.log(AllQuest);
           setAllQuest(AllQuest);
@@ -193,9 +212,14 @@ const Profile = () => {
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   }
 
-  const seedetail = (id) => {
-    setModalOpen3(!modalOpen3);
+  const seedetail = (id, leave) => {
     setSeeDetail(AllQuest[id]);
+    if (leave == "complete") {
+      setModalOpen3(!modalOpen3);
+    }
+    if (leave == "leave") {
+      setModalOpen4(!modalOpen4);
+    }
     console.log(AllQuest[id]);
   };
 
@@ -351,6 +375,46 @@ const Profile = () => {
         <ModalFooter className="footer-none"></ModalFooter>
       </Modal>
 
+      <Modal
+        toggle={() => setModalOpen4(!modalOpen4)}
+        isOpen={modalOpen4}
+        size="lg"
+      >
+        <div className=" modal-header">
+          <button
+            aria-label="Close"
+            className=" close"
+            type="button"
+            onClick={() => setModalOpen4(!modalOpen4)}
+          >
+            <span aria-hidden={true}>×</span>
+          </button>
+        </div>
+        <ModalBody>
+          {" "}
+          <Col className="order-xl-2 mb-5 mb-xl-0" xl="12">
+            <Card className="card-profile shadow">
+              <CardBody className="pt-0 pt-md-4">
+                <div className="text-center">
+                  <h2 className="text-complete">Leave Form</h2>
+                  <img
+                    src={SeeDetail.LeaveImage}
+                    width="640"
+                    height="480"
+                    className="img-fluid shadow-4"
+                    alt="..."
+                    style={{
+                      transform: "rotateY(180deg)",
+                    }}
+                  />
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
+        </ModalBody>
+        <ModalFooter className="footer-none"></ModalFooter>
+      </Modal>
+
       <Container className="mt--7 " fluid>
         <Row>
           <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
@@ -411,7 +475,9 @@ const Profile = () => {
                   {NotOnQuest ? (
                     <div>
                       <div>
-                        <h1 className="mb-4 text-red">" There is no quest available "</h1>
+                        <h1 className="mb-4 text-red">
+                          " There is no quest available "
+                        </h1>
                       </div>
                     </div>
                   ) : null}
@@ -427,7 +493,11 @@ const Profile = () => {
                   <div className="col">
                     <h3 className="mb-0 ">Attendance</h3>
                   </div>
-                  {AllQuest.length != 0 ? (<div className="col text-right">Quest Completed {QuestCompleted.toFixed(0)} %</div>) : null}
+                  {AllQuest.length != 0 ? (
+                    <div className="col text-right">
+                      Quest Completed {QuestCompleted.toFixed(0)} %
+                    </div>
+                  ) : null}
                 </Row>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
@@ -466,11 +536,23 @@ const Profile = () => {
                         ) : null}
 
                         {!AllQuest[id].Complete &&
+                        !AllQuest[id].Leave &&
                         AllQuest[id].EndTimeStamp < Date.now() ? (
                           <td className="td-nonePadding hightBox-profile">
                             <Badge color="" className="badge-dot mr-4">
                               <i className="bg-danger" />
                               Absent
+                            </Badge>
+                          </td>
+                        ) : null}
+
+                        {!AllQuest[id].Complete &&
+                        AllQuest[id].Leave &&
+                        AllQuest[id].EndTimeStamp < Date.now() ? (
+                          <td className="td-nonePadding hightBox-profile">
+                            <Badge color="" className="badge-dot mr-4">
+                              <i className="bg-danger" />
+                              Leave
                             </Badge>
                           </td>
                         ) : null}
@@ -492,7 +574,22 @@ const Profile = () => {
                                 color="dark"
                                 type="button"
                                 size="sm"
-                                onClick={() => seedetail(id)}
+                                onClick={() => seedetail(id, "complete")}
+                              >
+                                See Detail
+                              </Button>
+                            </div>
+                          </td>
+                        ) : null}
+
+                        {AllQuest[id].Leave && AllQuest[id].LeaveImage != "" ? (
+                          <td className="td-nonePadding hightBox-profile">
+                            <div className="d-flex align-items-center">
+                              <Button
+                                color="dark"
+                                type="button"
+                                size="sm"
+                                onClick={() => seedetail(id, "leave")}
                               >
                                 See Detail
                               </Button>
@@ -504,9 +601,9 @@ const Profile = () => {
                   })}
                 </tbody>
               </Table>
-              {AllQuest.length == 0 ? (<div className="no-request text-red">
-                No quest recently
-              </div>) : null}
+              {AllQuest.length == 0 ? (
+                <div className="no-request text-red">No quest recently</div>
+              ) : null}
             </Card>
           </Col>
         </Row>
