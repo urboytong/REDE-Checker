@@ -441,6 +441,7 @@ const Icons = () => {
         {QuestForm ? (
           <div className="text-center">
             <h1 className="mb-3">Object: {ObjectSelect}</h1>
+            <h1 className="mb-3">Objects: {DObject}</h1>
           </div>
         ) : null}
 
