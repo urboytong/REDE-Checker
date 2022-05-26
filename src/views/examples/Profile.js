@@ -2231,6 +2231,12 @@ const Profile = () => {
                                   </option>
                                   <option value="cup">cup</option>
                                   <option value="bottle">bottle</option>
+                                  <option value="toothbrush">toothbrush</option>
+                                  <option value="fork">fork</option>
+                                  <option value="spoon">spoon</option>
+                                  <option value="bowl">bowl</option>
+                                  <option value="cellphone">cellphone</option>
+                                  <option value="scissors">scissors</option>
                                 </Input>
                               </Col>
                               &nbsp;
