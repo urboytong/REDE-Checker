@@ -1622,6 +1622,7 @@ const Profile = () => {
                                 <th scope="col">quest completed</th>
                                 <th scope="col">completed</th>
                                 <th scope="col">absent</th>
+                                <th scope="col">leave</th>
                                 <th scope="col" className="text-right"></th>
                               </tr>
                             </thead>
@@ -1676,6 +1677,15 @@ const Profile = () => {
                                       >
                                         <i className="bg-danger" />
                                         {Summary[id].AbsentCount}
+                                      </Badge>
+                                    </td>
+                                    <td>
+                                      <Badge
+                                        color=""
+                                        className="badge-dot mr-4"
+                                      >
+                                        <i className="bg-info" />
+                                        {Summary[id].LeaveCount}
                                       </Badge>
                                     </td>
                                     <td className="text-right threedot">

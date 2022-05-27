@@ -110,6 +110,9 @@ const Header2 = () => {
     Sunday: "#f5365c",
   });
 
+  const [ImageCover, setImageCover] = useState();
+  const [ImageCoverURL, setImageCoverURL] = useState();
+
   const history = useHistory();
 
   const routeChange = (e) => {
@@ -121,6 +124,8 @@ const Header2 = () => {
   };
 
   const ModalOpens = () => {
+    setImageCover();
+    setImageCoverURL("")
     clearErrors();
     let ayearcheck;
     let semestercheck;
@@ -164,6 +169,7 @@ const Header2 = () => {
       }
     }
     ErrorsCheck(count);
+    let CoverImage = ""
     if (
       SubjectCode != "" &&
       Section != "" &&
@@ -172,6 +178,22 @@ const Header2 = () => {
       count == 0 &&
       Semester != ""
     ) {
+      if(ImageCoverURL != ""){
+        const files = ImageCover;
+        const data = new FormData();
+        data.append("file", files);
+        data.append("upload_preset", "CoverImage_images");
+        const res = await fetch(
+          "	https://api.cloudinary.com/v1_1/daxwfdlwj/image/upload",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+        const file = await res.json();
+        //เปลี่ยน setIimage เป็น setImage เพื่อเก็บ url โดยตรง
+        CoverImage = file.secure_url;
+      }
       const documentRef = await userCollection.add({
         SubjectCode,
         Section,
@@ -182,6 +204,7 @@ const Header2 = () => {
         Request: request,
         AcademicYear,
         Semester,
+        CoverImage
       });
       setModalOpen(!modalOpen);
       setSubjectCode("");
@@ -245,6 +268,11 @@ const Header2 = () => {
     let test = DateTime;
     test[id].EndTime = val;
     setDateTime((DateTime) => [...test]);
+  };
+
+  const uploadcover = (file) => {
+    setImageCover(file);
+    setImageCoverURL(URL.createObjectURL(file))
   };
 
   useEffect(() => {
@@ -432,10 +460,11 @@ const Header2 = () => {
                       <button class="btn-uploadCoverimg">
                         Select Cover Image
                       </button>
-                      <input type="file" name="myfile" />
+                      <input type="file" name="myfile" onChange={(e) => uploadcover(e.target.files[0])}/>
                     </div>
                   </Col>
                 </Row>
+                {!ImageCoverURL == "" ? (<img src={ImageCoverURL} style={{width: "100%", height: "300px"}} className="shadow-imgLeave"/>) : null}
               </CardHeader>
               <CardBody>
                 {/*<Form>*/}
