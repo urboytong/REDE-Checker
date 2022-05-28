@@ -1292,9 +1292,7 @@ const Profile = () => {
                                   <tr>
                                     <th scope="col">Date</th>
                                     <th scope="col">Quest</th>
-                                    <th scope="col" className="col text-right">
-                                      details
-                                    </th>
+                                    <th scope="col" className="col">details</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -1321,7 +1319,7 @@ const Profile = () => {
                                             {Report.Complete[id].ObjectSelect}
                                           </Badge>
                                         </td>
-                                        <td className="text-right">
+                                        <td className="text-center">
                                           <Button
                                             className="btn-icon btn-2"
                                             color="dark"
@@ -1354,7 +1352,7 @@ const Profile = () => {
                               <CardHeader className="border-0">
                                 <Row>
                                   <div className="col">
-                                    <h3 className="mb-0">Absent</h3>
+                                    <h3 className="mb-0">Absent / Leave</h3>
                                   </div>
                                   <div className="col text-right"></div>
                                 </Row>
@@ -1367,6 +1365,7 @@ const Profile = () => {
                                   <tr>
                                     <th scope="col">Date</th>
                                     <th scope="col">Quest</th>
+                                    <th scope="col" className="col">status</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -1392,6 +1391,9 @@ const Profile = () => {
                                             Selfie with a{" "}
                                             {Report.Absent[id].ObjectSelect}
                                           </Badge>
+                                        </td>
+                                        <td>
+                                          Absent
                                         </td>
                                       </tr>
                                     );
@@ -1619,9 +1621,9 @@ const Profile = () => {
                                 <th scope="col" className="td-nonePadding">
                                   name
                                 </th>
-                                <th scope="col">quest completed</th>
-                                <th scope="col">completed</th>
-                                <th scope="col">absent</th>
+                                <th scope="col" className="td-nonePadding">studied</th>
+                                <th scope="col" >completed</th>
+                                <th scope="col" className="td-nonePadding">absent</th>
                                 <th scope="col">leave</th>
                                 <th scope="col" className="text-right"></th>
                               </tr>
@@ -1649,7 +1651,7 @@ const Profile = () => {
                                         {Summary[id].LastName}
                                       </Badge>
                                     </td>
-                                    <td>
+                                    <td className="td-nonePadding">
                                       <Badge
                                         color=""
                                         className="badge-dot mr-4"
@@ -1670,7 +1672,7 @@ const Profile = () => {
                                         {Summary[id].CompletedCount}
                                       </Badge>
                                     </td>
-                                    <td>
+                                    <td className="td-nonePadding">
                                       <Badge
                                         color=""
                                         className="badge-dot mr-4"
@@ -1684,7 +1686,7 @@ const Profile = () => {
                                         color=""
                                         className="badge-dot mr-4"
                                       >
-                                        <i className="bg-info" />
+                                        <i className="bg-warning" />
                                         {Summary[id].LeaveCount}
                                       </Badge>
                                     </td>

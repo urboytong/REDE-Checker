@@ -481,11 +481,11 @@ const Profile = () => {
               <CardHeader className="border-0 Attendance-student">
                 <Row className="align-items-center">
                   <div className="col">
-                    <h3 className="mb-0 ">Attendance</h3>
+                    <h3 className="mb-0 ">Attendence</h3>
                   </div>
                   {AllQuest.length != 0 ? (
                     <div className="col text-right">
-                      Quest Completed {QuestCompleted.toFixed(0)} %
+                      Studied {QuestCompleted.toFixed(0)} %
                     </div>
                   ) : null}
                 </Row>
@@ -541,7 +541,7 @@ const Profile = () => {
                         AllQuest[id].EndTimeStamp < Date.now() ? (
                           <td className="td-nonePadding hightBox-profile">
                             <Badge color="" className="badge-dot mr-4">
-                              <i className="bg-danger" />
+                              <i className="bg-warning" />
                               Leave
                             </Badge>
                           </td>

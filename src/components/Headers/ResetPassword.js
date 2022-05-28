@@ -108,7 +108,7 @@ const Profile = ({modalOpen2,setModalOpen2}) => {
                   </Row>
                 </CardHeader>
                 <CardBody className="resetPass">
-                <div>Will send reset password email to</div>
+                <div className="mb-3">Will send reset password email to</div>
                 <h2 className="text-center mb-0">{currentUser.email}</h2>
           {/*<FormGroup>
             <InputGroup className="input-group-alternative">
