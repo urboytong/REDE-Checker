@@ -38,6 +38,7 @@ import "assets/scss/argon-dashboard/custom/UserHeader2.scss";
 
 const UserHeader = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [CoverImage, setCoverImage] = useState("https://res.cloudinary.com/daxwfdlwj/image/upload/v1653629566/CoverImage/KMUTT01_mxtvzp.jpg");
 
   const [ClassRoom, setClassRoom] = useState({});
   const [Permission, setPermission] = useState(true);
@@ -76,6 +77,11 @@ const UserHeader = () => {
               ClassRoom.Members.includes(currentUser._delegate.uid)
             );
             console.log(ClassRoom.Members.includes(currentUser._delegate.uid));
+            if(ClassRoom.CoverImage != undefined){              
+              if(ClassRoom.CoverImage != ""){
+                setCoverImage(ClassRoom.CoverImage);
+              }
+            }
           }
           if (!ClassRoom) {
             setPermission(false);
@@ -119,10 +125,7 @@ const UserHeader = () => {
         className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center bg-classroom"
         style={{
           minHeight: "600px",
-          backgroundImage:
-            "url(" +
-            require("../../assets/img/theme/KMUTT01.jpg").default +
-            ")",
+          backgroundImage: "url("+CoverImage+")",
           backgroundSize: "cover",
           backgroundPosition: "center top",
         }}

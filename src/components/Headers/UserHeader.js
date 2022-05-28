@@ -44,6 +44,7 @@ const UserHeader = () => {
   const [ClassRoom, setClassRoom] = useState({});
   const [Permission, setPermission] = useState(true);
   const [Date, setDate] = useState([]);
+  const [CoverImage, setCoverImage] = useState("https://res.cloudinary.com/daxwfdlwj/image/upload/v1653629566/CoverImage/KMUTT01_mxtvzp.jpg");
 
   const [SubjectCode, setSubjectCode] = useState("");
   const [Section, setSection] = useState("");
@@ -58,6 +59,9 @@ const UserHeader = () => {
   const [AcademicYearError, setAcademicYearError] = useState("");
   const [SemesterError, setSemesterError] = useState("");
   const [DateTimeError, setDateTimeError] = useState("");
+
+  const [ImageCover, setImageCover] = useState();
+  const [ImageCoverURL, setImageCoverURL] = useState();
 
   const location = useLocation();
 
@@ -87,6 +91,11 @@ const UserHeader = () => {
           }
           if (ClassRoom) {
             setClassRoom(ClassRoom);
+            if(ClassRoom.CoverImage != undefined){              
+              if(ClassRoom.CoverImage != ""){
+                setCoverImage(ClassRoom.CoverImage);
+              }
+            }
             setPermission(ClassRoom.UId.includes(currentUser._delegate.uid));
             //console.log(ClassRoom.UId.includes(currentUser._delegate.uid));
           }
@@ -104,6 +113,7 @@ const UserHeader = () => {
   }, [DateTime]);
 
   const editclassroom = () => {
+    setImageCoverURL(ClassRoom.CoverImage)
     setSubjectCode(ClassRoom.SubjectCode);
     setSection(ClassRoom.Section);
     setSubjectName(ClassRoom.SubjectName);
@@ -112,6 +122,11 @@ const UserHeader = () => {
     setDateTime(ClassRoom.DateTime);
     clearErrors();
     setModalOpen(!modalOpen);
+  };
+
+  const uploadcover = (file) => {
+    setImageCover(file);
+    setImageCoverURL(URL.createObjectURL(file))
   };
 
   const updateclassroom = async () => {
@@ -139,6 +154,23 @@ const UserHeader = () => {
       AcademicYear != "" &&
       Semester != ""
     ) {
+      let coverimage = CoverImage
+      if(ImageCoverURL != CoverImage){
+        const files = ImageCover;
+        const data = new FormData();
+        data.append("file", files);
+        data.append("upload_preset", "CoverImage_images");
+        const res = await fetch(
+          "	https://api.cloudinary.com/v1_1/daxwfdlwj/image/upload",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+        const file = await res.json();
+        //เปลี่ยน setIimage เป็น setImage เพื่อเก็บ url โดยตรง
+        coverimage = file.secure_url;
+      }
       const res = await db
         .collection("ClassRoom")
         .doc(location.search.substring(1))
@@ -149,6 +181,7 @@ const UserHeader = () => {
           DateTime: DateTime,
           AcademicYear: AcademicYear,
           Semester: Semester,
+          CoverImage: coverimage
         });
       setModalOpen(!modalOpen);
     }
@@ -232,10 +265,7 @@ const UserHeader = () => {
         className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center bg-classroom"
         style={{
           minHeight: "600px",
-          backgroundImage:
-            "url(" +
-            require("../../assets/img/theme/KMUTT01.jpg").default +
-            ")",
+          backgroundImage: "url("+CoverImage+")",
           backgroundSize: "cover",
           backgroundPosition: "center top",
         }}
@@ -328,10 +358,11 @@ const UserHeader = () => {
                               <button class="btn-uploadCoverimg">
                                 Select Cover Image
                               </button>
-                              <input type="file" name="myfile" />
+                              <input type="file" name="myfile" onChange={(e) => uploadcover(e.target.files[0])}/>
                             </div>
                           </Col>
                         </Row>
+                        {!ImageCoverURL == "" ? (<img src={ImageCoverURL} style={{width: "100%", height: "300px"}} className="shadow-imgLeave"/>) : null}
                       </CardHeader>
                       <CardBody>
                         <Form>

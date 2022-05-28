@@ -544,7 +544,8 @@ const Icons = () => {
                     bottom: 0,
                     left: 0,
                     textAlign: "center",
-                    padding: "240px 0"
+                    padding: "240px 0",
+                    backgroundColor: "rgba(220,220,220, 0.3)"
                   }}
                 >
                     <h1 className="mb-3">LOADING...</h1>
