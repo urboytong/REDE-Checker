@@ -138,7 +138,9 @@ const Profile = () => {
   const [UploadLeaveFormImageURL, setUploadLeaveFormImageURL] = useState("");
   const [LeaveFormSubmited, setLeaveFormSubmited] = useState(false);
   const [TargetQuestDocId, setTargetQuestDocId] = useState("");
-  const [TargetLeaveFormStudentData, setTargetLeaveFormStudentData] = useState({});
+  const [TargetLeaveFormStudentData, setTargetLeaveFormStudentData] = useState(
+    {}
+  );
   const [LeaveFormImage, setLeaveFormImage] = useState("");
 
   const [ObjectSelectError, setObjectSelectError] = useState("");
@@ -177,18 +179,20 @@ const Profile = () => {
 
   const [options, setoptions] = useState({
     scales: {
-      yAxes: [{
+      yAxes: [
+        {
           ticks: {
             min: 0, // it is for ignoring negative step.
             beginAtZero: true,
-            callback: function(value, index, values) {
-                if (Math.floor(value) === value) {
-                    return value;
-                }
+            callback: function (value, index, values) {
+              if (Math.floor(value) === value) {
+                return value;
+              }
             },
-          }
-      }]
-  }
+          },
+        },
+      ],
+    },
   });
 
   useEffect(() => {
@@ -404,20 +408,18 @@ const Profile = () => {
     let allmemberid = [];
 
     for (let i = 0; i < members.length; i++) {
-      allmemberid.push(members[i].Uid)
+      allmemberid.push(members[i].Uid);
     }
-    
+
     for (let i = 0; i < allquest.length; i++) {
-      let leave = []
+      let leave = [];
       for (let j = 0; j < allquest[i].Leave.length; j++) {
-        if(allmemberid.includes(allquest[i].Leave[j].Uid)){
-          leave.push(allquest[i].Leave[j])
+        if (allmemberid.includes(allquest[i].Leave[j].Uid)) {
+          leave.push(allquest[i].Leave[j]);
         }
       }
       allquest[i].Leave = leave;
     }
-
-
 
     console.log("allquest");
     console.log(allquest);
@@ -438,25 +440,31 @@ const Profile = () => {
       chartcompleteddata.push(
         allquest[allquest.length - 1 - i].Complete.length
       );
-      chartabsentdata.push(allquest[allquest.length - 1 - i].Absent.length - allquest[allquest.length - 1 - i].Leave.length);
+      chartabsentdata.push(
+        allquest[allquest.length - 1 - i].Absent.length -
+          allquest[allquest.length - 1 - i].Leave.length
+      );
     }
 
     chartdata.labels = chartlabel;
     chartdata.datasets[0].data = chartcompleteddata;
     chartdata.datasets[1].data = chartabsentdata;
 
-    max = Math.max.apply(Math, chartcompleteddata)
-    if(Math.max.apply(Math, chartabsentdata) > Math.max.apply(Math, chartcompleteddata)){
-      max = Math.max.apply(Math, chartabsentdata)
+    max = Math.max.apply(Math, chartcompleteddata);
+    if (
+      Math.max.apply(Math, chartabsentdata) >
+      Math.max.apply(Math, chartcompleteddata)
+    ) {
+      max = Math.max.apply(Math, chartabsentdata);
     }
 
-    if(max < 10){
-      option.scales.yAxes[0].ticks.max = 10
+    if (max < 10) {
+      option.scales.yAxes[0].ticks.max = 10;
     }
-    if(max >= 10){
-      option.scales.yAxes[0].ticks.max = max
+    if (max >= 10) {
+      option.scales.yAxes[0].ticks.max = max;
     }
-    
+
     setdata(chartdata);
     setoptions(option);
 
@@ -476,15 +484,14 @@ const Profile = () => {
           if (allquest[j].Absent[l].Uid == members[i].Uid) {
             let c = 0;
             for (let k = 0; k < allquest[j].Leave.length; k++) {
-              if(allquest[j].Leave[k].Uid == members[i].Uid)
-                c++;
+              if (allquest[j].Leave[k].Uid == members[i].Uid) c++;
             }
-            if(c == 0){
+            if (c == 0) {
               absentcount++;
-            }      
-            if(c != 0){
+            }
+            if (c != 0) {
               leavecount++;
-            }  
+            }
           }
         }
       }
@@ -544,14 +551,22 @@ const Profile = () => {
       if (count == 0) {
         let c = 0;
         for (let j = 0; j < AllQuestAndMember[i].Leave.length; j++) {
-          if(AllQuestAndMember[i].Leave[j].Uid == requestinfo.Uid){
-            c++
+          if (AllQuestAndMember[i].Leave[j].Uid == requestinfo.Uid) {
+            c++;
           }
         }
-        if(c == 0){
+        if (c == 0) {
           absent.push({
             Date: AllQuestAndMember[i].Date,
             ObjectSelect: AllQuestAndMember[i].ObjectSelect,
+            Status: "absent",
+          });
+        }
+        if (c > 0) {
+          absent.push({
+            Date: AllQuestAndMember[i].Date,
+            ObjectSelect: AllQuestAndMember[i].ObjectSelect,
+            Status: "leave",
           });
         }
       }
@@ -658,18 +673,18 @@ const Profile = () => {
   };
 
   const seemoreabsent = (data) => {
-    let absent = data.Absent
-    let leave = data.Leave
+    let absent = data.Absent;
+    let leave = data.Leave;
     for (let i = 0; i < absent.length; i++) {
       absent[i].Leave = false;
       for (let j = 0; j < leave.length; j++) {
-        if(absent[i].Uid == leave[j].Uid){
+        if (absent[i].Uid == leave[j].Uid) {
           absent[i].Leave = true;
           absent[i].Image = leave[j].Image;
         }
       }
     }
-    setTargetQuestDocId(data.DocId)
+    setTargetQuestDocId(data.DocId);
     setSeeMoreAbsent(absent);
     setSeeMoreCompleteObject(data.ObjectSelect);
   };
@@ -698,22 +713,22 @@ const Profile = () => {
     setUploadLeaveFormImageURL("");
     setUploadLeaveFormImage();
     setLeaveFormSubmited(false);
-    setTargetLeaveFormStudentData(SeeMoreAbsent)
+    setTargetLeaveFormStudentData(SeeMoreAbsent);
   };
-  
+
   const leaveformuploadfile = (value, file) => {
     setUploadLeaveFormImage(file);
-    setUploadLeaveFormImageURL(URL.createObjectURL(file))
+    setUploadLeaveFormImageURL(URL.createObjectURL(file));
   };
 
   const seeleaveform = (image) => {
-    setModalOpen13(!modalOpen13)
+    setModalOpen13(!modalOpen13);
     setLeaveFormImage(image);
   };
 
   const submitleaveform = async (con) => {
-    if(LeaveFormSubmited == false){
-      if(con == "withfile"){
+    if (LeaveFormSubmited == false) {
+      if (con == "withfile") {
         setLeaveFormSubmited(true);
         const files = UploadLeaveFormImage;
         const data = new FormData();
@@ -736,35 +751,32 @@ const Profile = () => {
           return object.DocId === tid;
         });
         let leavesubmit = {};
-        leavesubmit.FirstName = TargetLeaveFormStudentData.FirstName
-        leavesubmit.LastName = TargetLeaveFormStudentData.LastName
-        leavesubmit.StudentID = TargetLeaveFormStudentData.StudentID
-        leavesubmit.Uid = TargetLeaveFormStudentData.Uid
-        leavesubmit.Image = file.secure_url
+        leavesubmit.FirstName = TargetLeaveFormStudentData.FirstName;
+        leavesubmit.LastName = TargetLeaveFormStudentData.LastName;
+        leavesubmit.StudentID = TargetLeaveFormStudentData.StudentID;
+        leavesubmit.Uid = TargetLeaveFormStudentData.Uid;
+        leavesubmit.Image = file.secure_url;
 
-        let questleave = quest[index].Leave
-        questleave.push(leavesubmit)
-    
+        let questleave = quest[index].Leave;
+        questleave.push(leavesubmit);
+
         const db = firebaseApp.firestore();
-        const res2 = await db
-          .collection("Quest")
-          .doc(TargetQuestDocId)
-          .update({
-            Leave: questleave,
-          });
+        const res2 = await db.collection("Quest").doc(TargetQuestDocId).update({
+          Leave: questleave,
+        });
 
-          let absent = SeeMoreAbsent
-          for (let i = 0; i < absent.length; i++) {
-            if(absent[i].Uid == TargetLeaveFormStudentData.Uid){
-              absent[i].Leave = true;
-              absent[i].Image = file.secure_url;
-            }
+        let absent = SeeMoreAbsent;
+        for (let i = 0; i < absent.length; i++) {
+          if (absent[i].Uid == TargetLeaveFormStudentData.Uid) {
+            absent[i].Leave = true;
+            absent[i].Image = file.secure_url;
           }
-          setSeeMoreAbsent(absent);
-    
-          setModalOpen12(!modalOpen12);
+        }
+        setSeeMoreAbsent(absent);
+
+        setModalOpen12(!modalOpen12);
       }
-      if(con == "withoutfile"){
+      if (con == "withoutfile") {
         setLeaveFormSubmited(true);
         let quest = AllQuestAndMember;
         let tid = TargetQuestDocId;
@@ -772,38 +784,33 @@ const Profile = () => {
           return object.DocId === tid;
         });
         let leavesubmit = {};
-        leavesubmit.FirstName = TargetLeaveFormStudentData.FirstName
-        leavesubmit.LastName = TargetLeaveFormStudentData.LastName
-        leavesubmit.StudentID = TargetLeaveFormStudentData.StudentID
-        leavesubmit.Uid = TargetLeaveFormStudentData.Uid
-        leavesubmit.Image = ""
+        leavesubmit.FirstName = TargetLeaveFormStudentData.FirstName;
+        leavesubmit.LastName = TargetLeaveFormStudentData.LastName;
+        leavesubmit.StudentID = TargetLeaveFormStudentData.StudentID;
+        leavesubmit.Uid = TargetLeaveFormStudentData.Uid;
+        leavesubmit.Image = "";
 
-        let questleave = quest[index].Leave
-        questleave.push(leavesubmit)
-    
+        let questleave = quest[index].Leave;
+        questleave.push(leavesubmit);
+
         const db = firebaseApp.firestore();
-        const res2 = await db
-          .collection("Quest")
-          .doc(TargetQuestDocId)
-          .update({
-            Leave: questleave,
-          });
+        const res2 = await db.collection("Quest").doc(TargetQuestDocId).update({
+          Leave: questleave,
+        });
 
-          let absent = SeeMoreAbsent
-          for (let i = 0; i < absent.length; i++) {
-            if(absent[i].Uid == TargetLeaveFormStudentData.Uid){
-              absent[i].Leave = true;
-              absent[i].Image = "";
-            }
+        let absent = SeeMoreAbsent;
+        for (let i = 0; i < absent.length; i++) {
+          if (absent[i].Uid == TargetLeaveFormStudentData.Uid) {
+            absent[i].Leave = true;
+            absent[i].Image = "";
           }
-          setSeeMoreAbsent(absent);
-    
-          setModalOpen12(!modalOpen12);
+        }
+        setSeeMoreAbsent(absent);
+
+        setModalOpen12(!modalOpen12);
       }
     }
-
   };
-  
 
   const FacetrackPos = (data) => {
     setFaceBoxposition({ x: data.x + 110, y: data.y + 110 });
@@ -1292,7 +1299,9 @@ const Profile = () => {
                                   <tr>
                                     <th scope="col">Date</th>
                                     <th scope="col">Quest</th>
-                                    <th scope="col" className="col">details</th>
+                                    <th scope="col" className="col">
+                                      details
+                                    </th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -1326,9 +1335,7 @@ const Profile = () => {
                                             type="button"
                                             size="sm"
                                             onClick={() =>
-                                              report(
-                                                Report.Complete[id]
-                                              )
+                                              report(Report.Complete[id])
                                             }
                                           >
                                             <i class="fa-solid fa-image" />
@@ -1365,7 +1372,9 @@ const Profile = () => {
                                   <tr>
                                     <th scope="col">Date</th>
                                     <th scope="col">Quest</th>
-                                    <th scope="col" className="col">status</th>
+                                    <th scope="col" className="col">
+                                      status
+                                    </th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -1392,9 +1401,13 @@ const Profile = () => {
                                             {Report.Absent[id].ObjectSelect}
                                           </Badge>
                                         </td>
-                                        <td>
-                                          Absent
-                                        </td>
+                                        {Report.Absent[id].Status ==
+                                        "absent" ? (
+                                          <td>Absent</td>
+                                        ) : null}
+                                        {Report.Absent[id].Status == "leave" ? (
+                                          <td>Leave</td>
+                                        ) : null}
                                       </tr>
                                     );
                                   })}
@@ -1516,7 +1529,8 @@ const Profile = () => {
                               <i className="ni location_pin mr-2" />
                               {CompleteSeeMore.Faculty},{" "}
                               {CompleteSeeMore.Department}
-                              <br/>{CompleteSeeMore.Major}
+                              <br />
+                              {CompleteSeeMore.Major}
                             </div>
                             <hr className="my-4" />
                           </div>
@@ -1621,9 +1635,13 @@ const Profile = () => {
                                 <th scope="col" className="td-nonePadding">
                                   name
                                 </th>
-                                <th scope="col" className="td-nonePadding">studied</th>
-                                <th scope="col" >completed</th>
-                                <th scope="col" className="td-nonePadding">absent</th>
+                                <th scope="col" className="td-nonePadding">
+                                  studied
+                                </th>
+                                <th scope="col">completed</th>
+                                <th scope="col" className="td-nonePadding">
+                                  absent
+                                </th>
                                 <th scope="col">leave</th>
                                 <th scope="col" className="text-right"></th>
                               </tr>
@@ -1657,7 +1675,9 @@ const Profile = () => {
                                         className="badge-dot mr-4"
                                       >
                                         {(
-                                          ((Summary[id].CompletedCount + Summary[id].LeaveCount) * 100) /
+                                          ((Summary[id].CompletedCount +
+                                            Summary[id].LeaveCount) *
+                                            100) /
                                           Summary[id].AllQuestCount
                                         ).toFixed(0)}{" "}
                                         %
@@ -1911,7 +1931,8 @@ const Profile = () => {
                                           <DropdownItem
                                             onClick={() =>
                                               completeseemore(
-                                                SeeMoreComplete[id], SeeMoreCompleteObject
+                                                SeeMoreComplete[id],
+                                                SeeMoreCompleteObject
                                               )
                                             }
                                           >
@@ -1986,75 +2007,86 @@ const Profile = () => {
                                       </Badge>
                                     </td>
 
-                                    {SeeMoreAbsent[id].Leave == false ? (<td className="height-statusReport">
-                                      <Badge
-                                        color=""
-                                        className="badge-dot mr-4"
-                                      >
-                                        Absent
-                                      </Badge>
-                                    </td>) : null}
-
-                                    {SeeMoreAbsent[id].Leave == false ? (<td className="text-right threedot">
-                                      <UncontrolledDropdown>
-                                        <DropdownToggle
-                                          className="btn-icon-only text-light"
-                                          role="button"
-                                          size="sm"
+                                    {SeeMoreAbsent[id].Leave == false ? (
+                                      <td className="height-statusReport">
+                                        <Badge
                                           color=""
-                                          onClick={(e) => e.preventDefault()}
+                                          className="badge-dot mr-4"
                                         >
-                                          <i className="fas fa-ellipsis-v" />
-                                        </DropdownToggle>
-                                        <DropdownMenu
-                                          className="dropdown-menu-arrow"
-                                          right
-                                        >
-                                          <DropdownItem
-                                            onClick={() => 
-                                              leaveform(SeeMoreAbsent[id])
-                                            }
+                                          Absent
+                                        </Badge>
+                                      </td>
+                                    ) : null}
+
+                                    {SeeMoreAbsent[id].Leave == false ? (
+                                      <td className="text-right threedot">
+                                        <UncontrolledDropdown>
+                                          <DropdownToggle
+                                            className="btn-icon-only text-light"
+                                            role="button"
+                                            size="sm"
+                                            color=""
+                                            onClick={(e) => e.preventDefault()}
                                           >
-                                            Leave
-                                          </DropdownItem>
-                                        </DropdownMenu>
-                                      </UncontrolledDropdown>
-                                    </td>) : null}
+                                            <i className="fas fa-ellipsis-v" />
+                                          </DropdownToggle>
+                                          <DropdownMenu
+                                            className="dropdown-menu-arrow"
+                                            right
+                                          >
+                                            <DropdownItem
+                                              onClick={() =>
+                                                leaveform(SeeMoreAbsent[id])
+                                              }
+                                            >
+                                              Leave
+                                            </DropdownItem>
+                                          </DropdownMenu>
+                                        </UncontrolledDropdown>
+                                      </td>
+                                    ) : null}
 
-                                    {SeeMoreAbsent[id].Leave == true ? (<td className="height-statusReport">
-                                      <Badge
-                                        color=""
-                                        className="badge-dot mr-4"
-                                      >
-                                        Leave
-                                      </Badge>
-                                    </td>) : null}
-
-                                    {SeeMoreAbsent[id].Leave == true && SeeMoreAbsent[id].Image != "" ? (<td className="text-right threedot">
-                                      <UncontrolledDropdown>
-                                        <DropdownToggle
-                                          className="btn-icon-only text-light"
-                                          role="button"
-                                          size="sm"
+                                    {SeeMoreAbsent[id].Leave == true ? (
+                                      <td className="height-statusReport">
+                                        <Badge
                                           color=""
-                                          onClick={(e) => e.preventDefault()}
+                                          className="badge-dot mr-4"
                                         >
-                                          <i className="fas fa-ellipsis-v" />
-                                        </DropdownToggle>
-                                        <DropdownMenu
-                                          className="dropdown-menu-arrow"
-                                          right
-                                        >
-                                          <DropdownItem
-                                            onClick={() => 
-                                              seeleaveform(SeeMoreAbsent[id].Image)
-                                            }
+                                          Leave
+                                        </Badge>
+                                      </td>
+                                    ) : null}
+
+                                    {SeeMoreAbsent[id].Leave == true &&
+                                    SeeMoreAbsent[id].Image != "" ? (
+                                      <td className="text-right threedot">
+                                        <UncontrolledDropdown>
+                                          <DropdownToggle
+                                            className="btn-icon-only text-light"
+                                            role="button"
+                                            size="sm"
+                                            color=""
+                                            onClick={(e) => e.preventDefault()}
                                           >
-                                            See Leave form
-                                          </DropdownItem>
-                                        </DropdownMenu>
-                                      </UncontrolledDropdown>
-                                    </td>) : null}
+                                            <i className="fas fa-ellipsis-v" />
+                                          </DropdownToggle>
+                                          <DropdownMenu
+                                            className="dropdown-menu-arrow"
+                                            right
+                                          >
+                                            <DropdownItem
+                                              onClick={() =>
+                                                seeleaveform(
+                                                  SeeMoreAbsent[id].Image
+                                                )
+                                              }
+                                            >
+                                              See Leave form
+                                            </DropdownItem>
+                                          </DropdownMenu>
+                                        </UncontrolledDropdown>
+                                      </td>
+                                    ) : null}
                                   </tr>
                                 );
                               })}
@@ -2129,29 +2161,53 @@ const Profile = () => {
                       <h2 className="upload-leave-form">
                         Please upload leave form
                       </h2>
-                      {UploadLeaveFormImageURL == "" ? (<img
-                        src={
-                          require("../../assets/img/theme/img-upload.png")
-                            .default
-                        }
-                        className="img-fluid shadow-4 img-upload"
-                        alt="..."
-                      />) : null}
-                      <br/>
-                      <img src={UploadLeaveFormImageURL} style={{width: "100%"}} className="shadow-imgLeave"/>
+                      {UploadLeaveFormImageURL == "" ? (
+                        <img
+                          src={
+                            require("../../assets/img/theme/img-upload.png")
+                              .default
+                          }
+                          className="img-fluid shadow-4 img-upload"
+                          alt="..."
+                        />
+                      ) : null}
+                      <br />
+                      <img
+                        src={UploadLeaveFormImageURL}
+                        style={{ width: "100%" }}
+                        className="shadow-imgLeave"
+                      />
                     </div>
                     <div class="upload-btn-wrapper text-center">
                       <button class="btn-uploadFile">Upload File</button>
-                      <input type="file" name="myfile" onChange={(e) => leaveformuploadfile(e.target.value, e.target.files[0])}/>
+                      <input
+                        type="file"
+                        name="myfile"
+                        onChange={(e) =>
+                          leaveformuploadfile(e.target.value, e.target.files[0])
+                        }
+                      />
                     </div>
-                    {!UploadLeaveFormImageURL == "" ? (<button class="btn-uploadFile" onClick={() => submitleaveform("withfile")}>Submit with file</button>) : null}
+                    {!UploadLeaveFormImageURL == "" ? (
+                      <button
+                        class="btn-uploadFile"
+                        onClick={() => submitleaveform("withfile")}
+                      >
+                        Submit with file
+                      </button>
+                    ) : null}
                     <div className="box mt-3">
                       <div className="line"></div>
                       <div className="lightGray-textSize or">OR</div>
                       <div className="line"></div>
                     </div>
                     <div>
-                      <button class="btn-uploadFile2" onClick={() => submitleaveform("withoutfile")}>Submit without file</button>
+                      <button
+                        class="btn-uploadFile2"
+                        onClick={() => submitleaveform("withoutfile")}
+                      >
+                        Submit without file
+                      </button>
                     </div>
                   </ModalBody>
                   <ModalFooter></ModalFooter>
@@ -2326,8 +2382,8 @@ const Profile = () => {
                                       }}
                                       className="box-position"
                                     >
-                                      Face x : {FaceBoxposition.x.toFixed(0)}, y :{" "}
-                                      {FaceBoxposition.y.toFixed(0)}
+                                      Face x : {FaceBoxposition.x.toFixed(0)}, y
+                                      : {FaceBoxposition.y.toFixed(0)}
                                     </div>
                                   </Draggable>
                                   <Draggable
@@ -2349,8 +2405,9 @@ const Profile = () => {
                                       }}
                                       className="box-position"
                                     >
-                                      Object x : {ObjectBoxposition.x.toFixed(0)}
-                                      , y : {ObjectBoxposition.y.toFixed(0)}
+                                      Object x :{" "}
+                                      {ObjectBoxposition.x.toFixed(0)}, y :{" "}
+                                      {ObjectBoxposition.y.toFixed(0)}
                                     </div>
                                   </Draggable>
                                 </div>
