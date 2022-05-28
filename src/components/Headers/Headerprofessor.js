@@ -464,9 +464,10 @@ const Header2 = () => {
                     </div>
                   </Col>
                 </Row>
-                {!ImageCoverURL == "" ? (<img src={ImageCoverURL} style={{width: "100%", height: "300px"}} className="shadow-imgLeave"/>) : null}
+                {/* {!ImageCoverURL == "" ? (<img src={ImageCoverURL} style={{width: "100%", height: "300px", marginTop: "20px", marginBottom: "-20px"}} className="shadow-imgLeave"/>) : null} */}
               </CardHeader>
               <CardBody>
+              {!ImageCoverURL == "" ? (<img src={ImageCoverURL} style={{width: "100%", height: "300px", marginBottom: "20px"}} className="shadow-imgLeave"/>) : null}
                 {/*<Form>*/}
                 <h6 className="heading-small text-muted mb-4">
                   Classroom information
